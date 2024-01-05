@@ -95,10 +95,10 @@ public class MessageUtils {
 
     public void sendMessageFromConfig(Audience audience, String key, Map<String, String> replacements) { audience.sendMessage(ComponentUtils.parseComponent(fromConfig(key, replacements))); }
 
-    public void sendPrefixedMessage(Audience audience, String string) { audience.sendMessage(ComponentUtils.parseComponent(getPrefix() + string)); }
+    public void sendPrefixedMessage(Audience audience, String string) { audience.sendMessage(ComponentUtils.parseComponent(addPrefix(string))); }
 
-    public void sendPrefixedMessageFromConfig(Audience audience, String key, String... replacements) { audience.sendMessage(ComponentUtils.parseComponent(getPrefix() + fromConfig(key, replacements))); }
+    public void sendPrefixedMessageFromConfig(Audience audience, String key, String... replacements) { audience.sendMessage(ComponentUtils.parseComponent(addPrefix(fromConfig(key, replacements)))); }
 
-    public void sendPrefixedMessageFromConfig(Audience audience, String key, Map<String, String> replacements) { audience.sendMessage(ComponentUtils.parseComponent(getPrefix() + fromConfig(key, replacements))); }
+    public void sendPrefixedMessageFromConfig(Audience audience, String key, Map<String, String> replacements) { audience.sendMessage(ComponentUtils.parseComponent(addPrefix(fromConfig(key, replacements)))); }
 
 }
