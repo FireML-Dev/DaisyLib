@@ -1,0 +1,9 @@
+config:
+  enablePlaceBreak: true
+
+  # Configure whether custom events are fired
+  custom-events:
+    # PlayerMoveChunkEvent
+    move-chunk: true
+    # PlayerMoveBlockEvent
+    move-block: true
