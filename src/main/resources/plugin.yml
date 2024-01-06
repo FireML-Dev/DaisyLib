@@ -1,6 +1,6 @@
 name: DaisyLib
 version: '${project.version} ${buildDescription}'
-main: uk.firedev.daisylib.lib.DaisyLib
+main: uk.firedev.daisylib.local.DaisyLib
 api-version: '1.20'
 author: FireML
 description: ${project.description}
