@@ -11,12 +11,16 @@ import java.util.logging.Level;
 /**
  * Helps with connecting to a SQLite Database
  */
-public class Database {
+public class SQLiteDatabase {
 
     private JavaPlugin plugin = null;
     private Connection connection = null;
 
-    public void setup(JavaPlugin plugin) {
+    public SQLiteDatabase(JavaPlugin plugin) {
+        setup(plugin);
+    }
+
+    private void setup(JavaPlugin plugin) {
         this.plugin = plugin;
         initConnection();
         initTables();
