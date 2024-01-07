@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
+import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.local.DaisyLib;
 
 public class ObjectUtils {
@@ -33,8 +34,11 @@ public class ObjectUtils {
         return new Location(world, x, y, z, yaw, pitch);
     }
 
-    public static NamespacedKey createNamespacedKey(String string) {
-        return new NamespacedKey(DaisyLib.getInstance(), string);
+    public static NamespacedKey createNamespacedKey(String string, JavaPlugin plugin) {
+        if (plugin == null) {
+            return new NamespacedKey(DaisyLib.getInstance(), string);
+        }
+        return new NamespacedKey(plugin, string);
     }
 
 }

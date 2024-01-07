@@ -4,6 +4,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataType;
+import uk.firedev.daisylib.local.DaisyLib;
 
 public class BlockUtils {
 
@@ -16,7 +17,7 @@ public class BlockUtils {
         }
         Chunk chunk = location.getChunk();
         String locationString = ObjectUtils.locationToString(location, false);
-        NamespacedKey key = ObjectUtils.createNamespacedKey("blockplaced-" + locationString);
+        NamespacedKey key = ObjectUtils.createNamespacedKey("blockplaced-" + locationString, null);
         return chunk.getPersistentDataContainer().has(key);
     }
 
@@ -29,7 +30,7 @@ public class BlockUtils {
         }
         Chunk chunk = location.getChunk();
         String locationString = ObjectUtils.locationToString(location, false);
-        NamespacedKey key = ObjectUtils.createNamespacedKey("blockbroken-" + locationString);
+        NamespacedKey key = ObjectUtils.createNamespacedKey("blockbroken-" + locationString, null);
         return chunk.getPersistentDataContainer().has(key);
     }
 
@@ -40,7 +41,7 @@ public class BlockUtils {
         if (isPlayerPlaced(location)) {
             Chunk chunk = location.getChunk();
             String locationString = ObjectUtils.locationToString(location, false);
-            NamespacedKey brokenKey = ObjectUtils.createNamespacedKey("blockbroken-" + locationString);
+            NamespacedKey brokenKey = ObjectUtils.createNamespacedKey("blockbroken-" + locationString, null);
             if (!isPlayerBroken(location)) {
                 chunk.getPersistentDataContainer().set(brokenKey, PersistentDataType.BOOLEAN, true);
             }
@@ -53,7 +54,7 @@ public class BlockUtils {
         }
         Chunk chunk = location.getChunk();
         String locationString = ObjectUtils.locationToString(location, false);
-        NamespacedKey brokenKey = ObjectUtils.createNamespacedKey("blockbroken-" + locationString);
+        NamespacedKey brokenKey = ObjectUtils.createNamespacedKey("blockbroken-" + locationString, null);
         if (chunk.getPersistentDataContainer().has(brokenKey)) {
             chunk.getPersistentDataContainer().remove(brokenKey);
         }
@@ -65,7 +66,7 @@ public class BlockUtils {
         }
         Chunk chunk = location.getChunk();
         String locationString = ObjectUtils.locationToString(location, false);
-        NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + locationString);
+        NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + locationString, null);
         if (!isPlayerPlaced(location)) {
             chunk.getPersistentDataContainer().set(placedKey, PersistentDataType.BOOLEAN, true);
         }
@@ -77,7 +78,7 @@ public class BlockUtils {
         }
         Chunk chunk = location.getChunk();
         String locationString = ObjectUtils.locationToString(location, false);
-        NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + locationString);
+        NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + locationString, null);
         if (chunk.getPersistentDataContainer().has(placedKey)) {
             chunk.getPersistentDataContainer().remove(placedKey);
         }
