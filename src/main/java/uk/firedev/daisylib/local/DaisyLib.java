@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.events.LibReloadEvent;
+import uk.firedev.daisylib.events.DaisyLibReloadEvent;
 import uk.firedev.daisylib.utils.BlockUtilsListener;
 import uk.firedev.daisylib.local.config.ConfigManager;
 import uk.firedev.daisylib.local.config.MessageManager;
@@ -23,7 +23,6 @@ public final class DaisyLib extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
         try {
             Class.forName("com.destroystokyo.paper.profile.PlayerProfile");
         } catch (ClassNotFoundException ex) {
@@ -42,7 +41,6 @@ public final class DaisyLib extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
         enabled = false;
     }
 
@@ -62,7 +60,7 @@ public final class DaisyLib extends JavaPlugin {
         } else {
             LibMessageUtils.getInstance().reload(MessageManager.getInstance().getConfig());
         }
-        Bukkit.getPluginManager().callEvent(new LibReloadEvent());
+        Bukkit.getPluginManager().callEvent(new DaisyLibReloadEvent());
     }
 
     private void registerListeners() {

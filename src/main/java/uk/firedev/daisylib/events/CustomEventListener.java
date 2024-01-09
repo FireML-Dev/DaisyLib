@@ -15,7 +15,7 @@ public class CustomEventListener implements Listener {
     private boolean chunkEvent = false;
 
     @EventHandler
-    public void onPluginReload(LibReloadEvent e) {
+    public void onPluginReload(DaisyLibReloadEvent e) {
         this.blockEvent = ConfigManager.getInstance().getConfig().getBoolean("config.custom-events.move-block");
         this.chunkEvent = ConfigManager.getInstance().getConfig().getBoolean("config.custom-events.move-chunk");
     }
