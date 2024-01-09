@@ -36,7 +36,7 @@ public class CreaturePreSpawnEvent extends Event implements Cancellable {
         return cancelled;
     }
 
-    public void setCancelled(final boolean cancel) {
+    public void setCancelled(boolean cancel) {
         cancelled = cancel;
     }
 

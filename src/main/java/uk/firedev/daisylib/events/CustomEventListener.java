@@ -11,28 +11,28 @@ import uk.firedev.daisylib.local.config.ConfigManager;
 
 public class CustomEventListener implements Listener {
 
-    private boolean blockEvent = false;
-    private boolean chunkEvent = false;
+    private boolean doBlockEvent = false;
+    private boolean doChunkEvent = false;
 
     @EventHandler
     public void onPluginReload(DaisyLibReloadEvent e) {
-        this.blockEvent = ConfigManager.getInstance().getConfig().getBoolean("config.custom-events.move-block");
-        this.chunkEvent = ConfigManager.getInstance().getConfig().getBoolean("config.custom-events.move-chunk");
+        this.doBlockEvent = ConfigManager.getInstance().getConfig().getBoolean("config.custom-events.move-block");
+        this.doChunkEvent = ConfigManager.getInstance().getConfig().getBoolean("config.custom-events.move-chunk");
     }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onMoveBlock(PlayerMoveEvent e) {
-        if (blockEvent) {
+        if (doBlockEvent) {
             if (e.getFrom().getBlockX() == e.getTo().getBlockX() && e.getFrom().getBlockZ() == e.getTo().getBlockZ()) {
                 return;
             }
-            final PlayerMoveBlockEvent pmbe = new PlayerMoveBlockEvent(e.getFrom(), e.getTo(), e.getPlayer());
+            PlayerMoveBlockEvent pmbe = new PlayerMoveBlockEvent(e.getFrom(), e.getTo(), e.getPlayer());
             Bukkit.getServer().getPluginManager().callEvent(pmbe);
             if (pmbe.isCancelled()) {
                 e.setCancelled(true);
             }
         }
-        if (chunkEvent) {
+        if (doChunkEvent) {
             if (e.getFrom().getChunk() == e.getTo().getChunk()) {
                 return;
             }

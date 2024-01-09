@@ -30,7 +30,7 @@ public class PlayerMoveChunkEvent extends PlayerEvent implements Cancellable {
         return cancelled;
     }
 
-    public void setCancelled(final boolean cancel) {
+    public void setCancelled(boolean cancel) {
         cancelled = cancel;
     }
 
