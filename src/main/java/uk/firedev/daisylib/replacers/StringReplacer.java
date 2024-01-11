@@ -18,7 +18,7 @@ public class StringReplacer {
         this.string = string;
     }
 
-    public StringReplacer clone() {
+    public StringReplacer duplicate() {
         return new StringReplacer(string).prefix(prefix).suffix(suffix);
     }
 

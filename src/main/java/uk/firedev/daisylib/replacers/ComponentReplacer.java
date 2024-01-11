@@ -20,7 +20,7 @@ public class ComponentReplacer {
         this.component = component;
     }
 
-    public ComponentReplacer clone() {
+    public ComponentReplacer duplicate() {
         return new ComponentReplacer(component).prefix(prefix).suffix(suffix);
     }
 
