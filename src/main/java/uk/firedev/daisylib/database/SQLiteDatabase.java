@@ -20,11 +20,9 @@ public class SQLiteDatabase {
         setup(plugin);
     }
 
-    private void setup(JavaPlugin plugin) {
+    public void setup(JavaPlugin plugin) {
         this.plugin = plugin;
         initConnection();
-        initTables();
-        reload();
     }
 
     public Connection getConnection() {
@@ -58,13 +56,5 @@ public class SQLiteDatabase {
         Loggers.log(Level.INFO, plugin.getLogger(), "Successfully connected to the database.");
 
     }
-
-    public void initTables() { }
-
-    public void reload() { }
-
-    public void loadAll() { }
-
-    public void saveAll() { }
 
 }
