@@ -12,18 +12,23 @@ public class ConfigManager extends Config {
 
     public ConfigManager(String fileName, JavaPlugin plugin) {
         super(fileName, plugin);
+        setVariables();
         instance = this;
     }
 
     @Override
     public void reload() {
         super.reload();
-        this.doMoveBlockEvent = getConfig().getBoolean("config.custom-events.move-block");
-        this.doMoveChunkEvent = getConfig().getBoolean("config.custom-events.move-chunk");
+        setVariables();
     }
 
     public static ConfigManager getInstance() {
         return instance;
+    }
+
+    private void setVariables() {
+        this.doMoveBlockEvent = getConfig().getBoolean("config.custom-events.move-block", true);
+        this.doMoveChunkEvent = getConfig().getBoolean("config.custom-events.move-chunk", true);
     }
 
 }
