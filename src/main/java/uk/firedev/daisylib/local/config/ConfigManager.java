@@ -7,6 +7,7 @@ public class ConfigManager extends Config {
 
     public boolean doMoveBlockEvent = false;
     public boolean doMoveChunkEvent = false;
+    public boolean doPlaceBreak = false;
 
     private static ConfigManager instance = null;
 
@@ -29,6 +30,7 @@ public class ConfigManager extends Config {
     private void setVariables() {
         this.doMoveBlockEvent = getConfig().getBoolean("config.custom-events.move-block", true);
         this.doMoveChunkEvent = getConfig().getBoolean("config.custom-events.move-chunk", true);
+        this.doPlaceBreak = getConfig().getBoolean("config.enablePlaceBreak", true);
     }
 
 }

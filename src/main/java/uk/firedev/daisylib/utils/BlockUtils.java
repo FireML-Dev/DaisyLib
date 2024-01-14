@@ -3,10 +3,15 @@ package uk.firedev.daisylib.utils;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.persistence.PersistentDataType;
-import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.local.config.ConfigManager;
 
-public class BlockUtils {
+public class BlockUtils implements Listener {
 
     /**
      * Check if a block was placed by a player
@@ -81,6 +86,20 @@ public class BlockUtils {
         NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + locationString, null);
         if (chunk.getPersistentDataContainer().has(placedKey)) {
             chunk.getPersistentDataContainer().remove(placedKey);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlace(BlockPlaceEvent e) {
+        if (ConfigManager.getInstance().doPlaceBreak) {
+            BlockUtils.applyPlace(e.getBlockPlaced().getLocation());
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onBreak(BlockBreakEvent e) {
+        if (ConfigManager.getInstance().doPlaceBreak) {
+            BlockUtils.applyBreak(e.getBlock().getLocation());
         }
     }
 

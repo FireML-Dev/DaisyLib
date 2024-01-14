@@ -7,7 +7,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
-import uk.firedev.daisylib.utils.BlockUtilsListener;
+import uk.firedev.daisylib.utils.BlockUtils;
 import uk.firedev.daisylib.local.config.ConfigManager;
 import uk.firedev.daisylib.local.config.MessageManager;
 
@@ -64,7 +64,7 @@ public final class DaisyLib extends JavaPlugin {
     }
 
     private void registerListeners() {
-        this.getServer().getPluginManager().registerEvents(new BlockUtilsListener(), this);
+        this.getServer().getPluginManager().registerEvents(new BlockUtils(), this);
     }
 
     private void checkHooks() {
