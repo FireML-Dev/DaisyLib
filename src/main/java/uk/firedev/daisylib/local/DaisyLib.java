@@ -3,7 +3,6 @@ package uk.firedev.daisylib.local;
 import com.github.Anon8281.universalScheduler.UniversalScheduler;
 import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
@@ -65,16 +64,6 @@ public final class DaisyLib extends JavaPlugin {
 
     private void registerListeners() {
         this.getServer().getPluginManager().registerEvents(new BlockUtils(), this);
-    }
-
-    private void checkHooks() {
-        PluginManager pm = getServer().getPluginManager();
-        if (pm.isPluginEnabled("Denizen")) {
-            denizenEnabled = true;
-        }
-        if (pm.isPluginEnabled("PlaceholderAPI")) {
-            papiEnabled = true;
-        }
     }
 
     public static DaisyLib getInstance() { return instance; }

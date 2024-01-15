@@ -21,8 +21,7 @@ public class BlockUtils implements Listener {
             return true;
         }
         Chunk chunk = location.getChunk();
-        String locationString = ObjectUtils.locationToString(location, false);
-        NamespacedKey key = ObjectUtils.createNamespacedKey("blockplaced-" + locationString, null);
+        NamespacedKey key = ObjectUtils.createNamespacedKey("blockplaced-" + ObjectUtils.locationToString(location, false), null);
         return chunk.getPersistentDataContainer().has(key);
     }
 
@@ -34,8 +33,7 @@ public class BlockUtils implements Listener {
             return true;
         }
         Chunk chunk = location.getChunk();
-        String locationString = ObjectUtils.locationToString(location, false);
-        NamespacedKey key = ObjectUtils.createNamespacedKey("blockbroken-" + locationString, null);
+        NamespacedKey key = ObjectUtils.createNamespacedKey("blockbroken-" + ObjectUtils.locationToString(location, false), null);
         return chunk.getPersistentDataContainer().has(key);
     }
 
@@ -45,8 +43,7 @@ public class BlockUtils implements Listener {
         }
         if (isPlayerPlaced(location)) {
             Chunk chunk = location.getChunk();
-            String locationString = ObjectUtils.locationToString(location, false);
-            NamespacedKey brokenKey = ObjectUtils.createNamespacedKey("blockbroken-" + locationString, null);
+            NamespacedKey brokenKey = ObjectUtils.createNamespacedKey("blockbroken-" + ObjectUtils.locationToString(location, false), null);
             if (!isPlayerBroken(location)) {
                 chunk.getPersistentDataContainer().set(brokenKey, PersistentDataType.BOOLEAN, true);
             }
@@ -58,8 +55,7 @@ public class BlockUtils implements Listener {
             return;
         }
         Chunk chunk = location.getChunk();
-        String locationString = ObjectUtils.locationToString(location, false);
-        NamespacedKey brokenKey = ObjectUtils.createNamespacedKey("blockbroken-" + locationString, null);
+        NamespacedKey brokenKey = ObjectUtils.createNamespacedKey("blockbroken-" + ObjectUtils.locationToString(location, false), null);
         if (chunk.getPersistentDataContainer().has(brokenKey)) {
             chunk.getPersistentDataContainer().remove(brokenKey);
         }
@@ -70,8 +66,7 @@ public class BlockUtils implements Listener {
             return;
         }
         Chunk chunk = location.getChunk();
-        String locationString = ObjectUtils.locationToString(location, false);
-        NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + locationString, null);
+        NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + ObjectUtils.locationToString(location, false), null);
         if (!isPlayerPlaced(location)) {
             chunk.getPersistentDataContainer().set(placedKey, PersistentDataType.BOOLEAN, true);
         }
@@ -82,8 +77,7 @@ public class BlockUtils implements Listener {
             return;
         }
         Chunk chunk = location.getChunk();
-        String locationString = ObjectUtils.locationToString(location, false);
-        NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + locationString, null);
+        NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + ObjectUtils.locationToString(location, false), null);
         if (chunk.getPersistentDataContainer().has(placedKey)) {
             chunk.getPersistentDataContainer().remove(placedKey);
         }
@@ -92,14 +86,14 @@ public class BlockUtils implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlace(BlockPlaceEvent e) {
         if (ConfigManager.getInstance().doPlaceBreak) {
-            BlockUtils.applyPlace(e.getBlockPlaced().getLocation());
+            applyPlace(e.getBlockPlaced().getLocation());
         }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBreak(BlockBreakEvent e) {
         if (ConfigManager.getInstance().doPlaceBreak) {
-            BlockUtils.applyBreak(e.getBlock().getLocation());
+            applyBreak(e.getBlock().getLocation());
         }
     }
 
