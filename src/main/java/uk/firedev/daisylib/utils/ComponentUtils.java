@@ -43,7 +43,7 @@ public class ComponentUtils {
     }
 
     public static String toUncoloredString(Component component) {
-        return ColorUtils.removeColors(PlainTextComponentSerializer.plainText().serialize(component), true);
+        return PlainTextComponentSerializer.plainText().serialize(component);
     }
 
     public static List<String> toStringList(List<Component> components) {
