@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.replacers;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.TextReplacementConfig;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.Loggers;
@@ -101,7 +102,7 @@ public class ComponentReplacer {
     public String suffix() { return suffix; }
 
     private boolean isComponentEmpty() {
-        return component.equals(Component.empty());
+        return ((TextComponent) component).content().equals("");
     }
 
     public Component build() {
