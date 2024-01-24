@@ -31,7 +31,7 @@ public class ComponentReplacer {
         }
         replacements.forEach((string, replaceComponent) -> {
             string = prefix + string + suffix;
-            if (!isComponentEmpty()) {
+            if (!ComponentUtils.isEmpty(this.component)) {
                 TextReplacementConfig config = TextReplacementConfig.builder().matchLiteral(string).replacement(replaceComponent).build();
                 setComponent(component.replaceText(config));
             }
@@ -100,10 +100,6 @@ public class ComponentReplacer {
     }
 
     public String suffix() { return suffix; }
-
-    private boolean isComponentEmpty() {
-        return ((TextComponent) component).content().equals("");
-    }
 
     public Component build() {
         return component;

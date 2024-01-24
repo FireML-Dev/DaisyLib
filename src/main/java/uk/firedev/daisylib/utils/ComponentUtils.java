@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.utils;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -137,6 +138,10 @@ public class ComponentUtils {
         Component hover = item.displayName();
         hover = hover.hoverEvent(item);
         return hover;
+    }
+
+    public static boolean isEmpty(Component component) {
+        return ((TextComponent) component).content().equals("");
     }
 
 }
