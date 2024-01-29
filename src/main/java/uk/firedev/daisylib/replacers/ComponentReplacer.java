@@ -31,10 +31,8 @@ public class ComponentReplacer {
         }
         replacements.forEach((string, replaceComponent) -> {
             string = prefix + string + suffix;
-            if (!ComponentUtils.isEmpty(this.component)) {
-                TextReplacementConfig config = TextReplacementConfig.builder().matchLiteral(string).replacement(replaceComponent).build();
-                setComponent(component.replaceText(config));
-            }
+            TextReplacementConfig config = TextReplacementConfig.builder().matchLiteral(string).replacement(replaceComponent).build();
+            setComponent(component.replaceText(config));
         });
         return this;
     }
