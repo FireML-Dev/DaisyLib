@@ -141,7 +141,7 @@ public class ComponentUtils {
     }
 
     public static boolean isEmpty(Component component) {
-        return ((TextComponent) component).content().equals("");
+        return toUncoloredString(component).isEmpty();
     }
 
 }
