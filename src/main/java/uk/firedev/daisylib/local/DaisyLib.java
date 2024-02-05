@@ -16,7 +16,6 @@ public final class DaisyLib extends JavaPlugin {
 
     private static DaisyLib instance;
     private static TaskScheduler scheduler;
-    public boolean enabled;
     public boolean papiEnabled;
     public boolean denizenEnabled;
 
@@ -29,7 +28,6 @@ public final class DaisyLib extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        enabled = true;
         instance = this;
         scheduler = UniversalScheduler.getScheduler(this);
         reload();
@@ -39,9 +37,7 @@ public final class DaisyLib extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {
-        enabled = false;
-    }
+    public void onDisable() {}
 
     public void reload() {
         if (ConfigManager.getInstance() == null) {
