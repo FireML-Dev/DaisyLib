@@ -14,16 +14,10 @@ public class ConfigManager extends Config {
 
     public static ConfigManager getInstance() { return instance; }
 
-    public boolean doMoveBlockEvent() {
-        return getConfig().getBoolean("config.custom-events.move-block", true);
-    }
+    public boolean doMoveBlockEvent() { return getConfig().getBoolean("config.custom-events.move-block", true); }
 
-    public boolean doMoveChunkEvent() {
-        return getConfig().getBoolean("config.custom-events.move-chunk", true);
-    }
+    public boolean doMoveChunkEvent() { return getConfig().getBoolean("config.custom-events.move-chunk", true); }
 
-    public boolean doPlaceBreak() {
-        return getConfig().getBoolean("config.enablePlaceBreak", true);
-    }
+    public boolean doPlaceBreak() { return getConfig().getBoolean("config.enablePlaceBreak", true);  }
 
 }

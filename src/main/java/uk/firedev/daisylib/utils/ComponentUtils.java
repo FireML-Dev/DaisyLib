@@ -1,8 +1,7 @@
 package uk.firedev.daisylib.utils;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -19,7 +18,7 @@ public class ComponentUtils {
         if (s == null) {
             return Component.text("");
         }
-        Component component = LegacyComponentSerializer.legacySection().deserialize(ColorUtils.convertColors(s, true)).decoration(TextDecoration.ITALIC, false);
+        Component component = MiniMessage.miniMessage().deserialize(s);
         return new ComponentReplacer(component).replace(replacements).build();
     }
 
@@ -27,18 +26,16 @@ public class ComponentUtils {
         if (s == null) {
             return Component.text("");
         }
-        Component component = LegacyComponentSerializer.legacySection().deserialize(ColorUtils.convertColors(s, true)).decoration(TextDecoration.ITALIC, false);
+        Component component = MiniMessage.miniMessage().deserialize(s);
         return new ComponentReplacer(component).replace(replacements).build();
     }
 
     public static List<Component> parseComponentList(List<String> originalList, String... replacements) {
-        List<Component> newList = new ArrayList<>();
-        originalList.forEach(s -> newList.add(parseComponent(s, replacements)));
-        return newList;
+        return originalList.stream().map(string -> parseComponent(string, replacements)).toList();
     }
 
     public static String toString(Component component) {
-        return LegacyComponentSerializer.legacySection().serialize(component);
+        return MiniMessage.miniMessage().serialize(component);
     }
 
     public static String toUncoloredString(Component component) {
@@ -46,30 +43,15 @@ public class ComponentUtils {
     }
 
     public static List<String> toStringList(List<Component> components) {
-        List<String> newList = new ArrayList<>();
-        components.forEach(component -> newList.add(toString(component)));
-        return newList;
+        return components.stream().map(ComponentUtils::toString).toList();
     }
 
     public static List<String> toUncoloredStringList(List<Component> components) {
-        List<String> newList = new ArrayList<>();
-        components.forEach(component -> newList.add(toUncoloredString(component)));
-        return newList;
+        return components.stream().map(ComponentUtils::toUncoloredString).toList();
     }
 
-    public static Component stripColors(Component component) {
-        String s = toUncoloredString(component);
-        return parseComponent(s).mergeStyle(component);
-    }
-
-    /**
-     * Try not to use this on a Component with a hover/click event.
-     * It tries to merge the style after parsing, but it doesn't seem to keep all of it.
-     */
-    public static Component parseColors(Component component) {
-        String s = toString(component);
-        s = StringUtils.parseColors(s);
-        return parseComponent(s).mergeStyle(component);
+    public static Component stripStyling(Component component) {
+        return Component.text(toUncoloredString(component));
     }
 
     public static Component parsePlaceholders(Component component, String... replacements) {
@@ -93,9 +75,7 @@ public class ComponentUtils {
         if (components == null) {
             return new ArrayList<>();
         }
-        List<Component> returnList = new ArrayList<>();
-        components.forEach(component -> returnList.add(parsePlaceholders(component, replacements)));
-        return returnList;
+        return components.stream().map(component -> parsePlaceholders(component, replacements)).toList();
     }
 
     public static List<Component> parsePlaceholders(List<Component> components, Map<String, Component> replacements) {
@@ -105,34 +85,30 @@ public class ComponentUtils {
         if (replacements == null || replacements.isEmpty()) {
             return components;
         }
-        List<Component> returnList = new ArrayList<>();
-        components.forEach(component -> returnList.add(parsePlaceholders(component, replacements)));
-        return returnList;
+        return components.stream().map(component -> parsePlaceholders(component, replacements)).toList();
     }
 
-    public static void broadcastMessage(Component msg) {
-        Bukkit.broadcast(msg);
-    }
+    public static void broadcastMessage(Component msg) { Bukkit.broadcast(msg); }
 
     public static void sendActionBar(Component msg, Player player) { player.sendActionBar(msg); }
 
     public static Component getMainHandHoverItem(Player player) {
         if (player == null) {
-            return parseComponent("&f[None]");
+            return parseComponent("<white>[None]</white>");
         }
         return getHoverItem(player.getInventory().getItemInMainHand());
     }
 
     public static Component getOffHandHoverItem(Player player) {
         if (player == null) {
-            return parseComponent("&f[None]");
+            return parseComponent("<white>[None]</white>");
         }
         return getHoverItem(player.getInventory().getItemInOffHand());
     }
 
     public static Component getHoverItem(ItemStack item) {
         if (item == null) {
-            return parseComponent("&f[None]");
+            return parseComponent("<white>[None]</white>");
         }
         Component hover = item.displayName();
         hover = hover.hoverEvent(item);

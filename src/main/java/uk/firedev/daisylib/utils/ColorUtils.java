@@ -1,7 +1,10 @@
 package uk.firedev.daisylib.utils;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -96,13 +99,13 @@ public class ColorUtils {
     }
 
     /**
-     * Completely removes all hex colors from a String
+     * Completely removes all legacy hex colors from a String
      */
     public static String removeHex(String message) {
 
         message = convertHex(message);
 
-        // &#hex color codes
+        // &#hex color codes - all bracket hex was converted before this point
         Pattern pattern = Pattern.compile(adventureHexRegex);
         Matcher matcher = pattern.matcher(message);
 
@@ -118,7 +121,7 @@ public class ColorUtils {
     }
 
     /**
-     * Completely removes all colors from a String
+     * Completely removes all legacy colors from a String
      */
     public static String removeColors(String message, boolean removeHex) {
         if (removeHex) {
@@ -169,6 +172,11 @@ public class ColorUtils {
         }
 
         return message;
+    }
+
+    public static String legacyToMiniMessage(String string) {
+        Component component = LegacyComponentSerializer.legacySection().deserialize(convertColors(string, true));
+        return ComponentUtils.toString(component);
     }
 
 }
