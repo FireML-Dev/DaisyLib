@@ -1,3 +1,3 @@
 messages:
-  prefix: "&7[DaisyLib] "
-  reloaded: "&bSuccessfully reloaded the plugin."
+  prefix: "<gray>[DaisyLib]</gray> "
+  reloaded: "<aqua>Successfully reloaded the plugin.</aqua>"

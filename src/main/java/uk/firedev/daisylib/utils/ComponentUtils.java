@@ -94,7 +94,7 @@ public class ComponentUtils {
 
     public static Component getMainHandHoverItem(Player player) {
         if (player == null) {
-            return parseComponent("&f[None]");
+            return parseComponent("<white>[None]</white>");
         }
         return getHoverItem(player.getInventory().getItemInMainHand());
     }
