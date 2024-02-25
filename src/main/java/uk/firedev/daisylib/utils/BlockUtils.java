@@ -85,14 +85,14 @@ public class BlockUtils implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlace(BlockPlaceEvent e) {
-        if (ConfigManager.getInstance().doPlaceBreak) {
+        if (ConfigManager.getInstance().doPlaceBreak()) {
             applyPlace(e.getBlockPlaced().getLocation());
         }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBreak(BlockBreakEvent e) {
-        if (ConfigManager.getInstance().doPlaceBreak) {
+        if (ConfigManager.getInstance().doPlaceBreak()) {
             applyBreak(e.getBlock().getLocation());
         }
     }

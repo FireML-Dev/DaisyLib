@@ -5,10 +5,9 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.StonecuttingRecipe;
 import org.jetbrains.annotations.NotNull;
 
-public class StonecutterRecipe extends StonecuttingRecipe {
+public class StonecutterRecipe extends org.bukkit.inventory.StonecuttingRecipe {
 
     private boolean registered = false;
     private final NamespacedKey key;

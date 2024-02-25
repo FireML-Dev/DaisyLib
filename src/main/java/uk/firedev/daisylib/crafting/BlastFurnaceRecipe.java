@@ -3,12 +3,11 @@ package uk.firedev.daisylib.crafting;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.BlastingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 
-public class BlastFurnaceRecipe extends BlastingRecipe {
+public class BlastFurnaceRecipe extends org.bukkit.inventory.BlastingRecipe {
 
     private boolean registered = false;
     private final NamespacedKey key;

@@ -4,11 +4,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.SmithingTransformRecipe;
-import org.bukkit.inventory.SmithingTrimRecipe;
 import org.jetbrains.annotations.NotNull;
 
-public class SmithingRecipe extends SmithingTransformRecipe {
+public class SmithingRecipe extends org.bukkit.inventory.SmithingTransformRecipe {
 
     private boolean registered = false;
     private final NamespacedKey key;
