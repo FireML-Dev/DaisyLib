@@ -16,23 +16,6 @@ import java.util.logging.Level;
 
 public class StringUtils {
 
-    public static String parseColors(String s, String... replacements) {
-        if (s == null) {
-            return "";
-        }
-        s = new StringReplacer(s).replace(replacements).build();
-        s = ColorUtils.convertColors(s, true);
-        s = ColorUtils.hexToLegacy(s);
-        return s;
-    }
-
-    public static String stripColors(String s) {
-        if (s == null) {
-            return "";
-        }
-        return ColorUtils.removeColors(s, true);
-    }
-
     public static String parsePlaceholders(String s, String... replacements) {
         if (s == null) {
             return "";

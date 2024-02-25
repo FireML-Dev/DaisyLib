@@ -42,31 +42,28 @@ public class MessageUtils {
     }
 
     public String fromConfig(String path, String... replacements) {
-        String message = "&cUnknown Message &e" + path;
+        String message = "<red>Unknown Message</red> <yellow>" + path + "</yellow>";
         if (messagesFile.getString(path) != null) {
             message = StringUtils.parsePlaceholders(messagesFile.getString(path), replacements);
         }
-        return StringUtils.parseColors(message);
+        return message;
     }
 
     public String fromConfig(String path, Map<String, String> replacements) {
-        String message = "&cUnknown Message &e" + path;
+        String message = "<red>Unknown Message</red> <yellow>" + path + "</yellow>";
         if (messagesFile.getString(path) != null) {
             message = StringUtils.parsePlaceholders(messagesFile.getString(path), replacements);
         }
-        return StringUtils.parseColors(message);
+        return message;
     }
 
     public List<String> fromConfigList(String path, String... replacements) {
         List<String> returnList = new ArrayList<>();
         List<String> stringList = messagesFile.getStringList(path);
         if (!stringList.isEmpty()) {
-            for (String s : stringList) {
-                String replaced = StringUtils.parsePlaceholders(s, replacements);
-                returnList.add(StringUtils.parseColors(replaced));
-            }
+            stringList.forEach(string -> returnList.add(StringUtils.parsePlaceholders(string, replacements)));
         } else {
-            returnList.add(StringUtils.parseColors("&cUnknown Message &e" + path));
+            returnList.add("<red>Unknown Message</red> <yellow>" + path + "</yellow>");
         }
         return returnList;
     }
@@ -75,12 +72,9 @@ public class MessageUtils {
         List<String> returnList = new ArrayList<>();
         List<String> stringList = messagesFile.getStringList(path);
         if (!stringList.isEmpty()) {
-            for (String s : stringList) {
-                String replaced = StringUtils.parsePlaceholders(s, replacements);
-                returnList.add(StringUtils.parseColors(replaced));
-            }
+            stringList.forEach(string -> returnList.add(StringUtils.parsePlaceholders(string, replacements)));
         } else {
-            returnList.add(StringUtils.parseColors("&cUnknown Message &e" + path));
+            returnList.add("<red>Unknown Message</red> <yellow>" + path + "</yellow>");
         }
         return returnList;
     }
