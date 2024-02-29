@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.utils;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -83,7 +84,9 @@ public class MessageUtils {
 
     public String addPrefix(String message) { return getPrefix() + message; }
 
-    public void sendMessage(Audience audience, String string) { audience.sendMessage(ComponentUtils.parseComponent(string)); }
+    public void sendMessage(Audience audience, String string, String... replacements) { audience.sendMessage(ComponentUtils.parseComponent(string, replacements)); }
+
+    public void sendMessage(Audience audience, String string, Map<String, Component> replacements) { audience.sendMessage(ComponentUtils.parseComponent(string, replacements)); }
 
     public void sendMessageFromConfig(Audience audience, String key, String... replacements) { audience.sendMessage(ComponentUtils.parseComponent(fromConfig(key, replacements))); }
 
