@@ -1,4 +1,6 @@
 config:
+  # If enabled, the plugin will track all placed and broken blocks.
+  # Designed to stop players from placing and breaking blocks over and over again for jobs or events
   enablePlaceBreak: true
 
   # Configure whether custom events are fired
