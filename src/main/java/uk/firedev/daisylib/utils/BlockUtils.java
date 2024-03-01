@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.persistence.PersistentDataType;
-import uk.firedev.daisylib.local.config.ConfigManager;
+import uk.firedev.daisylib.local.config.MainConfig;
 
 public class BlockUtils implements Listener {
 
@@ -85,14 +85,14 @@ public class BlockUtils implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlace(BlockPlaceEvent e) {
-        if (ConfigManager.getInstance().doPlaceBreak()) {
+        if (MainConfig.getInstance().doPlaceBreak()) {
             applyPlace(e.getBlockPlaced().getLocation());
         }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBreak(BlockBreakEvent e) {
-        if (ConfigManager.getInstance().doPlaceBreak()) {
+        if (MainConfig.getInstance().doPlaceBreak()) {
             applyBreak(e.getBlock().getLocation());
         }
     }

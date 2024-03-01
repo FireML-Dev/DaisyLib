@@ -1,18 +1,21 @@
 package uk.firedev.daisylib.local.config;
 
-import org.bukkit.plugin.java.JavaPlugin;
-import uk.firedev.daisylib.Config;
+import uk.firedev.daisylib.local.DaisyLib;
 
-public class ConfigManager extends Config {
+public class MainConfig extends uk.firedev.daisylib.Config {
 
-    private static ConfigManager instance = null;
+    private static MainConfig instance = null;
 
-    public ConfigManager(String fileName, JavaPlugin plugin) {
-        super(fileName, plugin);
-        instance = this;
+    private MainConfig() {
+        super("config.yml", DaisyLib.getInstance());
     }
 
-    public static ConfigManager getInstance() { return instance; }
+    public static MainConfig getInstance() {
+        if (instance == null) {
+            instance = new MainConfig();
+        }
+        return instance;
+    }
 
     public boolean doMoveBlockEvent() { return getConfig().getBoolean("config.custom-events.move-block", true); }
 

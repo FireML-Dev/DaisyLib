@@ -7,6 +7,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.local.config.MessageConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class LibCommand implements CommandExecutor, TabCompleter {
             switch (args[0]) {
                 case "reload" -> {
                     DaisyLib.getInstance().reload();
-                    LibMessageUtils.getInstance().sendPrefixedMessageFromConfig(sender, "messages.reloaded");
+                    MessageConfig.getInstance().sendPrefixedMessageFromConfig(sender, "messages.reloaded");
                 }
             }
             return true;

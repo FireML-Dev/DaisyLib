@@ -7,8 +7,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
 import uk.firedev.daisylib.utils.BlockUtils;
-import uk.firedev.daisylib.local.config.ConfigManager;
-import uk.firedev.daisylib.local.config.MessageManager;
+import uk.firedev.daisylib.local.config.MainConfig;
+import uk.firedev.daisylib.local.config.MessageConfig;
 
 import java.util.logging.Level;
 
@@ -40,21 +40,8 @@ public final class DaisyLib extends JavaPlugin {
     public void onDisable() {}
 
     public void reload() {
-        if (ConfigManager.getInstance() == null) {
-            new ConfigManager("config.yml", this);
-        } else {
-            ConfigManager.getInstance().reload();
-        }
-        if (MessageManager.getInstance() == null) {
-            new MessageManager("messages.yml", this);
-        } else {
-            MessageManager.getInstance().reload();
-        }
-        if (LibMessageUtils.getInstance() == null) {
-            new LibMessageUtils(MessageManager.getInstance().getConfig());
-        } else {
-            LibMessageUtils.getInstance().reload(MessageManager.getInstance().getConfig());
-        }
+        MainConfig.getInstance().reload();
+        MessageConfig.getInstance().reload();
         Bukkit.getPluginManager().callEvent(new DaisyLibReloadEvent());
     }
 
