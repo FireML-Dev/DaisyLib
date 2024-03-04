@@ -24,31 +24,13 @@ public class Config {
         this.fileName = fileName;
         this.plugin = plugin;
         reload();
+        updateConfig();
     }
 
     public void reload() {
-        File configFile = new File(this.plugin.getDataFolder(), fileName);
-        if (!configFile.exists()) {
-            File parentFile = configFile.getAbsoluteFile().getParentFile();
-            if (!parentFile.exists()) {
-                parentFile.mkdirs();
-            }
-            try {
-                configFile.createNewFile();
-            } catch (IOException e) {
-                Loggers.logException(e, plugin.getLogger());
-            }
-
-            InputStream stream = plugin.getResource(fileName);
-            if (stream == null) {
-                Loggers.log(Level.SEVERE, plugin.getLogger(), "Could not retrieve " + fileName);
-                return;
-            }
-            try {
-                Files.copy(stream, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                Loggers.logException(e, plugin.getLogger());
-            }
+        File configFile = loadFile(this.plugin.getDataFolder());
+        if (configFile == null) {
+            return;
         }
 
         FileConfiguration config = new YamlConfiguration();
@@ -65,6 +47,67 @@ public class Config {
     public FileConfiguration getConfig() { return this.config; }
 
     public File getFile() { return file; }
+
+    private File loadFile(File directory) {
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        File configFile = new File(directory, fileName);
+        if (!configFile.exists()) {
+            File parentFile = configFile.getAbsoluteFile().getParentFile();
+            if (!parentFile.exists()) {
+                parentFile.mkdirs();
+            }
+            try {
+                configFile.createNewFile();
+            } catch (IOException e) {
+                Loggers.logException(e, plugin.getLogger());
+            }
+
+            InputStream stream = plugin.getResource(fileName);
+            if (stream == null) {
+                Loggers.log(Level.SEVERE, plugin.getLogger(), "Could not retrieve " + fileName);
+                return null;
+            }
+            try {
+                Files.copy(stream, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                Loggers.logException(e, plugin.getLogger());
+            }
+            return configFile;
+        }
+        return configFile;
+    }
+
+    private void updateConfig() {
+        File tempDirectory = new File(this.plugin.getDataFolder(), "temp");
+        File tempConfigFile = loadFile(tempDirectory);
+        if (tempConfigFile == null) {
+            return;
+        }
+
+        FileConfiguration tempConfig = new YamlConfiguration();
+
+        try {
+            tempConfig.load(tempConfigFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            return;
+        }
+
+        config.getKeys(true).forEach(key -> {
+            if (!config.isConfigurationSection(key)) {
+                tempConfig.set(key, config.get(key));
+                tempConfig.setComments(key, config.getComments(key));
+            }
+        });
+        try {
+            tempConfig.save(file);
+            tempConfigFile.delete();
+        } catch (IOException ex) {
+            Loggers.logException(ex, plugin.getLogger());
+        }
+        reload();
+    }
 
 }
 
