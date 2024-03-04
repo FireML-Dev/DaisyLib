@@ -54,10 +54,6 @@ public class Config {
         }
         File configFile = new File(directory, fileName);
         if (!configFile.exists()) {
-            File parentFile = configFile.getAbsoluteFile().getParentFile();
-            if (!parentFile.exists()) {
-                parentFile.mkdirs();
-            }
             try {
                 configFile.createNewFile();
             } catch (IOException e) {
