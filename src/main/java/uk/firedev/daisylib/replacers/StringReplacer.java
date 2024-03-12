@@ -1,7 +1,7 @@
 package uk.firedev.daisylib.replacers;
 
-import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.utils.ComponentUtils;
 
 import java.util.HashMap;

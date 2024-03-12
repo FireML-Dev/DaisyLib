@@ -2,8 +2,8 @@ package uk.firedev.daisylib.replacers;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
-import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.utils.ComponentUtils;
 
 import java.util.HashMap;
