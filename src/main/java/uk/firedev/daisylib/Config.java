@@ -91,6 +91,10 @@ public class Config {
         }
 
         config.getKeys(true).forEach(key -> {
+            // Don't set keys that aren't in the default config
+            if (!tempConfig.isSet(key)) {
+                return;
+            }
             if (!config.isConfigurationSection(key)) {
                 tempConfig.set(key, config.get(key));
             }
