@@ -32,6 +32,17 @@ public class SQLiteDatabase {
         return this.connection;
     }
 
+    public void closeConnection() {
+        if (this.connection != null) {
+            try {
+                this.connection.close();
+                this.connection = null;
+            } catch (SQLException ex) {
+                Loggers.log(Level.SEVERE, plugin.getLogger(), "Failed to close database connection.");
+            }
+        }
+    }
+
     public JavaPlugin getPlugin() {
         return plugin;
     }
