@@ -54,18 +54,46 @@ public interface MessageUtils {
 
     default String addPrefix(String message) { return getPrefix() + message; }
 
-    default void sendMessage(Audience audience, String string, String... replacements) { audience.sendMessage(ComponentUtils.parseComponent(string, replacements)); }
+    default void sendMessage(Audience audience, String string, String... replacements) {
+        if (audience != null) {
+            audience.sendMessage(ComponentUtils.parseComponent(string, replacements));
+        }
+    }
 
-    default void sendMessage(Audience audience, String string, Map<String, Component> replacements) { audience.sendMessage(ComponentUtils.parseComponent(string, replacements)); }
+    default void sendMessage(Audience audience, String string, Map<String, Component> replacements) {
+        if (audience != null) {
+            audience.sendMessage(ComponentUtils.parseComponent(string, replacements));
+        }
+    }
 
-    default void sendMessageFromConfig(Audience audience, String key, String... replacements) { audience.sendMessage(ComponentUtils.parseComponent(fromConfig(key, replacements))); }
+    default void sendMessageFromConfig(Audience audience, String key, String... replacements) {
+        if (audience != null) {
+            audience.sendMessage(ComponentUtils.parseComponent(fromConfig(key, replacements)));
+        }
+    }
 
-    default void sendMessageFromConfig(Audience audience, String key, Map<String, String> replacements) { audience.sendMessage(ComponentUtils.parseComponent(fromConfig(key, replacements))); }
+    default void sendMessageFromConfig(Audience audience, String key, Map<String, String> replacements) {
+        if (audience != null) {
+            audience.sendMessage(ComponentUtils.parseComponent(fromConfig(key, replacements)));
+        }
+    }
 
-    default void sendPrefixedMessage(Audience audience, String string) { audience.sendMessage(ComponentUtils.parseComponent(addPrefix(string))); }
+    default void sendPrefixedMessage(Audience audience, String string) {
+        if (audience != null) {
+            audience.sendMessage(ComponentUtils.parseComponent(addPrefix(string)));
+        }
+    }
 
-    default void sendPrefixedMessageFromConfig(Audience audience, String key, String... replacements) { audience.sendMessage(ComponentUtils.parseComponent(addPrefix(fromConfig(key, replacements)))); }
+    default void sendPrefixedMessageFromConfig(Audience audience, String key, String... replacements) {
+        if (audience != null) {
+            audience.sendMessage(ComponentUtils.parseComponent(addPrefix(fromConfig(key, replacements))));
+        }
+    }
 
-    default void sendPrefixedMessageFromConfig(Audience audience, String key, Map<String, String> replacements) { audience.sendMessage(ComponentUtils.parseComponent(addPrefix(fromConfig(key, replacements)))); }
+    default void sendPrefixedMessageFromConfig(Audience audience, String key, Map<String, String> replacements) {
+        if (audience != null) {
+            audience.sendMessage(ComponentUtils.parseComponent(addPrefix(fromConfig(key, replacements))));
+        }
+    }
 
 }
