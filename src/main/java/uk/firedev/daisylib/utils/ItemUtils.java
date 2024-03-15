@@ -68,6 +68,17 @@ public class ItemUtils {
         return hideAllFlags(item);
     }
 
+    public static ItemStack setHeadSkin(ItemStack item, UUID uuid) {
+        if (!item.getType().equals(Material.PLAYER_HEAD)) {
+            return item;
+        }
+        SkullMeta skull = (SkullMeta) item.getItemMeta();
+        PlayerProfile profile = Bukkit.createProfile(uuid, "Unknown");
+        skull.setPlayerProfile(profile);
+        item.setItemMeta(skull);
+        return hideAllFlags(item);
+    }
+
     public static void setSkullProfile(SkullMeta skull, UUID uuid, String name, String... properties) {
         PlayerProfile profile = Bukkit.createProfile(uuid, name);
         for (int i = 0; i + 1 < properties.length; i += 2) {
