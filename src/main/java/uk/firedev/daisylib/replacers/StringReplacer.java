@@ -35,7 +35,7 @@ public class StringReplacer {
         return this;
     }
 
-    public StringReplacer replace(String... replacements) {
+    public StringReplacer replace(String[] replacements) {
         if (string == null || replacements == null) {
             return this;
         }

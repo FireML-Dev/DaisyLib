@@ -36,7 +36,7 @@ public class ComponentReplacer {
         return this;
     }
 
-    public ComponentReplacer replace(String... replacements) {
+    public ComponentReplacer replace(String[] replacements) {
         if (component == null || replacements == null) {
             return this;
         }
