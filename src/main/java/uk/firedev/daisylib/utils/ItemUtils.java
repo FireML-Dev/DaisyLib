@@ -120,4 +120,14 @@ public class ItemUtils {
                 .forEach(item -> player.getWorld().dropItem(player.getLocation(), item));
     }
 
+    public static void giveItem(ItemStack item, Player player) {
+        if (item == null) {
+            return;
+        }
+        player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.5f, 1.5f);
+        player.getInventory().addItem(item)
+                .values()
+                .forEach(remaining -> player.getWorld().dropItem(player.getLocation(), remaining));
+    }
+
 }
