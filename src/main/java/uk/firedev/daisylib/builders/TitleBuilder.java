@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.builders;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
@@ -92,20 +93,20 @@ public class TitleBuilder {
 
     public void sendAll(String... replacements) { Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements)); }
 
-    public void send(Player p, String... replacements) {
+    public void send(Audience audience, String... replacements) {
         Component title = ComponentUtils.parsePlaceholders(this.title, replacements);
         Component subtitle = ComponentUtils.parsePlaceholders(this.subtitle, replacements);
         Title.Times times = Title.Times.times(Duration.ofSeconds(in / 20), Duration.ofSeconds(stay / 20), Duration.ofSeconds(out / 20));
-        p.showTitle(Title.title(title, subtitle, times));
+        audience.showTitle(Title.title(title, subtitle, times));
     }
 
     public void sendAll(Map<String, Component> replacements) { Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements)); }
 
-    public void send(Player p, Map<String, Component> replacements) {
+    public void send(Audience audience, Map<String, Component> replacements) {
         Component title = ComponentUtils.parsePlaceholders(this.title, replacements);
         Component subtitle = ComponentUtils.parsePlaceholders(this.subtitle, replacements);
         Title.Times times = Title.Times.times(Duration.ofSeconds(in / 20), Duration.ofSeconds(stay / 20), Duration.ofSeconds(out / 20));
-        p.showTitle(Title.title(title, subtitle, times));
+        audience.showTitle(Title.title(title, subtitle, times));
     }
 
 }

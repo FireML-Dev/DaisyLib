@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.builders;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -72,16 +73,16 @@ public class BossBarBuilder {
 
     public void sendAll(String... replacements) { Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements)); }
 
-    public void send(Player p, String... replacements) {
+    public void send(Audience audience, String... replacements) {
         Component title = ComponentUtils.parsePlaceholders(this.title, replacements);
-        p.showBossBar(BossBar.bossBar(title, progress, color, overlay, flags));
+        audience.showBossBar(BossBar.bossBar(title, progress, color, overlay, flags));
     }
 
     public void sendAll(Map<String, Component> replacements) { Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements)); }
 
-    public void send(Player p, Map<String, Component> replacements) {
+    public void send(Audience audience, Map<String, Component> replacements) {
         Component title = ComponentUtils.parsePlaceholders(this.title, replacements);
-        p.showBossBar(BossBar.bossBar(title, progress, color, overlay, flags));
+        audience.showBossBar(BossBar.bossBar(title, progress, color, overlay, flags));
     }
     
 }
