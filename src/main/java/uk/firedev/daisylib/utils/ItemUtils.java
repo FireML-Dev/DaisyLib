@@ -6,6 +6,7 @@ import com.destroystokyo.paper.profile.ProfileProperty;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import uk.firedev.daisylib.local.DaisyLib;
 
+import java.util.List;
 import java.util.UUID;
 
 public class ItemUtils {
@@ -106,6 +108,16 @@ public class ItemUtils {
 
     public static boolean isCustomItem(ItemStack item) {
         return DaisyLib.getInstance().denizenEnabled && ItemScriptHelper.isItemscript(item);
+    }
+
+    public static void giveItems(List<ItemStack> items, Player player) {
+        if (items.isEmpty()) {
+            return;
+        }
+        player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.5f, 1.5f);
+        player.getInventory().addItem(items.toArray(ItemStack[]::new))
+                .values()
+                .forEach(item -> player.getWorld().dropItem(player.getLocation(), item));
     }
 
 }
