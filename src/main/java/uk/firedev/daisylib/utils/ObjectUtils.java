@@ -41,4 +41,24 @@ public class ObjectUtils {
         return new NamespacedKey(plugin, string);
     }
 
+    public static boolean isInt(String str) {
+        try {
+            int d = Integer.parseInt(str);
+            d = d + 1;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isDouble(String str) {
+        try {
+            double d = Double.parseDouble(str);
+            d = d + 1;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+        return true;
+    }
+
 }
