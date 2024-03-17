@@ -1,0 +1,87 @@
+package uk.firedev.daisylib.builders;
+
+import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.utils.ComponentUtils;
+
+import java.util.*;
+
+public class BossBarBuilder {
+
+    private Component title = Component.empty();
+    private BossBar.Overlay overlay = BossBar.Overlay.PROGRESS;
+    private float progress = BossBar.MAX_PROGRESS;
+    private BossBar.Color color = BossBar.Color.WHITE;
+    private Set<BossBar.Flag> flags = new HashSet<>();
+
+    public BossBarBuilder withTitle(@NotNull Component title) {
+        this.title = title;
+        return this;
+    }
+
+    public BossBarBuilder withStringTitle(@NotNull String title) {
+        this.title = ComponentUtils.parseComponent(title);
+        return this;
+    }
+
+    public BossBarBuilder withOverlay(@NotNull BossBar.Overlay overlay) {
+        this.overlay = overlay;
+        return this;
+    }
+
+    /**
+     * Requires a value between 0 and 1
+     */
+    public BossBarBuilder withProgress(float progress) {
+        if (progress > 1) {
+            progress = 1;
+        } else if (progress < 0) {
+            progress = 0;
+        }
+        this.progress = progress;
+        return this;
+    }
+
+    public BossBarBuilder withColor(@NotNull BossBar.Color color) {
+        this.color = color;
+        return this;
+    }
+
+    public BossBarBuilder clearFlags() {
+        this.flags.clear();
+        return this;
+    }
+
+    public BossBarBuilder withFlags(@NotNull Set<BossBar.Flag> flags) {
+        this.flags = flags;
+        return this;
+    }
+
+    public BossBarBuilder addFlag(@NotNull BossBar.Flag flag) {
+        this.flags.add(flag);
+        return this;
+    }
+
+    public BossBarBuilder removeFlag(@NotNull BossBar.Flag flag) {
+        this.flags.remove(flag);
+        return this;
+    }
+
+    public void sendAll(String... replacements) { Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements)); }
+
+    public void send(Player p, String... replacements) {
+        Component title = ComponentUtils.parsePlaceholders(this.title, replacements);
+        p.showBossBar(BossBar.bossBar(title, progress, color, overlay, flags));
+    }
+
+    public void sendAll(Map<String, Component> replacements) { Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements)); }
+
+    public void send(Player p, Map<String, Component> replacements) {
+        Component title = ComponentUtils.parsePlaceholders(this.title, replacements);
+        p.showBossBar(BossBar.bossBar(title, progress, color, overlay, flags));
+    }
+    
+}
