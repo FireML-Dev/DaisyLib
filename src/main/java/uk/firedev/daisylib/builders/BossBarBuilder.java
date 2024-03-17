@@ -4,6 +4,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Boss;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.utils.ComponentUtils;
@@ -74,15 +75,23 @@ public class BossBarBuilder {
     public void sendAll(String... replacements) { Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements)); }
 
     public void send(Audience audience, String... replacements) {
-        Component title = ComponentUtils.parsePlaceholders(this.title, replacements);
-        audience.showBossBar(BossBar.bossBar(title, progress, color, overlay, flags));
+        audience.showBossBar(build(replacements));
     }
 
     public void sendAll(Map<String, Component> replacements) { Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements)); }
 
     public void send(Audience audience, Map<String, Component> replacements) {
+        audience.showBossBar(build(replacements));
+    }
+
+    public BossBar build(String... replacements) {
         Component title = ComponentUtils.parsePlaceholders(this.title, replacements);
-        audience.showBossBar(BossBar.bossBar(title, progress, color, overlay, flags));
+        return BossBar.bossBar(title, progress, color, overlay, flags);
+    }
+
+    public BossBar build(Map<String, Component> replacements) {
+        Component title = ComponentUtils.parsePlaceholders(this.title, replacements);
+        return BossBar.bossBar(title, progress, color, overlay, flags);
     }
     
 }
