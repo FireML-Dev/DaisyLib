@@ -110,6 +110,16 @@ public class ItemUtils {
         return DaisyLib.getInstance().denizenEnabled && ItemScriptHelper.isItemscript(item);
     }
 
+    public static void giveItems(ItemStack[] items, Player player) {
+        if (items.length == 0) {
+            return;
+        }
+        player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.5f, 1.5f);
+        player.getInventory().addItem(items)
+                .values()
+                .forEach(item -> player.getWorld().dropItem(player.getLocation(), item));
+    }
+
     public static void giveItems(List<ItemStack> items, Player player) {
         if (items.isEmpty()) {
             return;
