@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.utils;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
@@ -19,7 +20,7 @@ public class ComponentUtils {
             return Component.text("");
         }
         Component component = MiniMessage.miniMessage().deserialize(s);
-        return new ComponentReplacer(component).replace(replacements).build();
+        return new ComponentReplacer(component).replace(replacements).build().decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
     }
 
     public static Component parseComponent(String s, Map<String, Component> replacements) {
@@ -27,7 +28,7 @@ public class ComponentUtils {
             return Component.text("");
         }
         Component component = MiniMessage.miniMessage().deserialize(s);
-        return new ComponentReplacer(component).replace(replacements).build();
+        return new ComponentReplacer(component).replace(replacements).build().decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
     }
 
     public static List<Component> parseComponentList(List<String> originalList, String... replacements) {

@@ -2,6 +2,7 @@ package uk.firedev.daisylib.replacers;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
+import net.kyori.adventure.text.format.TextDecoration;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.utils.ComponentUtils;
@@ -99,7 +100,7 @@ public class ComponentReplacer {
     public String suffix() { return suffix; }
 
     public Component build() {
-        return component;
+        return component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
     }
 
     public StringReplacer toStringReplacer() {
