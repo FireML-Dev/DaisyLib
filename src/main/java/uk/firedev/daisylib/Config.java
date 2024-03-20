@@ -27,6 +27,15 @@ public class Config {
         updateConfig();
     }
 
+    public Config(String fileName, JavaPlugin plugin, boolean configUpdater) {
+        this.fileName = fileName;
+        this.plugin = plugin;
+        reload();
+        if (configUpdater) {
+            updateConfig();
+        }
+    }
+
     public void reload() {
         File configFile = loadFile(this.plugin.getDataFolder());
         if (configFile == null) {
