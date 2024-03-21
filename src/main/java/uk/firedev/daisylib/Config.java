@@ -20,13 +20,6 @@ public class Config {
     private FileConfiguration config = null;
     private File file = null;
 
-    public Config(String fileName, JavaPlugin plugin) {
-        this.fileName = fileName;
-        this.plugin = plugin;
-        reload();
-        updateConfig();
-    }
-
     public Config(String fileName, JavaPlugin plugin, boolean configUpdater) {
         this.fileName = fileName;
         this.plugin = plugin;
