@@ -28,8 +28,25 @@ public class ItemBuilder {
         this.material = material;
     }
 
+    public ItemBuilder(@NotNull String materialName, @NotNull Material defaultMaterial) {
+        try {
+            this.material = Material.valueOf(materialName);
+        } catch (IllegalArgumentException ex) {
+            this.material = defaultMaterial;
+        }
+    }
+
     public ItemBuilder withMaterial(@NotNull Material material) {
         this.material = material;
+        return this;
+    }
+
+    public ItemBuilder withMaterial(@NotNull String materialName, @NotNull Material defaultMaterial) {
+        try {
+            this.material = Material.valueOf(materialName);
+        } catch (IllegalArgumentException ex) {
+            this.material = defaultMaterial;
+        }
         return this;
     }
 
