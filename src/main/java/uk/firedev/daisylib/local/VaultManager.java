@@ -37,17 +37,14 @@ public class VaultManager {
     public boolean load() {
         if (!setupEconomy()) {
             Loggers.log(Level.WARNING, plugin.getLogger(), "Vault Economy not found. Disabling DaisyLib.");
-            plugin.getServer().getPluginManager().disablePlugin(plugin);
             return false;
         }
         if (!setupPermissions()) {
             Loggers.log(Level.WARNING, plugin.getLogger(), "Vault Permissions not found. Disabling DaisyLib.");
-            plugin.getServer().getPluginManager().disablePlugin(plugin);
             return false;
         }
         if (!setupChat()) {
             Loggers.log(Level.WARNING, plugin.getLogger(), "Vault Chat not found. Disabling DaisyLib.");
-            plugin.getServer().getPluginManager().disablePlugin(plugin);
             return false;
         }
         return true;

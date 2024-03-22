@@ -52,6 +52,7 @@ public final class DaisyLib extends JavaPlugin {
 
     private void loadManagers() {
         if (!VaultManager.getInstance().load()) {
+            getServer().getPluginManager().disablePlugin(this);
             return;
         }
         RewardManager.getInstance().load();
