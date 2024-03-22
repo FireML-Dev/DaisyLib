@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.utils.ComponentUtils;
+import uk.firedev.daisylib.utils.ItemUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,11 +30,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder(@NotNull String materialName, @NotNull Material defaultMaterial) {
-        try {
-            this.material = Material.valueOf(materialName);
-        } catch (IllegalArgumentException ex) {
-            this.material = defaultMaterial;
-        }
+        this.material = ItemUtils.getMaterial(materialName, defaultMaterial);
     }
 
     public ItemBuilder withMaterial(@NotNull Material material) {
@@ -42,11 +39,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder withMaterial(@NotNull String materialName, @NotNull Material defaultMaterial) {
-        try {
-            this.material = Material.valueOf(materialName);
-        } catch (IllegalArgumentException ex) {
-            this.material = defaultMaterial;
-        }
+        this.material = ItemUtils.getMaterial(materialName, defaultMaterial);
         return this;
     }
 

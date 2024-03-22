@@ -14,12 +14,31 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.local.DaisyLib;
 
 import java.util.List;
 import java.util.UUID;
 
 public class ItemUtils {
+
+    public static @Nullable Material getMaterial(String materialName, @NotNull Material defaultMaterial) {
+        try {
+            return Material.valueOf(materialName.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            return defaultMaterial;
+        }
+    }
+
+    public static boolean validMaterial(String materialName) {
+        try {
+            Material.valueOf(materialName.toUpperCase());
+            return true;
+        } catch (IllegalArgumentException ex) {
+            return false;
+        }
+    }
 
     public static ItemStack setGlowing(ItemStack item, boolean glowing) {
         if (item == null) {
