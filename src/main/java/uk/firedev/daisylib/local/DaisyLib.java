@@ -8,6 +8,7 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
 import uk.firedev.daisylib.local.config.MainConfig;
 import uk.firedev.daisylib.local.config.MessageConfig;
+import uk.firedev.daisylib.reward.RewardManager;
 import uk.firedev.daisylib.utils.BlockUtils;
 
 import java.util.logging.Level;
@@ -30,11 +31,9 @@ public final class DaisyLib extends JavaPlugin {
         }
         instance = this;
         scheduler = UniversalScheduler.getScheduler(this);
-        if (!VaultManager.getInstance().load()) {
-            return;
-        }
         reload();
         new LibCommand().registerCommand("daisylib", this);
+        loadManagers();
         registerListeners();
     }
 
@@ -49,6 +48,13 @@ public final class DaisyLib extends JavaPlugin {
 
     private void registerListeners() {
         this.getServer().getPluginManager().registerEvents(new BlockUtils(), this);
+    }
+
+    private void loadManagers() {
+        if (!VaultManager.getInstance().load()) {
+            return;
+        }
+        RewardManager.getInstance().load();
     }
 
     public static DaisyLib getInstance() { return instance; }
