@@ -1,9 +1,7 @@
 package uk.firedev.daisylib.reward;
 
 import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.reward.types.CommandRewardType;
-import uk.firedev.daisylib.reward.types.ItemRewardType;
-import uk.firedev.daisylib.reward.types.PermissionRewardType;
+import uk.firedev.daisylib.reward.types.*;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -31,6 +29,7 @@ public class RewardManager {
             new ItemRewardType().register();
             new CommandRewardType().register();
             new PermissionRewardType().register();
+            new ExpRewardType().register();
             loaded = true;
         }
     }
