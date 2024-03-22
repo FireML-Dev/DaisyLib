@@ -30,7 +30,9 @@ public final class DaisyLib extends JavaPlugin {
         }
         instance = this;
         scheduler = UniversalScheduler.getScheduler(this);
-        VaultManager.getInstance().load();
+        if (!VaultManager.getInstance().load()) {
+            return;
+        }
         reload();
         new LibCommand().registerCommand("daisylib", this);
         registerListeners();
