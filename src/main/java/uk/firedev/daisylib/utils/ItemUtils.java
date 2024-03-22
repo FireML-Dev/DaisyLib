@@ -23,7 +23,7 @@ import java.util.UUID;
 
 public class ItemUtils {
 
-    public static @Nullable Material getMaterial(String materialName, @NotNull Material defaultMaterial) {
+    public static @NotNull Material getMaterial(String materialName, @NotNull Material defaultMaterial) {
         try {
             return Material.valueOf(materialName.toUpperCase());
         } catch (IllegalArgumentException ex) {
