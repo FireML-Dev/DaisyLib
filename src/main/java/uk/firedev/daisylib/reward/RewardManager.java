@@ -30,6 +30,7 @@ public class RewardManager {
             new CommandRewardType().register();
             new PermissionRewardType().register();
             new ExpRewardType().register();
+            new HealthRewardType().register();
             new MoneyRewardType().register();
             loaded = true;
         }
