@@ -6,6 +6,10 @@ import org.jetbrains.annotations.NotNull;
 
 public interface RewardType {
 
+    default boolean isApplicable(@NotNull String key) {
+        return key.equalsIgnoreCase(getIdentifier());
+    }
+
     void doReward(@NotNull Player player, @NotNull String key, @NotNull String value, int quantity);
 
     @NotNull String getIdentifier();

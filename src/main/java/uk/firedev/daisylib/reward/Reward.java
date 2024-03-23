@@ -43,8 +43,8 @@ public class Reward {
 
     public void rewardPlayer(@NotNull Player player) {
         for (RewardType rewardType : RewardManager.getInstance().getRegisteredRewardTypes()) {
-            if (this.key.equalsIgnoreCase(rewardType.getIdentifier())) {
-                rewardType.doReward(player, this.key, this.value, this.quantity);
+            if (rewardType.isApplicable(this.key)) {
+                rewardType.doReward(player, this.key, this.value, this.quantity)
                 return;
             }
         }
