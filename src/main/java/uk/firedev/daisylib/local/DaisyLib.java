@@ -2,6 +2,8 @@ package uk.firedev.daisylib.local;
 
 import com.github.Anon8281.universalScheduler.UniversalScheduler;
 import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
+import dev.jorel.commandapi.CommandAPI;
+import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.Loggers;
@@ -21,6 +23,13 @@ public final class DaisyLib extends JavaPlugin {
     public boolean denizenEnabled;
 
     @Override
+    public void onLoad() {
+        CommandAPI.onLoad(
+                new CommandAPIBukkitConfig(this).shouldHookPaperReload(true)
+        );
+    }
+
+    @Override
     public void onEnable() {
         try {
             Class.forName("com.destroystokyo.paper.profile.PlayerProfile");
@@ -31,14 +40,17 @@ public final class DaisyLib extends JavaPlugin {
         }
         instance = this;
         scheduler = UniversalScheduler.getScheduler(this);
+        CommandAPI.onEnable();
         reload();
-        new LibCommand().registerCommand("daisylib", this);
+        new LibCommand().register();
         loadManagers();
         registerListeners();
     }
 
     @Override
-    public void onDisable() {}
+    public void onDisable() {
+        CommandAPI.onDisable();
+    }
 
     public void reload() {
         MainConfig.getInstance().reload();

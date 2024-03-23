@@ -63,6 +63,10 @@
                             <pattern>com.github.Anon8281.universalScheduler</pattern>
                             <shadedPattern>uk.firedev.daisylib.libs.Anon8281.universalScheduler</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>dev.jorel.commandapi</pattern>
+                            <shadedPattern>uk.firedev.daisylib.libs.jorel.commandapi</shadedPattern>
+                        </relocation>
                     </relocations>
                     <filters>
                         <filter>
@@ -182,6 +186,12 @@
             <artifactId>VaultAPI</artifactId>
             <version>1.7.1</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.jorel</groupId>
+            <artifactId>commandapi-bukkit-shade</artifactId>
+            <version>9.3.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
