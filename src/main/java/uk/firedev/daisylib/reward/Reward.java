@@ -44,7 +44,7 @@ public class Reward {
     public void rewardPlayer(@NotNull Player player) {
         for (RewardType rewardType : RewardManager.getInstance().getRegisteredRewardTypes()) {
             if (rewardType.isApplicable(this.key)) {
-                rewardType.doReward(player, this.key, this.value, this.quantity)
+                rewardType.doReward(player, this.key, this.value, this.quantity);
                 return;
             }
         }
