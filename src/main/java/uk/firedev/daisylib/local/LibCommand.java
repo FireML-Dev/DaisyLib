@@ -1,88 +1,43 @@
 package uk.firedev.daisylib.local;
 
-import dev.jorel.commandapi.CommandAPICommand;
-import dev.jorel.commandapi.executors.CommandArguments;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.command.Command;
+import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.command.ICommand;
 import uk.firedev.daisylib.local.config.MessageConfig;
 
 import java.util.List;
 
-public class LibCommand implements Command {
+public class LibCommand implements ICommand {
 
     @Override
-    public @NotNull String getName() {
-        return "daisylib";
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        if (args.length >= 1) {
+            switch (args[0]) {
+                case "reload" -> {
+                    DaisyLib.getInstance().reload();
+                    MessageConfig.getInstance().sendPrefixedMessageFromConfig(sender, "messages.reloaded");
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public String[] getAliases() {
-        return new String[0];
-    }
-
-    @Override
-    public @NotNull String getPermission() {
-        return "daisylib.command";
-    }
-
-    @Override
-    public CommandAPICommand[] getChildren() {
-        return List.of(
-                new ReloadSubCommand().getInstance()
-        ).toArray(CommandAPICommand[]::new);
-    }
-
-    @Override
-    public @NotNull String getShortDescription() {
-        return "Manage the plugin";
-    }
-
-    @Override
-    public @NotNull String getFullDescription() {
-        return "Manage the plugin";
-    }
-
-    @Override
-    public void execute(CommandSender sender, CommandArguments args) {}
-
-    private static class ReloadSubCommand implements Command {
-
-        @Override
-        public @NotNull String getName() {
-            return "reload";
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        if (!(sender instanceof Player)) {
+            return List.of();
         }
 
-        @Override
-        public String[] getAliases() {
-            return new String[0];
-        }
-
-        @Override
-        public @NotNull String getPermission() {
-            return "";
-        }
-
-        @Override
-        public CommandAPICommand[] getChildren() {
-            return new CommandAPICommand[0];
-        }
-
-        @Override
-        public @NotNull String getShortDescription() {
-            return "Reload";
-        }
-
-        @Override
-        public @NotNull String getFullDescription() {
-            return "Reload";
-        }
-
-        @Override
-        public void execute(CommandSender sender, CommandArguments args) {
-            DaisyLib.getInstance().reload();
-            MessageConfig.getInstance().sendPrefixedMessageFromConfig(sender, "messages.reloaded");
-        }
+        return switch (args.length) {
+            case 1 -> processTabCompletions(args[0], List.of(
+                    "reload"
+            ));
+            default -> List.of();
+        };
     }
 
 }

@@ -4,12 +4,13 @@ main: uk.firedev.daisylib.local.DaisyLib
 api-version: '1.20'
 author: FireML
 description: ${project.description}
+commands:
+  daisylib:
+    description: "Manage the plugin"
+    permission: "daisylib.command"
 folia-supported: true
-dependencies:
-  server:
-    Vault:
-      required: true
-    Denizen:
-      required: false
-    PlaceholderAPI:
-      required: false
+depend:
+  - Vault
+softdepend:
+  - Denizen
+  - PlaceholderAPI
