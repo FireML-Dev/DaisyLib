@@ -1,3 +1,4 @@
 messages:
   prefix: "<gray>[DaisyLib]</gray> "
   reloaded: "<aqua>Successfully reloaded the plugin.</aqua>"
+  usage: "<aqua>Usage: /daisylib reload</aqua>"

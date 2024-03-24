@@ -1,43 +1,37 @@
 package uk.firedev.daisylib.local;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.command.ICommand;
+import dev.jorel.commandapi.CommandAPICommand;
+import dev.jorel.commandapi.CommandPermission;
 import uk.firedev.daisylib.local.config.MessageConfig;
 
-import java.util.List;
+public class LibCommand extends CommandAPICommand {
 
-public class LibCommand implements ICommand {
+    private static LibCommand instance = null;
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (args.length >= 1) {
-            switch (args[0]) {
-                case "reload" -> {
-                    DaisyLib.getInstance().reload();
-                    MessageConfig.getInstance().sendPrefixedMessageFromConfig(sender, "messages.reloaded");
-                }
-            }
-            return true;
-        }
-        return false;
+    private LibCommand() {
+        super("daisylib");
+        setPermission(CommandPermission.fromString("daisylib.command"));
+        withShortDescription("Manage the plugin");
+        withFullDescription("Manage the plugin");
+        withSubcommands(getReloadCommand());
+        executes((sender, arguments) -> {
+            MessageConfig.getInstance().sendPrefixedMessageFromConfig(sender, "messages.usage");
+        });
     }
 
-    @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
-            return List.of();
+    public static LibCommand getInstance() {
+        if (instance == null) {
+            instance = new LibCommand();
         }
+        return instance;
+    }
 
-        return switch (args.length) {
-            case 1 -> processTabCompletions(args[0], List.of(
-                    "reload"
-            ));
-            default -> List.of();
-        };
+    private CommandAPICommand getReloadCommand() {
+        return new CommandAPICommand("reload")
+                .executes(((sender, arguments) -> {
+                    DaisyLib.getInstance().reload();
+                    MessageConfig.getInstance().sendPrefixedMessageFromConfig(sender, "messages.reloaded");
+                }));
     }
 
 }

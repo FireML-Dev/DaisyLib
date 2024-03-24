@@ -31,18 +31,11 @@ public final class DaisyLib extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        try {
-            Class.forName("com.destroystokyo.paper.profile.PlayerProfile");
-        } catch (ClassNotFoundException ex) {
-            Loggers.log(Level.SEVERE, getLogger(), "Paper not found. Please run this plugin on a Paper server!");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
         instance = this;
         scheduler = UniversalScheduler.getScheduler(this);
         CommandAPI.onEnable();
         reload();
-        new LibCommand().registerCommand("daisylib", this);
+        LibCommand.getInstance().register();
         loadManagers();
         registerListeners();
     }
