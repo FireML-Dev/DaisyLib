@@ -28,7 +28,14 @@ public class HealthRewardType implements RewardType {
         } else {
             maxHealth = attribute.getValue();
         }
-        player.setHealth(Math.max(maxHealth, amount));
+        double finalHealth = player.getHealth() + amount;
+        if (finalHealth > maxHealth) {
+            player.setHealth(maxHealth);
+        } else if (finalHealth < 1)  {
+            player.setHealth(1);
+        } else {
+            player.setHealth(finalHealth);
+        }
     }
 
     @Override
