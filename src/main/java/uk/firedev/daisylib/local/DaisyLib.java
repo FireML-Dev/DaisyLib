@@ -6,14 +6,11 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
 import uk.firedev.daisylib.local.config.MainConfig;
 import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.daisylib.reward.RewardManager;
 import uk.firedev.daisylib.utils.BlockUtils;
-
-import java.util.logging.Level;
 
 public final class DaisyLib extends JavaPlugin {
 

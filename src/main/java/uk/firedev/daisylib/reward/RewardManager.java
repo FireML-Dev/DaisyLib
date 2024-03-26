@@ -3,8 +3,9 @@ package uk.firedev.daisylib.reward;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.reward.types.*;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -54,8 +55,8 @@ public class RewardManager {
         return true;
     }
 
-    public Collection<RewardType> getRegisteredRewardTypes() {
-        return rewardTypes.values();
+    public List<RewardType> getRegisteredRewardTypes() {
+        return new ArrayList<>(rewardTypes.values());
     }
 
 }
