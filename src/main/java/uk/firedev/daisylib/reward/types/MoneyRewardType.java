@@ -9,21 +9,23 @@ import uk.firedev.daisylib.local.VaultManager;
 import uk.firedev.daisylib.reward.RewardType;
 import uk.firedev.daisylib.utils.ObjectUtils;
 
-import java.util.logging.Level;
-
 public class MoneyRewardType implements RewardType {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value, int quantity) {
         if (!ObjectUtils.isDouble(value)) {
-            Loggers.log(Level.INFO, getPlugin().getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
+            Loggers.warning(getPlugin().getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;
         }
         double amount = Double.parseDouble(value);
         if (amount < 0) {
             amount = 0.0D;
         }
-        VaultManager.getEconomy().depositPlayer(player, amount);
+        if (VaultManager.getEconomy() == null) {
+            Loggers.warning(getPlugin().getLogger(), "DaisyLib's VaultManager is not enabled! Enable to use RewardType " + getIdentifier());
+        } else {
+            VaultManager.getEconomy().depositPlayer(player, amount);
+        }
     }
 
     @Override
