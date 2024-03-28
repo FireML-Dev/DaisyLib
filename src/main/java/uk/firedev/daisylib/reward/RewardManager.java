@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.reward;
 
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.reward.types.*;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class RewardManager {
         if (rewardTypes.containsKey(identifier.toUpperCase())) {
             return false;
         }
-        Loggers.log(Level.INFO, rewardType.getPlugin().getLogger(), "Registered " + rewardType.getIdentifier() + " RewardType by " + rewardType.getAuthor());
+        DaisyLib.getInstance().getLogger().info("Registered " + rewardType.getIdentifier() + " RewardType by " + rewardType.getAuthor() + " from the plugin " + rewardType.getPlugin().getName());
         rewardTypes.put(identifier.toUpperCase(), rewardType);
         return true;
     }
