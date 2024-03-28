@@ -18,6 +18,7 @@ public class VaultManager {
     private static Chat chat = null;
 
     private final DaisyLib plugin;
+    private boolean loaded = false;
 
     private VaultManager() {
         plugin = DaisyLib.getInstance();
@@ -36,6 +37,8 @@ public class VaultManager {
 
     public static @Nullable Chat getChat() { return chat; }
 
+    public boolean isLoaded() { return loaded; }
+
     public boolean load() {
         if (MainConfig.getInstance().shouldHookVault()) {
             if (!setupEconomy()) {
@@ -50,6 +53,8 @@ public class VaultManager {
                 Loggers.log(Level.WARNING, plugin.getLogger(), "Vault Chat not found. Disabling DaisyLib.");
                 return false;
             }
+            // Only set loaded if the vault hook is enabled.
+            loaded = true;
         }
         return true;
     }
