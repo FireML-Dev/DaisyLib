@@ -16,5 +16,7 @@ dependencies:
       load: BEFORE
     Denizen:
       required: false
+      load: BEFORE
     PlaceholderAPI:
       required: false
+      load: BEFORE
