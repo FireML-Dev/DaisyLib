@@ -54,9 +54,23 @@ public interface MessageUtils {
 
     default String addPrefix(String message) { return getPrefix() + message; }
 
+    default Component addPrefix(Component message) { return ComponentUtils.parseComponent(getPrefix()).append(message); }
+
     default void sendMessage(Audience audience, String string, String... replacements) {
         if (audience != null) {
             audience.sendMessage(ComponentUtils.parseComponent(string, replacements));
+        }
+    }
+
+    default void sendMessage(Audience audience, Component component, Map<String, Component> replacements) {
+        if (audience != null) {
+            audience.sendMessage(ComponentUtils.parsePlaceholders(component, replacements));
+        }
+    }
+
+    default void sendMessage(Audience audience, Component component, String... replacements) {
+        if (audience != null) {
+            audience.sendMessage(ComponentUtils.parsePlaceholders(component, replacements));
         }
     }
 
@@ -81,6 +95,12 @@ public interface MessageUtils {
     default void sendPrefixedMessage(Audience audience, String string) {
         if (audience != null) {
             audience.sendMessage(ComponentUtils.parseComponent(addPrefix(string)));
+        }
+    }
+
+    default void sendPrefixedMessage(Audience audience, Component component) {
+        if (audience != null) {
+            audience.sendMessage(addPrefix(component));
         }
     }
 

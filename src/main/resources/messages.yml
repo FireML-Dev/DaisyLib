@@ -1,4 +1,8 @@
 messages:
   prefix: "<gray>[DaisyLib]</gray> "
-  reloaded: "<aqua>Successfully reloaded the plugin.</aqua>"
-  usage: "<aqua>Usage: /daisylib reload</aqua>"
+  main-command:
+    usage: "<aqua>Usage: /daisylib reload</aqua>"
+    reloaded: "<aqua>Successfully reloaded the plugin.</aqua>"
+    reward-types:
+      none: "<aqua>There are no registered reward types.</aqua>"
+      list: "<aqua>Registered Reward Types:</aqua> <green>{list}</green>"
