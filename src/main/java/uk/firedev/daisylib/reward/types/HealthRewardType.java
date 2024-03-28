@@ -15,7 +15,7 @@ import java.util.logging.Level;
 public class HealthRewardType implements RewardType {
 
     @Override
-    public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value, int quantity) {
+    public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
         if (!ObjectUtils.isDouble(value)) {
             Loggers.log(Level.INFO, getPlugin().getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;

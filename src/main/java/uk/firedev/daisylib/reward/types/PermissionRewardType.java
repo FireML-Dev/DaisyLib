@@ -11,7 +11,7 @@ import uk.firedev.daisylib.reward.RewardType;
 public class PermissionRewardType implements RewardType {
 
     @Override
-    public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value, int quantity) {
+    public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
         if (VaultManager.getPermissions() == null) {
             Loggers.warning(getPlugin().getLogger(), "DaisyLib's VaultManager is not enabled! Enable to use RewardType " + getIdentifier());
         } else {

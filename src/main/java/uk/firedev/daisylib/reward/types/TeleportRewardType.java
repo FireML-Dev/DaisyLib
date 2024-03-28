@@ -15,7 +15,7 @@ import java.util.logging.Level;
 public class TeleportRewardType implements RewardType {
 
     @Override
-    public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value, int quantity) {
+    public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
         String[] split = value.split(",");
         double x;
         double y;

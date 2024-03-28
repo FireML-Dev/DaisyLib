@@ -10,7 +10,7 @@ public interface RewardType {
         return key.equalsIgnoreCase(getIdentifier());
     }
 
-    void doReward(@NotNull Player player, @NotNull String key, @NotNull String value, int quantity);
+    void doReward(@NotNull Player player, @NotNull String key, @NotNull String value);
 
     @NotNull String getIdentifier();
 

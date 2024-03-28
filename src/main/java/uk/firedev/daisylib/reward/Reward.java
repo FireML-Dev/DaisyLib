@@ -13,11 +13,10 @@ public class Reward {
 
     private @NotNull String key;
     private @NotNull String value;
-    private int quantity;
     private final JavaPlugin plugin;
 
-    public Reward(@NotNull String identifier, JavaPlugin plugin) {
-        this.plugin = Objects.requireNonNullElse(plugin, DaisyLib.getInstance());
+    public Reward(@NotNull String identifier, @NotNull JavaPlugin plugin) {
+        this.plugin = plugin;
         String[] split = identifier.split(":");
         try {
             this.key = split[0];
@@ -30,21 +29,12 @@ public class Reward {
         } catch (IndexOutOfBoundsException ex) {
             this.value = "";
         }
-        String[] quantitySplit = identifier.split(";");
-        try {
-            String quantity = quantitySplit[1];
-            this.key = this.key.replace(";" + quantity, "");
-            this.value = this.value.replace(";" + quantity, "");
-            this.quantity = Integer.parseInt(quantity);
-        } catch (IndexOutOfBoundsException|NumberFormatException ex) {
-            this.quantity = 1;
-        }
     }
 
     public void rewardPlayer(@NotNull Player player) {
         for (RewardType rewardType : RewardManager.getInstance().getRegisteredRewardTypes()) {
             if (rewardType.isApplicable(this.key)) {
-                rewardType.doReward(player, this.key, this.value, this.quantity);
+                rewardType.doReward(player, this.key, this.value);
                 return;
             }
         }

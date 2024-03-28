@@ -12,7 +12,7 @@ import uk.firedev.daisylib.utils.ObjectUtils;
 public class MoneyRewardType implements RewardType {
 
     @Override
-    public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value, int quantity) {
+    public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
         if (!ObjectUtils.isDouble(value)) {
             Loggers.warning(getPlugin().getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;
