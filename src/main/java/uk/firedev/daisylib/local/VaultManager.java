@@ -5,7 +5,9 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.local.config.MainConfig;
 
+import javax.annotation.Nullable;
 import java.util.logging.Level;
 
 public class VaultManager {
@@ -28,24 +30,26 @@ public class VaultManager {
         return instance;
     }
 
-    public static Economy getEconomy() { return economy; }
+    public static @Nullable Economy getEconomy() { return economy; }
 
-    public static Permission getPermissions() { return permission; }
+    public static @Nullable Permission getPermissions() { return permission; }
 
-    public static Chat getChat() { return chat; }
+    public static @Nullable Chat getChat() { return chat; }
 
     public boolean load() {
-        if (!setupEconomy()) {
-            Loggers.log(Level.WARNING, plugin.getLogger(), "Vault Economy not found. Disabling DaisyLib.");
-            return false;
-        }
-        if (!setupPermissions()) {
-            Loggers.log(Level.WARNING, plugin.getLogger(), "Vault Permissions not found. Disabling DaisyLib.");
-            return false;
-        }
-        if (!setupChat()) {
-            Loggers.log(Level.WARNING, plugin.getLogger(), "Vault Chat not found. Disabling DaisyLib.");
-            return false;
+        if (MainConfig.getInstance().shouldHookVault()) {
+            if (!setupEconomy()) {
+                Loggers.log(Level.WARNING, plugin.getLogger(), "Vault Economy not found. Disabling DaisyLib.");
+                return false;
+            }
+            if (!setupPermissions()) {
+                Loggers.log(Level.WARNING, plugin.getLogger(), "Vault Permissions not found. Disabling DaisyLib.");
+                return false;
+            }
+            if (!setupChat()) {
+                Loggers.log(Level.WARNING, plugin.getLogger(), "Vault Chat not found. Disabling DaisyLib.");
+                return false;
+            }
         }
         return true;
     }

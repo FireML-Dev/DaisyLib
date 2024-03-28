@@ -21,6 +21,8 @@ public class MainConfig extends uk.firedev.daisylib.Config {
 
     public boolean doMoveChunkEvent() { return getConfig().getBoolean("config.custom-events.move-chunk", true); }
 
-    public boolean doPlaceBreak() { return getConfig().getBoolean("config.enablePlaceBreak", true);  }
+    public boolean doPlaceBreak() { return getConfig().getBoolean("config.enablePlaceBreak", true); }
+
+    public boolean shouldHookVault() { return getConfig().getBoolean("config.vault"); }
 
 }
