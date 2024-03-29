@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.utils;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -100,8 +101,22 @@ public class ComponentUtils {
         return getHoverItem(player.getInventory().getItemInMainHand());
     }
 
+    public static Component getMainHandHoverItem(Audience audience) {
+        if (!(audience instanceof Player player)) {
+            return parseComponent("<white>[None]</white>");
+        }
+        return getHoverItem(player.getInventory().getItemInMainHand());
+    }
+
     public static Component getOffHandHoverItem(Player player) {
         if (player == null) {
+            return parseComponent("<white>[None]</white>");
+        }
+        return getHoverItem(player.getInventory().getItemInOffHand());
+    }
+
+    public static Component getOffHandHoverItem(Audience audience) {
+        if (!(audience instanceof Player player)) {
             return parseComponent("<white>[None]</white>");
         }
         return getHoverItem(player.getInventory().getItemInOffHand());
