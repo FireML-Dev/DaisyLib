@@ -43,43 +43,83 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder withDisplay(Component display) {
-        this.display = display;
+    public ItemBuilder withDisplay(@NotNull Component display, String... replacements) {
+        this.display = ComponentUtils.parsePlaceholders(display, replacements);
         return this;
     }
 
-    public ItemBuilder withStringDisplay(String display) {
-        this.display = ComponentUtils.parseComponent(display);
+    public ItemBuilder withDisplay(@NotNull Component display, Map<String, Component> replacements) {
+        this.display = ComponentUtils.parsePlaceholders(display, replacements);
         return this;
     }
 
-    public ItemBuilder withLore(List<Component> lore) {
-        this.lore = lore;
+    public ItemBuilder withStringDisplay(@NotNull String display, String... replacements) {
+        this.display = ComponentUtils.parseComponent(display, replacements);
         return this;
     }
 
-    public ItemBuilder withStringLore(List<String> lore) {
-        this.lore = ComponentUtils.parseComponentList(lore);
+    public ItemBuilder withStringDisplay(@NotNull String display, Map<String, Component> replacements) {
+        this.display = ComponentUtils.parseComponent(display, replacements);
         return this;
     }
 
-    public ItemBuilder addLore(Component line) {
-        this.lore.add(line);
+    public ItemBuilder withLore(@NotNull List<Component> lore, String... replacements) {
+        this.lore = ComponentUtils.parsePlaceholders(lore, replacements);
         return this;
     }
 
-    public ItemBuilder addStringLore(String line) {
-        this.lore.add(ComponentUtils.parseComponent(line));
+    public ItemBuilder withLore(@NotNull List<Component> lore, Map<String, Component> replacements) {
+        this.lore = ComponentUtils.parsePlaceholders(lore, replacements);
         return this;
     }
 
-    public ItemBuilder addLore(List<Component> lines) {
-        this.lore.addAll(lines);
+    public ItemBuilder withStringLore(@NotNull List<String> lore, String... replacements) {
+        this.lore = ComponentUtils.parseComponentList(lore, replacements);
         return this;
     }
 
-    public ItemBuilder addStringLore(List<String> lines) {
-        this.lore.addAll(ComponentUtils.parseComponentList(lines));
+    public ItemBuilder withStringLore(@NotNull List<String> lore, Map<String, Component> replacements) {
+        this.lore = ComponentUtils.parseComponentList(lore, replacements);
+        return this;
+    }
+
+    public ItemBuilder addLore(@NotNull Component line, String... replacements) {
+        this.lore.add(ComponentUtils.parsePlaceholders(line, replacements));
+        return this;
+    }
+
+    public ItemBuilder addLore(@NotNull Component line, Map<String, Component> replacements) {
+        this.lore.add(ComponentUtils.parsePlaceholders(line, replacements));
+        return this;
+    }
+
+    public ItemBuilder addStringLore(@NotNull String line, String... replacements) {
+        this.lore.add(ComponentUtils.parseComponent(line, replacements));
+        return this;
+    }
+
+    public ItemBuilder addStringLore(@NotNull String line, Map<String, Component> replacements) {
+        this.lore.add(ComponentUtils.parseComponent(line, replacements));
+        return this;
+    }
+
+    public ItemBuilder addLore(@NotNull List<Component> lines, String... replacements) {
+        this.lore.addAll(ComponentUtils.parsePlaceholders(lines, replacements));
+        return this;
+    }
+
+    public ItemBuilder addLore(@NotNull List<Component> lines, Map<String, Component> replacements) {
+        this.lore.addAll(ComponentUtils.parsePlaceholders(lines, replacements));
+        return this;
+    }
+
+    public ItemBuilder addStringLore(@NotNull List<String> lines, String... replacements) {
+        this.lore.addAll(ComponentUtils.parseComponentList(lines, replacements));
+        return this;
+    }
+
+    public ItemBuilder addStringLore(@NotNull List<String> lines, Map<String, Component> replacements) {
+        this.lore.addAll(ComponentUtils.parseComponentList(lines, replacements));
         return this;
     }
 
@@ -93,19 +133,19 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder addFlag(ItemFlag flag) {
+    public ItemBuilder addFlag(@NotNull ItemFlag flag) {
         if (!this.flags.contains(flag)) {
             this.flags.add(flag);
         }
         return this;
     }
 
-    public ItemBuilder removeFlag(ItemFlag flag) {
+    public ItemBuilder removeFlag(@NotNull ItemFlag flag) {
         this.flags.remove(flag);
         return this;
     }
 
-    public ItemBuilder addFlags(List<ItemFlag> flags) {
+    public ItemBuilder addFlags(@NotNull List<ItemFlag> flags) {
         flags.forEach(flag -> {
             if (!this.flags.contains(flag)) {
                 this.flags.add(flag);
@@ -114,12 +154,12 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder removeFlags(List<ItemFlag> flags) {
+    public ItemBuilder removeFlags(@NotNull List<ItemFlag> flags) {
         this.flags.removeAll(flags);
         return this;
     }
 
-    public ItemBuilder setEnchantments(Map<Enchantment, Integer> enchantments) {
+    public ItemBuilder setEnchantments(@NotNull Map<Enchantment, Integer> enchantments) {
         this.enchantments = enchantments;
         return this;
     }
@@ -129,22 +169,22 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder addEnchantment(Enchantment enchantment, int level) {
+    public ItemBuilder addEnchantment(@NotNull Enchantment enchantment, int level) {
         this.enchantments.put(enchantment, level);
         return this;
     }
 
-    public ItemBuilder removeEnchantment(Enchantment enchantment) {
+    public ItemBuilder removeEnchantment(@NotNull Enchantment enchantment) {
         this.enchantments.remove(enchantment);
         return this;
     }
 
-    public ItemBuilder addEnchantments(Map<Enchantment, Integer> enchantments) {
+    public ItemBuilder addEnchantments(@NotNull Map<Enchantment, Integer> enchantments) {
         this.enchantments.putAll(enchantments);
         return this;
     }
 
-    public ItemBuilder removeEnchantments(List<Enchantment> enchantments) {
+    public ItemBuilder removeEnchantments(@NotNull List<Enchantment> enchantments) {
         enchantments.forEach(enchantment -> this.enchantments.remove(enchantment));
         return this;
     }

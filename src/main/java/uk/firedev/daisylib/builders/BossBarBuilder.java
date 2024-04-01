@@ -19,13 +19,23 @@ public class BossBarBuilder {
     private BossBar.Color color = BossBar.Color.WHITE;
     private Set<BossBar.Flag> flags = new HashSet<>();
 
-    public BossBarBuilder withTitle(@NotNull Component title) {
-        this.title = title;
+    public BossBarBuilder withTitle(@NotNull Component title, String... replacements) {
+        this.title = ComponentUtils.parsePlaceholders(title, replacements);
         return this;
     }
 
-    public BossBarBuilder withStringTitle(@NotNull String title) {
-        this.title = ComponentUtils.parseComponent(title);
+    public BossBarBuilder withTitle(@NotNull Component title, Map<String, Component> replacements) {
+        this.title = ComponentUtils.parsePlaceholders(title, replacements);
+        return this;
+    }
+
+    public BossBarBuilder withStringTitle(@NotNull String title, String... replacements) {
+        this.title = ComponentUtils.parseComponent(title, replacements);
+        return this;
+    }
+
+    public BossBarBuilder withStringTitle(@NotNull String title, Map<String, Component> replacements) {
+        this.title = ComponentUtils.parseComponent(title, replacements);
         return this;
     }
 

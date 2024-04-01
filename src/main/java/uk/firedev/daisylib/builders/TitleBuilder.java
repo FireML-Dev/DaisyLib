@@ -70,23 +70,43 @@ public class TitleBuilder {
         return this;
     }
 
-    public TitleBuilder withTitle(@NotNull Component title) {
-        this.title = title;
+    public TitleBuilder withTitle(@NotNull Component title, String... replacements) {
+        this.title = ComponentUtils.parsePlaceholders(title, replacements);
         return this;
     }
 
-    public TitleBuilder withStringTitle(@NotNull String title) {
-        this.title = ComponentUtils.parseComponent(title);
+    public TitleBuilder withTitle(@NotNull Component title, Map<String, Component> replacements) {
+        this.title = ComponentUtils.parsePlaceholders(title, replacements);
         return this;
     }
 
-    public TitleBuilder withSubtitle(@NotNull Component subtitle) {
-        this.subtitle = subtitle;
+    public TitleBuilder withStringTitle(@NotNull String title, String... replacements) {
+        this.title = ComponentUtils.parseComponent(title, replacements);
         return this;
     }
 
-    public TitleBuilder withStringSubtitle(@NotNull String subtitle) {
-        this.subtitle = ComponentUtils.parseComponent(subtitle);
+    public TitleBuilder withStringTitle(@NotNull String title, Map<String, Component> replacements) {
+        this.title = ComponentUtils.parseComponent(title, replacements);
+        return this;
+    }
+
+    public TitleBuilder withSubtitle(@NotNull Component subtitle, String... replacements) {
+        this.subtitle = ComponentUtils.parsePlaceholders(subtitle, replacements);
+        return this;
+    }
+
+    public TitleBuilder withSubtitle(@NotNull Component subtitle, Map<String, Component> replacements) {
+        this.subtitle = ComponentUtils.parsePlaceholders(subtitle, replacements);
+        return this;
+    }
+
+    public TitleBuilder withStringSubtitle(@NotNull String subtitle, String... replacements) {
+        this.subtitle = ComponentUtils.parseComponent(subtitle, replacements);
+        return this;
+    }
+
+    public TitleBuilder withStringSubtitle(@NotNull String subtitle, Map<String, Component> replacements) {
+        this.subtitle = ComponentUtils.parseComponent(subtitle, replacements);
         return this;
     }
 
