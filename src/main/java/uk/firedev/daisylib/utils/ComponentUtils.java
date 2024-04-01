@@ -36,6 +36,10 @@ public class ComponentUtils {
         return originalList.stream().map(string -> parseComponent(string, replacements)).toList();
     }
 
+    public static List<Component> parseComponentList(List<String> originalList, Map<String, Component> replacements) {
+        return originalList.stream().map(string -> parseComponent(string, replacements)).toList();
+    }
+
     public static String toString(Component component) {
         return MiniMessage.miniMessage().serialize(component);
     }
