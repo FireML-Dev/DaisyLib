@@ -123,6 +123,32 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder setLoreStringPlaceholder(@NotNull String value, @NotNull List<String> replacement) {
+        List<Component> newLore = new ArrayList<>();
+        lore.forEach(initialComponent -> {
+            if (ComponentUtils.toUncoloredString(initialComponent).equals(value)) {
+                replacement.forEach(replacementComponent -> newLore.add(ComponentUtils.parseComponent(replacementComponent).mergeStyle(initialComponent)));
+            } else {
+                newLore.add(initialComponent);
+            }
+        });
+        lore = newLore;
+        return this;
+    }
+
+    public ItemBuilder setLorePlaceholder(@NotNull String value, @NotNull List<Component> replacement) {
+        List<Component> newLore = new ArrayList<>();
+        lore.forEach(initialComponent -> {
+            if (ComponentUtils.toUncoloredString(initialComponent).equals(value)) {
+                replacement.forEach(replacementComponent -> newLore.add(replacementComponent.mergeStyle(initialComponent)));
+            } else {
+                newLore.add(initialComponent);
+            }
+        });
+        lore = newLore;
+        return this;
+    }
+
     public ItemBuilder addAllFlags() {
         this.flags = List.of(ItemFlag.values());
         return this;
