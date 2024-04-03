@@ -26,7 +26,7 @@ public class ComponentReplacer {
     }
 
     public ComponentReplacer replace(Map<String, Component> replacements) {
-        if (component == null || replacements == null) {
+        if (this.component == null || replacements == null || replacements.isEmpty()) {
             return this;
         }
         replacements.forEach((string, replaceComponent) -> {
@@ -37,8 +37,8 @@ public class ComponentReplacer {
         return this;
     }
 
-    public ComponentReplacer replace(String[] replacements) {
-        if (component == null || replacements == null) {
+    public ComponentReplacer replace(String... replacements) {
+        if (this.component == null || replacements == null) {
             return this;
         }
         if (!(replacements.length % 2 == 0)) {

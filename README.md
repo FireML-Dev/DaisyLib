@@ -11,6 +11,8 @@ https://ci.firedev.uk/job/DaisyLib/
         <id>firedev-repo</id>
         <url>https://repo.firedev.uk/repository/maven-public/</url>
     </repository>
+```
+```xml
     <dependencies>
         <dependency>
             <groupId>uk.firedev</groupId>

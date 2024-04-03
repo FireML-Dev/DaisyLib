@@ -4,9 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.local.DaisyLib;
 
-import java.util.Objects;
 import java.util.logging.Level;
 
 public class Reward {

@@ -23,7 +23,7 @@ public class StringReplacer {
     }
 
     public StringReplacer replace(Map<String, String> replacements) {
-        if (string == null || replacements == null) {
+        if (this.string == null || replacements == null || replacements.isEmpty()) {
             return this;
         }
         replacements.forEach((string, replaceString) -> {
@@ -35,7 +35,7 @@ public class StringReplacer {
         return this;
     }
 
-    public StringReplacer replace(String[] replacements) {
+    public StringReplacer replace(String... replacements) {
         if (string == null || replacements == null) {
             return this;
         }

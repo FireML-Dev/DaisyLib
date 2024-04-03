@@ -43,8 +43,7 @@ public class ObjectUtils {
 
     public static boolean isInt(String str) {
         try {
-            int d = Integer.parseInt(str);
-            d = d + 1;
+            int i = Integer.parseInt(str);
         } catch (NumberFormatException ex) {
             return false;
         }
@@ -54,7 +53,6 @@ public class ObjectUtils {
     public static boolean isDouble(String str) {
         try {
             double d = Double.parseDouble(str);
-            d = d + 1;
         } catch (NumberFormatException ex) {
             return false;
         }
