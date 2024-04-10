@@ -6,6 +6,7 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
 import uk.firedev.daisylib.local.config.MainConfig;
 import uk.firedev.daisylib.local.config.MessageConfig;
