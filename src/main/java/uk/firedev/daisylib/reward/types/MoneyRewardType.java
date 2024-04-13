@@ -4,8 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.VaultManager;
+import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.reward.RewardType;
 import uk.firedev.daisylib.utils.ObjectUtils;
 
