@@ -42,24 +42,20 @@ public class VaultManager {
 
     public boolean isLoaded() { return loaded; }
 
-    public boolean load() {
+    public void load() {
         if (MainConfig.getInstance().shouldHookVault()) {
             if (!setupEconomy()) {
                 Loggers.log(Level.WARNING, DaisyLib.getInstance().getLogger(), "Vault Economy not found.");
-                return false;
             }
             if (!setupPermissions()) {
                 Loggers.log(Level.WARNING, DaisyLib.getInstance().getLogger(), "Vault Permissions not found.");
-                return false;
             }
             if (!setupChat()) {
                 Loggers.log(Level.WARNING, DaisyLib.getInstance().getLogger(), "Vault Chat not found.");
-                return false;
             }
             // Only set loaded if the vault hook is enabled.
             loaded = true;
         }
-        return true;
     }
 
     private boolean setupEconomy() {
