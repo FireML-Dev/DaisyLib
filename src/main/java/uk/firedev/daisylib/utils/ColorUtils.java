@@ -175,7 +175,7 @@ public class ColorUtils {
 
     public static String legacyToMiniMessage(String string) {
         Component component = LegacyComponentSerializer.legacySection().deserialize(convertColors(string, true));
-        return ComponentUtils.toString(component);
+        return ComponentUtils.serializeComponent(component);
     }
 
 }

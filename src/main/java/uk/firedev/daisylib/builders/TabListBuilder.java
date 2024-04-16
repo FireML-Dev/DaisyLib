@@ -26,12 +26,12 @@ public class TabListBuilder {
     }
 
     public TabListBuilder withStringHeader(@NotNull String header, String... replacements) {
-        this.header = ComponentUtils.parseComponent(header, replacements);
+        this.header = ComponentUtils.deserializeString(header, replacements);
         return this;
     }
 
     public TabListBuilder withStringHeader(@NotNull String header, Map<String, Component> replacements) {
-        this.header = ComponentUtils.parseComponent(header, replacements);
+        this.header = ComponentUtils.deserializeString(header, replacements);
         return this;
     }
 
@@ -46,12 +46,12 @@ public class TabListBuilder {
     }
 
     public TabListBuilder withStringFooter(@NotNull String footer, String... replacements) {
-        this.footer = ComponentUtils.parseComponent(footer, replacements);
+        this.footer = ComponentUtils.deserializeString(footer, replacements);
         return this;
     }
 
     public TabListBuilder withStringFooter(@NotNull String footer, Map<String, Component> replacements) {
-        this.footer = ComponentUtils.parseComponent(footer, replacements);
+        this.footer = ComponentUtils.deserializeString(footer, replacements);
         return this;
     }
 

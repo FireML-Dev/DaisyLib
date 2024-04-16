@@ -110,7 +110,7 @@ public class StringReplacer {
     }
 
     public ComponentReplacer toComponentReplacer() {
-        return new ComponentReplacer(ComponentUtils.parseComponent(string))
+        return new ComponentReplacer(ComponentUtils.deserializeString(string))
                 .prefix(this.prefix)
                 .suffix(this.suffix);
     }

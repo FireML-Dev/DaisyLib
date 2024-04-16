@@ -81,12 +81,12 @@ public class TitleBuilder {
     }
 
     public TitleBuilder withStringTitle(@NotNull String title, String... replacements) {
-        this.title = ComponentUtils.parseComponent(title, replacements);
+        this.title = ComponentUtils.deserializeString(title, replacements);
         return this;
     }
 
     public TitleBuilder withStringTitle(@NotNull String title, Map<String, Component> replacements) {
-        this.title = ComponentUtils.parseComponent(title, replacements);
+        this.title = ComponentUtils.deserializeString(title, replacements);
         return this;
     }
 
@@ -101,12 +101,12 @@ public class TitleBuilder {
     }
 
     public TitleBuilder withStringSubtitle(@NotNull String subtitle, String... replacements) {
-        this.subtitle = ComponentUtils.parseComponent(subtitle, replacements);
+        this.subtitle = ComponentUtils.deserializeString(subtitle, replacements);
         return this;
     }
 
     public TitleBuilder withStringSubtitle(@NotNull String subtitle, Map<String, Component> replacements) {
-        this.subtitle = ComponentUtils.parseComponent(subtitle, replacements);
+        this.subtitle = ComponentUtils.deserializeString(subtitle, replacements);
         return this;
     }
 

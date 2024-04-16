@@ -59,9 +59,9 @@ public class LibCommand extends CommandAPICommand {
         Component message = MessageConfig.getInstance().getConfig().getRichMessage("messages.main-command.reward-types.list");
         TextComponent.Builder builder = Component.text();
         types.forEach(rewardType -> {
-            Component identifier = ComponentUtils.parseComponent(rewardType.getIdentifier());
+            Component identifier = ComponentUtils.deserializeString(rewardType.getIdentifier());
             identifier = identifier.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    ComponentUtils.parseComponent(
+                    ComponentUtils.deserializeString(
                             "<white>Author: " + rewardType.getAuthor() + "\n" +
                             "<white>Registered Plugin: " + rewardType.getPlugin().getName()
                     )

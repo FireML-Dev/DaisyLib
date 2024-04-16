@@ -73,7 +73,7 @@ public class ItemUtils {
         ItemStack item = getHead(uuid);
         if (name != null && !name.equals("none")) {
             SkullMeta skull = (SkullMeta) item.getItemMeta();
-            skull.displayName(ComponentUtils.parseComponent(name));
+            skull.displayName(ComponentUtils.deserializeString(name));
             item.setItemMeta(skull);
         }
         return hideAllFlags(item);

@@ -28,12 +28,12 @@ public class BookBuilder {
     }
 
     public BookBuilder withStringTitle(@NotNull String title, String... replacements) {
-        this.title = ComponentUtils.parseComponent(title, replacements);
+        this.title = ComponentUtils.deserializeString(title, replacements);
         return this;
     }
 
     public BookBuilder withStringTitle(@NotNull String title, Map<String, Component> replacements) {
-        this.title = ComponentUtils.parseComponent(title, replacements);
+        this.title = ComponentUtils.deserializeString(title, replacements);
         return this;
     }
 
@@ -43,7 +43,7 @@ public class BookBuilder {
     }
 
     public BookBuilder withStringAuthor(@NotNull String author) {
-        this.author = ComponentUtils.parseComponent(author);
+        this.author = ComponentUtils.deserializeString(author);
         return this;
     }
 
@@ -58,12 +58,12 @@ public class BookBuilder {
     }
 
     public BookBuilder withStringPages(@NotNull List<String> pages, String... replacements) {
-        this.pages = ComponentUtils.parseComponentList(pages, replacements);
+        this.pages = ComponentUtils.deserializeStringList(pages, replacements);
         return this;
     }
 
     public BookBuilder withStringPages(@NotNull List<String> pages, Map<String, Component> replacements) {
-        this.pages = ComponentUtils.parseComponentList(pages, replacements);
+        this.pages = ComponentUtils.deserializeStringList(pages, replacements);
         return this;
     }
 
@@ -78,12 +78,12 @@ public class BookBuilder {
     }
 
     public BookBuilder addStringPage(@NotNull String page, String... replacements) {
-        this.pages.add(ComponentUtils.parseComponent(page, replacements));
+        this.pages.add(ComponentUtils.deserializeString(page, replacements));
         return this;
     }
 
     public BookBuilder addStringPage(@NotNull String page, Map<String, Component> replacements) {
-        this.pages.add(ComponentUtils.parseComponent(page, replacements));
+        this.pages.add(ComponentUtils.deserializeString(page, replacements));
         return this;
     }
 
@@ -98,12 +98,12 @@ public class BookBuilder {
     }
 
     public BookBuilder addStringPages(@NotNull List<String> pages, String... replacements) {
-        this.pages.addAll(ComponentUtils.parseComponentList(pages, replacements));
+        this.pages.addAll(ComponentUtils.deserializeStringList(pages, replacements));
         return this;
     }
 
     public BookBuilder addStringPages(@NotNull List<String> pages, Map<String, Component> replacements) {
-        this.pages.addAll(ComponentUtils.parseComponentList(pages, replacements));
+        this.pages.addAll(ComponentUtils.deserializeStringList(pages, replacements));
         return this;
     }
 

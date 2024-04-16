@@ -54,12 +54,12 @@ public class ItemBuilder {
     }
 
     public ItemBuilder withStringDisplay(@NotNull String display, String... replacements) {
-        this.display = ComponentUtils.parseComponent(display, replacements);
+        this.display = ComponentUtils.deserializeString(display, replacements);
         return this;
     }
 
     public ItemBuilder withStringDisplay(@NotNull String display, Map<String, Component> replacements) {
-        this.display = ComponentUtils.parseComponent(display, replacements);
+        this.display = ComponentUtils.deserializeString(display, replacements);
         return this;
     }
 
@@ -74,12 +74,12 @@ public class ItemBuilder {
     }
 
     public ItemBuilder withStringLore(@NotNull List<String> lore, String... replacements) {
-        this.lore = ComponentUtils.parseComponentList(lore, replacements);
+        this.lore = ComponentUtils.deserializeStringList(lore, replacements);
         return this;
     }
 
     public ItemBuilder withStringLore(@NotNull List<String> lore, Map<String, Component> replacements) {
-        this.lore = ComponentUtils.parseComponentList(lore, replacements);
+        this.lore = ComponentUtils.deserializeStringList(lore, replacements);
         return this;
     }
 
@@ -94,12 +94,12 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addStringLore(@NotNull String line, String... replacements) {
-        this.lore.add(ComponentUtils.parseComponent(line, replacements));
+        this.lore.add(ComponentUtils.deserializeString(line, replacements));
         return this;
     }
 
     public ItemBuilder addStringLore(@NotNull String line, Map<String, Component> replacements) {
-        this.lore.add(ComponentUtils.parseComponent(line, replacements));
+        this.lore.add(ComponentUtils.deserializeString(line, replacements));
         return this;
     }
 
@@ -114,20 +114,20 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addStringLore(@NotNull List<String> lines, String... replacements) {
-        this.lore.addAll(ComponentUtils.parseComponentList(lines, replacements));
+        this.lore.addAll(ComponentUtils.deserializeStringList(lines, replacements));
         return this;
     }
 
     public ItemBuilder addStringLore(@NotNull List<String> lines, Map<String, Component> replacements) {
-        this.lore.addAll(ComponentUtils.parseComponentList(lines, replacements));
+        this.lore.addAll(ComponentUtils.deserializeStringList(lines, replacements));
         return this;
     }
 
     public ItemBuilder setLoreStringPlaceholder(@NotNull String value, @NotNull List<String> replacement) {
         List<Component> newLore = new ArrayList<>();
         lore.forEach(initialComponent -> {
-            if (ComponentUtils.toUncoloredString(initialComponent).equals(value)) {
-                replacement.forEach(replacementComponent -> newLore.add(ComponentUtils.parseComponent(replacementComponent).mergeStyle(initialComponent)));
+            if (ComponentUtils.matchesString(initialComponent, value)) {
+                replacement.forEach(replacementComponent -> newLore.add(ComponentUtils.deserializeString(replacementComponent).mergeStyle(initialComponent)));
             } else {
                 newLore.add(initialComponent);
             }
@@ -139,7 +139,7 @@ public class ItemBuilder {
     public ItemBuilder setLorePlaceholder(@NotNull String value, @NotNull List<Component> replacement) {
         List<Component> newLore = new ArrayList<>();
         lore.forEach(initialComponent -> {
-            if (ComponentUtils.toUncoloredString(initialComponent).equals(value)) {
+            if (ComponentUtils.matchesString(initialComponent, value)) {
                 replacement.forEach(replacementComponent -> newLore.add(replacementComponent.mergeStyle(initialComponent)));
             } else {
                 newLore.add(initialComponent);

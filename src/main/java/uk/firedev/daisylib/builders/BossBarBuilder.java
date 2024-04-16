@@ -30,12 +30,12 @@ public class BossBarBuilder {
     }
 
     public BossBarBuilder withStringTitle(@NotNull String title, String... replacements) {
-        this.title = ComponentUtils.parseComponent(title, replacements);
+        this.title = ComponentUtils.deserializeString(title, replacements);
         return this;
     }
 
     public BossBarBuilder withStringTitle(@NotNull String title, Map<String, Component> replacements) {
-        this.title = ComponentUtils.parseComponent(title, replacements);
+        this.title = ComponentUtils.deserializeString(title, replacements);
         return this;
     }
 

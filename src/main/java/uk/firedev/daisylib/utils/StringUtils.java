@@ -90,9 +90,9 @@ public class StringUtils {
     }
 
     public static void broadcastMessage(String msg) {
-        Bukkit.broadcast(ComponentUtils.parseComponent(msg));
+        Bukkit.broadcast(ComponentUtils.deserializeString(msg));
     }
 
-    public static void sendActionBar(String msg, Player player) { player.sendActionBar(ComponentUtils.parseComponent(msg)); }
+    public static void sendActionBar(String msg, Player player) { player.sendActionBar(ComponentUtils.deserializeString(msg)); }
 
 }
