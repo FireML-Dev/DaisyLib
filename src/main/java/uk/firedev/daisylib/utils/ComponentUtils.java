@@ -119,7 +119,8 @@ public class ComponentUtils {
         if (item == null) {
             return deserializeString("<white>[None]</white>");
         }
-        Component hover = item.displayName();
+        Component quantity = deserializeString(item.getAmount() + "x ");
+        Component hover = quantity.append(item.displayName());
         hover = hover.hoverEvent(item);
         return hover;
     }
