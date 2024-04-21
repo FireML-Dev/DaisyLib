@@ -14,7 +14,7 @@ public class MoneyRewardType implements RewardType {
     @Override
     public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
         if (!ObjectUtils.isDouble(value)) {
-            Loggers.warning(getPlugin().getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
+            Loggers.warning(getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;
         }
         double amount = Double.parseDouble(value);
@@ -22,7 +22,7 @@ public class MoneyRewardType implements RewardType {
             amount = 0.0D;
         }
         if (VaultManager.getEconomy() == null) {
-            Loggers.warning(getPlugin().getLogger(), "DaisyLib's VaultManager is not enabled! Enable to use RewardType " + getIdentifier());
+            Loggers.warning(getLogger(), "DaisyLib's VaultManager is not enabled! Enable to use RewardType " + getIdentifier());
         } else {
             VaultManager.getEconomy().depositPlayer(player, amount);
         }

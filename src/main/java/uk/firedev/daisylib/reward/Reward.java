@@ -4,8 +4,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.local.DaisyLib;
 
+import java.util.Arrays;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Reward {
 
@@ -18,24 +21,32 @@ public class Reward {
         String[] split = identifier.split(":");
         try {
             this.key = split[0];
+            this.value = String.join(":", Arrays.copyOfRange(split, 1, split.length));
         } catch (IndexOutOfBoundsException ex) {
-            Loggers.log(Level.INFO, this.plugin.getLogger(), "Broken reward " + identifier);
+            Loggers.log(Level.WARNING, getLogger(), "Broken reward " + identifier);
             this.key = "";
-        }
-        try {
-            this.value = split[1];
-        } catch (IndexOutOfBoundsException ex) {
             this.value = "";
         }
     }
 
     public void rewardPlayer(@NotNull Player player) {
+        if (this.key.isEmpty() || this.value.isEmpty()) {
+            Loggers.log(Level.WARNING, getLogger(), "Attempted to give an invalid Reward. Please check for earlier warnings.");
+            return;
+        }
         for (RewardType rewardType : RewardManager.getInstance().getRegisteredRewardTypes()) {
             if (rewardType.isApplicable(this.key)) {
                 rewardType.doReward(player, this.key, this.value);
                 return;
             }
         }
+    }
+
+    public Logger getLogger() {
+        if (plugin instanceof DaisyLib) {
+            return plugin.getLogger();
+        }
+        return Logger.getLogger("DaisyLib via " + plugin.getName());
     }
 
 }
