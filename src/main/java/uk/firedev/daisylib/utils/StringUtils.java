@@ -9,69 +9,33 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.replacers.StringReplacer;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
 public class StringUtils {
 
-    public static String parseColors(String s, String... replacements) {
-        if (s == null) {
-            return "";
-        }
-        s = new StringReplacer(s).replace(replacements).build();
-        s = ColorUtils.convertColors(s, true);
-        s = ColorUtils.hexToLegacy(s);
-        return s;
-    }
-
-    public static String stripColors(String s) {
-        if (s == null) {
-            return "";
-        }
-        return ColorUtils.removeColors(s, true);
-    }
-
-    public static String parsePlaceholders(String s, String... replacements) {
-        if (s == null) {
-            return "";
-        }
+    public static String parsePlaceholders(@NotNull String s, String... replacements) {
         return new StringReplacer(s).replace(replacements).build();
     }
 
-    public static String parsePlaceholders(String s, Map<String, String> replacements) {
-        if (s == null) {
-            return "";
-        }
-        if (s.isEmpty() || replacements == null || replacements.isEmpty()) {
+    public static String parsePlaceholders(@NotNull String s, @NotNull Map<String, String> replacements) {
+        if (s.isEmpty() || replacements.isEmpty()) {
             return s;
         }
         return new StringReplacer(s).replace(replacements).build();
     }
 
-    public static List<String> parsePlaceholders(List<String> sl, String... replacements) {
-        if (sl == null) {
-            return new ArrayList<>();
-        }
-        List<String> returnList = new ArrayList<>();
-        sl.forEach(string -> returnList.add(parsePlaceholders(string, replacements)));
-        return returnList;
+    public static List<String> parsePlaceholders(@NotNull List<String> list, String... replacements) {
+        return list.stream().map(string -> parsePlaceholders(string, replacements)).toList();
     }
 
-    public static List<String> parsePlaceholders(List<String> sl, Map<String, String> replacements) {
-        if (sl == null) {
-            return new ArrayList<>();
-        }
-        if (sl.isEmpty() || replacements == null || replacements.isEmpty()) {
-            return sl;
-        }
-        List<String> returnList = new ArrayList<>();
-        sl.forEach(string -> returnList.add(parsePlaceholders(string, replacements)));
-        return returnList;
+    public static List<String> parsePlaceholders(@NotNull List<String> list, @NotNull Map<String, String> replacements) {
+        return list.stream().map(string -> parsePlaceholders(string, replacements)).toList();
     }
 
-    public static String parsePAPI(@NotNull String msg, OfflinePlayer player) {
+    public static String parsePAPI(@NotNull String msg, @NotNull OfflinePlayer player) {
         if (DaisyLib.getInstance().papiEnabled) {
             return PlaceholderAPI.setPlaceholders(player, msg);
         }
@@ -79,14 +43,48 @@ public class StringUtils {
         return msg;
     }
 
-    public static String stringFromList(List<String> list, String... replacements) {
-        list = parsePlaceholders(list, replacements);
-        return String.join("\n", list);
+    public static List<String> parsePAPI(@NotNull List<String> list, @NotNull OfflinePlayer player) {
+        if (DaisyLib.getInstance().papiEnabled) {
+            return list.stream().map(string -> parsePAPI(string, player)).toList();
+        }
+        Loggers.log(Level.WARNING, DaisyLib.getInstance().getLogger(), "Tried to parse PlaceholderAPI placeholders, but PlaceholderAPI is not enabled.");
+        return list;
     }
 
-    public static String stringFromList(List<String> list, Map<String, String> replacements) {
+    public static String listToString(List<String> list, String separator, String... replacements) {
+        if (separator == null) {
+            separator = "\n";
+        }
         list = parsePlaceholders(list, replacements);
-        return String.join("\n", list);
+        return String.join(separator, list);
+    }
+
+    public static List<String> stringToList(String string, String separator, String... replacements) {
+        if (separator == null) {
+            separator = "\n";
+        }
+        String[] split = string.split(separator);
+        List<String> list = Arrays.stream(split).toList();
+        list = parsePlaceholders(list, replacements);
+        return list;
+    }
+
+    public static String listToString(List<String> list, String separator, Map<String, String> replacements) {
+        if (separator == null) {
+            separator = "\n";
+        }
+        list = parsePlaceholders(list, replacements);
+        return String.join(separator, list);
+    }
+
+    public static List<String> stringToList(String string, String separator, Map<String, String> replacements) {
+        if (separator == null) {
+            separator = "\n";
+        }
+        String[] split = string.split(separator);
+        List<String> list = Arrays.stream(split).toList();
+        list = parsePlaceholders(list, replacements);
+        return list;
     }
 
     public static void broadcastMessage(String msg) {

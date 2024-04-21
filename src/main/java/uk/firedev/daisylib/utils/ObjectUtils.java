@@ -11,9 +11,9 @@ import java.util.List;
 
 public class ObjectUtils {
 
-    public static String locationToString(Location location, boolean yawpitch) {
+    public static String locationToString(Location location, boolean includeYawPitch) {
         String finalString = location.getWorld().getName() + "_" + location.getX() + "_" + location.getY() + "_" + location.getZ();
-        if (yawpitch) {
+        if (includeYawPitch) {
             finalString += "_" + location.getYaw() + "_" + location.getPitch();
         }
         return finalString;
@@ -21,18 +21,18 @@ public class ObjectUtils {
 
     public static Location locationFromString(String s) {
         String[] stringloc = s.split("_");
+        if (stringloc.length < 4) {
+            return null;
+        }
         World world = Bukkit.getWorld(stringloc[0]);
+        if (world == null) {
+            return null;
+        }
         double x = Double.parseDouble(stringloc[1]);
         double y = Double.parseDouble(stringloc[2]);
         double z = Double.parseDouble(stringloc[3]);
-        float yaw = 180;
-        float pitch = 0;
-        if (stringloc[4] != null) {
-            yaw = Float.parseFloat(stringloc[4]);
-        }
-        if (stringloc[5] != null) {
-            pitch = Float.parseFloat(stringloc[5]);
-        }
+        float yaw = Float.parseFloat(getOrDefault(stringloc, 4, String.valueOf(180)));
+        float pitch = Float.parseFloat(getOrDefault(stringloc, 4, String.valueOf(0)));
         return new Location(world, x, y, z, yaw, pitch);
     }
 
