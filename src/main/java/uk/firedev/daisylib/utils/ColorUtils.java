@@ -1,25 +1,17 @@
 package uk.firedev.daisylib.utils;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ColorUtils {
 
     private static final Map<TextColor, ItemStack> colorHeads = new HashMap<>();
-
-    private static final String bracketHexRegex = "(\\{#)([0-9A-Fa-f]{6})(\\})";
-    private static final String adventureHexRegex = "(&#)([0-9A-Fa-f]{6})";
-    private static final String legacyColorRegex = "([&§])([0-9a-zA-Z]{6})";
 
     static {
         addHead(NamedTextColor.BLACK, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTY3YTJmMjE4YTZlNmUzOGYyYjU0NWY2YzE3NzMzZjRlZjliYmIyODhlNzU0MDI5NDljMDUyMTg5ZWUifX19");
@@ -44,16 +36,11 @@ public class ColorUtils {
         colorHeads.put(chatColor, ItemUtils.getHead(textures));
     }
 
-    public static NamedTextColor getNearestChatColor(Color color) {
-        TextColor textColor = TextColor.color(color.getRed(), color.getGreen(), color.getBlue());
-        return NamedTextColor.nearestTo(textColor);
-    }
-
     public static ItemStack getColorHead(NamedTextColor chatColor) {
         return colorHeads.getOrDefault(chatColor, new ItemStack(Material.DIRT));
     }
 
-    public static TextColor getColor(String colorString, TextColor def) {
+    public static TextColor getNamedColor(String colorString, TextColor def) {
         if (colorString != null) {
             try {
                 return NamedTextColor.NAMES.value(colorString.toLowerCase());
@@ -64,118 +51,20 @@ public class ColorUtils {
         return def;
     }
 
-    /**
-     * Turns all Ampersands into Sections, allowing compatibility with legacy colors
-     */
-    public static String convertColors(String message, boolean convertHex) {
-        if (convertHex) {
-            message = convertHex(message);
-        }
-        return message.replace('&', '§');
+    public static TextColor getColor(int r, int g, int b) {
+        return TextColor.color(r, g, b);
     }
 
-    /**
-     * Makes a bracket hex color compatible with Adventure's LegacyComponentSerializer
-     */
-    public static String convertHex(String message) {
-        Pattern pattern = Pattern.compile(bracketHexRegex);
-        Matcher matcher = pattern.matcher(message);
-
-        while (matcher.find()) {
-            // Get Color Code
-            String color = message.substring(matcher.start(), matcher.end());
-
-            // Turn it into an Adventure-Compatible code
-            String newColor = color;
-            newColor = newColor.replace("{#", "&#");
-            newColor = newColor.replace("}", "");
-
-            // Update the Message
-            message = message.replace(color, newColor);
-            matcher = pattern.matcher(message);
-        }
-        return message;
+    public static TextColor getColor(Color color) {
+        return TextColor.color(color.getRed(), color.getGreen(), color.getBlue());
     }
 
-    /**
-     * Completely removes all legacy hex colors from a String
-     */
-    public static String removeHex(String message) {
-
-        message = convertHex(message);
-
-        // &#hex color codes - all bracket hex was converted before this point
-        Pattern pattern = Pattern.compile(adventureHexRegex);
-        Matcher matcher = pattern.matcher(message);
-
-        while (matcher.find()) {
-            // Get Color Code
-            String color = message.substring(matcher.start(), matcher.end());
-
-            // Remove it.
-            message = message.replace(color, "");
-            matcher = pattern.matcher(message);
-        }
-        return message;
+    public static NamedTextColor getNearestColor(TextColor color) {
+        return NamedTextColor.nearestTo(color);
     }
 
-    /**
-     * Completely removes all legacy colors from a String
-     */
-    public static String removeColors(String message, boolean removeHex) {
-        if (removeHex) {
-            message = removeHex(message);
-        }
-
-        Pattern pattern = Pattern.compile(legacyColorRegex);
-        Matcher matcher = pattern.matcher(message);
-
-        while (matcher.find()) {
-            // Get Color Code
-            String color = message.substring(matcher.start(), matcher.end());
-
-            // Remove it.
-            message = message.replace(color, "");
-            matcher = pattern.matcher(message);
-        }
-        return message;
-    }
-
-    /**
-     * Makes a hex color code compatible with legacy
-     */
-    public static String hexToLegacy(String message) {
-
-        // Convert to &#hex format so we don't need to do this twice
-        message = convertHex(message);
-
-        // Turn this into legacy codes
-        Pattern pattern = Pattern.compile(adventureHexRegex);
-        Matcher matcher = pattern.matcher(message);
-
-        while (matcher.find()) {
-            // Get Color Code
-            String color = message.substring(matcher.start(), matcher.end());
-
-            // Turn it into a legacy hex code
-            StringBuilder newColor = new StringBuilder();
-            newColor.append("§x");
-            char[] chars = color.replace("&#", "").toCharArray();
-            for (char character : chars) {
-                newColor.append("§").append(character);
-            }
-
-            // Update the Message
-            message = message.replace(color, newColor.toString());
-            matcher = pattern.matcher(message);
-        }
-
-        return message;
-    }
-
-    public static String legacyToMiniMessage(String string) {
-        Component component = LegacyComponentSerializer.legacySection().deserialize(convertColors(string, true));
-        return ComponentUtils.serializeComponent(component);
+    public static NamedTextColor getNearestColor(Color color) {
+        return getNearestColor(getColor(color));
     }
 
 }
