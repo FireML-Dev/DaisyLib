@@ -7,6 +7,8 @@ import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.local.DaisyLib;
 
+import java.util.List;
+
 public class ObjectUtils {
 
     public static String locationToString(Location location, boolean yawpitch) {
@@ -57,6 +59,22 @@ public class ObjectUtils {
             return false;
         }
         return true;
+    }
+
+    public static <T> T getOrDefault(T[] array, int index, T def) {
+        try {
+            return array[index];
+        } catch (IndexOutOfBoundsException ex) {
+            return def;
+        }
+    }
+
+    public static <T> T getOrDefault(List<T> list, int index, T def) {
+        try {
+            return list.get(index);
+        } catch (IndexOutOfBoundsException ex) {
+            return def;
+        }
     }
 
 }
