@@ -71,6 +71,10 @@
                             <pattern>uk.firedev.vanishchecker</pattern>
                             <shadedPattern>uk.firedev.daisylib.utils.vanishchecker</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>uk.firedev.cmihelper</pattern>
+                            <shadedPattern>uk.firedev.daisylib.utils.cmihelper</shadedPattern>
+                        </relocation>
                     </relocations>
                     <filters>
                         <filter>
@@ -205,6 +209,12 @@
             <groupId>uk.firedev</groupId>
             <artifactId>VanishChecker</artifactId>
             <version>1.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>uk.firedev</groupId>
+            <artifactId>CMIHelper</artifactId>
+            <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
