@@ -2,6 +2,7 @@ package uk.firedev.daisylib.utils;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
@@ -19,7 +20,7 @@ public class ComponentUtils {
 
     public static Component deserializeString(@NotNull String s, String... replacements) {
         if (s.isEmpty()) {
-            return Component.text("");
+            return Component.empty();
         }
         Component component = MiniMessage.miniMessage().deserialize(s);
         return new ComponentReplacer(component).replace(replacements).build().decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
@@ -31,7 +32,7 @@ public class ComponentUtils {
 
     public static Component deserializeString(@NotNull String s, @NotNull Map<String, Component> replacements) {
         if (s.isEmpty()) {
-            return Component.text("");
+            return Component.empty();
         }
         Component component = MiniMessage.miniMessage().deserialize(s);
         return new ComponentReplacer(component).replace(replacements).build().decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
@@ -103,21 +104,21 @@ public class ComponentUtils {
 
     public static Component getMainHandHoverItem(@NotNull Audience audience) {
         if (!(audience instanceof Player player)) {
-            return deserializeString("<white>[None]</white>");
+            return Component.text("[None]").color(NamedTextColor.WHITE);
         }
         return getHoverItem(player.getInventory().getItemInMainHand());
     }
 
     public static Component getOffHandHoverItem(@NotNull Audience audience) {
         if (!(audience instanceof Player player)) {
-            return deserializeString("<white>[None]</white>");
+            return Component.text("[None]").color(NamedTextColor.WHITE);
         }
         return getHoverItem(player.getInventory().getItemInOffHand());
     }
 
     public static Component getHoverItem(ItemStack item) {
         if (item == null) {
-            return deserializeString("<white>[None]</white>");
+            return Component.text("[None]").color(NamedTextColor.WHITE);
         }
         Component quantity = deserializeString(item.getAmount() + "x ");
         Component hover = quantity.append(item.displayName());
