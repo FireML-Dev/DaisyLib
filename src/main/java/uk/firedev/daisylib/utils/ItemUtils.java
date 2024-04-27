@@ -23,11 +23,19 @@ import java.util.UUID;
 
 public class ItemUtils {
 
-    public static @Nullable Material getMaterial(@NotNull String materialName, Material defaultMaterial) {
+    public static @NotNull Material getMaterial(@NotNull String materialName, @NotNull Material defaultMaterial) {
+        Material material = getMaterial(materialName);
+        if (material == null) {
+            return defaultMaterial;
+        }
+        return material;
+    }
+
+    public static @Nullable Material getMaterial(@NotNull String materialName) {
         try {
             return Material.valueOf(materialName.toUpperCase());
         } catch (IllegalArgumentException ex) {
-            return defaultMaterial;
+            return null;
         }
     }
 
