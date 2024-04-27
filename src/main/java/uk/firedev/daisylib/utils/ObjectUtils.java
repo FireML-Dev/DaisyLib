@@ -61,10 +61,11 @@ public class ObjectUtils {
         return true;
     }
 
+    @SuppressWarnings("UnreachableCode")
     public static <T> T getOrDefault(T[] array, int index, T def) {
         try {
             return array[index];
-        } catch (IndexOutOfBoundsException ex) {
+        } catch (ArrayIndexOutOfBoundsException ex) {
             return def;
         }
     }

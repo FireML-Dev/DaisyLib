@@ -56,7 +56,8 @@ public class LibCommand extends CommandAPICommand {
     }
 
     private Component getRewardTypeList(List<RewardType> types) {
-        Component message = MessageConfig.getInstance().getConfig().getRichMessage("messages.main-command.reward-types.list");
+        String stringMessage = MessageConfig.getInstance().fromConfig("messages.main-command.reward-types.list");
+        Component message = ComponentUtils.deserializeString(stringMessage);
         TextComponent.Builder builder = Component.text();
         types.forEach(rewardType -> {
             Component identifier = ComponentUtils.deserializeString(rewardType.getIdentifier());

@@ -46,10 +46,10 @@ public class ItemUtils {
         }
         ItemMeta meta = item.getItemMeta();
         if (glowing) {
-            meta.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
+            meta.addEnchant(Enchantment.UNBREAKING, 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         } else {
-            meta.removeEnchant(Enchantment.DAMAGE_ALL);
+            meta.removeEnchant(Enchantment.UNBREAKING);
             meta.removeItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         item.setItemMeta(meta);

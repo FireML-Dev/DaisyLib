@@ -50,6 +50,7 @@ public class Config {
 
     public File getFile() { return file; }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private File loadFile(File directory) {
         if (!directory.exists()) {
             directory.mkdirs();
@@ -77,6 +78,7 @@ public class Config {
         return configFile;
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void updateConfig() {
         File tempDirectory = new File(this.plugin.getDataFolder(), "temp");
         File tempConfigFile = loadFile(tempDirectory);

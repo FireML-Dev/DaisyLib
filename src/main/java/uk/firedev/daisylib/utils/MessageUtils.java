@@ -3,6 +3,7 @@ package uk.firedev.daisylib.utils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,42 +13,36 @@ public interface MessageUtils {
 
     FileConfiguration getConfig();
 
-    default String fromConfig(String path, String... replacements) {
-        String message = "<red>Unknown Message</red> <yellow>" + path + "</yellow>";
-        if (getConfig().getString(path) != null) {
-            message = StringUtils.parsePlaceholders(getConfig().getString(path), replacements);
-        }
+    default @NotNull String fromConfig(String path, String... replacements) {
+        String message = getConfig().getString(path, "<red>Unknown Message</red> <yellow>" + path + "</yellow>");
+        message = StringUtils.parsePlaceholders(message, replacements);
         return message;
     }
 
-    default String fromConfig(String path, Map<String, String> replacements) {
-        String message = "<red>Unknown Message</red> <yellow>" + path + "</yellow>";
-        if (getConfig().getString(path) != null) {
-            message = StringUtils.parsePlaceholders(getConfig().getString(path), replacements);
-        }
+    default @NotNull String fromConfig(String path, Map<String, String> replacements) {
+        String message = getConfig().getString(path, "<red>Unknown Message</red> <yellow>" + path + "</yellow>");
+        message = StringUtils.parsePlaceholders(message, replacements);
         return message;
     }
 
-    default List<String> fromConfigList(String path, String... replacements) {
-        List<String> returnList = new ArrayList<>();
+    default @NotNull List<String> fromConfigList(String path, String... replacements) {
         List<String> stringList = getConfig().getStringList(path);
         if (!stringList.isEmpty()) {
-            stringList.forEach(string -> returnList.add(StringUtils.parsePlaceholders(string, replacements)));
+            stringList = StringUtils.parsePlaceholders(stringList, replacements);
         } else {
-            returnList.add("<red>Unknown Message</red> <yellow>" + path + "</yellow>");
+            stringList = List.of("<red>Unknown Message</red> <yellow>" + path + "</yellow>");
         }
-        return returnList;
+        return stringList;
     }
 
     default List<String> fromConfigList(String path, Map<String, String> replacements) {
-        List<String> returnList = new ArrayList<>();
         List<String> stringList = getConfig().getStringList(path);
         if (!stringList.isEmpty()) {
-            stringList.forEach(string -> returnList.add(StringUtils.parsePlaceholders(string, replacements)));
+            stringList = StringUtils.parsePlaceholders(stringList, replacements);
         } else {
-            returnList.add("<red>Unknown Message</red> <yellow>" + path + "</yellow>");
+            stringList = List.of("<red>Unknown Message</red> <yellow>" + path + "</yellow>");
         }
-        return returnList;
+        return stringList;
     }
 
     default String getPrefix() { return fromConfig("messages.prefix"); }
