@@ -20,6 +20,7 @@ public class ItemBuilder {
     private Map<Enchantment, Integer> enchantments = new HashMap<>();
     private boolean unbreakable = false;
     private int amount = 1;
+    private boolean glowing = false;
 
     public ItemBuilder(@NotNull Material material) {
         this.material = material;
@@ -210,6 +211,11 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder setGlowing(boolean glowing) {
+        this.glowing = glowing;
+        return this;
+    }
+
     public ItemBuilder withAmount(int amount) {
         if (this.amount < 1) {
             amount = 1;
@@ -236,7 +242,8 @@ public class ItemBuilder {
             if (!this.enchantments.isEmpty()) {
                 this.enchantments.forEach((enchantment, integer) -> meta.addEnchant(enchantment, integer, true));
             }
-            meta.setUnbreakable(this.unbreakable);;
+            meta.setEnchantmentGlintOverride(this.glowing);
+            meta.setUnbreakable(this.unbreakable);
         });
         stack.setAmount(this.amount);
         return stack;
