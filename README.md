@@ -17,7 +17,7 @@ https://ci.firedev.uk/job/DaisyLib/
         <dependency>
             <groupId>uk.firedev</groupId>
             <artifactId>DaisyLib</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
