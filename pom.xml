@@ -13,7 +13,6 @@
     <description>A central library for things commonly used in FireML's Custom Plugins.</description>
 
     <properties>
-        <jarName>${project.name}</jarName>
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -34,7 +33,6 @@
     </profiles>
 
     <build>
-        <finalName>${jarName}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
