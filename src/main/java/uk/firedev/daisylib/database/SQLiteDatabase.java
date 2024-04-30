@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.database;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 
 import java.sql.Connection;
@@ -16,7 +17,7 @@ public class SQLiteDatabase {
     private JavaPlugin plugin = null;
     private Connection connection = null;
 
-    public SQLiteDatabase(JavaPlugin plugin) {
+    public SQLiteDatabase(@NotNull JavaPlugin plugin) {
         setup(plugin);
     }
 
