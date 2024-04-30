@@ -9,13 +9,14 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class CreaturePreSpawnEvent extends Event implements Cancellable {
+
     private static final HandlerList handlers = new HandlerList();
     private final EntityType entityType;
     private final Location location;
     private final CreatureSpawnEvent.SpawnReason spawnReason;
     private boolean cancelled = false;
 
-    public CreaturePreSpawnEvent(EntityType entityType, Location location, CreatureSpawnEvent.SpawnReason spawnReason) {
+    public CreaturePreSpawnEvent(@NotNull EntityType entityType, @NotNull Location location, @NotNull CreatureSpawnEvent.SpawnReason spawnReason) {
         this.entityType = entityType;
         this.location = location;
         this.spawnReason = spawnReason;

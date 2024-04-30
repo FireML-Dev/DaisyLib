@@ -6,6 +6,7 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
 import uk.firedev.daisylib.local.config.MainConfig;
@@ -17,8 +18,6 @@ public final class DaisyLib extends JavaPlugin {
 
     private static DaisyLib instance;
     private static TaskScheduler scheduler;
-    public boolean papiEnabled;
-    public boolean denizenEnabled;
 
     @Override
     public void onLoad() {
@@ -61,5 +60,9 @@ public final class DaisyLib extends JavaPlugin {
     public static DaisyLib getInstance() { return instance; }
 
     public static TaskScheduler getScheduler() { return scheduler; }
+
+    public boolean isPluginEnabled(@NotNull String pluginName) {
+        return getServer().getPluginManager().isPluginEnabled(pluginName);
+    }
 
 }

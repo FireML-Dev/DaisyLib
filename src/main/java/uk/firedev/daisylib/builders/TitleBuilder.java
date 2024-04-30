@@ -5,10 +5,12 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.utils.ComponentUtils;
+import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.daisylib.message.string.StringReplacer;
 
 import java.time.Duration;
-import java.util.Map;
 
 public class TitleBuilder {
 
@@ -70,60 +72,41 @@ public class TitleBuilder {
         return this;
     }
 
-    public TitleBuilder withTitle(@NotNull Component title, String... replacements) {
-        this.title = ComponentUtils.parsePlaceholders(title, replacements);
+    public TitleBuilder withTitle(@NotNull Component title, @Nullable ComponentReplacer replacer) {
+        if (replacer != null) {
+            title = replacer.replace(title);
+        }
+        this.title = title;
         return this;
     }
 
-    public TitleBuilder withTitle(@NotNull Component title, Map<String, Component> replacements) {
-        this.title = ComponentUtils.parsePlaceholders(title, replacements);
+    public TitleBuilder withStringTitle(@NotNull String title, @Nullable StringReplacer replacer) {
+        if (replacer != null) {
+            title = replacer.replace(title);
+        }
+        this.title = new ComponentMessage(title).getMessage();
         return this;
     }
 
-    public TitleBuilder withStringTitle(@NotNull String title, String... replacements) {
-        this.title = ComponentUtils.deserializeString(title, replacements);
+    public TitleBuilder withSubtitle(@NotNull Component subtitle, @Nullable ComponentReplacer replacer) {
+        if (replacer != null) {
+            subtitle = replacer.replace(subtitle);
+        }
+        this.subtitle = subtitle;
         return this;
     }
 
-    public TitleBuilder withStringTitle(@NotNull String title, Map<String, Component> replacements) {
-        this.title = ComponentUtils.deserializeString(title, replacements);
+    public TitleBuilder withStringSubtitle(@NotNull String subtitle, @Nullable StringReplacer replacer) {
+        if (replacer != null) {
+            subtitle = replacer.replace(subtitle);
+        }
+        this.subtitle = new ComponentMessage(subtitle).getMessage();
         return this;
     }
 
-    public TitleBuilder withSubtitle(@NotNull Component subtitle, String... replacements) {
-        this.subtitle = ComponentUtils.parsePlaceholders(subtitle, replacements);
-        return this;
-    }
+    public void sendAll() { Bukkit.getOnlinePlayers().forEach(this::send); }
 
-    public TitleBuilder withSubtitle(@NotNull Component subtitle, Map<String, Component> replacements) {
-        this.subtitle = ComponentUtils.parsePlaceholders(subtitle, replacements);
-        return this;
-    }
-
-    public TitleBuilder withStringSubtitle(@NotNull String subtitle, String... replacements) {
-        this.subtitle = ComponentUtils.deserializeString(subtitle, replacements);
-        return this;
-    }
-
-    public TitleBuilder withStringSubtitle(@NotNull String subtitle, Map<String, Component> replacements) {
-        this.subtitle = ComponentUtils.deserializeString(subtitle, replacements);
-        return this;
-    }
-
-    public void sendAll(String... replacements) { Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements)); }
-
-    public void send(Audience audience, String... replacements) {
-        Component title = ComponentUtils.parsePlaceholders(this.title, replacements);
-        Component subtitle = ComponentUtils.parsePlaceholders(this.subtitle, replacements);
-        Title.Times times = Title.Times.times(Duration.ofSeconds(in / 20), Duration.ofSeconds(stay / 20), Duration.ofSeconds(out / 20));
-        audience.showTitle(Title.title(title, subtitle, times));
-    }
-
-    public void sendAll(Map<String, Component> replacements) { Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements)); }
-
-    public void send(Audience audience, Map<String, Component> replacements) {
-        Component title = ComponentUtils.parsePlaceholders(this.title, replacements);
-        Component subtitle = ComponentUtils.parsePlaceholders(this.subtitle, replacements);
+    public void send(Audience audience) {
         Title.Times times = Title.Times.times(Duration.ofSeconds(in / 20), Duration.ofSeconds(stay / 20), Duration.ofSeconds(out / 20));
         audience.showTitle(Title.title(title, subtitle, times));
     }

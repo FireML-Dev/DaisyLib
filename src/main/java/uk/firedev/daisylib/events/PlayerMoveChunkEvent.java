@@ -13,7 +13,7 @@ public class PlayerMoveChunkEvent extends PlayerEvent implements Cancellable {
     private final Chunk to;
     private boolean cancelled = false;
 
-    public PlayerMoveChunkEvent(Chunk from, Chunk to, Player player) {
+    public PlayerMoveChunkEvent(@NotNull Chunk from, @NotNull Chunk to, @NotNull Player player) {
         super(player);
         this.from = from;
         this.to = to;

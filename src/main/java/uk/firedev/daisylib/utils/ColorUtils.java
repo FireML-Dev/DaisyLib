@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,38 +33,31 @@ public class ColorUtils {
         addHead(NamedTextColor.WHITE, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzY2YTVjOTg5MjhmYTVkNGI1ZDViOGVmYjQ5MDE1NWI0ZGRhMzk1NmJjYWE5MzcxMTc3ODE0NTMyY2ZjIn19fQ==");
     }
 
-    private static void addHead(NamedTextColor chatColor, String textures) {
+    private static void addHead(@NotNull NamedTextColor chatColor, @NotNull String textures) {
         colorHeads.put(chatColor, ItemUtils.getHead(textures));
     }
 
-    public static ItemStack getColorHead(NamedTextColor chatColor) {
-        return colorHeads.getOrDefault(chatColor, new ItemStack(Material.DIRT));
+    public static @NotNull ItemStack getColorHead(@NotNull NamedTextColor chatColor) {
+        return colorHeads.getOrDefault(chatColor, new ItemStack(Material.PLAYER_HEAD));
     }
 
-    public static TextColor getNamedColor(String colorString, TextColor def) {
-        if (colorString != null) {
-            try {
-                return NamedTextColor.NAMES.value(colorString.toLowerCase());
-            } catch (IllegalArgumentException e) {
-                return def;
-            }
-        }
-        return def;
+    public static @NotNull TextColor getNamedColor(@NotNull String colorString, @NotNull NamedTextColor def) {
+        return NamedTextColor.NAMES.valueOr(colorString.toLowerCase(), def);
     }
 
-    public static TextColor getColor(int r, int g, int b) {
+    public static @NotNull TextColor getColor(int r, int g, int b) {
         return TextColor.color(r, g, b);
     }
 
-    public static TextColor getColor(Color color) {
+    public static @NotNull TextColor getColor(Color color) {
         return TextColor.color(color.getRed(), color.getGreen(), color.getBlue());
     }
 
-    public static NamedTextColor getNearestColor(TextColor color) {
+    public static @NotNull NamedTextColor getNearestColor(TextColor color) {
         return NamedTextColor.nearestTo(color);
     }
 
-    public static NamedTextColor getNearestColor(Color color) {
+    public static @NotNull NamedTextColor getNearestColor(Color color) {
         return getNearestColor(getColor(color));
     }
 

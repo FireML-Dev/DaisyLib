@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.message.component.ComponentMessage;
 
 import java.util.List;
 import java.util.UUID;
@@ -73,7 +74,7 @@ public class ItemUtils {
         ItemStack item = getHead(uuid);
         if (name != null && !name.equals("none")) {
             SkullMeta skull = (SkullMeta) item.getItemMeta();
-            skull.displayName(ComponentUtils.deserializeString(name));
+            skull.displayName(new ComponentMessage(name).getMessage());
             item.setItemMeta(skull);
         }
         return hideAllFlags(item);
@@ -126,7 +127,7 @@ public class ItemUtils {
     }
 
     public static boolean isCustomItem(ItemStack item) {
-        return DaisyLib.getInstance().denizenEnabled && ItemScriptHelper.isItemscript(item);
+        return DaisyLib.getInstance().isPluginEnabled("Denizen") && ItemScriptHelper.isItemscript(item);
     }
 
     public static void giveItems(ItemStack[] items, Player player) {
