@@ -5,35 +5,32 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.utils.ComponentUtils;
+import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.daisylib.message.string.StringReplacer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 public class BookBuilder {
 
     private Component title = null;
     private Component author = null;
     private List<Component> pages = new ArrayList<>();
 
-    public BookBuilder withTitle(@NotNull Component title, String... replacements) {
-        this.title = ComponentUtils.parsePlaceholders(title, replacements);
+    public BookBuilder withTitle(@NotNull Component title, @Nullable ComponentReplacer replacer) {
+        if (replacer != null) {
+            title = replacer.replace(title);
+        }
+        this.title = title;
         return this;
     }
 
-    public BookBuilder withTitle(@NotNull Component title, Map<String, Component> replacements) {
-        this.title = ComponentUtils.parsePlaceholders(title, replacements);
-        return this;
-    }
-
-    public BookBuilder withStringTitle(@NotNull String title, String... replacements) {
-        this.title = ComponentUtils.deserializeString(title, replacements);
-        return this;
-    }
-
-    public BookBuilder withStringTitle(@NotNull String title, Map<String, Component> replacements) {
-        this.title = ComponentUtils.deserializeString(title, replacements);
+    public BookBuilder withStringTitle(@NotNull String title, @Nullable StringReplacer replacer) {
+        if (replacer != null) {
+            title = replacer.replace(title);
+        }
+        this.title = new ComponentMessage(title).getMessage();
         return this;
     }
 
@@ -43,67 +40,55 @@ public class BookBuilder {
     }
 
     public BookBuilder withStringAuthor(@NotNull String author) {
-        this.author = ComponentUtils.deserializeString(author);
+        this.author = new ComponentMessage(author).getMessage();
         return this;
     }
 
-    public BookBuilder withPages(@NotNull List<Component> pages, String... replacements) {
-        this.pages = ComponentUtils.parsePlaceholders(pages, replacements);
+    public BookBuilder withPages(@NotNull List<Component> pages, @Nullable ComponentReplacer replacer) {
+        if (replacer != null) {
+            pages = replacer.replace(pages);
+        }
+        this.pages = pages;
         return this;
     }
 
-    public BookBuilder withPages(@NotNull List<Component> pages, Map<String, Component> replacements) {
-        this.pages = ComponentUtils.parsePlaceholders(pages, replacements);
+    public BookBuilder withStringPages(@NotNull List<String> pages, @Nullable StringReplacer replacer) {
+        if (replacer != null) {
+            pages = replacer.replace(pages);
+        }
+        this.pages = pages.stream().map(page -> new ComponentMessage(page).getMessage()).toList();
         return this;
     }
 
-    public BookBuilder withStringPages(@NotNull List<String> pages, String... replacements) {
-        this.pages = ComponentUtils.deserializeStringList(pages, replacements);
+    public BookBuilder addPage(@NotNull Component page, @Nullable ComponentReplacer replacer) {
+        if (replacer != null) {
+            page = replacer.replace(page);
+        }
+        this.pages.add(page);
         return this;
     }
 
-    public BookBuilder withStringPages(@NotNull List<String> pages, Map<String, Component> replacements) {
-        this.pages = ComponentUtils.deserializeStringList(pages, replacements);
+    public BookBuilder addStringPage(@NotNull String page, @Nullable StringReplacer replacer) {
+        if (replacer != null) {
+            page = replacer.replace(page);
+        }
+        this.pages.add(new ComponentMessage(page).getMessage());
         return this;
     }
 
-    public BookBuilder addPage(@NotNull Component page, String... replacements) {
-        this.pages.add(ComponentUtils.parsePlaceholders(page, replacements));
+    public BookBuilder addPages(@NotNull List<Component> pages, @Nullable ComponentReplacer replacer) {
+        if (replacer != null) {
+            pages = replacer.replace(pages);
+        }
+        this.pages.addAll(pages.stream().map(page -> new ComponentMessage(page).getMessage()).toList());
         return this;
     }
 
-    public BookBuilder addPage(@NotNull Component page, Map<String, Component> replacements) {
-        this.pages.add(ComponentUtils.parsePlaceholders(page, replacements));
-        return this;
-    }
-
-    public BookBuilder addStringPage(@NotNull String page, String... replacements) {
-        this.pages.add(ComponentUtils.deserializeString(page, replacements));
-        return this;
-    }
-
-    public BookBuilder addStringPage(@NotNull String page, Map<String, Component> replacements) {
-        this.pages.add(ComponentUtils.deserializeString(page, replacements));
-        return this;
-    }
-
-    public BookBuilder addPages(@NotNull List<Component> pages, String... replacements) {
-        this.pages.addAll(ComponentUtils.parsePlaceholders(pages, replacements));
-        return this;
-    }
-
-    public BookBuilder addPages(@NotNull List<Component> pages, Map<String, Component> replacements) {
-        this.pages.addAll(ComponentUtils.parsePlaceholders(pages, replacements));
-        return this;
-    }
-
-    public BookBuilder addStringPages(@NotNull List<String> pages, String... replacements) {
-        this.pages.addAll(ComponentUtils.deserializeStringList(pages, replacements));
-        return this;
-    }
-
-    public BookBuilder addStringPages(@NotNull List<String> pages, Map<String, Component> replacements) {
-        this.pages.addAll(ComponentUtils.deserializeStringList(pages, replacements));
+    public BookBuilder addStringPages(@NotNull List<String> pages, @Nullable StringReplacer replacer) {
+        if (replacer != null) {
+            pages = replacer.replace(pages);
+        }
+        this.pages.addAll(pages.stream().map(page -> new ComponentMessage(page).getMessage()).toList());
         return this;
     }
 

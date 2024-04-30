@@ -3,7 +3,9 @@ package uk.firedev.daisylib;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +22,7 @@ public class Config {
     private FileConfiguration config = null;
     private File file = null;
 
-    public Config(String fileName, JavaPlugin plugin, boolean configUpdater) {
+    public Config(@NotNull String fileName, @NotNull JavaPlugin plugin, boolean configUpdater) {
         this.fileName = fileName;
         this.plugin = plugin;
         reload();
@@ -46,9 +48,11 @@ public class Config {
         }
     }
 
-    public FileConfiguration getConfig() { return this.config; }
+    public @NotNull Plugin getPlugin() { return this.plugin; }
 
-    public File getFile() { return file; }
+    public @NotNull FileConfiguration getConfig() { return this.config; }
+
+    public @NotNull File getFile() { return file; }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private File loadFile(File directory) {

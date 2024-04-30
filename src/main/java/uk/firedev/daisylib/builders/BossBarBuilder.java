@@ -5,10 +5,12 @@ import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.utils.ComponentUtils;
+import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.daisylib.message.string.StringReplacer;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class BossBarBuilder {
@@ -19,23 +21,19 @@ public class BossBarBuilder {
     private BossBar.Color color = BossBar.Color.WHITE;
     private Set<BossBar.Flag> flags = new HashSet<>();
 
-    public BossBarBuilder withTitle(@NotNull Component title, String... replacements) {
-        this.title = ComponentUtils.parsePlaceholders(title, replacements);
+    public BossBarBuilder withTitle(@NotNull Component title, @Nullable ComponentReplacer replacer) {
+        if (replacer != null) {
+            title = replacer.replace(title);
+        }
+        this.title = title;
         return this;
     }
 
-    public BossBarBuilder withTitle(@NotNull Component title, Map<String, Component> replacements) {
-        this.title = ComponentUtils.parsePlaceholders(title, replacements);
-        return this;
-    }
-
-    public BossBarBuilder withStringTitle(@NotNull String title, String... replacements) {
-        this.title = ComponentUtils.deserializeString(title, replacements);
-        return this;
-    }
-
-    public BossBarBuilder withStringTitle(@NotNull String title, Map<String, Component> replacements) {
-        this.title = ComponentUtils.deserializeString(title, replacements);
+    public BossBarBuilder withStringTitle(@NotNull String title, @Nullable StringReplacer replacer) {
+        if (replacer != null) {
+            title = replacer.replace(title);
+        }
+        this.title = new ComponentMessage(title).getMessage();
         return this;
     }
 
@@ -82,25 +80,13 @@ public class BossBarBuilder {
         return this;
     }
 
-    public void sendAll(String... replacements) { Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements)); }
+    public void sendAll() { Bukkit.getOnlinePlayers().forEach(this::send); }
 
-    public void send(Audience audience, String... replacements) {
-        audience.showBossBar(build(replacements));
+    public void send(Audience audience) {
+        audience.showBossBar(build());
     }
 
-    public void sendAll(Map<String, Component> replacements) { Bukkit.getOnlinePlayers().forEach(player -> send(player, replacements)); }
-
-    public void send(Audience audience, Map<String, Component> replacements) {
-        audience.showBossBar(build(replacements));
-    }
-
-    public BossBar build(String... replacements) {
-        Component title = ComponentUtils.parsePlaceholders(this.title, replacements);
-        return BossBar.bossBar(title, progress, color, overlay, flags);
-    }
-
-    public BossBar build(Map<String, Component> replacements) {
-        Component title = ComponentUtils.parsePlaceholders(this.title, replacements);
+    public BossBar build() {
         return BossBar.bossBar(title, progress, color, overlay, flags);
     }
     

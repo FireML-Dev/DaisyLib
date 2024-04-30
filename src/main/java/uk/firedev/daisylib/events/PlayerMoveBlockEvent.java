@@ -13,7 +13,7 @@ public class PlayerMoveBlockEvent extends PlayerEvent implements Cancellable {
     private final Location to;
     private boolean cancelled = false;
 
-    public PlayerMoveBlockEvent(Location from, Location to, Player player) {
+    public PlayerMoveBlockEvent(@NotNull Location from, @NotNull Location to, @NotNull Player player) {
         super(player);
         this.from = from;
         this.to = to;

@@ -23,6 +23,6 @@ public class MainConfig extends uk.firedev.daisylib.Config {
 
     public boolean doPlaceBreak() { return getConfig().getBoolean("config.enablePlaceBreak", true); }
 
-    public boolean shouldHookVault() { return getConfig().getBoolean("config.vault"); }
+    public boolean shouldHookVault() { return getConfig().getBoolean("config.vault", true); }
 
 }
