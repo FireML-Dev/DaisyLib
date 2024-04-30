@@ -4,7 +4,10 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.utils.ComponentUtils;
+import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.daisylib.message.string.StringReplacer;
 
 import java.util.List;
 import java.util.Map;
@@ -15,60 +18,44 @@ public class TabListBuilder {
 
     private Component footer = null;
 
-    public TabListBuilder withHeader(@NotNull Component header, String... replacements) {
-        this.header = ComponentUtils.parsePlaceholders(header, replacements);
+    public TabListBuilder withHeader(@NotNull Component header, @Nullable ComponentReplacer replacer) {
+        if (replacer != null) {
+            header = replacer.replace(header);
+        }
+        this.header = header;
         return this;
     }
 
-    public TabListBuilder withHeader(@NotNull Component header, Map<String, Component> replacements) {
-        this.header = ComponentUtils.parsePlaceholders(header, replacements);
+    public TabListBuilder withStringHeader(@NotNull String header, @Nullable StringReplacer replacer) {
+        if (replacer != null) {
+            header = replacer.replace(header);
+        }
+        this.header = new ComponentMessage(header).getMessage();
         return this;
     }
 
-    public TabListBuilder withStringHeader(@NotNull String header, String... replacements) {
-        this.header = ComponentUtils.deserializeString(header, replacements);
+    public TabListBuilder withFooter(@NotNull Component footer, @Nullable ComponentReplacer replacer) {
+        if (replacer != null) {
+            footer = replacer.replace(footer);
+        }
+        this.footer = footer;
         return this;
     }
 
-    public TabListBuilder withStringHeader(@NotNull String header, Map<String, Component> replacements) {
-        this.header = ComponentUtils.deserializeString(header, replacements);
+    public TabListBuilder withStringFooter(@NotNull String footer, @Nullable StringReplacer replacer) {
+        if (replacer != null) {
+            footer = replacer.replace(footer);
+        }
+        this.footer = new ComponentMessage(footer).getMessage();
         return this;
     }
 
-    public TabListBuilder withFooter(@NotNull Component footer, String... replacements) {
-        this.footer = ComponentUtils.parsePlaceholders(footer, replacements);
-        return this;
+    public TabListBuilder withHeaderFooter(@NotNull Component header, @NotNull Component footer, @Nullable ComponentReplacer replacer) {
+        return withHeader(header, replacer).withFooter(footer, replacer);
     }
 
-    public TabListBuilder withFooter(@NotNull Component footer, Map<String, Component> replacements) {
-        this.footer = ComponentUtils.parsePlaceholders(footer, replacements);
-        return this;
-    }
-
-    public TabListBuilder withStringFooter(@NotNull String footer, String... replacements) {
-        this.footer = ComponentUtils.deserializeString(footer, replacements);
-        return this;
-    }
-
-    public TabListBuilder withStringFooter(@NotNull String footer, Map<String, Component> replacements) {
-        this.footer = ComponentUtils.deserializeString(footer, replacements);
-        return this;
-    }
-
-    public TabListBuilder withHeaderFooter(@NotNull Component header, @NotNull Component footer, String... replacements) {
-        return withHeader(header, replacements).withFooter(footer, replacements);
-    }
-
-    public TabListBuilder withHeaderFooter(@NotNull Component header, @NotNull Component footer, Map<String, Component> replacements) {
-        return withHeader(header, replacements).withFooter(footer, replacements);
-    }
-
-    public TabListBuilder withStringHeaderFooter(@NotNull String header, @NotNull String footer, String... replacements) {
-        return withStringHeader(header, replacements).withStringFooter(footer, replacements);
-    }
-
-    public TabListBuilder withStringHeaderFooter(@NotNull String header, @NotNull String footer, Map<String, Component> replacements) {
-        return withStringHeader(header, replacements).withStringFooter(footer, replacements);
+    public TabListBuilder withStringHeaderFooter(@NotNull String header, @NotNull String footer, @Nullable StringReplacer replacer) {
+        return withStringHeader(header, replacer).withStringFooter(footer, replacer);
     }
 
     public void sendAll() { Bukkit.getOnlinePlayers().forEach(this::send); }

@@ -1,8 +1,9 @@
 package uk.firedev.daisylib.local.config;
 
 import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.message.string.StringMessage;
 
-public class MessageConfig extends uk.firedev.daisylib.Config implements uk.firedev.daisylib.utils.MessageUtils {
+public class MessageConfig extends uk.firedev.daisylib.Config {
 
     private static MessageConfig instance = null;
 
@@ -15,6 +16,10 @@ public class MessageConfig extends uk.firedev.daisylib.Config implements uk.fire
             instance = new MessageConfig();
         }
         return instance;
+    }
+
+    public StringMessage getPrefix() {
+        return new StringMessage(getConfig(), "messages.prefix", "<gray>[DaisyLib]</gray> ");
     }
 
 }
