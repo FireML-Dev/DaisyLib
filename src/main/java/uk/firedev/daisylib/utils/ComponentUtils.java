@@ -11,7 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.replacers.ComponentReplacer;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class ComponentUtils {
             return Component.empty();
         }
         Component component = MiniMessage.miniMessage().deserialize(s);
-        return new ComponentReplacer(component).replace(replacements).build().decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+        return new ComponentReplacer().addReplacements(replacements).replace(component);
     }
 
     public static List<Component> deserializeStringList(@NotNull List<String> originalList, String... replacements) {
@@ -35,7 +35,7 @@ public class ComponentUtils {
             return Component.empty();
         }
         Component component = MiniMessage.miniMessage().deserialize(s);
-        return new ComponentReplacer(component).replace(replacements).build().decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+        return new ComponentReplacer().addReplacements(replacements).replace(component);
     }
 
     public static List<Component> deserializeStringList(@NotNull List<String> originalList, @NotNull Map<String, Component> replacements) {
@@ -83,11 +83,11 @@ public class ComponentUtils {
     }
 
     public static Component parsePlaceholders(@NotNull Component component, String... replacements) {
-        return new ComponentReplacer(component).replace(replacements).build();
+        return new ComponentReplacer().addReplacements(replacements).replace(component);
     }
 
     public static Component parsePlaceholders(@NotNull Component component, @NotNull Map<String, Component> replacements) {
-        return new ComponentReplacer(component).replace(replacements).build();
+        return new ComponentReplacer().addReplacements(replacements).replace(component);
     }
 
     public static List<Component> parsePlaceholders(@NotNull List<Component> components, String... replacements) {

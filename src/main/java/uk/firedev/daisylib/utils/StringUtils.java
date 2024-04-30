@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.replacers.StringReplacer;
+import uk.firedev.daisylib.message.string.StringReplacer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,14 +17,14 @@ import java.util.logging.Level;
 public class StringUtils {
 
     public static String parsePlaceholders(@NotNull String s, String... replacements) {
-        return new StringReplacer(s).replace(replacements).build();
+        return new StringReplacer().addReplacements(replacements).replace(s);
     }
 
     public static String parsePlaceholders(@NotNull String s, @NotNull Map<String, String> replacements) {
         if (s.isEmpty() || replacements.isEmpty()) {
             return s;
         }
-        return new StringReplacer(s).replace(replacements).build();
+        return new StringReplacer().addReplacements(replacements).replace(s);
     }
 
     public static List<String> parsePlaceholders(@NotNull List<String> list, String... replacements) {
