@@ -3,7 +3,6 @@ package uk.firedev.daisylib.utils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -23,7 +22,7 @@ public class ComponentUtils {
             return Component.empty();
         }
         Component component = MiniMessage.miniMessage().deserialize(s);
-        return new ComponentReplacer(component).replace(replacements).build().decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+        return new ComponentReplacer(component).replace(replacements).build();
     }
 
     public static List<Component> deserializeStringList(@NotNull List<String> originalList, String... replacements) {
@@ -35,7 +34,7 @@ public class ComponentUtils {
             return Component.empty();
         }
         Component component = MiniMessage.miniMessage().deserialize(s);
-        return new ComponentReplacer(component).replace(replacements).build().decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+        return new ComponentReplacer(component).replace(replacements).build();
     }
 
     public static List<Component> deserializeStringList(@NotNull List<String> originalList, @NotNull Map<String, Component> replacements) {

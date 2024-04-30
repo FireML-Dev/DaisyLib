@@ -100,7 +100,7 @@ public class ComponentReplacer {
     public String suffix() { return suffix; }
 
     public Component build() {
-        return component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+        return component;
     }
 
     public StringReplacer toStringReplacer() {
