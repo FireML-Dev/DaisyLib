@@ -2,12 +2,7 @@ package uk.firedev.daisylib.message.component;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.message.string.StringReplacer;
-import uk.firedev.daisylib.utils.ComponentUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -130,6 +125,15 @@ public class ComponentReplacer {
             component = component.replaceText(config);
         }
         return component;
+    }
+
+    /**
+     * Applies all replacements to the provided Components.
+     * @param components The components to apply replacements to.
+     * @return The replaced components.
+     */
+    public List<Component> replace(@NotNull List<Component> components) {
+        return components.stream().map(this::replace).toList();
     }
 
 }

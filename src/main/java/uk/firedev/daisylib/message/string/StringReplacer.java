@@ -3,6 +3,7 @@ package uk.firedev.daisylib.message.string;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StringReplacer {
@@ -121,6 +122,15 @@ public class StringReplacer {
             string = string.replace(placeholder, replacement);
         }
         return string;
+    }
+
+    /**
+     * Applies all replacements to the provided Strings.
+     * @param strings The strings to apply replacements to.
+     * @return The replaced strings.
+     */
+    public List<String> replace(@NotNull List<String> strings) {
+        return strings.stream().map(this::replace).toList();
     }
 
 }
