@@ -157,10 +157,12 @@
             <id>firedev-repo</id>
             <url>https://repo.firedev.uk/repository/maven-public/</url>
         </repository>
+        <!-- Uncomment when needed
         <repository>
             <id>sonatype-snapshots</id>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
+        -->
     </repositories>
 
     <dependencies>
@@ -216,7 +218,7 @@
         <dependency>
             <groupId>dev.jorel</groupId>
             <artifactId>commandapi-bukkit-shade</artifactId>
-            <version>9.4.0-SNAPSHOT</version>
+            <version>9.4.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
