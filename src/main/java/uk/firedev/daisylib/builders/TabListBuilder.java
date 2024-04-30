@@ -10,7 +10,6 @@ import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.message.string.StringReplacer;
 
 import java.util.List;
-import java.util.Map;
 
 public class TabListBuilder {
 

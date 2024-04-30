@@ -11,7 +11,6 @@ import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.message.string.StringReplacer;
 
 import java.time.Duration;
-import java.util.Map;
 
 public class TitleBuilder {
 

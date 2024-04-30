@@ -5,16 +5,13 @@ import dev.jorel.commandapi.CommandPermission;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
-import uk.firedev.daisylib.local.config.MainConfig;
 import uk.firedev.daisylib.local.config.MessageConfig;
-import uk.firedev.daisylib.message.Message;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.reward.RewardManager;
 import uk.firedev.daisylib.reward.RewardType;
 
 import java.util.List;
-import java.util.Map;
 
 public class LibCommand extends CommandAPICommand {
 
@@ -27,12 +24,7 @@ public class LibCommand extends CommandAPICommand {
         withFullDescription("Manage the plugin");
         withSubcommands(getReloadCommand(), getRewardTypesCommand());
         executes((sender, arguments) -> {
-            new ComponentMessage(
-                    MainConfig.getInstance().getConfig(),
-                    "messages.main-command.usage",
-                    "<aqua>Usage: /daisylib reload</aqua>"
-            ).addPrefix(MessageConfig.getInstance().getPrefix())
-            .sendMessage(sender);
+            MessageConfig.getInstance().getMainUsageMessage(true).sendMessage(sender);
         });
     }
 
@@ -47,12 +39,7 @@ public class LibCommand extends CommandAPICommand {
         return new CommandAPICommand("reload")
                 .executes(((sender, arguments) -> {
                     DaisyLib.getInstance().reload();
-                    new ComponentMessage(
-                            MainConfig.getInstance().getConfig(),
-                            "messages.main-command.reloaded",
-                            "<aqua>Successfully reloaded the plugin.</aqua>"
-                    ).addPrefix(MessageConfig.getInstance().getPrefix())
-                    .sendMessage(sender);
+                    MessageConfig.getInstance().getReloadedMessage(true).sendMessage(sender);
                 }));
     }
 
@@ -61,26 +48,16 @@ public class LibCommand extends CommandAPICommand {
                 .executes((sender, arguments) -> {
                     List<RewardType> registeredTypes = RewardManager.getInstance().getRegisteredRewardTypes();
                     if (registeredTypes.isEmpty()) {
-                        new ComponentMessage(
-                                MainConfig.getInstance().getConfig(),
-                                "messages.main-command.reward-types.none",
-                                "<aqua>There are no registered reward types.</aqua>"
-                        ).addPrefix(MessageConfig.getInstance().getPrefix())
-                        .sendMessage(sender);
+                        MessageConfig.getInstance().getNoRewardTypesMessage(true).sendMessage(sender);
                     } else {
-                        getRewardTypeList(registeredTypes)
-                            .addPrefix(MessageConfig.getInstance().getPrefix())
-                            .sendMessage(sender);
+                        MessageConfig.getInstance().getListRewardTypesMessage(true)
+                                .applyReplacer(getRewardTypeListReplacer(registeredTypes))
+                                .sendMessage(sender);
                     }
                 });
     }
 
-    private ComponentMessage getRewardTypeList(List<RewardType> types) {
-        ComponentMessage message = new ComponentMessage(
-                MessageConfig.getInstance().getConfig(),
-                "messages.main-command.reward-types.list",
-                "<aqua>Registered Reward Types:</aqua> <green>{list}</green>"
-        );
+    private ComponentReplacer getRewardTypeListReplacer(List<RewardType> types) {
         TextComponent.Builder builder = Component.text();
         types.forEach(rewardType -> {
             Component identifier = new ComponentMessage(rewardType.getIdentifier()).getMessage();
@@ -92,9 +69,7 @@ public class LibCommand extends CommandAPICommand {
             ));
             builder.append(identifier, Component.text(", "));
         });
-        ComponentReplacer replacer = new ComponentReplacer().addReplacement("list", builder.build());
-        message = message.applyReplacer(replacer);
-        return message;
+        return new ComponentReplacer().addReplacement("list", builder.build());
     }
 
 }
