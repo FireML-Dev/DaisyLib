@@ -53,7 +53,7 @@ public class ComponentReplacer {
     }
 
     /**
-     * Adds a map of replacements, built from the provided String and Component.
+     * Adds a map of replacements, built from the provided String and replacement String.
      * @param string The string to replace
      * @param replacement The replacement string
      * @return The modified ComponentReplacer
