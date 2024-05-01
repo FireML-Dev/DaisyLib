@@ -53,6 +53,17 @@ public class ComponentReplacer {
     }
 
     /**
+     * Adds a map of replacements, built from the provided String and Component.
+     * @param string The string to replace
+     * @param replacement The replacement string
+     * @return The modified ComponentReplacer
+     */
+    public ComponentReplacer addReplacement(@NotNull String string, @NotNull String replacement) {
+        getModifiableReplacements().put(string, new ComponentMessage(replacement).getMessage());
+        return this;
+    }
+
+    /**
      * Clears the replacement map.
      * @return The modified ComponentReplacer
      */
