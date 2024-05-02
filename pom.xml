@@ -45,18 +45,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.1</version>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <paperweight-mappings-namespace>spigot</paperweight-mappings-namespace>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.5.3</version>
                 <configuration>
@@ -217,7 +205,7 @@
         </dependency>
         <dependency>
             <groupId>dev.jorel</groupId>
-            <artifactId>commandapi-bukkit-shade</artifactId>
+            <artifactId>commandapi-bukkit-shade-mojang-mapped</artifactId>
             <version>9.4.0</version>
             <scope>compile</scope>
         </dependency>
