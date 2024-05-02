@@ -104,11 +104,15 @@ public class TitleBuilder {
         return this;
     }
 
+    public Title build() {
+        Title.Times times = Title.Times.times(Duration.ofSeconds(in / 20), Duration.ofSeconds(stay / 20), Duration.ofSeconds(out / 20));
+        return Title.title(title, subtitle, times);
+    }
+
     public void sendAll() { Bukkit.getOnlinePlayers().forEach(this::send); }
 
     public void send(Audience audience) {
-        Title.Times times = Title.Times.times(Duration.ofSeconds(in / 20), Duration.ofSeconds(stay / 20), Duration.ofSeconds(out / 20));
-        audience.showTitle(Title.title(title, subtitle, times));
+        audience.showTitle(build());
     }
 
 }
