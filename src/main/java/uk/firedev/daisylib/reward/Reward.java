@@ -12,12 +12,14 @@ import java.util.logging.Logger;
 
 public class Reward {
 
+    private @NotNull String fullIdentifier;
     private @NotNull String key;
     private @NotNull String value;
     private final JavaPlugin plugin;
 
     public Reward(@NotNull String identifier, @NotNull JavaPlugin plugin) {
         this.plugin = plugin;
+        this.fullIdentifier = identifier;
         String[] split = identifier.split(":");
         try {
             this.key = split[0];
@@ -40,6 +42,7 @@ public class Reward {
                 return;
             }
         }
+        getLogger().warning("Invalid reward. Possible typo?: " + fullIdentifier);
     }
 
     public Logger getLogger() {
