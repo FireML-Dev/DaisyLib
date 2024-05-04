@@ -14,6 +14,9 @@ public class ExpRewardType implements RewardType {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
+        if (!checkAsync()) {
+            return;
+        }
         if (!ObjectUtils.isDouble(value)) {
             Loggers.log(Level.INFO, getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;

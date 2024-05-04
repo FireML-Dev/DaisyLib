@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.reward.types;
 
+import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
@@ -16,6 +17,9 @@ public class HealthRewardType implements RewardType {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
+        if (!checkAsync()) {
+            return;
+        }
         if (!ObjectUtils.isDouble(value)) {
             Loggers.log(Level.INFO, getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;
