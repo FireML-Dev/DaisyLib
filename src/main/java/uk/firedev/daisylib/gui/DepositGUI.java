@@ -43,6 +43,7 @@ public class DepositGUI {
                 return true;
             }
             consumer.accept(contents);
+            inv.clear();
             return true;
         });
     }
