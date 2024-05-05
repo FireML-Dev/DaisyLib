@@ -1,6 +1,5 @@
 package uk.firedev.daisylib.reward.types;
 
-import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
