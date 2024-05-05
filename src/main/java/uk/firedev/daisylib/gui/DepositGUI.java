@@ -20,7 +20,7 @@ public class DepositGUI {
     private final Inventory inv;
     private final Player player;
 
-    public DepositGUI(@NotNull Player player, @NotNull Plugin plugin, @NotNull Consumer<List<ItemStack>> consumer, @NotNull String title) {
+    public DepositGUI(@NotNull Player player, @NotNull Plugin plugin, @NotNull String title, @NotNull Consumer<List<ItemStack>> consumer) {
         this.player = player;
         String[] setup = {
                 "ddddddddd",
