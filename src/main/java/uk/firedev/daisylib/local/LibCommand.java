@@ -24,7 +24,7 @@ public class LibCommand extends CommandAPICommand {
         withFullDescription("Manage the plugin");
         withSubcommands(getReloadCommand(), getRewardTypesCommand());
         executes((sender, arguments) -> {
-            MessageConfig.getInstance().getMainUsageMessage(true).sendMessage(sender);
+            MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender);
         });
     }
 
@@ -39,7 +39,7 @@ public class LibCommand extends CommandAPICommand {
         return new CommandAPICommand("reload")
                 .executes(((sender, arguments) -> {
                     DaisyLib.getInstance().reload();
-                    MessageConfig.getInstance().getReloadedMessage(true).sendMessage(sender);
+                    MessageConfig.getInstance().getReloadedMessage().sendMessage(sender);
                 }));
     }
 
@@ -48,9 +48,9 @@ public class LibCommand extends CommandAPICommand {
                 .executes((sender, arguments) -> {
                     List<RewardType> registeredTypes = RewardManager.getInstance().getRegisteredRewardTypes();
                     if (registeredTypes.isEmpty()) {
-                        MessageConfig.getInstance().getNoRewardTypesMessage(true).sendMessage(sender);
+                        MessageConfig.getInstance().getNoRewardTypesMessage().sendMessage(sender);
                     } else {
-                        MessageConfig.getInstance().getListRewardTypesMessage(true)
+                        MessageConfig.getInstance().getListRewardTypesMessage()
                                 .applyReplacer(getRewardTypeListReplacer(registeredTypes))
                                 .sendMessage(sender);
                     }
