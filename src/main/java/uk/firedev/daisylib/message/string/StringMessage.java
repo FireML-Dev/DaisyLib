@@ -101,4 +101,14 @@ public class StringMessage implements Message {
         return this;
     }
 
+    public StringMessage append(@NotNull String append) {
+        this.message = this.message + append;
+        return this;
+    }
+
+    public StringMessage append(@NotNull StringMessage append) {
+        this.message = this.message + append.getMessage();
+        return this;
+    }
+
 }

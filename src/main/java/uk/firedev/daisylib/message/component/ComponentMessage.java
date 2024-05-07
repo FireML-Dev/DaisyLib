@@ -164,6 +164,16 @@ public class ComponentMessage implements Message {
         return addPrefix(prefix.toComponentMessage());
     }
 
+    public ComponentMessage append(@NotNull Component append) {
+        this.message = this.message.append(append);
+        return this;
+    }
+
+    public ComponentMessage append(@NotNull ComponentMessage append) {
+        this.message = this.message.append(append.getMessage());
+        return this;
+    }
+
     public static ComponentMessage getHoverItem(ItemStack item) {
         if (item == null || item.getType().equals(Material.AIR)) {
             return new ComponentMessage("<white>[None]</white>");
