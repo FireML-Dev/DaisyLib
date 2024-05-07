@@ -111,4 +111,8 @@ public class StringMessage implements Message {
         return this;
     }
 
+    public StringMessage duplicate() {
+        return new StringMessage(this.message);
+    }
+
 }

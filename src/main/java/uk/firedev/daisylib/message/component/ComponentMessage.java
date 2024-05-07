@@ -174,6 +174,10 @@ public class ComponentMessage implements Message {
         return this;
     }
 
+    public ComponentMessage duplicate() {
+        return new ComponentMessage(this.message);
+    }
+
     public static ComponentMessage getHoverItem(ItemStack item) {
         if (item == null || item.getType().equals(Material.AIR)) {
             return new ComponentMessage("<white>[None]</white>");
