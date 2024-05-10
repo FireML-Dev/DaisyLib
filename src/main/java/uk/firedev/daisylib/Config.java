@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class Config {
     }
 
     public void reload() {
-        File configFile = loadFile(this.plugin.getDataFolder());
+        File configFile = FileUtils.loadFile(getPlugin().getDataFolder(), this.fileName, getPlugin());
         if (configFile == null) {
             return;
         }
@@ -54,36 +55,10 @@ public class Config {
 
     public @NotNull File getFile() { return file; }
 
-    private File loadFile(File directory) {
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-        File configFile = new File(directory, fileName);
-        if (!configFile.exists()) {
-            try {
-                configFile.createNewFile();
-            } catch (IOException e) {
-                Loggers.logException(e, plugin.getLogger());
-            }
-
-            InputStream stream = plugin.getResource(fileName);
-            if (stream == null) {
-                Loggers.log(Level.SEVERE, plugin.getLogger(), "Could not retrieve " + fileName);
-                return null;
-            }
-            try {
-                Files.copy(stream, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                Loggers.logException(e, plugin.getLogger());
-            }
-            return configFile;
-        }
-        return configFile;
-    }
-
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void updateConfig() {
         File tempDirectory = new File(this.plugin.getDataFolder(), "temp");
-        File tempConfigFile = loadFile(tempDirectory);
+        File tempConfigFile = FileUtils.loadFile(tempDirectory, fileName, getPlugin());
         if (tempConfigFile == null) {
             return;
         }

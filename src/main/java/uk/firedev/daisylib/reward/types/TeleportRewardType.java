@@ -16,6 +16,9 @@ public class TeleportRewardType implements RewardType {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
+        if (!checkAsync()) {
+            return;
+        }
         String[] split = value.split(",");
         double x;
         double y;

@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.message.component.ComponentMessage;
@@ -13,20 +12,18 @@ import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.message.string.StringReplacer;
 import uk.firedev.daisylib.utils.ItemUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ItemBuilder {
 
     private Material material;
     private Component display = null;
     private List<Component> lore = new ArrayList<>();
-    private List<ItemFlag> flags = new ArrayList<>();
+    private Set<ItemFlag> flags = new HashSet<>();
     private Map<Enchantment, Integer> enchantments = new HashMap<>();
     private boolean unbreakable = false;
     private int amount = 1;
+    private boolean glowing = false;
 
     public ItemBuilder(@NotNull Material material) {
         this.material = material;
@@ -111,7 +108,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addAllFlags() {
-        this.flags = List.of(ItemFlag.values());
+        this.flags = Set.of(ItemFlag.values());
         return this;
     }
 
@@ -121,9 +118,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addFlag(@NotNull ItemFlag flag) {
-        if (!this.flags.contains(flag)) {
-            this.flags.add(flag);
-        }
+        this.flags.add(flag);
         return this;
     }
 
@@ -133,16 +128,12 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addFlags(@NotNull List<ItemFlag> flags) {
-        flags.forEach(flag -> {
-            if (!this.flags.contains(flag)) {
-                this.flags.add(flag);
-            }
-        });
+        this.flags.addAll(flags);
         return this;
     }
 
     public ItemBuilder removeFlags(@NotNull List<ItemFlag> flags) {
-        this.flags.removeAll(flags);
+        flags.forEach(this.flags::remove);
         return this;
     }
 
@@ -181,6 +172,11 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder setGlowing(boolean glowing) {
+        this.glowing = glowing;
+        return this;
+    }
+
     public ItemBuilder withAmount(int amount) {
         if (this.amount < 1) {
             amount = 1;
@@ -194,21 +190,22 @@ public class ItemBuilder {
             return null;
         }
         ItemStack stack = new ItemStack(this.material);
-        ItemMeta meta = stack.getItemMeta();
-        if (this.display != null) {
-            meta.displayName(this.display);
-        }
-        if (!this.lore.isEmpty()) {
-            meta.lore(this.lore);
-        }
-        if (!this.flags.isEmpty()) {
-            meta.addItemFlags(this.flags.toArray(ItemFlag[]::new));
-        }
-        if (!this.enchantments.isEmpty()) {
-            this.enchantments.forEach((enchantment, integer) -> meta.addEnchant(enchantment, integer, true));
-        }
-        meta.setUnbreakable(this.unbreakable);
-        stack.setItemMeta(meta);
+        stack.editMeta(meta -> {
+            if (this.display != null) {
+                meta.displayName(this.display);
+            }
+            if (!this.lore.isEmpty()) {
+                meta.lore(this.lore);
+            }
+            if (!this.flags.isEmpty()) {
+                meta.addItemFlags(this.flags.toArray(ItemFlag[]::new));
+            }
+            if (!this.enchantments.isEmpty()) {
+                this.enchantments.forEach((enchantment, integer) -> meta.addEnchant(enchantment, integer, true));
+            }
+            meta.setEnchantmentGlintOverride(this.glowing);
+            meta.setUnbreakable(this.unbreakable);
+        });
         stack.setAmount(this.amount);
         return stack;
     }

@@ -13,6 +13,9 @@ public class MoneyRewardType implements RewardType {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
+        if (!checkAsync()) {
+            return;
+        }
         if (!ObjectUtils.isDouble(value)) {
             Loggers.warning(getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;

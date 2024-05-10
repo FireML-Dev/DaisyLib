@@ -3,6 +3,7 @@ package uk.firedev.daisylib.message.component;
 import io.github.miniplaceholders.api.MiniPlaceholders;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
@@ -103,7 +104,7 @@ public class ComponentMessage implements Message {
     }
 
     public @NotNull Component getMessage() {
-        return this.message;
+        return this.message.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
     }
 
     public StringMessage toStringMessage() {
@@ -161,6 +162,20 @@ public class ComponentMessage implements Message {
 
     public ComponentMessage addPrefix(@NotNull StringMessage prefix) {
         return addPrefix(prefix.toComponentMessage());
+    }
+
+    public ComponentMessage append(@NotNull Component append) {
+        this.message = this.message.append(append);
+        return this;
+    }
+
+    public ComponentMessage append(@NotNull ComponentMessage append) {
+        this.message = this.message.append(append.getMessage());
+        return this;
+    }
+
+    public ComponentMessage duplicate() {
+        return new ComponentMessage(this.message);
     }
 
     public static ComponentMessage getHoverItem(ItemStack item) {

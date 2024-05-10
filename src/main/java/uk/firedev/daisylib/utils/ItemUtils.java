@@ -7,12 +7,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,11 +22,19 @@ import java.util.UUID;
 
 public class ItemUtils {
 
-    public static @Nullable Material getMaterial(@NotNull String materialName, Material defaultMaterial) {
+    public static @NotNull Material getMaterial(@NotNull String materialName, @NotNull Material defaultMaterial) {
+        Material material = getMaterial(materialName);
+        if (material == null) {
+            return defaultMaterial;
+        }
+        return material;
+    }
+
+    public static @Nullable Material getMaterial(@NotNull String materialName) {
         try {
             return Material.valueOf(materialName.toUpperCase());
         } catch (IllegalArgumentException ex) {
-            return defaultMaterial;
+            return null;
         }
     }
 
@@ -41,67 +47,51 @@ public class ItemUtils {
         }
     }
 
-    public static ItemStack setGlowing(ItemStack item, boolean glowing) {
-        if (item == null) {
-            return null;
-        }
-        ItemMeta meta = item.getItemMeta();
-        if (glowing) {
-            meta.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        } else {
-            meta.removeEnchant(Enchantment.DAMAGE_ALL);
-            meta.removeItemFlags(ItemFlag.HIDE_ENCHANTS);
-        }
-        item.setItemMeta(meta);
+    public static ItemStack setGlowing(@NotNull ItemStack item, boolean glowing) {
+        item.editMeta(meta -> meta.setEnchantmentGlintOverride(glowing));
         return item;
     }
 
-    public static ItemStack getHead(OfflinePlayer player, String name) {
-        return getHead(player.getUniqueId(), name);
+    public static ItemStack getHead(@NotNull OfflinePlayer player, @Nullable String displayName) {
+        return getHead(player.getUniqueId(), displayName);
     }
 
-    public static ItemStack getHead(UUID uuid) {
+    public static ItemStack getHead(@NotNull UUID uuid) {
         ItemStack item = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta skull = (SkullMeta) item.getItemMeta();
-        PlayerProfile profile = Bukkit.createProfile(uuid, "Unknown");
-        skull.setPlayerProfile(profile);
-        item.setItemMeta(skull);
+        item.editMeta(SkullMeta.class, meta -> {
+            PlayerProfile profile = Bukkit.createProfile(uuid, "Unknown");
+            meta.setPlayerProfile(profile);
+        });
         return hideAllFlags(item);
     }
 
-    public static ItemStack getHead(UUID uuid, String name) {
+    public static ItemStack getHead(@NotNull UUID uuid, @Nullable String displayName) {
         ItemStack item = getHead(uuid);
-        if (name != null && !name.equals("none")) {
-            SkullMeta skull = (SkullMeta) item.getItemMeta();
-            skull.displayName(new ComponentMessage(name).getMessage());
-            item.setItemMeta(skull);
+        if (displayName != null && !displayName.isEmpty()) {
+            item.editMeta(SkullMeta.class, meta -> meta.displayName(new ComponentMessage(displayName).getMessage()));
         }
         return hideAllFlags(item);
     }
 
-    public static ItemStack getHead(String textures) {
+    public static ItemStack getHead(@NotNull String textures) {
         ItemStack item = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta skull = (SkullMeta) item.getItemMeta();
-        PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID(), "Unknown");
-        profile.setProperty(new ProfileProperty("textures", textures));
-        skull.setPlayerProfile(profile);
-        item.setItemMeta(skull);
+        item.editMeta(SkullMeta.class, meta -> {
+            PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID(), "Unknown");
+            profile.setProperty(new ProfileProperty("textures", textures));
+            meta.setPlayerProfile(profile);
+        });
         return hideAllFlags(item);
     }
 
-    public static ItemStack setHeadSkin(ItemStack item, UUID uuid) {
-        if (!item.getType().equals(Material.PLAYER_HEAD)) {
-            return item;
-        }
-        SkullMeta skull = (SkullMeta) item.getItemMeta();
-        PlayerProfile profile = Bukkit.createProfile(uuid, "Unknown");
-        skull.setPlayerProfile(profile);
-        item.setItemMeta(skull);
+    public static ItemStack setHeadSkin(@NotNull ItemStack item, @NotNull UUID uuid) {
+        item.editMeta(SkullMeta.class, meta -> {
+            PlayerProfile profile = Bukkit.createProfile(uuid, "Unknown");
+            meta.setPlayerProfile(profile);
+        });
         return hideAllFlags(item);
     }
 
-    public static void setSkullProfile(SkullMeta skull, UUID uuid, String name, String... properties) {
+    public static void setSkullProfile(@NotNull SkullMeta skull, @NotNull UUID uuid, @NotNull String name, String... properties) {
         PlayerProfile profile = Bukkit.createProfile(uuid, name);
         for (int i = 0; i + 1 < properties.length; i += 2) {
             profile.setProperty(new ProfileProperty(properties[i], properties[i+1]));
@@ -109,18 +99,17 @@ public class ItemUtils {
         skull.setPlayerProfile(profile);
     }
 
-    public static void markOwned(Item item, Player player) {
+    public static void markOwned(@NotNull Item item, @NotNull OfflinePlayer player) {
         item.setPickupDelay(0);
         item.setOwner(player.getUniqueId());
         item.setCanMobPickup(false);
     }
 
-    public static ItemStack hideAllFlags(ItemStack item) {
-        ItemMeta meta = item.getItemMeta();
-        meta.addItemFlags(ItemFlag.values());
-        item.setItemMeta(meta);
+    public static ItemStack hideAllFlags(@NotNull ItemStack item) {
+        item.editMeta(meta -> meta.addItemFlags(ItemFlag.values()));
         return item;
     }
+
 
     public static ItemStack toIcon(Material material) {
         return material != null ? hideAllFlags(new ItemStack(material)) : null;
@@ -130,7 +119,7 @@ public class ItemUtils {
         return DaisyLib.getInstance().isPluginEnabled("Denizen") && ItemScriptHelper.isItemscript(item);
     }
 
-    public static void giveItems(ItemStack[] items, Player player) {
+    public static void giveItems(@NotNull ItemStack[] items, @NotNull Player player) {
         if (items.length == 0) {
             return;
         }
@@ -140,7 +129,7 @@ public class ItemUtils {
                 .forEach(item -> player.getWorld().dropItem(player.getLocation(), item));
     }
 
-    public static void giveItems(List<ItemStack> items, Player player) {
+    public static void giveItems(@NotNull List<ItemStack> items, @NotNull Player player) {
         if (items.isEmpty()) {
             return;
         }
@@ -150,10 +139,7 @@ public class ItemUtils {
                 .forEach(item -> player.getWorld().dropItem(player.getLocation(), item));
     }
 
-    public static void giveItem(ItemStack item, Player player) {
-        if (item == null) {
-            return;
-        }
+    public static void giveItem(@NotNull ItemStack item, @NotNull Player player) {
         player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.5f, 1.5f);
         player.getInventory().addItem(item)
                 .values()

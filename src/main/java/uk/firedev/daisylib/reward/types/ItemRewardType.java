@@ -17,8 +17,11 @@ public class ItemRewardType implements RewardType {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
+        if (!checkAsync()) {
+            return;
+        }
         String[] splitValue = value.split(",");
-        Material material = ItemUtils.getMaterial(splitValue[0], null);
+        Material material = ItemUtils.getMaterial(splitValue[0]);
         if (material == null) {
             Loggers.log(Level.INFO, getLogger(), "Invalid material specified for RewardType " + getIdentifier() + ": " + splitValue[0]);
             return;
