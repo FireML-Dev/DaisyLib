@@ -24,6 +24,7 @@ public class FileUtils {
                 configFile.createNewFile();
             } catch (IOException e) {
                 Loggers.logException(e, plugin.getLogger());
+                return null;
             }
 
             InputStream stream = plugin.getResource(fileName);
