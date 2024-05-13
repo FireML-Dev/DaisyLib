@@ -4,6 +4,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -51,7 +53,15 @@ public class SQLiteDatabase {
     private void initConnection() {
 
         // Make sure the data folder exists
-        this.plugin.saveDefaultConfig();
+        try {
+            File file = this.plugin.getDataFolder();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (IOException ignored) {
+            this.plugin.getLogger().log(Level.SEVERE, "Failed to create the plugin's data folder!");
+            return;
+        }
 
         // Try to connect to the SQLite database
         String url = "jdbc:sqlite:" + this.plugin.getDataFolder() + "/data.db";
