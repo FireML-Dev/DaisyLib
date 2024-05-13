@@ -23,12 +23,35 @@ public class Config {
     private FileConfiguration config = null;
     private File file = null;
 
+    /**
+     * Creates an instance of the Config class.
+     * @param fileName The name of the config file to use.
+     * @param plugin The plugin associated with the config file.
+     * @param configUpdater Should the config updater be used?
+     */
+    @Deprecated(forRemoval = true)
     public Config(@NotNull String fileName, @NotNull JavaPlugin plugin, boolean configUpdater) {
         this.fileName = fileName;
         this.plugin = plugin;
         reload();
         if (configUpdater) {
-            updateConfig();
+            updateConfig(false);
+        }
+    }
+
+    /**
+     * Creates an instance of the Config class.
+     * @param fileName The name of the config file to use.
+     * @param plugin The plugin associated with the config file.
+     * @param configUpdater Should the config updater be used?
+     * @param removeUnusedConfig Should config options that are not in the default file be removed? Only applies if configUpdater is true.
+     */
+    public Config(@NotNull String fileName, @NotNull JavaPlugin plugin, boolean configUpdater, boolean removeUnusedConfig) {
+        this.fileName = fileName;
+        this.plugin = plugin;
+        reload();
+        if (configUpdater) {
+            updateConfig(removeUnusedConfig);
         }
     }
 
@@ -56,7 +79,7 @@ public class Config {
     public @NotNull File getFile() { return file; }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void updateConfig() {
+    private void updateConfig(boolean removeUnusedConfig) {
         File tempDirectory = new File(this.plugin.getDataFolder(), "temp");
         File tempConfigFile = FileUtils.loadFile(tempDirectory, fileName, getPlugin());
         if (tempConfigFile == null) {
@@ -72,8 +95,8 @@ public class Config {
         }
 
         config.getKeys(true).forEach(key -> {
-            // Don't set keys that aren't in the default config
-            if (!tempConfig.isSet(key)) {
+            // Don't set keys that aren't in the default config if removeUnusedConfig is true.
+            if (removeUnusedConfig && !tempConfig.isSet(key)) {
                 return;
             }
             if (!config.isConfigurationSection(key)) {
