@@ -3,6 +3,7 @@ package uk.firedev.daisylib.database;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,12 +54,7 @@ public class SQLiteDatabase {
     private void initConnection() {
 
         // Make sure the data folder exists
-        try {
-            File file = this.plugin.getDataFolder();
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-        } catch (IOException ignored) {
+        if (!FileUtils.createDirectory(this.plugin.getDataFolder())) {
             this.plugin.getLogger().log(Level.SEVERE, "Failed to create the plugin's data folder!");
             return;
         }

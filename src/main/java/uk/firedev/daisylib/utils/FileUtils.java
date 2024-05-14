@@ -13,20 +13,14 @@ import java.util.logging.Level;
 
 public class FileUtils {
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static File loadFile(@NotNull File directory, @NotNull String fileName, @NotNull Plugin plugin) {
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
+        createDirectory(directory);
         File configFile = new File(directory, fileName);
         if (!configFile.exists()) {
-            try {
-                configFile.createNewFile();
-            } catch (IOException e) {
-                Loggers.logException(e, plugin.getLogger());
+            if (createFile(configFile)) {
+                Loggers.log(Level.WARNING, plugin.getLogger(), "Failed to create " + fileName + "!");
                 return null;
             }
-
             InputStream stream = plugin.getResource(fileName);
             if (stream == null) {
                 Loggers.log(Level.SEVERE, plugin.getLogger(), "Could not retrieve " + fileName);
@@ -40,6 +34,28 @@ public class FileUtils {
             return configFile;
         }
         return configFile;
+    }
+
+    public static boolean createFile(@NotNull File file) {
+        try {
+            if (!file.exists()) {
+                if (file.isDirectory()) {
+                    file.mkdirs();
+                } else {
+                    file.createNewFile();
+                }
+            }
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
+    public static boolean createDirectory(@NotNull File directory) {
+        if (!directory.exists()) {
+            return directory.mkdirs();
+        }
+        return true;
     }
 
 }
