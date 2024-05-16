@@ -1,23 +1,60 @@
 package uk.firedev.daisylib;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import uk.firedev.daisylib.message.component.ComponentMessage;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * This entire class only exists in case I want to do fancy log formatting
- */
 public class Loggers {
+    
+    // net.kyori.adventure.text.logger.slf4j.ComponentLogger methods
+    
+    public static void logException(ComponentLogger logger, Throwable throwable) {
+        logger.error(throwable.getMessage(), throwable);
+    }
 
-    public static void logException(Throwable throwable, Logger logger) { logger.log(Level.SEVERE, throwable.getMessage(), throwable); }
+    public static void info(ComponentLogger logger, Component message) {
+        logger.info(message);
+    }
 
-    public static void log(Level level, Logger logger, String message) { logger.log(level, message); }
+    public static void info(ComponentLogger logger, String message) {
+        logger.info(new ComponentMessage(message).getMessage());
+    }
+    
+    public static void warn(ComponentLogger logger, Component message) {
+        logger.warn(message);
+    }
 
-    public static void log(Level level, Logger logger, String message, Throwable thrown) { logger.log(level, message, thrown); }
+    public static void warn(ComponentLogger logger, String message) {
+        logger.warn(new ComponentMessage(message).getMessage());
+    }
+    
+    public static void error(ComponentLogger logger, Component message) {
+        logger.error(message);
+    }
 
-    public static void info(Logger logger, String message) { logger.log(Level.INFO, message); }
+    public static void error(ComponentLogger logger, String message) {
+        logger.error(new ComponentMessage(message).getMessage());
+    }
+    
+    // java.util.logging.Logger methods
 
-    public static void warning(Logger logger, String message) { logger.log(Level.WARNING, message); }
+    public static void logException(Logger logger, Throwable throwable) {
+        logger.log(Level.SEVERE, throwable.getMessage(), throwable);
+    }
 
-    public static void severe(Logger logger, String message) { logger.log(Level.SEVERE, message); }
+    public static void info(Logger logger, String message) {
+        logger.info(message);
+    }
+
+    public static void warn(Logger logger, String message) {
+        logger.warning(message);
+    }
+
+    public static void error(Logger logger, String message) {
+        logger.severe(message);
+    }
 
 }

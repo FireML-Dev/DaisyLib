@@ -17,7 +17,7 @@ public class MoneyRewardType implements RewardType {
             return;
         }
         if (!ObjectUtils.isDouble(value)) {
-            Loggers.warning(getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
+            Loggers.warn(getComponentLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;
         }
         double amount = Double.parseDouble(value);
@@ -25,7 +25,7 @@ public class MoneyRewardType implements RewardType {
             amount = 0.0D;
         }
         if (VaultManager.getEconomy() == null) {
-            Loggers.warning(getLogger(), "DaisyLib's VaultManager is not enabled! Enable to use RewardType " + getIdentifier());
+            Loggers.warn(getComponentLogger(), "DaisyLib's VaultManager is not enabled! Enable to use RewardType " + getIdentifier());
         } else {
             VaultManager.getEconomy().depositPlayer(player, amount);
         }

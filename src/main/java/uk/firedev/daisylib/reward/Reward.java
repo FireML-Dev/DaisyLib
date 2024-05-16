@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.reward;
 
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +26,7 @@ public class Reward {
             this.key = split[0];
             this.value = String.join(":", Arrays.copyOfRange(split, 1, split.length));
         } catch (IndexOutOfBoundsException ex) {
-            Loggers.log(Level.WARNING, getLogger(), "Broken reward " + identifier);
+            Loggers.warn(getComponentLogger(), "Broken reward " + identifier);
             this.key = "";
             this.value = "";
         }
@@ -33,7 +34,7 @@ public class Reward {
 
     public void rewardPlayer(@NotNull Player player) {
         if (this.key.isEmpty() || this.value.isEmpty()) {
-            Loggers.log(Level.WARNING, getLogger(), "Attempted to give an invalid Reward. Please check for earlier warnings.");
+            Loggers.warn(getComponentLogger(), "Attempted to give an invalid Reward. Please check for earlier warnings.");
             return;
         }
         for (RewardType rewardType : RewardManager.getInstance().getRegisteredRewardTypes()) {
@@ -42,14 +43,14 @@ public class Reward {
                 return;
             }
         }
-        getLogger().warning("Invalid reward. Possible typo?: " + fullIdentifier);
+        Loggers.warn(getComponentLogger(), "Invalid reward. Possible typo?: " + fullIdentifier);
     }
 
-    public Logger getLogger() {
+    public ComponentLogger getComponentLogger() {
         if (plugin instanceof DaisyLib) {
-            return plugin.getLogger();
+            return plugin.getComponentLogger();
         }
-        return Logger.getLogger("DaisyLib via " + plugin.getName());
+        return ComponentLogger.logger("DaisyLib via " + plugin.getName());
     }
 
 }

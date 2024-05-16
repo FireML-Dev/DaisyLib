@@ -18,7 +18,7 @@ public class ExpRewardType implements RewardType {
             return;
         }
         if (!ObjectUtils.isDouble(value)) {
-            Loggers.log(Level.INFO, getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
+            Loggers.info(getComponentLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;
         }
         int amount = (int) Double.parseDouble(value);

@@ -1,13 +1,12 @@
 package uk.firedev.daisylib.reward;
 
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public interface RewardType {
 
@@ -27,17 +26,17 @@ public interface RewardType {
         return RewardManager.getInstance().registerRewardType(this);
     }
 
-    default Logger getLogger() {
+    default ComponentLogger getComponentLogger() {
         if (getPlugin() instanceof DaisyLib) {
-            return getPlugin().getLogger();
+            return getPlugin().getComponentLogger();
         }
-        return Logger.getLogger("DaisyLib via " + getPlugin().getName());
+        return ComponentLogger.logger("DaisyLib via " + getPlugin().getName());
     }
 
     default boolean checkAsync() {
         if (!Bukkit.isPrimaryThread()) {
             IllegalAccessException ex = new IllegalAccessException("Attempted to trigger a RewardType asynchronously. This is not supported!");
-            getLogger().log(Level.SEVERE, ex.getMessage(), ex);
+            Loggers.logException(getComponentLogger(), ex);
             return false;
         }
         return true;

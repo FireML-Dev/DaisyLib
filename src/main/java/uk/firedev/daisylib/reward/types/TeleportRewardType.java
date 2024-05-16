@@ -29,8 +29,8 @@ public class TeleportRewardType implements RewardType {
             y = Double.parseDouble(split[1]);
             z = Double.parseDouble(split[2]);
         } catch (IndexOutOfBoundsException ex) {
-            Loggers.log(Level.WARNING, getLogger(), "Invalid location specified for RewardType " + getIdentifier() + ": " + value + ".");
-            Loggers.log(Level.WARNING, getLogger(), "Format: x,y,z,world");
+            Loggers.warn(getComponentLogger(), "Invalid location specified for RewardType " + getIdentifier() + ": " + value + ".");
+            Loggers.warn(getComponentLogger(), "Format: x,y,z,world");
             return;
         }
         try {

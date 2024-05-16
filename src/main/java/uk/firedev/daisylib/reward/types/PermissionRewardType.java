@@ -16,7 +16,7 @@ public class PermissionRewardType implements RewardType {
             return;
         }
         if (VaultManager.getPermissions() == null) {
-            Loggers.warning(getLogger(), "DaisyLib's VaultManager is not enabled! Enable to use RewardType " + getIdentifier());
+            Loggers.warn(getComponentLogger(), "DaisyLib's VaultManager is not enabled! Enable to use RewardType " + getIdentifier());
         } else {
             VaultManager.getPermissions().playerAdd(null, player, value);
         }

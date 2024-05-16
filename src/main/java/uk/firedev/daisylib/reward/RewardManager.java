@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.reward;
 
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.reward.types.*;
 
@@ -49,7 +50,9 @@ public class RewardManager {
         if (rewardTypes.containsKey(identifier.toUpperCase())) {
             return false;
         }
-        DaisyLib.getInstance().getLogger().info("Registered " + rewardType.getIdentifier() + " RewardType by " + rewardType.getAuthor() + " from the plugin " + rewardType.getPlugin().getName());
+        Loggers.info(DaisyLib.getInstance().getComponentLogger(),
+                "<green>Registered <gold>" + rewardType.getIdentifier() + "</gold> RewardType by <gold>" + rewardType.getAuthor() + "</gold> from the plugin <aqua>" + rewardType.getPlugin().getName()
+        );
         rewardTypes.put(identifier.toUpperCase(), rewardType);
         return true;
     }

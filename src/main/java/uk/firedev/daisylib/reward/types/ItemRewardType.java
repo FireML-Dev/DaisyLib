@@ -23,13 +23,13 @@ public class ItemRewardType implements RewardType {
         String[] splitValue = value.split(",");
         Material material = ItemUtils.getMaterial(splitValue[0]);
         if (material == null) {
-            Loggers.log(Level.INFO, getLogger(), "Invalid material specified for RewardType " + getIdentifier() + ": " + splitValue[0]);
+            Loggers.info(getComponentLogger(), "Invalid material specified for RewardType " + getIdentifier() + ": " + splitValue[0]);
             return;
         }
         int quantity = 1;
         if (splitValue.length >= 2) {
             if (!ObjectUtils.isInt(splitValue[1])) {
-                Loggers.log(Level.INFO, getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + splitValue[1]);
+                Loggers.info(getComponentLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + splitValue[1]);
                 return;
             }
             quantity = Math.max(Integer.parseInt(splitValue[1]), 1);

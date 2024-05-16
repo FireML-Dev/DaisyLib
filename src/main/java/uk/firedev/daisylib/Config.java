@@ -64,7 +64,7 @@ public class Config {
             this.config = config;
             this.file = configFile;
         } catch (IOException | InvalidConfigurationException e) {
-            Loggers.logException(e, plugin.getLogger());
+            Loggers.logException(plugin.getComponentLogger(), e);
         }
     }
 
@@ -104,7 +104,7 @@ public class Config {
             tempConfig.save(file);
             tempConfigFile.delete();
         } catch (IOException ex) {
-            Loggers.logException(ex, plugin.getLogger());
+            Loggers.logException(plugin.getComponentLogger(), ex);
         }
         reload();
     }

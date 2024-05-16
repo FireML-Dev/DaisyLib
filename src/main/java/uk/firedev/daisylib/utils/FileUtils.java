@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.logging.Level;
 
 public class FileUtils {
 
@@ -17,19 +16,19 @@ public class FileUtils {
         createDirectory(directory);
         File configFile = new File(directory, fileName);
         if (!configFile.exists()) {
-            if (createFile(configFile)) {
-                Loggers.log(Level.WARNING, plugin.getLogger(), "Failed to create " + fileName + "!");
+            if (!createFile(configFile)) {
+                Loggers.warn(plugin.getComponentLogger(), "Failed to create " + fileName + "!");
                 return null;
             }
             InputStream stream = plugin.getResource(fileName);
             if (stream == null) {
-                Loggers.log(Level.SEVERE, plugin.getLogger(), "Could not retrieve " + fileName);
+                Loggers.error(plugin.getComponentLogger(), "Could not retrieve " + fileName);
                 return null;
             }
             try {
                 Files.copy(stream, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
-                Loggers.logException(e, plugin.getLogger());
+                Loggers.logException(plugin.getComponentLogger(), e);
             }
             return configFile;
         }

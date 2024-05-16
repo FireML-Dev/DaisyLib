@@ -20,7 +20,7 @@ public class HealthRewardType implements RewardType {
             return;
         }
         if (!ObjectUtils.isDouble(value)) {
-            Loggers.log(Level.INFO, getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
+            Loggers.info(getComponentLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;
         }
         double amount = Double.parseDouble(value);
