@@ -24,22 +24,6 @@ public class Config {
      * @param fileName The name of the config file to use.
      * @param plugin The plugin associated with the config file.
      * @param configUpdater Should the config updater be used?
-     */
-    @Deprecated(forRemoval = true)
-    public Config(@NotNull String fileName, @NotNull JavaPlugin plugin, boolean configUpdater) {
-        this.fileName = fileName;
-        this.plugin = plugin;
-        reload();
-        if (configUpdater) {
-            updateConfig(false);
-        }
-    }
-
-    /**
-     * Creates an instance of the Config class.
-     * @param fileName The name of the config file to use.
-     * @param plugin The plugin associated with the config file.
-     * @param configUpdater Should the config updater be used?
      * @param removeUnusedConfig Should config options that are not in the default file be removed? Only applies if configUpdater is true.
      */
     public Config(@NotNull String fileName, @NotNull JavaPlugin plugin, boolean configUpdater, boolean removeUnusedConfig) {
@@ -51,10 +35,12 @@ public class Config {
         }
     }
 
-    public void reload() {
+    public boolean reload() {
+        Loggers.info(this.plugin.getComponentLogger(), "Reloading " + fileName + " from disk.");
         File configFile = FileUtils.loadFile(getPlugin().getDataFolder(), this.fileName, getPlugin());
         if (configFile == null) {
-            return;
+            Loggers.warn(this.plugin.getComponentLogger(), "Failed to reload " + fileName + " from disk.");
+            return false;
         }
 
         FileConfiguration config = new YamlConfiguration();
@@ -63,8 +49,11 @@ public class Config {
             config.load(configFile);
             this.config = config;
             this.file = configFile;
+            return true;
         } catch (IOException | InvalidConfigurationException e) {
+            Loggers.warn(this.plugin.getComponentLogger(), "Failed to reload " + fileName + " from disk.");
             Loggers.logException(plugin.getComponentLogger(), e);
+            return false;
         }
     }
 
@@ -76,9 +65,11 @@ public class Config {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void updateConfig(boolean removeUnusedConfig) {
+        Loggers.info(this.plugin.getComponentLogger(), "Updating default values for " + fileName);
         File tempDirectory = new File(this.plugin.getDataFolder(), "temp");
         File tempConfigFile = FileUtils.loadFile(tempDirectory, fileName, getPlugin());
         if (tempConfigFile == null) {
+            Loggers.warn(this.plugin.getComponentLogger(), "Failed to update default values for " + fileName);
             return;
         }
 
@@ -87,6 +78,7 @@ public class Config {
         try {
             tempConfig.load(tempConfigFile);
         } catch (IOException | InvalidConfigurationException e) {
+            Loggers.warn(this.plugin.getComponentLogger(), "Failed to update default values for " + fileName);
             return;
         }
 
@@ -105,8 +97,11 @@ public class Config {
             tempConfigFile.delete();
         } catch (IOException ex) {
             Loggers.logException(plugin.getComponentLogger(), ex);
+            Loggers.warn(this.plugin.getComponentLogger(), "Failed to update default values for " + fileName);
+            return;
         }
         reload();
+        Loggers.info(this.plugin.getComponentLogger(), "Updated default values for " + fileName);
     }
 
 }
