@@ -39,6 +39,9 @@ public class ItemUtils {
     }
 
     public static boolean validMaterial(String materialName) {
+        if (materialName == null || materialName.isEmpty()) {
+            return false;
+        }
         try {
             Material.valueOf(materialName.toUpperCase());
             return true;
