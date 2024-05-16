@@ -28,20 +28,39 @@ public class VaultManager {
         return instance;
     }
 
+    /**
+     * Gets the Economy service if available.
+     * @return the Economy service, or null if not available.
+     */
     public static @Nullable Economy getEconomy() {
         return economy;
     }
 
+    /**
+     * Gets the Permissions service if available.
+     * @return the Permissions service, or null if not available.
+     */
     public static @Nullable Permission getPermissions() {
         return permission;
     }
 
+    /**
+     * Gets the Chat service if available.
+     * @return the Chat service, or null if not available.
+     */
     public static @Nullable Chat getChat() {
         return chat;
     }
 
+    /**
+     * Checks if the VaultManager is loaded.
+     * @return true if VaultManager is loaded, false otherwise.
+     */
     public boolean isLoaded() { return loaded; }
 
+    /**
+     * Loads Vault services if the Vault hook is enabled in the configuration.
+     */
     public void load() {
         if (MainConfig.getInstance().shouldHookVault()) {
             if (!setupEconomy()) {
