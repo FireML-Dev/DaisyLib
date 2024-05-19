@@ -4,6 +4,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.message.component.ComponentMessage;
@@ -80,10 +81,10 @@ public class BossBarBuilder {
         return this;
     }
 
-    public void sendAll() { Bukkit.getOnlinePlayers().forEach(this::send); }
+    public void sendAll() { Audience.audience(Bukkit.getOnlinePlayers()).showBossBar(build()); }
 
-    public void send(Audience audience) {
-        audience.showBossBar(build());
+    public void send(Player player) {
+        player.showBossBar(build());
     }
 
     public BossBar build() {

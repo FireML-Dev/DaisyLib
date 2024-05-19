@@ -8,8 +8,6 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Reward {
 

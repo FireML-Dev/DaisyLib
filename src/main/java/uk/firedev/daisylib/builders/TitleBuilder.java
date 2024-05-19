@@ -4,6 +4,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.message.component.ComponentMessage;
@@ -109,10 +110,10 @@ public class TitleBuilder {
         return Title.title(title, subtitle, times);
     }
 
-    public void sendAll() { Bukkit.getOnlinePlayers().forEach(this::send); }
+    public void sendAll() { Audience.audience(Bukkit.getOnlinePlayers()).showTitle(build()); }
 
-    public void send(Audience audience) {
-        audience.showTitle(build());
+    public void send(Player player) {
+        player.showTitle(build());
     }
 
 }

@@ -10,8 +10,6 @@ import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.reward.RewardType;
 import uk.firedev.daisylib.utils.ObjectUtils;
 
-import java.util.logging.Level;
-
 public class HealthRewardType implements RewardType {
 
     @Override

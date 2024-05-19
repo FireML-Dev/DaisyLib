@@ -11,8 +11,6 @@ import uk.firedev.daisylib.reward.RewardType;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
 
-import java.util.logging.Level;
-
 public class ItemRewardType implements RewardType {
 
     @Override

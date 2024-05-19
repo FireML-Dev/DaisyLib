@@ -10,8 +10,6 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.reward.RewardType;
 
-import java.util.logging.Level;
-
 public class TeleportRewardType implements RewardType {
 
     @Override

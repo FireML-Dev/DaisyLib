@@ -8,8 +8,6 @@ import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.local.config.MainConfig;
 
-import java.util.logging.Level;
-
 public class VaultManager {
 
     private static VaultManager instance = null;
