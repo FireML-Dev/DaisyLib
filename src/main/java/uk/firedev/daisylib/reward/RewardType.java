@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 
+import java.util.logging.Logger;
+
 public interface RewardType {
 
     default boolean isApplicable(@NotNull String key) {
@@ -31,6 +33,13 @@ public interface RewardType {
             return getPlugin().getComponentLogger();
         }
         return ComponentLogger.logger("DaisyLib via " + getPlugin().getName());
+    }
+
+    default Logger getLogger() {
+        if (getPlugin() instanceof DaisyLib) {
+            return getPlugin().getLogger();
+        }
+        return Logger.getLogger("DaisyLib via " + getPlugin().getName());
     }
 
     default boolean checkAsync() {
