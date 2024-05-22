@@ -19,24 +19,55 @@ public class Loggers {
         logger.info(message);
     }
 
+    public static void info(ComponentLogger logger, Component message, Throwable throwable) {
+        info(logger, message);
+        logException(logger, throwable);
+    }
+
+
     public static void info(ComponentLogger logger, String message) {
         logger.info(new ComponentMessage(message).getMessage());
+    }
+
+    public static void info(ComponentLogger logger, String message, Throwable throwable) {
+        info(logger, message);
+        logException(logger, throwable);
     }
     
     public static void warn(ComponentLogger logger, Component message) {
         logger.warn(message);
     }
 
+    public static void warn(ComponentLogger logger, Component message, Throwable throwable) {
+        warn(logger, message);
+        logException(logger, throwable);
+    }
+
     public static void warn(ComponentLogger logger, String message) {
         logger.warn(new ComponentMessage(message).getMessage());
+    }
+
+    public static void warn(ComponentLogger logger, String message, Throwable throwable) {
+        warn(logger, message);
+        logException(logger, throwable);
     }
     
     public static void error(ComponentLogger logger, Component message) {
         logger.error(message);
     }
 
+    public static void error(ComponentLogger logger, Component message, Throwable throwable) {
+        error(logger, message);
+        logException(logger, throwable);
+    }
+
     public static void error(ComponentLogger logger, String message) {
         logger.error(new ComponentMessage(message).getMessage());
+    }
+
+    public static void error(ComponentLogger logger, String message, Throwable throwable) {
+        error(logger, message);
+        logException(logger, throwable);
     }
     
     // java.util.logging.Logger methods
@@ -49,12 +80,27 @@ public class Loggers {
         logger.info(message);
     }
 
+    public static void info(Logger logger, String message, Throwable throwable) {
+        info(logger, message);
+        logException(logger, throwable);
+    }
+
     public static void warn(Logger logger, String message) {
         logger.warning(message);
     }
 
+    public static void warn(Logger logger, String message, Throwable throwable) {
+        warn(logger, message);
+        logException(logger, throwable);
+    }
+
     public static void error(Logger logger, String message) {
         logger.severe(message);
+    }
+
+    public static void error(Logger logger, String message, Throwable throwable) {
+        error(logger, message);
+        logException(logger, throwable);
     }
 
 }
