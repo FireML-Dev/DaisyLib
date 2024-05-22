@@ -23,7 +23,6 @@ public final class DaisyLib extends JavaPlugin {
     public void onLoad() {
         CommandAPI.onLoad(new CommandAPIBukkitConfig(this)
                 .shouldHookPaperReload(true)
-                .useMojangMappings(true)
         );
     }
 
