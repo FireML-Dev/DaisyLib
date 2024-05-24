@@ -1,6 +1,6 @@
 ## DaisyLib
 
-A central library for things commonly used in FireML's Custom Plugins.
+A collection of classes for easier use of Paper's API.
 
 https://ci.firedev.uk/job/DaisyLib/
 
@@ -17,7 +17,7 @@ https://ci.firedev.uk/job/DaisyLib/
         <dependency>
             <groupId>uk.firedev</groupId>
             <artifactId>DaisyLib</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>2.0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
