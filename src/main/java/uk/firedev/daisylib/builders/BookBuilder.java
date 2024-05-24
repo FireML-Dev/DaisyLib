@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.builders;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -94,10 +95,10 @@ public class BookBuilder {
 
     public Book build() { return Book.book(this.title, this.author, this.pages); }
 
-    public void showAll() { Bukkit.getOnlinePlayers().forEach(this::show); }
+    public void showAll() { Audience.audience(Bukkit.getOnlinePlayers()).openBook(build()); }
 
     public void show(Player player) { player.openBook(build()); }
 
-    public void show(List<Player> players) { players.forEach(this::show); }
+    public void show(List<Player> players) { Audience.audience(players).openBook(build()); }
 
 }

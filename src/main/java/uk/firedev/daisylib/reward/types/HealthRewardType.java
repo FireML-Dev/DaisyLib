@@ -10,14 +10,15 @@ import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.reward.RewardType;
 import uk.firedev.daisylib.utils.ObjectUtils;
 
-import java.util.logging.Level;
-
 public class HealthRewardType implements RewardType {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
+        if (!checkAsync()) {
+            return;
+        }
         if (!ObjectUtils.isDouble(value)) {
-            Loggers.log(Level.INFO, getLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
+            Loggers.info(getComponentLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;
         }
         double amount = Double.parseDouble(value);

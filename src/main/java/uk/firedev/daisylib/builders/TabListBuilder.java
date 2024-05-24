@@ -3,6 +3,7 @@ package uk.firedev.daisylib.builders;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.message.component.ComponentMessage;
@@ -57,10 +58,10 @@ public class TabListBuilder {
         return withStringHeader(header, replacer).withStringFooter(footer, replacer);
     }
 
-    public void sendAll() { Bukkit.getOnlinePlayers().forEach(this::send); }
+    public void sendAll() { Audience.audience(Bukkit.getOnlinePlayers()).sendPlayerListHeaderAndFooter(this.header, this.footer); }
 
-    public void send(List<Audience> audiences) { audiences.forEach(this::send); }
+    public void send(List<Player> players) { Audience.audience(players).sendPlayerListHeaderAndFooter(this.header, this.footer); }
 
-    public void send(Audience audience) { audience.sendPlayerListHeaderAndFooter(this.header, this.footer); }
+    public void send(Player player) { player.sendPlayerListHeaderAndFooter(this.header, this.footer); }
 
 }

@@ -8,8 +8,6 @@ import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.local.config.MainConfig;
 
-import java.util.logging.Level;
-
 public class VaultManager {
 
     private static VaultManager instance = null;
@@ -28,30 +26,49 @@ public class VaultManager {
         return instance;
     }
 
+    /**
+     * Gets the Economy service if available.
+     * @return the Economy service, or null if not available.
+     */
     public static @Nullable Economy getEconomy() {
         return economy;
     }
 
+    /**
+     * Gets the Permissions service if available.
+     * @return the Permissions service, or null if not available.
+     */
     public static @Nullable Permission getPermissions() {
         return permission;
     }
 
+    /**
+     * Gets the Chat service if available.
+     * @return the Chat service, or null if not available.
+     */
     public static @Nullable Chat getChat() {
         return chat;
     }
 
+    /**
+     * Checks if the VaultManager is loaded.
+     * @return true if VaultManager is loaded, false otherwise.
+     */
     public boolean isLoaded() { return loaded; }
 
+    /**
+     * Loads Vault services if the Vault hook is enabled in the configuration.
+     */
     public void load() {
         if (MainConfig.getInstance().shouldHookVault()) {
             if (!setupEconomy()) {
-                Loggers.log(Level.WARNING, DaisyLib.getInstance().getLogger(), "Vault Economy not found.");
+                Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Vault Economy not found.");
             }
             if (!setupPermissions()) {
-                Loggers.log(Level.WARNING, DaisyLib.getInstance().getLogger(), "Vault Permissions not found.");
+                Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Vault Permissions not found.");
             }
             if (!setupChat()) {
-                Loggers.log(Level.WARNING, DaisyLib.getInstance().getLogger(), "Vault Chat not found.");
+                Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Vault Chat not found.");
             }
             // Only set loaded if the vault hook is enabled.
             loaded = true;

@@ -12,6 +12,9 @@ public class CommandRewardType implements RewardType {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
+        if (!checkAsync()) {
+            return;
+        }
         value = new StringReplacer().addReplacements(
                 "player", player.getName(),
                 "x", String.valueOf(player.getLocation().getX()),

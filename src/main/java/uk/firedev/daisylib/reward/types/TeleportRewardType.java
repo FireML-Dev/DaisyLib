@@ -10,12 +10,13 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.reward.RewardType;
 
-import java.util.logging.Level;
-
 public class TeleportRewardType implements RewardType {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
+        if (!checkAsync()) {
+            return;
+        }
         String[] split = value.split(",");
         double x;
         double y;
@@ -26,8 +27,8 @@ public class TeleportRewardType implements RewardType {
             y = Double.parseDouble(split[1]);
             z = Double.parseDouble(split[2]);
         } catch (IndexOutOfBoundsException ex) {
-            Loggers.log(Level.WARNING, getLogger(), "Invalid location specified for RewardType " + getIdentifier() + ": " + value + ".");
-            Loggers.log(Level.WARNING, getLogger(), "Format: x,y,z,world");
+            Loggers.warn(getComponentLogger(), "Invalid location specified for RewardType " + getIdentifier() + ": " + value + ".");
+            Loggers.warn(getComponentLogger(), "Format: x,y,z,world");
             return;
         }
         try {

@@ -7,6 +7,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.message.Message;
 import uk.firedev.daisylib.message.component.ComponentMessage;
@@ -26,7 +27,7 @@ public class StringMessage implements Message {
         }
         if (message == null) {
             this.message = def;
-            DaisyLib.getInstance().getLogger().warning("Invalid message at " + path + ". Using the default value.");
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
         } else {
             this.message = message;
         }
@@ -35,7 +36,7 @@ public class StringMessage implements Message {
     public StringMessage(@Nullable String message, @NotNull String def) {
         if (message == null) {
             this.message = def;
-            DaisyLib.getInstance().getLogger().warning("Invalid message supplied. Using the default value.");
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message supplied. Using the default value.");
         } else {
             this.message = message;
         }
@@ -99,6 +100,20 @@ public class StringMessage implements Message {
     public StringMessage addPrefix(@NotNull StringMessage prefix) {
         this.message = prefix.getMessage() + this.message;
         return this;
+    }
+
+    public StringMessage append(@NotNull String append) {
+        this.message = this.message + append;
+        return this;
+    }
+
+    public StringMessage append(@NotNull StringMessage append) {
+        this.message = this.message + append.getMessage();
+        return this;
+    }
+
+    public StringMessage duplicate() {
+        return new StringMessage(this.message);
     }
 
 }

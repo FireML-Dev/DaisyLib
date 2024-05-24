@@ -6,13 +6,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.logging.Level;
 
 public class Config {
 
@@ -22,19 +19,28 @@ public class Config {
     private FileConfiguration config = null;
     private File file = null;
 
-    public Config(@NotNull String fileName, @NotNull JavaPlugin plugin, boolean configUpdater) {
+    /**
+     * Creates an instance of the Config class.
+     * @param fileName The name of the config file to use.
+     * @param plugin The plugin associated with the config file.
+     * @param configUpdater Should the config updater be used?
+     * @param removeUnusedConfig Should config options that are not in the default file be removed? Only applies if configUpdater is true.
+     */
+    public Config(@NotNull String fileName, @NotNull JavaPlugin plugin, boolean configUpdater, boolean removeUnusedConfig) {
         this.fileName = fileName;
         this.plugin = plugin;
         reload();
         if (configUpdater) {
-            updateConfig();
+            updateConfig(removeUnusedConfig);
         }
     }
 
-    public void reload() {
-        File configFile = loadFile(this.plugin.getDataFolder());
+    public boolean reload() {
+        Loggers.info(this.plugin.getComponentLogger(), "Reloading " + fileName + " from disk.");
+        File configFile = FileUtils.loadFile(getPlugin().getDataFolder(), this.fileName, getPlugin());
         if (configFile == null) {
-            return;
+            Loggers.warn(this.plugin.getComponentLogger(), "Failed to reload " + fileName + " from disk.");
+            return false;
         }
 
         FileConfiguration config = new YamlConfiguration();
@@ -43,8 +49,11 @@ public class Config {
             config.load(configFile);
             this.config = config;
             this.file = configFile;
+            return true;
         } catch (IOException | InvalidConfigurationException e) {
-            Loggers.logException(e, plugin.getLogger());
+            Loggers.warn(this.plugin.getComponentLogger(), "Failed to reload " + fileName + " from disk.");
+            Loggers.logException(plugin.getComponentLogger(), e);
+            return false;
         }
     }
 
@@ -54,37 +63,13 @@ public class Config {
 
     public @NotNull File getFile() { return file; }
 
-    private File loadFile(File directory) {
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-        File configFile = new File(directory, fileName);
-        if (!configFile.exists()) {
-            try {
-                configFile.createNewFile();
-            } catch (IOException e) {
-                Loggers.logException(e, plugin.getLogger());
-            }
-
-            InputStream stream = plugin.getResource(fileName);
-            if (stream == null) {
-                Loggers.log(Level.SEVERE, plugin.getLogger(), "Could not retrieve " + fileName);
-                return null;
-            }
-            try {
-                Files.copy(stream, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                Loggers.logException(e, plugin.getLogger());
-            }
-            return configFile;
-        }
-        return configFile;
-    }
-
-    private void updateConfig() {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private void updateConfig(boolean removeUnusedConfig) {
+        Loggers.info(this.plugin.getComponentLogger(), "Updating default values for " + fileName);
         File tempDirectory = new File(this.plugin.getDataFolder(), "temp");
-        File tempConfigFile = loadFile(tempDirectory);
+        File tempConfigFile = FileUtils.loadFile(tempDirectory, fileName, getPlugin());
         if (tempConfigFile == null) {
+            Loggers.warn(this.plugin.getComponentLogger(), "Failed to update default values for " + fileName);
             return;
         }
 
@@ -93,12 +78,13 @@ public class Config {
         try {
             tempConfig.load(tempConfigFile);
         } catch (IOException | InvalidConfigurationException e) {
+            Loggers.warn(this.plugin.getComponentLogger(), "Failed to update default values for " + fileName);
             return;
         }
 
         config.getKeys(true).forEach(key -> {
-            // Don't set keys that aren't in the default config
-            if (!tempConfig.isSet(key)) {
+            // Don't set keys that aren't in the default config if removeUnusedConfig is true.
+            if (removeUnusedConfig && !tempConfig.isSet(key)) {
                 return;
             }
             if (!config.isConfigurationSection(key)) {
@@ -110,9 +96,12 @@ public class Config {
             tempConfig.save(file);
             tempConfigFile.delete();
         } catch (IOException ex) {
-            Loggers.logException(ex, plugin.getLogger());
+            Loggers.logException(plugin.getComponentLogger(), ex);
+            Loggers.warn(this.plugin.getComponentLogger(), "Failed to update default values for " + fileName);
+            return;
         }
         reload();
+        Loggers.info(this.plugin.getComponentLogger(), "Updated default values for " + fileName);
     }
 
 }

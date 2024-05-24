@@ -12,6 +12,13 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.local.config.MainConfig;
 
+/**
+ * Utility class to handle block placement and break events.
+ * Implements very strict rules where once a block is marked as placed or broken,
+ * it is permanently marked with that status unless it is explicitly unmarked by another plugin.
+ * <p>
+ * This class listens for block placement and break events to enforce these rules, if enablePlaceBreak is enabled in config.
+ */
 public class BlockUtils implements Listener {
 
     /**
@@ -32,6 +39,10 @@ public class BlockUtils implements Listener {
         return chunk.getPersistentDataContainer().has(key);
     }
 
+    /**
+     * Mark a block as broken
+     * @param block The block to mark
+     */
     public static void applyBreak(@NotNull Block block) {
         if (isPlayerPlaced(block) && !isPlayerBroken(block)) {
             Chunk chunk = block.getChunk();
@@ -40,6 +51,10 @@ public class BlockUtils implements Listener {
         }
     }
 
+    /**
+     * Unmark a block as broken
+     * @param block The block to unmark
+     */
     public static void removeBreak(@NotNull Block block) {
         Chunk chunk = block.getChunk();
         NamespacedKey brokenKey = ObjectUtils.createNamespacedKey("blockbroken-" + ObjectUtils.locationToString(block.getLocation(), false), null);
@@ -48,6 +63,10 @@ public class BlockUtils implements Listener {
         }
     }
 
+    /**
+     * Mark a block as placed
+     * @param block The block to mark
+     */
     public static void applyPlace(@NotNull Block block) {
         Chunk chunk = block.getChunk();
         NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + ObjectUtils.locationToString(block.getLocation(), false), null);
@@ -56,6 +75,10 @@ public class BlockUtils implements Listener {
         }
     }
 
+    /**
+     * Unmark a block as placed
+     * @param block The block to unmark
+     */
     public static void removePlace(@NotNull Block block) {
         Chunk chunk = block.getChunk();
         NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + ObjectUtils.locationToString(block.getLocation(), false), null);
@@ -63,6 +86,8 @@ public class BlockUtils implements Listener {
             chunk.getPersistentDataContainer().remove(placedKey);
         }
     }
+
+    // Listeners
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlace(BlockPlaceEvent e) {

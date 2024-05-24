@@ -3,6 +3,7 @@ package uk.firedev.daisylib.message.component;
 import io.github.miniplaceholders.api.MiniPlaceholders;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.message.Message;
 import uk.firedev.daisylib.message.string.StringMessage;
@@ -33,7 +35,7 @@ public class ComponentMessage implements Message {
         }
         if (message == null) {
             this.message = def;
-            DaisyLib.getInstance().getLogger().warning("Invalid message at " + path + ". Using the default value.");
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
         } else {
             this.message = MiniMessage.miniMessage().deserialize(message);
         }
@@ -48,7 +50,7 @@ public class ComponentMessage implements Message {
         }
         if (message == null) {
             this.message = MiniMessage.miniMessage().deserialize(def);
-            DaisyLib.getInstance().getLogger().warning("Invalid message at " + path + ". Using the default value.");
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
         } else {
             this.message = MiniMessage.miniMessage().deserialize(message);
         }
@@ -57,7 +59,7 @@ public class ComponentMessage implements Message {
     public ComponentMessage(@Nullable String message, @NotNull Component def) {
         if (message == null) {
             this.message = def;
-            DaisyLib.getInstance().getLogger().warning("Invalid message supplied. Using the default value.");
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message supplied. Using the default value.");
         } else {
             this.message = MiniMessage.miniMessage().deserialize(message);
         }
@@ -103,7 +105,7 @@ public class ComponentMessage implements Message {
     }
 
     public @NotNull Component getMessage() {
-        return this.message;
+        return this.message.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
     }
 
     public StringMessage toStringMessage() {
@@ -161,6 +163,20 @@ public class ComponentMessage implements Message {
 
     public ComponentMessage addPrefix(@NotNull StringMessage prefix) {
         return addPrefix(prefix.toComponentMessage());
+    }
+
+    public ComponentMessage append(@NotNull Component append) {
+        this.message = this.message.append(append);
+        return this;
+    }
+
+    public ComponentMessage append(@NotNull ComponentMessage append) {
+        this.message = this.message.append(append.getMessage());
+        return this;
+    }
+
+    public ComponentMessage duplicate() {
+        return new ComponentMessage(this.message);
     }
 
     public static ComponentMessage getHoverItem(ItemStack item) {

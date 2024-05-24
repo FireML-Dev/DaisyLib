@@ -11,14 +11,12 @@ import java.util.List;
 public class ShapelessRecipe extends org.bukkit.inventory.ShapelessRecipe {
 
     private final NamespacedKey key;
-    private final ItemStack result;
     private final List<ItemStack> recipeItems;
     private boolean registered = false;
 
     public ShapelessRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull List<ItemStack> recipeItems) {
         super(key, result);
         this.key = key;
-        this.result = result;
         if (recipeItems.size() > 9) {
             this.recipeItems = recipeItems.subList(0, 8);
         } else {
