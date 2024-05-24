@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>DaisyLib</name>
-    <description>A central library for things commonly used in FireML's Custom Plugins.</description>
+    <description>A collection of classes for easier use of Paper's API</description>
 
     <properties>
         <java.version>21</java.version>
