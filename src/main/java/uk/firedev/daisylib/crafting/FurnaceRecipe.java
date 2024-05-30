@@ -18,7 +18,7 @@ public class FurnaceRecipe extends org.bukkit.inventory.FurnaceRecipe {
     }
 
     public FurnaceRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull ItemStack source, float experience, int cookingTime) {
-        super(key, result, new RecipeChoice.ExactChoice(source), experience, cookingTime);
+        super(key, result, RecipeUtil.getRecipeChoiceFromItem(source), experience, cookingTime);
         this.key = key;
     }
 

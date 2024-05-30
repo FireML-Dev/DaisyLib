@@ -18,7 +18,7 @@ public class BlastFurnaceRecipe extends org.bukkit.inventory.BlastingRecipe {
     }
 
     public BlastFurnaceRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull ItemStack source, float experience, int cookingTime) {
-        super(key, result, new RecipeChoice.ExactChoice(source), experience, cookingTime);
+        super(key, result, RecipeUtil.getRecipeChoiceFromItem(source), experience, cookingTime);
         this.key = key;
     }
 

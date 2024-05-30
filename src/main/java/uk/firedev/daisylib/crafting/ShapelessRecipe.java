@@ -26,7 +26,7 @@ public class ShapelessRecipe extends org.bukkit.inventory.ShapelessRecipe {
     }
 
     private void buildRecipe() {
-        recipeItems.forEach(itemStack -> addIngredient(new RecipeChoice.ExactChoice(itemStack)));
+        recipeItems.forEach(item -> addIngredient(RecipeUtil.getRecipeChoiceFromItem(item)));
     }
 
     public boolean register() {

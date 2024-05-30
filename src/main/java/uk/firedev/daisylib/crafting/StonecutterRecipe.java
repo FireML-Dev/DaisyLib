@@ -18,7 +18,7 @@ public class StonecutterRecipe extends org.bukkit.inventory.StonecuttingRecipe {
     }
 
     public StonecutterRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull ItemStack source) {
-        super(key, result, new RecipeChoice.ExactChoice(source));
+        super(key, result, RecipeUtil.getRecipeChoiceFromItem(source));
         this.key = key;
     }
 
