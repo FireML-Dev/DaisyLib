@@ -36,10 +36,9 @@ public class Config {
     }
 
     public boolean reload() {
-        Loggers.info(this.plugin.getComponentLogger(), "Reloading " + fileName + " from disk.");
         File configFile = FileUtils.loadFile(getPlugin().getDataFolder(), this.fileName, getPlugin());
         if (configFile == null) {
-            Loggers.warn(this.plugin.getComponentLogger(), "Failed to reload " + fileName + " from disk.");
+            Loggers.warn(this.plugin.getComponentLogger(), "Failed to reload " + fileName + ".");
             return false;
         }
 
@@ -51,7 +50,7 @@ public class Config {
             this.file = configFile;
             return true;
         } catch (IOException | InvalidConfigurationException e) {
-            Loggers.warn(this.plugin.getComponentLogger(), "Failed to reload " + fileName + " from disk.");
+            Loggers.warn(this.plugin.getComponentLogger(), "Failed to reload " + fileName + ".");
             Loggers.logException(plugin.getComponentLogger(), e);
             return false;
         }
@@ -65,7 +64,6 @@ public class Config {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void updateConfig(boolean removeUnusedConfig) {
-        Loggers.info(this.plugin.getComponentLogger(), "Updating default values for " + fileName);
         File tempDirectory = new File(this.plugin.getDataFolder(), "temp");
         File tempConfigFile = FileUtils.loadFile(tempDirectory, fileName, getPlugin());
         if (tempConfigFile == null) {
