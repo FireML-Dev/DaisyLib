@@ -38,7 +38,10 @@ public class ShapedRecipe extends org.bukkit.inventory.ShapedRecipe {
                 item = new ItemStack(Material.AIR);
             }
             char loopChar = charFromInt(i);
-            setIngredient(loopChar, RecipeUtil.getRecipeChoiceFromItem(item));
+            RecipeChoice choice = RecipeUtil.getRecipeChoiceFromItemNullable(item);
+            if (choice != null) {
+                setIngredient(loopChar, choice);
+            }
         }
     }
 
