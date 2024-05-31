@@ -35,11 +35,11 @@ public class Config {
         }
     }
 
-    public boolean reload() {
+    public void reload() {
         File configFile = FileUtils.loadFile(getPlugin().getDataFolder(), this.fileName, getPlugin());
         if (configFile == null) {
             Loggers.warn(this.plugin.getComponentLogger(), "Failed to reload " + fileName + ".");
-            return false;
+            return;
         }
 
         FileConfiguration config = new YamlConfiguration();
@@ -48,11 +48,9 @@ public class Config {
             config.load(configFile);
             this.config = config;
             this.file = configFile;
-            return true;
         } catch (IOException | InvalidConfigurationException e) {
             Loggers.warn(this.plugin.getComponentLogger(), "Failed to reload " + fileName + ".");
             Loggers.logException(plugin.getComponentLogger(), e);
-            return false;
         }
     }
 
