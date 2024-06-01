@@ -100,5 +100,16 @@ public class Config {
         Loggers.info(this.plugin.getComponentLogger(), "Updated default values for " + fileName);
     }
 
+    public void saveToFile(boolean reload) {
+        try {
+            getConfig().save(getFile());
+            if (reload) {
+                reload();
+            }
+        } catch (IOException ex) {
+            Loggers.error(getPlugin().getComponentLogger(), "Failed to save a config to file.", ex);
+        }
+    }
+
 }
 
