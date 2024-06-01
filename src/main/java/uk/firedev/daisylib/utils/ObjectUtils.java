@@ -11,11 +11,13 @@ import java.util.List;
 public class ObjectUtils {
 
     /**
+     * @deprecated Use {@link LocationHelper#convertToString(Location, boolean)} instead.
      * Creates a String from the provided Location.
      * @param location The location to use.
      * @param includeYawPitch Should the String include yaw and pitch?
      * @return A string, built from the provided location.
      */
+    @Deprecated(forRemoval = true)
     public static String locationToString(@NotNull Location location, boolean includeYawPitch) {
         String finalString = location.getWorld().getName() + "_" + location.getX() + "_" + location.getY() + "_" + location.getZ();
         if (includeYawPitch) {
@@ -25,10 +27,12 @@ public class ObjectUtils {
     }
 
     /**
+     * @deprecated Use {@link LocationHelper#getFromString(String)} instead.
      * Creates a Location from a String created by {@link #locationToString(Location, boolean)}
      * @param string The string to use.
      * @return A location, built from the provided string.
      */
+    @Deprecated(forRemoval = true)
     public static Location locationFromString(@NotNull String string) {
         String[] split = string.split("_");
         if (split.length < 4) {
