@@ -106,6 +106,44 @@ public class ObjectUtils {
     }
 
     /**
+     * Gets an Integer from a String
+     * @param str The string to use.
+     * @return The Integer, or null if it isn't an Integer.
+     */
+    public static @Nullable Integer getInt(@NotNull String str) {
+        if (isInt(str)) {
+            return Integer.parseInt(str);
+        }
+        return null;
+    }
+
+    /**
+     * Checks if a String is a valid Long.
+     * @param str The String to check.
+     * @return Is the String a Long?
+     */
+    public static boolean isLong(@NotNull String str) {
+        try {
+            Long.parseLong(str);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * Gets a Long from a String
+     * @param str The string to use.
+     * @return The Long, or null if it isn't a Long.
+     */
+    public static @Nullable Long getLong(@NotNull String str) {
+        if (isLong(str)) {
+            return Long.parseLong(str);
+        }
+        return null;
+    }
+
+    /**
      * Checks if a String is a valid Double.
      * @param str The String to check.
      * @return Is the String a Double?
@@ -117,6 +155,44 @@ public class ObjectUtils {
         } catch (NumberFormatException ex) {
             return false;
         }
+    }
+
+    /**
+     * Gets a Double from a String
+     * @param str The string to use.
+     * @return The Double, or null if it isn't a Double.
+     */
+    public static @Nullable Double getDouble(@NotNull String str) {
+        if (isDouble(str)) {
+            return Double.parseDouble(str);
+        }
+        return null;
+    }
+
+    /**
+     * Checks if a String is a valid Float.
+     * @param str The String to check.
+     * @return Is the String a Float?
+     */
+    public static boolean isFloat(@NotNull String str) {
+        try {
+            Float.parseFloat(str);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * Gets a Float from a String
+     * @param str The string to use.
+     * @return The Float, or null if it isn't a Float.
+     */
+    public static @Nullable Float getFloat(@NotNull String str) {
+        if (isFloat(str)) {
+            return Float.parseFloat(str);
+        }
+        return null;
     }
 
     /**
