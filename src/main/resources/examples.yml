@@ -1,0 +1,29 @@
+### Contains config examples for some features of DaisyLib
+### This file resets on every server restart.
+
+# The format for ItemBuilder's ConfigurationSection constructor
+item-example:
+  # The material for the item
+  material: stone
+  # The item's display name
+  display: <light_purple>Test Item
+  # The item's lore
+  lore:
+    - Line 1
+    - Line 2
+  # ItemFlags that should be on this item
+  # https://jd.papermc.io/paper/1.20.6/org/bukkit/inventory/ItemFlag.html
+  flags:
+    - HIDE_ENCHANTS
+  # The enchantments to put on this item
+  # https://jd.papermc.io/paper/1.20.6/org/bukkit/enchantments/Enchantment.html
+  # Supports namespaced enchantments in preparation for 1.21.
+  enchantments:
+    - minecraft:efficiency,5
+    - mending,1
+  # Should the item be unbreakable?
+  unbreakable: true
+  # How many of this item should be in the stack?
+  amount: 32
+  # Should the item glow? (As if it was enchanted)
+  glowing: true

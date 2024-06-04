@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
+import uk.firedev.daisylib.local.config.ExampleConfig;
 import uk.firedev.daisylib.local.config.MainConfig;
 import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.daisylib.reward.RewardManager;
@@ -31,6 +32,7 @@ public final class DaisyLib extends JavaPlugin {
         instance = this;
         scheduler = UniversalScheduler.getScheduler(this);
         CommandAPI.onEnable();
+        ExampleConfig.load();
         reload();
         LibCommand.getInstance().register();
         loadManagers();
