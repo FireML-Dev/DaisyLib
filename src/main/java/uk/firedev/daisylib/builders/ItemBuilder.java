@@ -2,6 +2,9 @@ package uk.firedev.daisylib.builders;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -11,6 +14,7 @@ import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.message.string.StringReplacer;
 import uk.firedev.daisylib.utils.ItemUtils;
+import uk.firedev.daisylib.utils.ObjectUtils;
 
 import java.util.*;
 
@@ -31,6 +35,70 @@ public class ItemBuilder {
 
     public ItemBuilder(@NotNull String materialName, @NotNull Material defaultMaterial) {
         this.material = ItemUtils.getMaterial(materialName, defaultMaterial);
+    }
+
+    /**
+     * Build an ItemBuilder from a ConfigurationSection object.
+     * @param section The ConfigurationSection for the item.
+     * @param defaultMaterial The default material to use, if the configured material is invalid.
+     */
+    public ItemBuilder(@NotNull ConfigurationSection section, @NotNull Material defaultMaterial) {
+        // Material
+        this.material = ItemUtils.getMaterial(section.getString("material", defaultMaterial.toString()), defaultMaterial);
+
+        // Display
+        String display = section.getString("display");
+        if (display != null) {
+            this.display = new ComponentMessage(display).getMessage();
+        }
+
+        // Lore
+        this.lore = section.getStringList("lore").stream().map(line -> new ComponentMessage(line).getMessage()).toList();
+
+        // ItemFlags
+        List<ItemFlag> flags = section.getStringList("flags").stream()
+                .map(flagString -> {
+                    try {
+                        return ItemFlag.valueOf(flagString);
+                    } catch (IllegalArgumentException ex) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .toList();
+        this.flags.addAll(flags);
+
+        // Enchantments
+        List<String> stringEnchantments = section.getStringList("enchantments");
+        stringEnchantments.forEach(stringEnchantment -> {
+            // Split namespace and level
+            String[] namespaceSplit = stringEnchantment.split(":");
+            String namespace = namespaceSplit.length > 1 ? namespaceSplit[0] : "minecraft";
+            String[] levelSplit = namespaceSplit[namespaceSplit.length - 1].split(",");
+
+            // Get enchantment name and level
+            String enchantName = levelSplit[0];
+            String levelString = (levelSplit.length > 1) ? levelSplit[1] : "1";
+
+            // Create NamespacedKey and parse level
+            NamespacedKey enchantKey = new NamespacedKey(namespace, enchantName);
+            int level = Objects.requireNonNullElse(ObjectUtils.getInt(levelString), 1);
+
+            // Fetch the enchantment and put it into the map
+            Enchantment enchantment = Registry.ENCHANTMENT.get(enchantKey);
+            if (enchantment != null) {
+                enchantments.put(enchantment, level);
+            }
+        });
+
+        // Unbreakable
+        this.unbreakable = section.getBoolean("unbreakable");
+
+        // Amount
+        this.amount = section.getInt("amount", 1);
+
+        // Glowing
+        this.glowing = section.getBoolean("glowing");
     }
 
     public ItemBuilder withMaterial(@NotNull Material material) {
