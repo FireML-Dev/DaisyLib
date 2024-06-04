@@ -42,18 +42,18 @@ public class ItemBuilder {
      * @param section The ConfigurationSection for the item.
      * @param defaultMaterial The default material to use, if the configured material is invalid.
      */
-    public ItemBuilder(@NotNull ConfigurationSection section, @NotNull Material defaultMaterial) {
+    public ItemBuilder(@NotNull ConfigurationSection section, @NotNull Material defaultMaterial, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
         // Material
         this.material = ItemUtils.getMaterial(section.getString("material", defaultMaterial.toString()), defaultMaterial);
 
         // Display
         String display = section.getString("display");
         if (display != null) {
-            this.display = new ComponentMessage(display).getMessage();
+            this.display = new ComponentMessage(display).applyReplacer(displayReplacer).getMessage();
         }
 
         // Lore
-        this.lore = section.getStringList("lore").stream().map(line -> new ComponentMessage(line).getMessage()).toList();
+        this.lore = section.getStringList("lore").stream().map(line -> new ComponentMessage(line).applyReplacer(loreReplacer).getMessage()).toList();
 
         // ItemFlags
         List<ItemFlag> flags = section.getStringList("flags").stream()
