@@ -95,7 +95,11 @@ public class ItemBuilder {
         this.unbreakable = section.getBoolean("unbreakable");
 
         // Amount
-        this.amount = section.getInt("amount", 1);
+        int amount = section.getInt("amount", 1);
+        if (amount < 1) {
+            amount = 1;
+        }
+        this.amount = amount;
 
         // Glowing
         this.glowing = section.getBoolean("glowing");
