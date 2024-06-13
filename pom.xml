@@ -6,7 +6,7 @@
 
     <groupId>uk.firedev</groupId>
     <artifactId>DaisyLib</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>DaisyLib</name>
