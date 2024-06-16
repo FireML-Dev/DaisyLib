@@ -1,13 +1,59 @@
 package uk.firedev.daisylib.crafting;
 
+import io.papermc.paper.event.server.ServerResourcesReloadedEvent;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.utils.ItemUtils;
 
-public class RecipeUtil {
+import java.util.ArrayList;
+import java.util.List;
+
+public class RecipeUtil implements Listener {
+
+    private static RecipeUtil instance;
+
+    private List<IRecipe> recipeList = new ArrayList<>();
+    private boolean isListenerRegistered = false;
+
+    private RecipeUtil() {}
+
+    public static RecipeUtil getInstance() {
+        if (instance == null) {
+            instance = new RecipeUtil();
+        }
+        return instance;
+    }
+
+    @EventHandler
+    public void onReload(ServerResourcesReloadedEvent event) {
+        recipeList.forEach(iRecipe -> {
+            // Already in the list, so don't persist
+            iRecipe.register(false);
+        });
+    }
+
+    public void addRecipe(@NotNull IRecipe recipe) {
+        if (!isListenerRegistered) {
+            Bukkit.getPluginManager().registerEvents(this, DaisyLib.getInstance());
+            isListenerRegistered = true;
+        }
+        if (recipeList == null) {
+            recipeList = new ArrayList<>();
+        }
+        if (recipeList.contains(recipe)) {
+            return;
+        }
+        recipeList.add(recipe);
+    }
 
     public static @NotNull RecipeChoice getRecipeChoiceFromItem(@NotNull ItemStack item) {
         if (item.getType().isAir()) {
