@@ -37,6 +37,7 @@ public class RecipeUtil implements Listener {
     public void onReload(ServerResourcesReloadedEvent event) {
         recipeList.forEach(iRecipe -> {
             // Already in the list, so don't persist
+            iRecipe.setRegistered(false);
             iRecipe.register(false);
         });
     }
