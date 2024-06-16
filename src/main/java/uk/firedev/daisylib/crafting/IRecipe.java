@@ -35,6 +35,7 @@ public interface IRecipe extends Recipe {
         }
         if (Bukkit.removeRecipe(getNamespacedKey(), true)) {
             setRegistered(false);
+            RecipeUtil.getInstance().removeRecipe(this);
             return true;
         }
         return false;

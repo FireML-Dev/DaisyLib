@@ -56,6 +56,13 @@ public class RecipeUtil implements Listener {
         recipeList.add(recipe);
     }
 
+    public void removeRecipe(@NotNull IRecipe recipe) {
+        if (recipeList == null) {
+            recipeList = new ArrayList<>();
+        }
+        recipeList.remove(recipe);
+    }
+
     public static @NotNull RecipeChoice getRecipeChoiceFromItem(@NotNull ItemStack item) {
         if (item.getType().isAir()) {
             return RecipeChoice.empty();
