@@ -171,17 +171,17 @@
             <version>1.21-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <!-- 1.21 TODO this needs to be updated -->
         <dependency>
             <groupId>de.themoep</groupId>
             <artifactId>inventorygui</artifactId>
             <version>1.6.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-        <!-- 1.21 TODO Update this to 1.9.5-SNAPSHOT when that is available -->
         <dependency>
             <groupId>net.wesjd</groupId>
             <artifactId>anvilgui</artifactId>
-            <version>1.9.4-SNAPSHOT</version>
+            <version>1.9.5-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
