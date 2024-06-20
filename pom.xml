@@ -43,7 +43,7 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
-            <!-- Temporary fix until AnvilGUI supports mojmap (Paper 1.20.6) -->
+            <!-- TODO Remove this temporary fix when AnvilGUI supports mojmap -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -217,7 +217,7 @@
         </dependency>
         <dependency>
             <groupId>dev.jorel</groupId>
-            <!-- Set to commandapi-bukkit-shade-mojang-mapped when AnvilGUI supports mojmap -->
+            <!-- TODO Set to commandapi-bukkit-shade-mojang-mapped when AnvilGUI supports mojmap -->
             <artifactId>commandapi-bukkit-shade</artifactId>
             <version>9.5.1</version>
             <scope>compile</scope>
