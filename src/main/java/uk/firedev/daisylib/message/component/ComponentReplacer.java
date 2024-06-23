@@ -64,6 +64,20 @@ public class ComponentReplacer {
     }
 
     /**
+     * Merges multiple ComponentReplacers into this one.
+     * The merged replacements will use this instance's prefix/suffix values.
+     * Existing replacements will be skipped.
+     * @param replacers The replacers to merge
+     * @return The modified ComponentReplacer
+     */
+    public ComponentReplacer mergeReplacers(@NotNull ComponentReplacer... replacers) {
+        for (final ComponentReplacer replacer : replacers) {
+            replacer.getReplacements().forEach((key, value) -> getModifiableReplacements().putIfAbsent(key, value));
+        }
+        return this;
+    }
+
+    /**
      * Clears the replacement map.
      * @return The modified ComponentReplacer
      */
