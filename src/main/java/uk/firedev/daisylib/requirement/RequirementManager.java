@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.requirement;
 
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.requirement.requirements.*;
@@ -57,8 +58,6 @@ public class RequirementManager {
         return true;
     }
 
-    public List<RequirementType> getRegisteredRequirements() {
-        return new ArrayList<>(requirements.values());
-    }
+    public Map<String, RequirementType> getRegisteredRequirements() { return new HashMap<>(requirements); }
 
 }
