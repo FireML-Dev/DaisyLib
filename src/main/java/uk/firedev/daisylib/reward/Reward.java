@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class Reward {
 
-    private @NotNull String fullIdentifier;
+    private final @NotNull String fullIdentifier;
     private @NotNull String key;
     private @NotNull String value;
     private final JavaPlugin plugin;
@@ -23,7 +23,7 @@ public class Reward {
         try {
             this.key = split[0];
             this.value = String.join(":", Arrays.copyOfRange(split, 1, split.length));
-        } catch (IndexOutOfBoundsException ex) {
+        } catch (ArrayIndexOutOfBoundsException ex) {
             Loggers.warn(getComponentLogger(), "Broken reward " + identifier);
             this.key = "";
             this.value = "";
