@@ -12,6 +12,7 @@ import uk.firedev.daisylib.events.DaisyLibReloadEvent;
 import uk.firedev.daisylib.local.config.ExampleConfig;
 import uk.firedev.daisylib.local.config.MainConfig;
 import uk.firedev.daisylib.local.config.MessageConfig;
+import uk.firedev.daisylib.requirement.RequirementManager;
 import uk.firedev.daisylib.reward.RewardManager;
 import uk.firedev.daisylib.utils.BlockUtils;
 
@@ -57,6 +58,7 @@ public final class DaisyLib extends JavaPlugin {
     private void loadManagers() {
         VaultManager.getInstance().load();
         RewardManager.getInstance().load();
+        RequirementManager.getInstance().load();
     }
 
     public static DaisyLib getInstance() { return instance; }

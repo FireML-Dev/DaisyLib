@@ -27,6 +27,7 @@ public class RewardManager {
 
     public void load() {
         if (!isLoaded()) {
+            Loggers.info(DaisyLib.getInstance().getComponentLogger(), "Loading RewardManager!");
             new ItemRewardType().register();
             new CommandRewardType().register();
             new PermissionRewardType().register();

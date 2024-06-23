@@ -61,6 +61,7 @@ public class VaultManager {
      */
     public void load() {
         if (MainConfig.getInstance().shouldHookVault()) {
+            Loggers.info(DaisyLib.getInstance().getComponentLogger(), "Loading VaultManager!");
             if (!setupEconomy()) {
                 Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Vault Economy not found.");
             }
