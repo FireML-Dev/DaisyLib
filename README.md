@@ -4,6 +4,8 @@ A collection of classes for easier use of Paper's API.
 
 https://ci.firedev.uk/job/DaisyLib/
 
+[![CodeFactor](https://www.codefactor.io/repository/github/fireml-dev/daisylib/badge)](https://www.codefactor.io/repository/github/fireml-dev/daisylib)
+
 ## Maven
 
 ```xml
