@@ -2,6 +2,7 @@ package uk.firedev.daisylib.requirement;
 
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.requirement.requirements.*;
 import uk.firedev.daisylib.reward.types.*;
 
 import java.util.ArrayList;
@@ -27,13 +28,12 @@ public class RequirementManager {
 
     public void load() {
         if (!isLoaded()) {
-            new ItemRewardType().register();
-            new CommandRewardType().register();
-            new PermissionRewardType().register();
-            new ExpRewardType().register();
-            new HealthRewardType().register();
-            new MoneyRewardType().register();
-            new TeleportRewardType().register();
+            Loggers.info(DaisyLib.getInstance().getComponentLogger(), "Loading RequirementManager!");
+            new EXPRequirement().register();
+            new HealthRequirement().register();
+            new HoldingRequirement().register();
+            new MoneyRequirement().register();
+            new PermissionRequirement().register();
             loaded = true;
         }
     }
