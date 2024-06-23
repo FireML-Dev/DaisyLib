@@ -11,11 +11,11 @@ public class EXPRequirement implements RequirementType {
 
     @Override
     public boolean checkRequirement(@NotNull Player player, @NotNull String value) {
-        if (!ObjectUtils.isFloat(value)) {
+        if (!ObjectUtils.isInt(value)) {
             return false;
         }
-        float expNeeded = Float.parseFloat(value);
-        return player.getExp() >= expNeeded;
+        int expNeeded = Integer.parseInt(value);
+        return player.calculateTotalExperiencePoints() >= expNeeded;
     }
 
     @Override
