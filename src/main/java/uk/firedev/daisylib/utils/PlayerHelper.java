@@ -9,6 +9,12 @@ import java.util.UUID;
 
 public class PlayerHelper {
 
+    /**
+     * Gets an OfflinePlayer object if they have joined the server before.
+     * Unlike Spigot, this method will return null if the player has never joined.
+     * @param uuid The OfflinePlayer to get.
+     * @return The OfflinePlayer, or null if they haven't played before
+     */
     public static @Nullable OfflinePlayer getOfflinePlayer(@NotNull UUID uuid) {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
         if (offlinePlayer.hasPlayedBefore() || Bukkit.getPlayer(uuid) != null) {
