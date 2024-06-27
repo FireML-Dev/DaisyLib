@@ -30,7 +30,10 @@ public class PlayerHelper {
      * @param offlinePlayer The OfflinePlayer to check.
      * @return Whether the OfflinePlayer has ever joined this server.
      */
-    public static boolean hasPlayerBeenOnServer(@NotNull OfflinePlayer offlinePlayer) {
+    public static boolean hasPlayerBeenOnServer(@Nullable OfflinePlayer offlinePlayer) {
+        if (offlinePlayer == null) {
+            return false;
+        }
         return offlinePlayer.hasPlayedBefore() || Bukkit.getPlayer(offlinePlayer.getUniqueId()) != null;
     }
 
