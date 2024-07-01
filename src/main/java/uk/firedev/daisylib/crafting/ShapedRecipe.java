@@ -1,6 +1,5 @@
 package uk.firedev.daisylib.crafting;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -9,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class ShapedRecipe extends org.bukkit.inventory.ShapedRecipe {
+public class ShapedRecipe extends org.bukkit.inventory.ShapedRecipe implements IRecipe {
 
     private final NamespacedKey key;
     private final List<ItemStack> recipeItems;
@@ -25,8 +24,6 @@ public class ShapedRecipe extends org.bukkit.inventory.ShapedRecipe {
         }
         buildRecipe();
     }
-
-    public boolean isRegistered() { return registered; }
 
     private void buildRecipe() {
         shape("ABC", "DEF", "GHI");
@@ -53,26 +50,19 @@ public class ShapedRecipe extends org.bukkit.inventory.ShapedRecipe {
         return charMap[i];
     }
 
-    public boolean register() {
-        if (registered) {
-            return false;
-        }
-        if (Bukkit.addRecipe(this)) {
-            registered = true;
-            return true;
-        }
-        return false;
+    @Override
+    public boolean isRegistered() {
+        return this.registered;
     }
 
-    public boolean unregister() {
-        if (!registered) {
-            return false;
-        }
-        if (Bukkit.removeRecipe(this.key, true)) {
-            registered = false;
-            return true;
-        }
-        return false;
+    @Override
+    public void setRegistered(boolean registered) {
+        this.registered = registered;
+    }
+
+    @Override
+    public NamespacedKey getNamespacedKey() {
+        return key;
     }
 
 }

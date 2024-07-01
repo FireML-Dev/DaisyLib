@@ -51,6 +51,20 @@ public class StringReplacer {
     }
 
     /**
+     * Merges multiple StringReplacers into this one.
+     * The merged replacements will use this instance's prefix/suffix values.
+     * Existing replacements will be skipped.
+     * @param replacers The replacers to merge
+     * @return The modified StringReplacer
+     */
+    public StringReplacer mergeReplacers(@NotNull StringReplacer... replacers) {
+        for (final StringReplacer replacer : replacers) {
+            replacer.getReplacements().forEach((key, value) -> getModifiableReplacements().putIfAbsent(key, value));
+        }
+        return this;
+    }
+
+    /**
      * Clears the replacement map.
      * @return The modified StringReplacer
      */

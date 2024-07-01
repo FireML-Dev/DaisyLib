@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class ItemUtils {
 
-    public static @NotNull Material getMaterial(@NotNull String materialName, @NotNull Material defaultMaterial) {
+    public static @NotNull Material getMaterial(@Nullable String materialName, @NotNull Material defaultMaterial) {
         Material material = getMaterial(materialName);
         if (material == null) {
             return defaultMaterial;
@@ -30,7 +30,10 @@ public class ItemUtils {
         return material;
     }
 
-    public static @Nullable Material getMaterial(@NotNull String materialName) {
+    public static @Nullable Material getMaterial(@Nullable String materialName) {
+        if (materialName == null) {
+            return null;
+        }
         try {
             return Material.valueOf(materialName.toUpperCase());
         } catch (IllegalArgumentException ex) {
