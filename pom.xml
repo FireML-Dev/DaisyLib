@@ -173,9 +173,9 @@
         </dependency>
         <!-- 1.21 TODO this needs to be updated -->
         <dependency>
-            <groupId>de.themoep</groupId>
+            <groupId>uk.firedev</groupId>
             <artifactId>inventorygui</artifactId>
-            <version>1.6.3-TEMPFIX-SNAPSHOT</version>
+            <version>1.6.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
