@@ -8,8 +8,8 @@ https://ci.firedev.uk/job/DaisyLib/
 
 ```xml
     <repository>
-        <id>firedev-repo</id>
-        <url>https://repo.firedev.uk/repository/maven-public/</url>
+        <id>firedev-snapshots</id>
+        <url>https://repo.firedev.uk/snapshots</url>
     </repository>
 ```
 ```xml
@@ -17,7 +17,7 @@ https://ci.firedev.uk/job/DaisyLib/
         <dependency>
             <groupId>uk.firedev</groupId>
             <artifactId>DaisyLib</artifactId>
-            <version>2.0.1-SNAPSHOT</version>
+            <version>2.0.2-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
