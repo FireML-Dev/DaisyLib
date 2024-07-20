@@ -155,8 +155,12 @@
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
         <repository>
-            <id>firedev-repo</id>
-            <url>https://repo.firedev.uk/repository/maven-public/</url>
+            <id>firedev-releases</id>
+            <url>https://repo.firedev.uk/releases/</url>
+        </repository>
+        <repository>
+            <id>firedev-snapshots</id>
+            <url>https://repo.firedev.uk/snapshots/</url>
         </repository>
         <repository>
             <id>sonatype-snapshots</id>
@@ -171,11 +175,10 @@
             <version>1.21-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- 1.21 TODO this needs to be updated -->
         <dependency>
             <groupId>uk.firedev</groupId>
             <artifactId>inventorygui</artifactId>
-            <version>1.6.2-SNAPSHOT</version>
+            <version>1.6.3-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
