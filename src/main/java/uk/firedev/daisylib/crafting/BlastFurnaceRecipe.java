@@ -1,12 +1,11 @@
 package uk.firedev.daisylib.crafting;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class BlastFurnaceRecipe extends org.bukkit.inventory.BlastingRecipe {
+public class BlastFurnaceRecipe extends org.bukkit.inventory.BlastingRecipe implements IRecipe {
 
     private boolean registered = false;
     private final NamespacedKey key;
@@ -21,26 +20,19 @@ public class BlastFurnaceRecipe extends org.bukkit.inventory.BlastingRecipe {
         this.key = key;
     }
 
-    public boolean register() {
-        if (registered) {
-            return false;
-        }
-        if (Bukkit.addRecipe(this)) {
-            registered = true;
-            return true;
-        }
-        return false;
+
+    @Override
+    public boolean isRegistered() {
+        return this.registered;
     }
 
-    public boolean unregister() {
-        if (!registered) {
-            return false;
-        }
-        if (Bukkit.removeRecipe(this.key, true)) {
-            registered = false;
-            return true;
-        }
-        return false;
+    @Override
+    public void setRegistered(boolean registered) {
+        this.registered = registered;
     }
 
+    @Override
+    public NamespacedKey getNamespacedKey() {
+        return key;
+    }
 }

@@ -26,7 +26,7 @@ public class BlockUtils implements Listener {
      */
     public static boolean isPlayerPlaced(@NotNull Block block) {
         Chunk chunk = block.getChunk();
-        NamespacedKey key = ObjectUtils.createNamespacedKey("blockplaced-" + ObjectUtils.locationToString(block.getLocation(), false), null);
+        NamespacedKey key = ObjectUtils.createNamespacedKey("blockplaced-" + LocationHelper.convertToString(block.getLocation(), false), null);
         return chunk.getPersistentDataContainer().has(key);
     }
 
@@ -35,7 +35,7 @@ public class BlockUtils implements Listener {
      */
     public static boolean isPlayerBroken(@NotNull Block block) {
         Chunk chunk = block.getChunk();
-        NamespacedKey key = ObjectUtils.createNamespacedKey("blockbroken-" + ObjectUtils.locationToString(block.getLocation(), false), null);
+        NamespacedKey key = ObjectUtils.createNamespacedKey("blockbroken-" + LocationHelper.convertToString(block.getLocation(), false), null);
         return chunk.getPersistentDataContainer().has(key);
     }
 
@@ -46,7 +46,7 @@ public class BlockUtils implements Listener {
     public static void applyBreak(@NotNull Block block) {
         if (isPlayerPlaced(block) && !isPlayerBroken(block)) {
             Chunk chunk = block.getChunk();
-            NamespacedKey brokenKey = ObjectUtils.createNamespacedKey("blockbroken-" + ObjectUtils.locationToString(block.getLocation(), false), null);
+            NamespacedKey brokenKey = ObjectUtils.createNamespacedKey("blockbroken-" + LocationHelper.convertToString(block.getLocation(), false), null);
             chunk.getPersistentDataContainer().set(brokenKey, PersistentDataType.BOOLEAN, true);
         }
     }
@@ -57,7 +57,7 @@ public class BlockUtils implements Listener {
      */
     public static void removeBreak(@NotNull Block block) {
         Chunk chunk = block.getChunk();
-        NamespacedKey brokenKey = ObjectUtils.createNamespacedKey("blockbroken-" + ObjectUtils.locationToString(block.getLocation(), false), null);
+        NamespacedKey brokenKey = ObjectUtils.createNamespacedKey("blockbroken-" + LocationHelper.convertToString(block.getLocation(), false), null);
         if (chunk.getPersistentDataContainer().has(brokenKey)) {
             chunk.getPersistentDataContainer().remove(brokenKey);
         }
@@ -69,7 +69,7 @@ public class BlockUtils implements Listener {
      */
     public static void applyPlace(@NotNull Block block) {
         Chunk chunk = block.getChunk();
-        NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + ObjectUtils.locationToString(block.getLocation(), false), null);
+        NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + LocationHelper.convertToString(block.getLocation(), false), null);
         if (!isPlayerPlaced(block)) {
             chunk.getPersistentDataContainer().set(placedKey, PersistentDataType.BOOLEAN, true);
         }
@@ -81,7 +81,7 @@ public class BlockUtils implements Listener {
      */
     public static void removePlace(@NotNull Block block) {
         Chunk chunk = block.getChunk();
-        NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + ObjectUtils.locationToString(block.getLocation(), false), null);
+        NamespacedKey placedKey = ObjectUtils.createNamespacedKey("blockplaced-" + LocationHelper.convertToString(block.getLocation(), false), null);
         if (chunk.getPersistentDataContainer().has(placedKey)) {
             chunk.getPersistentDataContainer().remove(placedKey);
         }

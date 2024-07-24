@@ -1,5 +1,7 @@
 package uk.firedev.daisylib.builders;
 
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -85,7 +87,7 @@ public class ItemBuilder {
             int level = Objects.requireNonNullElse(ObjectUtils.getInt(levelString), 1);
 
             // Fetch the enchantment and put it into the map
-            Enchantment enchantment = Registry.ENCHANTMENT.get(enchantKey);
+            Enchantment enchantment = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(enchantKey);
             if (enchantment != null) {
                 enchantments.put(enchantment, level);
             }
