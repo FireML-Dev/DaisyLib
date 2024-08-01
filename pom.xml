@@ -121,11 +121,11 @@
     <distributionManagement>
         <snapshotRepository>
             <id>firedev.repo</id>
-            <url>https://repo.firedev.uk/snapshots/</url>
+            <url>https://repo.firedev.uk/repository/maven-snapshots/</url>
         </snapshotRepository>
         <repository>
             <id>firedev.repo</id>
-            <url>https://repo.firedev.uk/releases/</url>
+            <url>https://repo.firedev.uk/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 
@@ -155,12 +155,8 @@
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
         <repository>
-            <id>firedev-releases</id>
-            <url>https://repo.firedev.uk/releases/</url>
-        </repository>
-        <repository>
-            <id>firedev-snapshots</id>
-            <url>https://repo.firedev.uk/snapshots/</url>
+            <id>firedev-repo</id>
+            <url>https://repo.firedev.uk/repository/maven-public/</url>
         </repository>
         <repository>
             <id>sonatype-snapshots</id>

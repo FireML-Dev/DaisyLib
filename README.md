@@ -10,8 +10,8 @@ https://ci.firedev.uk/job/DaisyLib/
 
 ```xml
     <repository>
-        <id>firedev-snapshots</id>
-        <url>https://repo.firedev.uk/snapshots</url>
+        <id>firedev-repo</id>
+        <url>https://repo.firedev.uk/repository/maven-public/</url>
     </repository>
 ```
 ```xml
