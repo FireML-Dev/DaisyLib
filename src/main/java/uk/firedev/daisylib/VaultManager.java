@@ -3,6 +3,7 @@ package uk.firedev.daisylib;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.local.DaisyLib;
@@ -60,6 +61,10 @@ public class VaultManager {
      * Loads Vault services if the Vault hook is enabled in the configuration.
      */
     public void load() {
+        if (!Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Vault was not found.");
+            return;
+        }
         if (MainConfig.getInstance().shouldHookVault()) {
             Loggers.info(DaisyLib.getInstance().getComponentLogger(), "Loading VaultManager!");
             if (!setupEconomy()) {
