@@ -68,7 +68,16 @@ publishing {
     repositories {
         maven {
             name = "firedevRepo"
-            url = uri("https://repo.firedev.uk/repository/maven-snapshots/")
+
+            // Repository settings
+            var repoUrlString = "https://repo.firedev.uk/repository/maven-"
+            repoUrlString += if (project.version.toString().endsWith("-SNAPSHOT")) {
+                "snapshots/"
+            } else {
+                "releases/"
+            }
+            url = uri(repoUrlString)
+
             credentials(PasswordCredentials::class)
             authentication {
                 create<BasicAuthentication>("basic")
@@ -89,29 +98,11 @@ publishing {
 tasks {
     build {
         dependsOn(shadowJar)
-
-        outputs.file("libs/DaisyLib-${version}.jar")
-
-        doLast {
-            val buildDir = project.layout.buildDirectory
-
-            val unwantedFile = buildDir.file("libs/DaisyLib-${version}-dev.jar").get().asFile
-            if (unwantedFile.exists()) {
-                unwantedFile.delete()
-            }
-
-            val oldFile = buildDir.file("libs/DaisyLib-${version}-dev-all.jar").get().asFile
-            val newFile = buildDir.file("libs/DaisyLib-${version}.jar").get().asFile
-
-            if (oldFile.exists()) {
-                oldFile.renameTo(newFile)
-            }
-        }
     }
     shadowJar {
 
-        archiveBaseName.set("DaisyLib")
-        archiveVersion.set(version.toString())
+        archiveBaseName.set(project.name)
+        archiveVersion.set(project.version.toString())
         archiveClassifier.set("")
 
         relocate("de.themoep.inventorygui", "uk.firedev.daisylib.libs.themoep.inventorygui")
