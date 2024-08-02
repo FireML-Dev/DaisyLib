@@ -17,6 +17,7 @@ dependencyResolutionManagement {
 
             plugin("shadow", "io.github.goooler.shadow").version("8.1.8")
             plugin("paperweight", "io.papermc.paperweight.userdev").version("1.7.1")
+            plugin("plugin-yml", "net.minecrell.plugin-yml.paper").version("0.6.0")
         }
     }
 }
