@@ -91,6 +91,10 @@ tasks {
         relocate("com.github.Anon8281.universalScheduler", "uk.firedev.daisylib.libs.Anon8281.universalScheduler")
         relocate("dev.jorel.commandapi", "uk.firedev.daisylib.libs.commandapi")
         relocate("uk.firedev.vanishchecker", "uk.firedev.daisylib.utils.vanishchecker")
+
+        manifest {
+            attributes["paperweight-mappings-namespace"] = "spigot"
+        }
     }
     withType<JavaCompile> {
         options.encoding = "UTF-8"
