@@ -26,28 +26,28 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
     // GENERAL MESSAGES
 
     public ComponentMessage getPrefix() {
-        return new ComponentMessage(getConfig(), "messages.prefix", "<gray>[DaisyLib]</gray> ");
+        return new ComponentMessage(getConfig(), "prefix", "<gray>[DaisyLib]</gray> ");
     }
 
     // MAIN COMMAND MESSAGES
 
     public ComponentMessage getMainUsageMessage() {
-        return new ComponentMessage(getConfig(), "messages.main-command.usage", "<aqua>Usage: /daisylib reload</aqua>")
+        return new ComponentMessage(getConfig(), "main-command.usage", "<aqua>Usage: /daisylib reload</aqua>")
                 .applyReplacer(getPrefixReplacer());
     }
 
     public ComponentMessage getReloadedMessage() {
-        return new ComponentMessage(getConfig(), "messages.main-command.reloaded", "<aqua>Successfully reloaded the plugin.</aqua>")
+        return new ComponentMessage(getConfig(), "main-command.reloaded", "<aqua>Successfully reloaded the plugin.</aqua>")
                 .applyReplacer(getPrefixReplacer());
     }
 
     public ComponentMessage getNoRewardTypesMessage() {
-        return new ComponentMessage(getConfig(), "messages.main-command.reward-types.none", "<aqua>There are no registered reward types.</aqua>")
+        return new ComponentMessage(getConfig(), "main-command.reward-types.none", "<aqua>There are no registered reward types.</aqua>")
                 .applyReplacer(getPrefixReplacer());
     }
 
     public ComponentMessage getListRewardTypesMessage() {
-        return new ComponentMessage(getConfig(), "messages.main-command.reward-types.list", "<aqua>Registered Reward Types:</aqua> <green>{list}</green>")
+        return new ComponentMessage(getConfig(), "main-command.reward-types.list", "<aqua>Registered Reward Types:</aqua> <green>{list}</green>")
                 .applyReplacer(getPrefixReplacer());
     }
 

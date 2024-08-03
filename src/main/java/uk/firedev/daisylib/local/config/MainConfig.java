@@ -17,12 +17,12 @@ public class MainConfig extends uk.firedev.daisylib.Config {
         return instance;
     }
 
-    public boolean doMoveBlockEvent() { return getConfig().getBoolean("config.custom-events.move-block", true); }
+    public boolean doMoveBlockEvent() { return getConfig().getBoolean("custom-events.move-block", true); }
 
-    public boolean doMoveChunkEvent() { return getConfig().getBoolean("config.custom-events.move-chunk", true); }
+    public boolean doMoveChunkEvent() { return getConfig().getBoolean("custom-events.move-chunk", true); }
 
-    public boolean doPlaceBreak() { return getConfig().getBoolean("config.enablePlaceBreak", true); }
+    public boolean doPlaceBreak() { return getConfig().getBoolean("enablePlaceBreak", true); }
 
-    public boolean shouldHookVault() { return getConfig().getBoolean("config.vault", true); }
+    public boolean shouldHookVault() { return getConfig().getBoolean("vault", true); }
 
 }
