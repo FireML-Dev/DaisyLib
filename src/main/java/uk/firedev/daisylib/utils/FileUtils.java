@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.utils;
 
 import org.bukkit.plugin.Plugin;
+import org.checkerframework.checker.units.qual.N;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 
@@ -12,7 +13,7 @@ import java.nio.file.StandardCopyOption;
 
 public class FileUtils {
 
-    public static File loadFile(@NotNull File directory, @NotNull String fileName, @NotNull Plugin plugin) {
+    public static File loadFile(@NotNull File directory, @NotNull String fileName, @NotNull String resourceName, @NotNull Plugin plugin) {
         createDirectory(directory);
         File configFile = new File(directory, fileName);
         if (!configFile.exists()) {
@@ -20,9 +21,9 @@ public class FileUtils {
                 Loggers.warn(plugin.getComponentLogger(), "Failed to create " + fileName + "!");
                 return null;
             }
-            InputStream stream = plugin.getResource(fileName);
+            InputStream stream = plugin.getResource(resourceName);
             if (stream == null) {
-                Loggers.error(plugin.getComponentLogger(), "Could not retrieve " + fileName);
+                Loggers.error(plugin.getComponentLogger(), "Could not retrieve " + resourceName);
                 return null;
             }
             try {
