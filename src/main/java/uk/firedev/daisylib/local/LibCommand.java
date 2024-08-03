@@ -8,6 +8,8 @@ import net.kyori.adventure.text.event.HoverEvent;
 import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.daisylib.requirement.RequirementManager;
+import uk.firedev.daisylib.requirement.RequirementType;
 import uk.firedev.daisylib.reward.RewardManager;
 import uk.firedev.daisylib.reward.RewardType;
 
@@ -22,7 +24,7 @@ public class LibCommand extends CommandAPICommand {
         setPermission(CommandPermission.fromString("daisylib.command"));
         withShortDescription("Manage the plugin");
         withFullDescription("Manage the plugin");
-        withSubcommands(getReloadCommand(), getRewardTypesCommand());
+        withSubcommands(getReloadCommand(), getRewardTypesCommand(), getRequirementTypesCommand());
         executes((sender, arguments) -> {
             MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender);
         });
@@ -65,6 +67,35 @@ public class LibCommand extends CommandAPICommand {
                     new ComponentMessage(
                             "<white>Author: " + rewardType.getAuthor() + "\n" +
                             "<white>Registered Plugin: " + rewardType.getPlugin().getName()
+                    ).getMessage()
+            ));
+            builder.append(identifier, Component.text(", "));
+        });
+        return new ComponentReplacer().addReplacement("list", builder.build());
+    }
+
+    private CommandAPICommand getRequirementTypesCommand() {
+        return new CommandAPICommand("requirementTypes")
+                .executes((sender, arguments) -> {
+                    List<RequirementType> registeredTypes = RequirementManager.getInstance().getRegisteredRequirementTypes();
+                    if (registeredTypes.isEmpty()) {
+                        MessageConfig.getInstance().getNoRequirementTypesMessage().sendMessage(sender);
+                    } else {
+                        MessageConfig.getInstance().getListRequirementTypesMessage()
+                                .applyReplacer(getRequirementTypeListReplacer(registeredTypes))
+                                .sendMessage(sender);
+                    }
+                });
+    }
+
+    private ComponentReplacer getRequirementTypeListReplacer(List<RequirementType> types) {
+        TextComponent.Builder builder = Component.text();
+        types.forEach(rewardType -> {
+            Component identifier = new ComponentMessage(rewardType.getIdentifier()).getMessage();
+            identifier = identifier.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new ComponentMessage(
+                            "<white>Author: " + rewardType.getAuthor() + "\n" +
+                                    "<white>Registered Plugin: " + rewardType.getPlugin().getName()
                     ).getMessage()
             ));
             builder.append(identifier, Component.text(", "));
