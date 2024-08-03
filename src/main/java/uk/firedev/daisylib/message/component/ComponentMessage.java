@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.message.component;
 
+import dev.dejvokep.boostedyaml.YamlDocument;
 import io.github.miniplaceholders.api.MiniPlaceholders;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -41,7 +42,37 @@ public class ComponentMessage implements Message {
         }
     }
 
+    public ComponentMessage(@NotNull YamlDocument config, @NotNull String path, @NotNull Component def) {
+        String message;
+        if (config.isList(path)) {
+            message = String.join("\n", config.getStringList(path));
+        } else {
+            message = config.getString(path);
+        }
+        if (message == null) {
+            this.message = def;
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
+        } else {
+            this.message = MiniMessage.miniMessage().deserialize(message);
+        }
+    }
+
     public ComponentMessage(@NotNull FileConfiguration config, @NotNull String path, @NotNull String def) {
+        String message;
+        if (config.isList(path)) {
+            message = String.join("\n", config.getStringList(path));
+        } else {
+            message = config.getString(path);
+        }
+        if (message == null) {
+            this.message = MiniMessage.miniMessage().deserialize(def);
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
+        } else {
+            this.message = MiniMessage.miniMessage().deserialize(message);
+        }
+    }
+
+    public ComponentMessage(@NotNull YamlDocument config, @NotNull String path, @NotNull String def) {
         String message;
         if (config.isList(path)) {
             message = String.join("\n", config.getStringList(path));
