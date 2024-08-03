@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.universalscheduler)
     implementation(libs.commandapi)
     implementation(libs.vanishchecker)
+    implementation(libs.boostedyaml)
 }
 
 group = "uk.firedev"
@@ -109,6 +110,7 @@ tasks {
         relocate("net.wesjd.anvilgui", "uk.firedev.daisylib.libs.wesjd.anvilgui")
         relocate("com.github.Anon8281.universalScheduler", "uk.firedev.daisylib.libs.Anon8281.universalScheduler")
         relocate("dev.jorel.commandapi", "uk.firedev.daisylib.libs.commandapi")
+        relocate("dev.dejvokep.boostedyaml", "uk.firedev.daisylib.libs.boostedyaml")
         relocate("uk.firedev.vanishchecker", "uk.firedev.daisylib.utils.vanishchecker")
 
         manifest {
