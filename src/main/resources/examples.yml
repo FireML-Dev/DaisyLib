@@ -1,7 +1,7 @@
 ### Contains config examples for some features of DaisyLib
 ### This file resets on every server restart.
 
-# The format for ItemBuilder's ConfigurationSection constructor
+# The format for ItemBuilder's Section constructor
 item-example:
   # The material for the item
   material: stone
