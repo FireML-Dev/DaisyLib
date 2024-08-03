@@ -7,7 +7,7 @@ public class MainConfig extends uk.firedev.daisylib.Config {
     private static MainConfig instance = null;
 
     private MainConfig() {
-        super("config.yml", DaisyLib.getInstance(), true, true);
+        super("config.yml", "config.yml", DaisyLib.getInstance(), true);
     }
 
     public static MainConfig getInstance() {
