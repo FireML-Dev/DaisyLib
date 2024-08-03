@@ -1,12 +1,11 @@
 package uk.firedev.daisylib.builders;
 
+import dev.dejvokep.boostedyaml.block.implementation.Section;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -40,11 +39,11 @@ public class ItemBuilder {
     }
 
     /**
-     * Build an ItemBuilder from a ConfigurationSection object.
-     * @param section The ConfigurationSection for the item.
+     * Build an ItemBuilder from a Section object.
+     * @param section The Section for the item.
      * @param defaultMaterial The default material to use, if the configured material is invalid.
      */
-    public ItemBuilder(@NotNull ConfigurationSection section, @NotNull Material defaultMaterial, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
+    public ItemBuilder(@NotNull Section section, @NotNull Material defaultMaterial, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
         // Material
         this.material = ItemUtils.getMaterial(section.getString("material", defaultMaterial.toString()), defaultMaterial);
 

@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.requirement.requirements.*;
+import uk.firedev.daisylib.reward.RewardType;
 import uk.firedev.daisylib.reward.types.*;
 
 import java.util.ArrayList;
@@ -59,5 +60,9 @@ public class RequirementManager {
     }
 
     public Map<String, RequirementType> getRegisteredRequirements() { return new HashMap<>(requirements); }
+
+    public List<RequirementType> getRegisteredRequirementTypes() {
+        return new ArrayList<>(requirements.values());
+    }
 
 }

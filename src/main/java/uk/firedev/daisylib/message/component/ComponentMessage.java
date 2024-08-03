@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.message.component;
 
+import dev.dejvokep.boostedyaml.YamlDocument;
 import io.github.miniplaceholders.api.MiniPlaceholders;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -10,7 +11,6 @@ import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ public class ComponentMessage implements Message {
 
     private @NotNull Component message;
 
-    public ComponentMessage(@NotNull FileConfiguration config, @NotNull String path, @NotNull Component def) {
+    public ComponentMessage(@NotNull YamlDocument config, @NotNull String path, @NotNull Component def) {
         String message;
         if (config.isList(path)) {
             message = String.join("\n", config.getStringList(path));
@@ -41,7 +41,7 @@ public class ComponentMessage implements Message {
         }
     }
 
-    public ComponentMessage(@NotNull FileConfiguration config, @NotNull String path, @NotNull String def) {
+    public ComponentMessage(@NotNull YamlDocument config, @NotNull String path, @NotNull String def) {
         String message;
         if (config.isList(path)) {
             message = String.join("\n", config.getStringList(path));

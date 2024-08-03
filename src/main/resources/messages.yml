@@ -1,8 +1,13 @@
-messages:
-  prefix: "<gray>[DaisyLib]</gray> "
-  main-command:
-    usage: "{prefix}<aqua>Usage: /daisylib reload</aqua>"
-    reloaded: "{prefix}<aqua>Successfully reloaded the plugin.</aqua>"
-    reward-types:
-      none: "{prefix}<aqua>There are no registered reward types.</aqua>"
-      list: "{prefix}<aqua>Registered Reward Types:</aqua> <green>{list}</green>"
+prefix: "<gray>[DaisyLib]</gray> "
+main-command:
+  usage: "{prefix}<aqua>Usage: /daisylib reload</aqua>"
+  reloaded: "{prefix}<aqua>Successfully reloaded the plugin.</aqua>"
+  reward-types:
+    none: "{prefix}<aqua>There are no registered reward types.</aqua>"
+    list: "{prefix}<aqua>Registered Reward Types:</aqua> <green>{list}</green>"
+  requirement-types:
+    none: "{prefix}<aqua>There are no registered requirement types.</aqua>"
+    list: "{prefix}<aqua>Registered Requirement Types:</aqua> <green>{list}</green>"
+
+# DO NOT TOUCH THIS VALUE!!!
+config-version: 2

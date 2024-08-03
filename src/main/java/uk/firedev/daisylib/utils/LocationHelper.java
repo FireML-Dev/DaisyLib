@@ -1,10 +1,10 @@
 package uk.firedev.daisylib.utils;
 
+import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.Loggers;
@@ -42,12 +42,12 @@ public class LocationHelper {
 
     /**
      * Adds a location to a config file.
-     * It is recommended to save the provided FileConfiguration after calling this method.
+     * It is recommended to save the provided YamlDocument after calling this method.
      * @param config The config file to use.
      * @param path The path to set the location at.
      * @param location The location to add.
      */
-    public static void addToConfig(@NotNull FileConfiguration config, @NotNull String path, @NotNull Location location) {
+    public static void addToConfig(@NotNull YamlDocument config, @NotNull String path, @NotNull Location location) {
         config.set(path + ".world", location.getWorld().getName());
         config.set(path + ".x", location.getX());
         config.set(path + ".y", location.getY());
@@ -62,7 +62,7 @@ public class LocationHelper {
      * @param path The path to get the values from.
      * @return The location, or null if it is invalid.
      */
-    public static @Nullable Location getFromConfig(@NotNull FileConfiguration config, @NotNull String path) {
+    public static @Nullable Location getFromConfig(@NotNull YamlDocument config, @NotNull String path) {
         String worldName = config.getString(path + ".world");
         if (worldName == null) {
             return null;
@@ -76,9 +76,8 @@ public class LocationHelper {
         double x = config.getDouble(path + ".x");
         double y = config.getDouble(path + ".y");
         double z = config.getDouble(path + ".z");
-        // There is no getFloat method for some reason.
-        float yaw = (float) config.getDouble(path + ".yaw");
-        float pitch = (float) config.getDouble(path + ".pitch");
+        float yaw = config.getFloat(path + ".yaw");
+        float pitch = config.getFloat(path + ".pitch");
 
         return new Location(world, x, y, z, yaw, pitch);
     }

@@ -1,22 +1,32 @@
 package uk.firedev.daisylib;
 
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
+import dev.dejvokep.boostedyaml.settings.Settings;
+import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
+import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
+import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
+import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
 
 public class Config {
 
     private final String fileName;
-    private final JavaPlugin plugin;
+    private final String resourceName;
+    private final Plugin plugin;
+    private final boolean configUpdater;
 
-    private FileConfiguration config = null;
+    private YamlDocument config = null;
     private File file = null;
 
     /**
@@ -26,90 +36,57 @@ public class Config {
      * @param configUpdater Should the config updater be used?
      * @param removeUnusedConfig Should config options that are not in the default file be removed? Only applies if configUpdater is true.
      */
-    public Config(@NotNull String fileName, @NotNull JavaPlugin plugin, boolean configUpdater, boolean removeUnusedConfig) {
+    public Config(@NotNull String fileName, @NotNull String resourceName, @NotNull Plugin plugin, boolean configUpdater) {
         this.fileName = fileName;
+        this.resourceName = resourceName;
         this.plugin = plugin;
+        this.configUpdater = configUpdater;
         reload();
-        if (configUpdater) {
-            updateConfig(removeUnusedConfig);
-        }
     }
 
     public void reload() {
-        File configFile = FileUtils.loadFile(getPlugin().getDataFolder(), this.fileName, getPlugin());
+        File configFile = FileUtils.loadFile(getPlugin().getDataFolder(), getFileName(), getResourceName(), getPlugin());
         if (configFile == null) {
-            Loggers.warn(this.plugin.getComponentLogger(), "Failed to reload " + fileName + ".");
             return;
         }
 
-        FileConfiguration config = new YamlConfiguration();
+        List<Settings> settingsList = new ArrayList<>(Arrays.asList(
+                GeneralSettings.builder().setUseDefaults(false).build(),
+                DumperSettings.DEFAULT
+        ));
+
+        if (configUpdater) {
+            settingsList.add(LoaderSettings.builder().setAutoUpdate(true).build());
+            settingsList.add(UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
+        }
+
+        final Settings[] settings = settingsList.toArray(new Settings[0]);
 
         try {
-            config.load(configFile);
-            this.config = config;
+            InputStream resource = getPlugin().getResource(getResourceName());
+            if (resource == null) {
+                this.config = YamlDocument.create(configFile, settings);
+            } else {
+                this.config = YamlDocument.create(configFile, resource, settings);
+            }
             this.file = configFile;
-        } catch (IOException | InvalidConfigurationException e) {
-            Loggers.warn(this.plugin.getComponentLogger(), "Failed to reload " + fileName + ".");
-            Loggers.logException(plugin.getComponentLogger(), e);
+            if (configUpdater) {
+                this.config.update();
+            }
+        } catch (IOException ex) {
+            plugin.getLogger().log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
+
+    public @NotNull YamlDocument getConfig() { return this.config; }
 
     public @NotNull Plugin getPlugin() { return this.plugin; }
 
-    public @NotNull FileConfiguration getConfig() { return this.config; }
-
     public @NotNull File getFile() { return file; }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void updateConfig(boolean removeUnusedConfig) {
-        File tempDirectory = new File(this.plugin.getDataFolder(), "temp");
-        File tempConfigFile = FileUtils.loadFile(tempDirectory, fileName, getPlugin());
-        if (tempConfigFile == null) {
-            Loggers.warn(this.plugin.getComponentLogger(), "Failed to update default values for " + fileName);
-            return;
-        }
+    public String getFileName() { return this.fileName; }
 
-        FileConfiguration tempConfig = new YamlConfiguration();
-
-        try {
-            tempConfig.load(tempConfigFile);
-        } catch (IOException | InvalidConfigurationException e) {
-            Loggers.warn(this.plugin.getComponentLogger(), "Failed to update default values for " + fileName);
-            return;
-        }
-
-        config.getKeys(true).forEach(key -> {
-            // Don't set keys that aren't in the default config if removeUnusedConfig is true.
-            if (removeUnusedConfig && !tempConfig.isSet(key)) {
-                return;
-            }
-            if (!config.isConfigurationSection(key)) {
-                tempConfig.set(key, config.get(key));
-            }
-            tempConfig.setComments(key, config.getComments(key));
-        });
-        try {
-            tempConfig.save(file);
-            tempConfigFile.delete();
-        } catch (IOException ex) {
-            Loggers.logException(plugin.getComponentLogger(), ex);
-            Loggers.warn(this.plugin.getComponentLogger(), "Failed to update default values for " + fileName);
-            return;
-        }
-        reload();
-        Loggers.info(this.plugin.getComponentLogger(), "Updated default values for " + fileName);
-    }
-
-    public void saveToFile(boolean reload) {
-        try {
-            getConfig().save(getFile());
-            if (reload) {
-                reload();
-            }
-        } catch (IOException ex) {
-            Loggers.error(getPlugin().getComponentLogger(), "Failed to save a config to file.", ex);
-        }
-    }
+    public String getResourceName() { return this.resourceName; }
 
 }
 

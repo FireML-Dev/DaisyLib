@@ -14,6 +14,7 @@ dependencyResolutionManagement {
             library("commandapi", "dev.jorel:commandapi-bukkit-shade:9.5.1")
             library("vanishchecker", "uk.firedev:VanishChecker:1.1.0")
             library("miniplaceholders", "io.github.miniplaceholders:miniplaceholders-api:2.2.3")
+            library("boostedyaml", "dev.dejvokep:boosted-yaml:1.3.6")
 
             plugin("shadow", "io.github.goooler.shadow").version("8.1.8")
             plugin("paperweight", "io.papermc.paperweight.userdev").version("1.7.1")
