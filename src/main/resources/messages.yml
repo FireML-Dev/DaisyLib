@@ -5,6 +5,9 @@ main-command:
   reward-types:
     none: "{prefix}<aqua>There are no registered reward types.</aqua>"
     list: "{prefix}<aqua>Registered Reward Types:</aqua> <green>{list}</green>"
+  requirement-types:
+    none: "{prefix}<aqua>There are no registered requirement types.</aqua>"
+    list: "{prefix}<aqua>Registered Requirement Types:</aqua> <green>{list}</green>"
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 1
+config-version: 2

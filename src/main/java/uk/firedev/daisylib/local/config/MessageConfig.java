@@ -51,4 +51,14 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
                 .applyReplacer(getPrefixReplacer());
     }
 
+    public ComponentMessage getNoRequirementTypesMessage() {
+        return new ComponentMessage(getConfig(), "main-command.requirement-types.none", "<aqua>There are no registered requirement types.</aqua>")
+                .applyReplacer(getPrefixReplacer());
+    }
+
+    public ComponentMessage getListRequirementTypesMessage() {
+        return new ComponentMessage(getConfig(), "main-command.requirement-types.list", "<aqua>Registered Requirement Types:</aqua> <green>{list}</green>")
+                .applyReplacer(getPrefixReplacer());
+    }
+
 }
