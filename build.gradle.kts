@@ -87,9 +87,9 @@ publishing {
     }
     publications {
         create<MavenPublication>("maven") {
-            groupId = "uk.firedev"
-            artifactId = "DaisyLib"
-            version = version
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
 
             from(components["java"])
         }
