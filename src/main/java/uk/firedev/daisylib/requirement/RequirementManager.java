@@ -44,18 +44,31 @@ public class RequirementManager {
 
     /**
      * Register a custom requirement.
-     * @param rewardType The reward type instance you wish to register
-     * @return Whether the reward type was added or not
+     * @param requirementType The requirement type instance you wish to register
+     * @return Whether the requirement type was added or not
      */
-    public boolean registerRequirement(RequirementType requirement) {
-        String identifier = requirement.getIdentifier().toUpperCase();
+    public boolean registerRequirement(RequirementType requirementType) {
+        String identifier = requirementType.getIdentifier().toUpperCase();
         if (requirements.containsKey(identifier)) {
             return false;
         }
         Loggers.info(DaisyLib.getInstance().getComponentLogger(),
-                "<green>Registered <gold>" + identifier + "</gold> Requirement by <gold>" + requirement.getAuthor() + "</gold> from the plugin <aqua>" + requirement.getPlugin().getName()
+                "<green>Registered <gold>" + identifier + "</gold> Requirement by <gold>" + requirementType.getAuthor() + "</gold> from the plugin <aqua>" + requirementType.getPlugin().getName()
         );
-        requirements.put(identifier, requirement);
+        requirements.put(identifier, requirementType);
+        return true;
+    }
+
+    /**
+     * Unregister a custom requirement.
+     * @param requirementName The requirement you wish to unregister
+     * @return Whether the requirement type was removed or not
+     */
+    public boolean unregisterRequirement(@NotNull String requirementName) {
+        if (!requirements.containsKey(requirementName)) {
+            return false;
+        }
+        requirements.remove(requirementName);
         return true;
     }
 
