@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.reward;
 
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.reward.types.*;
@@ -55,6 +56,19 @@ public class RewardManager {
                 "<green>Registered <gold>" + rewardType.getIdentifier() + "</gold> RewardType by <gold>" + rewardType.getAuthor() + "</gold> from the plugin <aqua>" + rewardType.getPlugin().getName()
         );
         rewardTypes.put(identifier.toUpperCase(), rewardType);
+        return true;
+    }
+
+    /**
+     * Unregister a custom reward type.
+     * @param rewardName The reward you wish to unregister
+     * @return Whether the reward type was removed or not
+     */
+    public boolean unregisterRewardType(@NotNull String rewardName) {
+        if (!rewardTypes.containsKey(rewardName)) {
+            return false;
+        }
+        rewardTypes.remove(rewardName);
         return true;
     }
 
