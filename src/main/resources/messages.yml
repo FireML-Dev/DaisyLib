@@ -8,6 +8,25 @@ main-command:
   requirement-types:
     none: "{prefix}<aqua>There are no registered requirement types.</aqua>"
     list: "{prefix}<aqua>Registered Requirement Types:</aqua> <green>{list}</green>"
+time-units:
+  year:
+    single: " year"
+    multiple: " years"
+  month:
+    single: " month"
+    multiple: " months"
+  day:
+    single: " day"
+    multiple: " days"
+  hour:
+    single: " hour"
+    multiple: " hours"
+  minute:
+    single: " minute"
+    multiple: " minutes"
+  second:
+    single: " second"
+    multiple: " seconds"
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 2
+config-version: 3
