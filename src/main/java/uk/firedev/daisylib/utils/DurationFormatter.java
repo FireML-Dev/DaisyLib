@@ -48,6 +48,8 @@ public class DurationFormatter {
         if (value > 0) {
             boolean multiple = value > 1;
             sb.append(value).append(timeUnit.getFormattedUnit(multiple)).append(" ");
+        } else if (timeUnit.equals(TimeUnit.SECOND)) {
+            sb.append(0).append(timeUnit.getFormattedUnit(true)).append(" ");
         }
     }
 
