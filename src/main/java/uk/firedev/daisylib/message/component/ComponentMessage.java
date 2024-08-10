@@ -11,6 +11,7 @@ import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +43,36 @@ public class ComponentMessage implements Message {
     }
 
     public ComponentMessage(@NotNull YamlDocument config, @NotNull String path, @NotNull String def) {
+        String message;
+        if (config.isList(path)) {
+            message = String.join("\n", config.getStringList(path));
+        } else {
+            message = config.getString(path);
+        }
+        if (message == null) {
+            this.message = MiniMessage.miniMessage().deserialize(def);
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
+        } else {
+            this.message = MiniMessage.miniMessage().deserialize(message);
+        }
+    }
+
+    public ComponentMessage(@NotNull FileConfiguration config, @NotNull String path, @NotNull Component def) {
+        String message;
+        if (config.isList(path)) {
+            message = String.join("\n", config.getStringList(path));
+        } else {
+            message = config.getString(path);
+        }
+        if (message == null) {
+            this.message = def;
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
+        } else {
+            this.message = MiniMessage.miniMessage().deserialize(message);
+        }
+    }
+
+    public ComponentMessage(@NotNull FileConfiguration config, @NotNull String path, @NotNull String def) {
         String message;
         if (config.isList(path)) {
             message = String.join("\n", config.getStringList(path));

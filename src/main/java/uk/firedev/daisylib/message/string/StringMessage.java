@@ -5,6 +5,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.Loggers;
@@ -19,6 +20,21 @@ public class StringMessage implements Message {
     private @NotNull String message;
 
     public StringMessage(@NotNull YamlDocument config, @NotNull String path, @NotNull String def) {
+        String message;
+        if (config.isList(path)) {
+            message = String.join("\n", config.getStringList(path));
+        } else {
+            message = config.getString(path);
+        }
+        if (message == null) {
+            this.message = def;
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
+        } else {
+            this.message = message;
+        }
+    }
+
+    public StringMessage(@NotNull FileConfiguration config, @NotNull String path, @NotNull String def) {
         String message;
         if (config.isList(path)) {
             message = String.join("\n", config.getStringList(path));
