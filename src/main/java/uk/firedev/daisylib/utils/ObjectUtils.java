@@ -11,46 +11,6 @@ import java.util.List;
 public class ObjectUtils {
 
     /**
-     * @deprecated Use {@link LocationHelper#convertToString(Location, boolean)} instead.
-     * Creates a String from the provided Location.
-     * @param location The location to use.
-     * @param includeYawPitch Should the String include yaw and pitch?
-     * @return A string, built from the provided location.
-     */
-    @Deprecated(forRemoval = true)
-    public static String locationToString(@NotNull Location location, boolean includeYawPitch) {
-        String finalString = location.getWorld().getName() + "_" + location.getX() + "_" + location.getY() + "_" + location.getZ();
-        if (includeYawPitch) {
-            finalString += "_" + location.getYaw() + "_" + location.getPitch();
-        }
-        return finalString;
-    }
-
-    /**
-     * @deprecated Use {@link LocationHelper#getFromString(String)} instead.
-     * Creates a Location from a String created by {@link #locationToString(Location, boolean)}
-     * @param string The string to use.
-     * @return A location, built from the provided string.
-     */
-    @Deprecated(forRemoval = true)
-    public static Location locationFromString(@NotNull String string) {
-        String[] split = string.split("_");
-        if (split.length < 4) {
-            return null;
-        }
-        World world = Bukkit.getWorld(split[0]);
-        if (world == null) {
-            return null;
-        }
-        double x = Double.parseDouble(split[1]);
-        double y = Double.parseDouble(split[2]);
-        double z = Double.parseDouble(split[3]);
-        float yaw = Float.parseFloat(getOrDefault(split, 4, String.valueOf(180)));
-        float pitch = Float.parseFloat(getOrDefault(split, 4, String.valueOf(0)));
-        return new Location(world, x, y, z, yaw, pitch);
-    }
-
-    /**
      * Creates a String from the provided chunk.
      * @param chunk The chunk to use.
      * @return A string, built from the provided chunk.
