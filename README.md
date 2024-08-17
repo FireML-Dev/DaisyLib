@@ -6,7 +6,7 @@ https://ci.firedev.uk/job/DaisyLib/
 
 [![CodeFactor](https://www.codefactor.io/repository/github/fireml-dev/daisylib/badge)](https://www.codefactor.io/repository/github/fireml-dev/daisylib)
 
-## Maven
+#### Maven
 
 ```xml
     <repository>
@@ -19,8 +19,19 @@ https://ci.firedev.uk/job/DaisyLib/
         <dependency>
             <groupId>uk.firedev</groupId>
             <artifactId>DaisyLib</artifactId>
-            <version>2.0.2-SNAPSHOT</version>
+            <version>2.0.3-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
+```
+
+#### Gradle (Kotlin)
+```kotlin
+repositories {
+    maven("https://repo.firedev.uk/repository/maven-public/")
+}
+
+dependencies {
+    compileOnly("uk.firedev:DaisyLib:2.0.3-SNAPSHOT")
+}
 ```
