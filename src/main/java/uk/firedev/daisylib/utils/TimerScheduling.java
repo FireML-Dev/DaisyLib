@@ -33,25 +33,26 @@ public class TimerScheduling {
         if (!started) {
             return;
         }
+        timer.cancel();
         timer = new Timer();
         started = false;
     }
 
     public Date getNextRun(int hour, int minute, TimeZone timeZone) {
-        Calendar nextUpkeep = Calendar.getInstance();
+        Calendar next = Calendar.getInstance();
         if (timeZone == null) {
-            nextUpkeep.setTimeZone(TimeZone.getDefault());
+            next.setTimeZone(TimeZone.getDefault());
         } else {
-            nextUpkeep.setTimeZone(timeZone);
+            next.setTimeZone(timeZone);
         }
-        if (nextUpkeep.get(Calendar.HOUR_OF_DAY) >= hour) {
-            nextUpkeep.set(Calendar.DAY_OF_YEAR, nextUpkeep.get(Calendar.DAY_OF_YEAR) + 1);
+        if (next.get(Calendar.HOUR_OF_DAY) >= hour) {
+            next.set(Calendar.DAY_OF_YEAR, next.get(Calendar.DAY_OF_YEAR) + 1);
         }
-        nextUpkeep.set(Calendar.HOUR_OF_DAY, hour);
-        nextUpkeep.set(Calendar.MINUTE, minute);
-        nextUpkeep.set(Calendar.SECOND, 0);
-        nextUpkeep.set(Calendar.MILLISECOND, 1);
-        return nextUpkeep.getTime();
+        next.set(Calendar.HOUR_OF_DAY, hour);
+        next.set(Calendar.MINUTE, minute);
+        next.set(Calendar.SECOND, 0);
+        next.set(Calendar.MILLISECOND, 1);
+        return next.getTime();
     }
 
     public void setHour(int hour) {
