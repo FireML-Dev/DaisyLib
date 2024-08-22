@@ -1,6 +1,5 @@
 package uk.firedev.daisylib.utils;
 
-import com.denizenscript.denizen.scripts.containers.core.ItemScriptHelper;
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
 import org.bukkit.Bukkit;
@@ -14,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 
 import java.util.List;
@@ -119,10 +117,6 @@ public class ItemUtils {
 
     public static ItemStack toIcon(Material material) {
         return material != null ? hideAllFlags(ItemStack.of(material)) : null;
-    }
-
-    public static boolean isCustomItem(ItemStack item) {
-        return DaisyLib.getInstance().isPluginEnabled("Denizen") && ItemScriptHelper.isItemscript(item);
     }
 
     public static void giveItems(@NotNull ItemStack[] items, @NotNull Player player) {

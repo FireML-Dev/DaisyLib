@@ -13,7 +13,6 @@ repositories {
     gradlePluginPortal()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://jitpack.io")
-    maven("https://repo.codemc.io/repository/maven-snapshots/")
     maven("https://maven.citizensnpcs.co/repo/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://repo.firedev.uk/repository/maven-public/")
@@ -23,7 +22,6 @@ repositories {
 
 dependencies {
     compileOnly(libs.paper.api)
-    compileOnly(libs.denizen)
     compileOnly(libs.placeholderapi)
     compileOnly(libs.vault)
     compileOnly(libs.miniplaceholders)
