@@ -62,7 +62,7 @@ public class RecipeUtil implements Listener {
     }
 
     public static @NotNull RecipeChoice getRecipeChoiceFromItem(@NotNull ItemStack item) {
-        if (item.getType().isAir()) {
+        if (item.isEmpty()) {
             return RecipeChoice.empty();
         } else {
             return new RecipeChoice.ExactChoice(item);
@@ -70,7 +70,7 @@ public class RecipeUtil implements Listener {
     }
 
     public static @NotNull RecipeChoice getRecipeChoiceFromMaterial(@NotNull Material material) {
-        if (material.isAir()) {
+        if (material.isEmpty()) {
             return RecipeChoice.empty();
         } else {
             return new RecipeChoice.MaterialChoice(material);
@@ -83,7 +83,7 @@ public class RecipeUtil implements Listener {
     }
 
     public static @Nullable RecipeChoice getRecipeChoiceFromItemNullable(@NotNull ItemStack item) {
-        if (item.getType().isAir()) {
+        if (item.isEmpty()) {
             return null;
         } else {
             return RecipeUtil.getRecipeChoiceFromItem(item);
@@ -91,7 +91,7 @@ public class RecipeUtil implements Listener {
     }
 
     public static @Nullable RecipeChoice getRecipeChoiceFromMaterialNullable(@NotNull Material material) {
-        if (material.isAir()) {
+        if (material.isEmpty()) {
             return null;
         } else {
             return new RecipeChoice.MaterialChoice(material);

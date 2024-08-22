@@ -33,12 +33,12 @@ public class ColorUtils {
         addHead(NamedTextColor.WHITE, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzY2YTVjOTg5MjhmYTVkNGI1ZDViOGVmYjQ5MDE1NWI0ZGRhMzk1NmJjYWE5MzcxMTc3ODE0NTMyY2ZjIn19fQ==");
     }
 
-    private static void addHead(@NotNull NamedTextColor chatColor, @NotNull String textures) {
-        colorHeads.put(chatColor, ItemUtils.getHead(textures));
+    private static void addHead(@NotNull NamedTextColor namedTextColor, @NotNull String textures) {
+        colorHeads.put(namedTextColor, ItemUtils.getHead(textures));
     }
 
-    public static @NotNull ItemStack getColorHead(@NotNull NamedTextColor chatColor) {
-        return colorHeads.getOrDefault(chatColor, new ItemStack(Material.PLAYER_HEAD));
+    public static @NotNull ItemStack getColorHead(@NotNull NamedTextColor namedTextColor) {
+        return colorHeads.getOrDefault(namedTextColor, ItemStack.of(Material.PLAYER_HEAD));
     }
 
     public static @NotNull TextColor getNamedColor(@NotNull String colorString, @NotNull NamedTextColor def) {

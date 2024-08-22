@@ -32,7 +32,7 @@ public class ItemRewardType implements RewardType {
             }
             quantity = Math.max(Integer.parseInt(splitValue[1]), 1);
         }
-        ItemStack item = new ItemStack(material);
+        ItemStack item = ItemStack.of(material);
         for (int i = 0; i < quantity; ++i) {
             ItemUtils.giveItem(item, player);
         }

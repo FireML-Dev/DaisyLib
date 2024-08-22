@@ -262,7 +262,7 @@ public class ItemBuilder {
         if (this.material == null) {
             return null;
         }
-        ItemStack stack = new ItemStack(this.material);
+        ItemStack stack = ItemStack.of(this.material);
         stack.editMeta(meta -> {
             if (this.display != null) {
                 meta.displayName(this.display);

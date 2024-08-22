@@ -32,7 +32,7 @@ public class ShapedRecipe extends org.bukkit.inventory.ShapedRecipe implements I
             try {
                 item = recipeItems.get(i);
             } catch (IndexOutOfBoundsException ex) {
-                item = new ItemStack(Material.AIR);
+                item = ItemStack.empty();
             }
             char loopChar = charFromInt(i);
             RecipeChoice choice = RecipeUtil.getRecipeChoiceFromItemNullable(item);

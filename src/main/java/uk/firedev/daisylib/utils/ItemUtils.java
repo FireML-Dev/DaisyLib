@@ -63,7 +63,7 @@ public class ItemUtils {
     }
 
     public static ItemStack getHead(@NotNull UUID uuid) {
-        ItemStack item = new ItemStack(Material.PLAYER_HEAD);
+        ItemStack item = ItemStack.of(Material.PLAYER_HEAD);
         item.editMeta(SkullMeta.class, meta -> {
             PlayerProfile profile = Bukkit.createProfile(uuid, "Unknown");
             meta.setPlayerProfile(profile);
@@ -80,7 +80,7 @@ public class ItemUtils {
     }
 
     public static ItemStack getHead(@NotNull String textures) {
-        ItemStack item = new ItemStack(Material.PLAYER_HEAD);
+        ItemStack item = ItemStack.of(Material.PLAYER_HEAD);
         item.editMeta(SkullMeta.class, meta -> {
             PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID(), "Unknown");
             profile.setProperty(new ProfileProperty("textures", textures));
@@ -118,7 +118,7 @@ public class ItemUtils {
 
 
     public static ItemStack toIcon(Material material) {
-        return material != null ? hideAllFlags(new ItemStack(material)) : null;
+        return material != null ? hideAllFlags(ItemStack.of(material)) : null;
     }
 
     public static boolean isCustomItem(ItemStack item) {
