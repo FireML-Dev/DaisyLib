@@ -51,13 +51,13 @@ public class Config {
         }
 
         List<Settings> settingsList = new ArrayList<>(Arrays.asList(
-                GeneralSettings.builder().setUseDefaults(false).build(),
-                DumperSettings.DEFAULT
+                getGeneralSettings(),
+                getDumperSettings()
         ));
 
         if (configUpdater) {
-            settingsList.add(LoaderSettings.builder().setAutoUpdate(true).build());
-            settingsList.add(UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
+            settingsList.add(getLoaderSettings());
+            settingsList.add(getUpdaterSettings());
         }
 
         final Settings[] settings = settingsList.toArray(new Settings[0]);
@@ -87,6 +87,22 @@ public class Config {
     public String getFileName() { return this.fileName; }
 
     public String getResourceName() { return this.resourceName; }
+
+    public GeneralSettings getGeneralSettings() {
+        return GeneralSettings.builder().setUseDefaults(false).build();
+    }
+
+    public DumperSettings getDumperSettings() {
+        return DumperSettings.DEFAULT;
+    }
+
+    public LoaderSettings getLoaderSettings() {
+        return LoaderSettings.builder().setAutoUpdate(true).build();
+    }
+
+    public UpdaterSettings getUpdaterSettings() {
+        return UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build();
+    }
 
 }
 
