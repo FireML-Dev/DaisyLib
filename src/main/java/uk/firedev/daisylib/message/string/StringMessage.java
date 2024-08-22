@@ -98,7 +98,7 @@ public class StringMessage implements Message {
     }
 
     public ComponentMessage toComponentMessage() {
-        return new ComponentMessage(this);
+        return ComponentMessage.fromStringMessage(this);
     }
 
     public StringMessage parsePAPI(@NotNull OfflinePlayer player) {

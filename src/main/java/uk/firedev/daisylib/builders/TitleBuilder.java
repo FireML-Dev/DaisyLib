@@ -85,7 +85,7 @@ public class TitleBuilder {
         if (replacer != null) {
             title = replacer.replace(title);
         }
-        this.title = new ComponentMessage(title).getMessage();
+        this.title = ComponentMessage.fromString(title).getMessage();
         return this;
     }
 
@@ -101,7 +101,7 @@ public class TitleBuilder {
         if (replacer != null) {
             subtitle = replacer.replace(subtitle);
         }
-        this.subtitle = new ComponentMessage(subtitle).getMessage();
+        this.subtitle = ComponentMessage.fromString(subtitle).getMessage();
         return this;
     }
 

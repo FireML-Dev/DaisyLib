@@ -35,7 +35,7 @@ public class ComponentReplacer {
         }
         Map<String, Component> map = new HashMap<>();
         for (int i = 0; i + 1 < replacements.length; i += 2) {
-            map.put(replacements[i], new ComponentMessage(replacements[i + 1]).getMessage());
+            map.put(replacements[i], ComponentMessage.fromString(replacements[i + 1]).getMessage());
         }
         getModifiableReplacements().putAll(map);
         return this;
@@ -59,7 +59,7 @@ public class ComponentReplacer {
      * @return The modified ComponentReplacer
      */
     public ComponentReplacer addReplacement(@NotNull String string, @NotNull String replacement) {
-        getModifiableReplacements().put(string, new ComponentMessage(replacement).getMessage());
+        getModifiableReplacements().put(string, ComponentMessage.fromString(replacement).getMessage());
         return this;
     }
 

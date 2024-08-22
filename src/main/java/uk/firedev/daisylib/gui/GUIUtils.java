@@ -22,7 +22,7 @@ public class GUIUtils {
     }
 
     public static String getFormattedTitle(@NotNull Component title, @Nullable ComponentReplacer replacer) {
-        Component parsed = new ComponentMessage(title).applyReplacer(replacer).getMessage();
+        Component parsed = ComponentMessage.of(title).applyReplacer(replacer).getMessage();
         return LegacyComponentSerializer.legacySection().serialize(parsed);
     }
 

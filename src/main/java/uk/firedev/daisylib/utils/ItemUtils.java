@@ -72,7 +72,7 @@ public class ItemUtils {
     public static ItemStack getHead(@NotNull UUID uuid, @Nullable String displayName) {
         ItemStack item = getHead(uuid);
         if (displayName != null && !displayName.isEmpty()) {
-            item.editMeta(SkullMeta.class, meta -> meta.displayName(new ComponentMessage(displayName).getMessage()));
+            item.editMeta(SkullMeta.class, meta -> meta.displayName(ComponentMessage.fromString(displayName).getMessage()));
         }
         return hideAllFlags(item);
     }

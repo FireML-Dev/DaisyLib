@@ -62,9 +62,9 @@ public class LibCommand extends CommandAPICommand {
     private ComponentReplacer getRewardTypeListReplacer(List<RewardType> types) {
         TextComponent.Builder builder = Component.text();
         types.forEach(rewardType -> {
-            Component identifier = new ComponentMessage(rewardType.getIdentifier()).getMessage();
+            Component identifier = ComponentMessage.fromString(rewardType.getIdentifier()).getMessage();
             identifier = identifier.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    new ComponentMessage(
+                    ComponentMessage.fromString(
                             "<white>Author: " + rewardType.getAuthor() + "\n" +
                             "<white>Registered Plugin: " + rewardType.getPlugin().getName()
                     ).getMessage()
@@ -91,9 +91,9 @@ public class LibCommand extends CommandAPICommand {
     private ComponentReplacer getRequirementTypeListReplacer(List<RequirementType> types) {
         TextComponent.Builder builder = Component.text();
         types.forEach(rewardType -> {
-            Component identifier = new ComponentMessage(rewardType.getIdentifier()).getMessage();
+            Component identifier = ComponentMessage.fromString(rewardType.getIdentifier()).getMessage();
             identifier = identifier.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    new ComponentMessage(
+                    ComponentMessage.fromString(
                             "<white>Author: " + rewardType.getAuthor() + "\n" +
                                     "<white>Registered Plugin: " + rewardType.getPlugin().getName()
                     ).getMessage()

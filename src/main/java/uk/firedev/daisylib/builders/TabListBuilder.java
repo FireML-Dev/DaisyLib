@@ -30,7 +30,7 @@ public class TabListBuilder {
         if (replacer != null) {
             header = replacer.replace(header);
         }
-        this.header = new ComponentMessage(header).getMessage();
+        this.header = ComponentMessage.fromString(header).getMessage();
         return this;
     }
 
@@ -46,7 +46,7 @@ public class TabListBuilder {
         if (replacer != null) {
             footer = replacer.replace(footer);
         }
-        this.footer = new ComponentMessage(footer).getMessage();
+        this.footer = ComponentMessage.fromString(footer).getMessage();
         return this;
     }
 

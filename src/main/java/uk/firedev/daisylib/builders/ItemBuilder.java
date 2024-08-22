@@ -50,11 +50,11 @@ public class ItemBuilder {
         // Display
         String display = section.getString("display");
         if (display != null) {
-            this.display = new ComponentMessage(display).applyReplacer(displayReplacer).getMessage();
+            this.display = ComponentMessage.fromString(display).applyReplacer(displayReplacer).getMessage();
         }
 
         // Lore
-        this.lore = section.getStringList("lore").stream().map(line -> new ComponentMessage(line).applyReplacer(loreReplacer).getMessage()).toList();
+        this.lore = section.getStringList("lore").stream().map(line -> ComponentMessage.fromString(line).applyReplacer(loreReplacer).getMessage()).toList();
 
         // ItemFlags
         List<ItemFlag> flags = section.getStringList("flags").stream()
@@ -128,7 +128,7 @@ public class ItemBuilder {
         if (replacer != null) {
             display = replacer.replace(display);
         }
-        this.display = new ComponentMessage(display).getMessage();
+        this.display = ComponentMessage.fromString(display).getMessage();
         return this;
     }
 
@@ -144,7 +144,7 @@ public class ItemBuilder {
         if (replacer != null) {
             lore = replacer.replace(lore);
         }
-        this.lore = lore.stream().map(line -> new ComponentMessage(line).getMessage()).toList();
+        this.lore = lore.stream().map(line -> ComponentMessage.fromString(line).getMessage()).toList();
         return this;
     }
 
@@ -160,7 +160,7 @@ public class ItemBuilder {
         if (replacer != null) {
             line = replacer.replace(line);
         }
-        this.lore.add(new ComponentMessage(line).getMessage());
+        this.lore.add(ComponentMessage.fromString(line).getMessage());
         return this;
     }
 
@@ -176,7 +176,7 @@ public class ItemBuilder {
         if (replacer != null) {
             lines = replacer.replace(lines);
         }
-        this.lore.addAll(lines.stream().map(line -> new ComponentMessage(line).getMessage()).toList());
+        this.lore.addAll(lines.stream().map(line -> ComponentMessage.fromString(line).getMessage()).toList());
         return this;
     }
 

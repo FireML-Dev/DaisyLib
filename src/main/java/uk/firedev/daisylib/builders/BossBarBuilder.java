@@ -34,7 +34,7 @@ public class BossBarBuilder {
         if (replacer != null) {
             title = replacer.replace(title);
         }
-        this.title = new ComponentMessage(title).getMessage();
+        this.title = ComponentMessage.fromString(title).getMessage();
         return this;
     }
 

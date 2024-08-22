@@ -7,8 +7,10 @@ import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.utils.FileUtils;
 
 import java.io.File;
@@ -101,6 +103,10 @@ public class Config {
 
     public UpdaterSettings getUpdaterSettings() {
         return UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build();
+    }
+
+    public ComponentMessage getComponentMessage(@NotNull String path, @NotNull String def) {
+        return ComponentMessage.fromConfig(getConfig(), path, MiniMessage.miniMessage().deserialize(def));
     }
 
 }

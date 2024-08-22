@@ -31,7 +31,7 @@ public class BookBuilder {
         if (replacer != null) {
             title = replacer.replace(title);
         }
-        this.title = new ComponentMessage(title).getMessage();
+        this.title = ComponentMessage.fromString(title).getMessage();
         return this;
     }
 
@@ -41,7 +41,7 @@ public class BookBuilder {
     }
 
     public BookBuilder withStringAuthor(@NotNull String author) {
-        this.author = new ComponentMessage(author).getMessage();
+        this.author = ComponentMessage.fromString(author).getMessage();
         return this;
     }
 
@@ -57,7 +57,7 @@ public class BookBuilder {
         if (replacer != null) {
             pages = replacer.replace(pages);
         }
-        this.pages = pages.stream().map(page -> new ComponentMessage(page).getMessage()).toList();
+        this.pages = pages.stream().map(page -> ComponentMessage.fromString(page).getMessage()).toList();
         return this;
     }
 
@@ -73,7 +73,7 @@ public class BookBuilder {
         if (replacer != null) {
             page = replacer.replace(page);
         }
-        this.pages.add(new ComponentMessage(page).getMessage());
+        this.pages.add(ComponentMessage.fromString(page).getMessage());
         return this;
     }
 
@@ -81,7 +81,7 @@ public class BookBuilder {
         if (replacer != null) {
             pages = replacer.replace(pages);
         }
-        this.pages.addAll(pages.stream().map(page -> new ComponentMessage(page).getMessage()).toList());
+        this.pages.addAll(pages.stream().map(page -> ComponentMessage.of(page).getMessage()).toList());
         return this;
     }
 
@@ -89,7 +89,7 @@ public class BookBuilder {
         if (replacer != null) {
             pages = replacer.replace(pages);
         }
-        this.pages.addAll(pages.stream().map(page -> new ComponentMessage(page).getMessage()).toList());
+        this.pages.addAll(pages.stream().map(page -> ComponentMessage.fromString(page).getMessage()).toList());
         return this;
     }
 

@@ -26,8 +26,8 @@ public class Loggers {
     }
 
 
-        logger.info(new ComponentMessage(message).getMessage());
     public static void info(@NotNull ComponentLogger logger, @NotNull String message) {
+        logger.info(ComponentMessage.fromString(message).getMessage());
     }
 
     public static void info(@NotNull ComponentLogger logger, @NotNull String message, @NotNull Throwable throwable) {
@@ -44,8 +44,8 @@ public class Loggers {
         logException(logger, throwable);
     }
 
-        logger.warn(new ComponentMessage(message).getMessage());
     public static void warn(@NotNull ComponentLogger logger, @NotNull String message) {
+        logger.warn(ComponentMessage.fromString(message).getMessage());
     }
 
     public static void warn(@NotNull ComponentLogger logger, @NotNull String message, @NotNull Throwable throwable) {
@@ -62,8 +62,8 @@ public class Loggers {
         logException(logger, throwable);
     }
 
-        logger.error(new ComponentMessage(message).getMessage());
     public static void error(@NotNull ComponentLogger logger, @NotNull String message) {
+        logger.error(ComponentMessage.fromString(message).getMessage());
     }
 
     public static void error(@NotNull ComponentLogger logger, @NotNull String message, @NotNull Throwable throwable) {
