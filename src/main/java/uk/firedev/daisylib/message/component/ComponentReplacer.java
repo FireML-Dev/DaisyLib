@@ -143,11 +143,12 @@ public class ComponentReplacer {
      */
     public Component replace(@NotNull Component component) {
         Map<String, Component> replacements = getReplacements();
-        for (String string : replacements.keySet()) {
-            Component replaceComponent = replacements.get(string);
-            String placeholder = prefix() + string + suffix();
-            TextReplacementConfig config = TextReplacementConfig.builder().matchLiteral(placeholder).replacement(replaceComponent).build();
-            component = component.replaceText(config);
+        TextReplacementConfig.Builder trc = TextReplacementConfig.builder();
+        for (Map.Entry<String, Component> entry : replacements.entrySet()) {
+            Component replaceComponent = entry.getValue();
+            String placeholder = prefix() + entry.getKey() + suffix();
+            trc.matchLiteral(placeholder).replacement(replaceComponent);
+            component = component.replaceText(trc.build());
         }
         return component;
     }

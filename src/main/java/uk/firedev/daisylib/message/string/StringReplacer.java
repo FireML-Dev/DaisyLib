@@ -130,9 +130,9 @@ public class StringReplacer {
      */
     public String replace(@NotNull String string) {
         Map<String, String> map = getReplacements();
-        for (String key : map.keySet()) {
-            String replacement = map.get(key);
-            String placeholder = prefix() + key + suffix();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String replacement = entry.getValue();
+            String placeholder = prefix() + entry.getKey() + suffix();
             string = string.replace(placeholder, replacement);
         }
         return string;
