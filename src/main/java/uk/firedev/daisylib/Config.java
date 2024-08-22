@@ -34,7 +34,6 @@ public class Config {
      * @param fileName The name of the config file to use.
      * @param plugin The plugin associated with the config file.
      * @param configUpdater Should the config updater be used?
-     * @param removeUnusedConfig Should config options that are not in the default file be removed? Only applies if configUpdater is true.
      */
     public Config(@NotNull String fileName, @NotNull String resourceName, @NotNull Plugin plugin, boolean configUpdater) {
         this.fileName = fileName;
