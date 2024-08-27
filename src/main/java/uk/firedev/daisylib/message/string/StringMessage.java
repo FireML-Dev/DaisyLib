@@ -3,6 +3,7 @@ package uk.firedev.daisylib.message.string;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,51 +20,61 @@ public class StringMessage implements Message {
 
     private @NotNull String message;
 
-    public StringMessage(@NotNull YamlDocument config, @NotNull String path, @NotNull String def) {
-        String message;
-        if (config.isList(path)) {
-            message = String.join("\n", config.getStringList(path));
-        } else {
-            message = config.getString(path);
-        }
-        if (message == null) {
-            this.message = def;
-            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
-        } else {
-            this.message = message;
-        }
-    }
-
-    public StringMessage(@NotNull FileConfiguration config, @NotNull String path, @NotNull String def) {
-        String message;
-        if (config.isList(path)) {
-            message = String.join("\n", config.getStringList(path));
-        } else {
-            message = config.getString(path);
-        }
-        if (message == null) {
-            this.message = def;
-            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
-        } else {
-            this.message = message;
-        }
-    }
-
-    public StringMessage(@Nullable String message, @NotNull String def) {
-        if (message == null) {
-            this.message = def;
-            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message supplied. Using the default value.");
-        } else {
-            this.message = message;
-        }
-    }
-
-    public StringMessage(@NotNull ComponentMessage componentMessage) {
-        this.message = MiniMessage.miniMessage().serialize(componentMessage.getMessage());
-    }
-
+    @Deprecated(forRemoval = true)
     public StringMessage(@NotNull String message) {
         this.message = message;
+    }
+
+    public static StringMessage of(@NotNull String message) {
+        return new StringMessage(message);
+    }
+
+    public static StringMessage fromComponent(@NotNull Component message) {
+        return ComponentMessage.of(message).toStringMessage();
+    }
+
+    public static StringMessage fromComponent(@Nullable Component message, @NotNull String def) {
+        if (message == null) {
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message supplied. Using the default value.");
+            return of(def);
+        } else {
+            return ComponentMessage.of(message).toStringMessage();
+        }
+    }
+
+    public static StringMessage fromComponentMessage(@NotNull ComponentMessage componentMessage) {
+        return componentMessage.toStringMessage();
+    }
+
+    public static StringMessage fromConfig(@NotNull YamlDocument config, @NotNull String path, @NotNull String def) {
+        String message;
+        if (config.isList(path)) {
+            message = String.join("\n", config.getStringList(path));
+        } else {
+            message = config.getString(path);
+        }
+        return fromConfigString(message, def, path);
+    }
+
+    public static StringMessage fromConfig(@NotNull FileConfiguration config, @NotNull String path, @NotNull String def) {
+        String message;
+        if (config.isList(path)) {
+            message = String.join("\n", config.getStringList(path));
+        } else {
+            message = config.getString(path);
+        }
+        return fromConfigString(message, def, path);
+    }
+
+    private static StringMessage fromConfigString(@Nullable String message, @NotNull String def, @NotNull String path) {
+        final String finalMessage;
+        if (message == null) {
+            finalMessage = def;
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
+        } else {
+            finalMessage = message;
+        }
+        return of(finalMessage);
     }
 
     public StringMessage applyReplacer(@Nullable StringReplacer replacer) {
@@ -130,6 +141,55 @@ public class StringMessage implements Message {
 
     public StringMessage duplicate() {
         return new StringMessage(this.message);
+    }
+
+    // Deprecated Constructors
+
+    @Deprecated(forRemoval = true)
+    public StringMessage(@NotNull YamlDocument config, @NotNull String path, @NotNull String def) {
+        String message;
+        if (config.isList(path)) {
+            message = String.join("\n", config.getStringList(path));
+        } else {
+            message = config.getString(path);
+        }
+        if (message == null) {
+            this.message = def;
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
+        } else {
+            this.message = message;
+        }
+    }
+
+    @Deprecated(forRemoval = true)
+    public StringMessage(@NotNull FileConfiguration config, @NotNull String path, @NotNull String def) {
+        String message;
+        if (config.isList(path)) {
+            message = String.join("\n", config.getStringList(path));
+        } else {
+            message = config.getString(path);
+        }
+        if (message == null) {
+            this.message = def;
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
+        } else {
+            this.message = message;
+        }
+    }
+
+    @Deprecated(forRemoval = true)
+    public StringMessage(@Nullable String message, @NotNull String def) {
+        if (message == null) {
+            this.message = def;
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message supplied. Using the default value.");
+        } else {
+            this.message = message;
+        }
+    }
+
+    @Deprecated(forRemoval = true)
+    public StringMessage(@NotNull ComponentMessage componentMessage) {
+        this.message = MiniMessage.miniMessage().serialize(componentMessage.getMessage());
     }
 
 }
