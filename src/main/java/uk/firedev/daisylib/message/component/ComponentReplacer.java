@@ -3,12 +3,13 @@ package uk.firedev.daisylib.message.component;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.message.Replacer;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ComponentReplacer {
+public class ComponentReplacer implements Replacer {
 
     private String prefix = "{";
     private String suffix = "}";
@@ -109,7 +110,8 @@ public class ComponentReplacer {
      * @param prefix The prefix to use
      * @return The modified ComponentReplacer.
      */
-    public ComponentReplacer prefix(String prefix) {
+    @Override
+    public ComponentReplacer prefix(@NotNull String prefix) {
         this.prefix = prefix;
         return this;
     }
@@ -118,6 +120,7 @@ public class ComponentReplacer {
      * Gets the placeholder prefix
      * @return The placeholder prefix.
      */
+    @Override
     public String prefix() { return this.prefix; }
 
     /**
@@ -125,7 +128,8 @@ public class ComponentReplacer {
      * @param suffix The suffix to use
      * @return The modified ComponentReplacer.
      */
-    public ComponentReplacer suffix(String suffix) {
+    @Override
+    public ComponentReplacer suffix(@NotNull String suffix) {
         this.suffix = suffix;
         return this;
     }
@@ -134,6 +138,7 @@ public class ComponentReplacer {
      * Gets the placeholder suffix
      * @return The placeholder suffix.
      */
+    @Override
     public String suffix() { return suffix; }
 
     /**

@@ -1,12 +1,13 @@
 package uk.firedev.daisylib.message.string;
 
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.message.Replacer;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StringReplacer {
+public class StringReplacer implements Replacer {
 
     private String prefix = "{";
     private String suffix = "}";
@@ -96,7 +97,8 @@ public class StringReplacer {
      * @param prefix The prefix to use
      * @return The modified StringReplacer.
      */
-    public StringReplacer prefix(String prefix) {
+    @Override
+    public StringReplacer prefix(@NotNull String prefix) {
         this.prefix = prefix;
         return this;
     }
@@ -105,6 +107,7 @@ public class StringReplacer {
      * Gets the placeholder prefix
      * @return The placeholder prefix.
      */
+    @Override
     public String prefix() { return this.prefix; }
 
     /**
@@ -112,7 +115,8 @@ public class StringReplacer {
      * @param suffix The suffix to use
      * @return The modified StringReplacer.
      */
-    public StringReplacer suffix(String suffix) {
+    @Override
+    public StringReplacer suffix(@NotNull String suffix) {
         this.suffix = suffix;
         return this;
     }
@@ -121,6 +125,7 @@ public class StringReplacer {
      * Gets the placeholder suffix
      * @return The placeholder suffix.
      */
+    @Override
     public String suffix() { return suffix; }
 
     /**
