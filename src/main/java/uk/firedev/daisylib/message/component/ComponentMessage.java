@@ -26,6 +26,7 @@ import java.util.List;
 public class ComponentMessage implements Message {
 
     private @NotNull Component message;
+    private static MiniMessage miniMessage = null;
 
     /**
      * @deprecated Use {@link ComponentMessage#of(Component)} instead. This constructor will be made private for 2.0.4-SNAPSHOT.
@@ -44,7 +45,7 @@ public class ComponentMessage implements Message {
     }
 
     public static ComponentMessage fromString(@NotNull String message) {
-        return of(MiniMessage.miniMessage().deserialize(message));
+        return of(getMiniMessage().deserialize(message));
     }
 
     public static ComponentMessage fromString(@Nullable String message, @NotNull Component def) {
@@ -53,7 +54,7 @@ public class ComponentMessage implements Message {
             finalMessage = def;
             Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message supplied. Using the default value.");
         } else {
-            finalMessage = MiniMessage.miniMessage().deserialize(message);
+            finalMessage = getMiniMessage().deserialize(message);
         }
         return of(finalMessage);
     }
@@ -72,6 +73,16 @@ public class ComponentMessage implements Message {
         return fromConfigString(message, def, path);
     }
 
+    public static ComponentMessage fromConfig(@NotNull YamlDocument config, @NotNull String path, @NotNull String def) {
+        String message;
+        if (config.isList(path)) {
+            message = String.join("\n", config.getStringList(path));
+        } else {
+            message = config.getString(path);
+        }
+        return fromConfigString(message, getMiniMessage().deserialize(def), path);
+    }
+
     public static ComponentMessage fromConfig(@NotNull FileConfiguration config, @NotNull String path, @NotNull Component def) {
         String message;
         if (config.isList(path)) {
@@ -82,15 +93,32 @@ public class ComponentMessage implements Message {
         return fromConfigString(message, def, path);
     }
 
+    public static ComponentMessage fromConfig(@NotNull FileConfiguration config, @NotNull String path, @NotNull String def) {
+        String message;
+        if (config.isList(path)) {
+            message = String.join("\n", config.getStringList(path));
+        } else {
+            message = config.getString(path);
+        }
+        return fromConfigString(message, getMiniMessage().deserialize(def), path);
+    }
+
     private static ComponentMessage fromConfigString(@Nullable String message, @NotNull Component def, @NotNull String path) {
         final Component finalMessage;
         if (message == null) {
             finalMessage = def;
             Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
         } else {
-            finalMessage = MiniMessage.miniMessage().deserialize(message);
+            finalMessage = getMiniMessage().deserialize(message);
         }
         return of(finalMessage);
+    }
+
+    public static MiniMessage getMiniMessage() {
+        if (miniMessage == null) {
+            miniMessage = MiniMessage.miniMessage();
+        }
+        return miniMessage;
     }
 
     public ComponentMessage applyReplacer(@Nullable ComponentReplacer replacer) {
@@ -143,13 +171,13 @@ public class ComponentMessage implements Message {
 
     public ComponentMessage parseMiniPlaceholders(@NotNull Audience audience) {
         if (DaisyLib.getInstance().isPluginEnabled("MiniPlaceholders")) {
-            String stringMessage = MiniMessage.miniMessage().serialize(getMessage());
+            String stringMessage = getMiniMessage().serialize(getMessage());
             TagResolver resolver = TagResolver.builder()
                     .resolver(TagResolver.standard())
                     .resolver(MiniPlaceholders.getAudiencePlaceholders(audience))
                     .resolver(MiniPlaceholders.getGlobalPlaceholders())
                     .build();
-            this.message = MiniMessage.miniMessage().deserialize(stringMessage, resolver);
+            this.message = getMiniMessage().deserialize(stringMessage, resolver);
         }
         return this;
     }
@@ -230,7 +258,7 @@ public class ComponentMessage implements Message {
             this.message = def;
             Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
         } else {
-            this.message = MiniMessage.miniMessage().deserialize(message);
+            this.message = getMiniMessage().deserialize(message);
         }
     }
 
@@ -246,10 +274,10 @@ public class ComponentMessage implements Message {
             message = config.getString(path);
         }
         if (message == null) {
-            this.message = MiniMessage.miniMessage().deserialize(def);
+            this.message = getMiniMessage().deserialize(def);
             Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
         } else {
-            this.message = MiniMessage.miniMessage().deserialize(message);
+            this.message = getMiniMessage().deserialize(message);
         }
     }
 
@@ -268,7 +296,7 @@ public class ComponentMessage implements Message {
             this.message = def;
             Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
         } else {
-            this.message = MiniMessage.miniMessage().deserialize(message);
+            this.message = getMiniMessage().deserialize(message);
         }
     }
 
@@ -284,10 +312,10 @@ public class ComponentMessage implements Message {
             message = config.getString(path);
         }
         if (message == null) {
-            this.message = MiniMessage.miniMessage().deserialize(def);
+            this.message = getMiniMessage().deserialize(def);
             Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message at " + path + ". Using the default value.");
         } else {
-            this.message = MiniMessage.miniMessage().deserialize(message);
+            this.message = getMiniMessage().deserialize(message);
         }
     }
 
@@ -300,7 +328,7 @@ public class ComponentMessage implements Message {
             this.message = def;
             Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Invalid message supplied. Using the default value.");
         } else {
-            this.message = MiniMessage.miniMessage().deserialize(message);
+            this.message = getMiniMessage().deserialize(message);
         }
     }
 
@@ -309,7 +337,7 @@ public class ComponentMessage implements Message {
      */
     @Deprecated(forRemoval = true)
     public ComponentMessage(@NotNull StringMessage stringMessage) {
-        this.message = MiniMessage.miniMessage().deserialize(stringMessage.getMessage());
+        this.message = getMiniMessage().deserialize(stringMessage.getMessage());
     }
 
     /**
@@ -317,7 +345,7 @@ public class ComponentMessage implements Message {
      */
     @Deprecated(forRemoval = true)
     public ComponentMessage(@NotNull String message) {
-        this.message = MiniMessage.miniMessage().deserialize(message);
+        this.message = getMiniMessage().deserialize(message);
     }
 
 }
