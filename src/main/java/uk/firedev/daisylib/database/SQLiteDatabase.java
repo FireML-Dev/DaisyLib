@@ -1,6 +1,6 @@
 package uk.firedev.daisylib.database;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.utils.FileUtils;
@@ -14,14 +14,14 @@ import java.sql.SQLException;
  */
 public class SQLiteDatabase {
 
-    private JavaPlugin plugin = null;
+    private Plugin plugin = null;
     private Connection connection = null;
 
-    public SQLiteDatabase(@NotNull JavaPlugin plugin) {
+    public SQLiteDatabase(@NotNull Plugin plugin) {
         setup(plugin);
     }
 
-    public void setup(JavaPlugin plugin) {
+    public void setup(Plugin plugin) {
         this.plugin = plugin;
         initConnection();
     }
@@ -44,7 +44,7 @@ public class SQLiteDatabase {
         }
     }
 
-    public JavaPlugin getPlugin() {
+    public Plugin getPlugin() {
         return plugin;
     }
 
