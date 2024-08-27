@@ -17,7 +17,7 @@ import java.util.List;
 public class GUIUtils {
 
     public static String getFormattedTitle(@NotNull String title, @Nullable StringReplacer replacer) {
-        Component parsed = new StringMessage(title).applyReplacer(replacer).toComponentMessage().getMessage();
+        Component parsed = StringMessage.of(title).applyReplacer(replacer).toComponentMessage().getMessage();
         return LegacyComponentSerializer.legacySection().serialize(parsed);
     }
 

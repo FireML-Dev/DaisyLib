@@ -153,7 +153,7 @@ public class ComponentMessage implements Message {
     }
 
     public StringMessage toStringMessage() {
-        return new StringMessage(this);
+        return StringMessage.fromComponentMessage(this);
     }
 
     public String toPlainText() {
