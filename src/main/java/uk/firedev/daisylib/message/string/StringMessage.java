@@ -29,6 +29,10 @@ public class StringMessage implements Message {
         return new StringMessage(message);
     }
 
+    public static StringMessage ofOrDefault(@Nullable String message, @NotNull String def) {
+        return message == null ? of(def) : of(message);
+    }
+
     public static StringMessage fromComponent(@NotNull Component message) {
         return ComponentMessage.of(message).toStringMessage();
     }
