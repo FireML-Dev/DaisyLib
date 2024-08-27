@@ -20,6 +20,9 @@ public class StringMessage implements Message {
 
     private @NotNull String message;
 
+    /**
+     * @deprecated Use {@link StringMessage#of(String)} instead. This constructor will be made private for 2.0.4-SNAPSHOT.
+     */
     @Deprecated(forRemoval = true)
     public StringMessage(@NotNull String message) {
         this.message = message;
@@ -144,11 +147,14 @@ public class StringMessage implements Message {
     }
 
     public StringMessage duplicate() {
-        return new StringMessage(this.message);
+        return of(this.message);
     }
 
     // Deprecated Constructors
 
+    /**
+     * @deprecated Use {@link StringMessage#fromConfig(YamlDocument, String, String)} instead. This constructor will be made private for 2.0.4-SNAPSHOT.
+     */
     @Deprecated(forRemoval = true)
     public StringMessage(@NotNull YamlDocument config, @NotNull String path, @NotNull String def) {
         String message;
@@ -165,6 +171,9 @@ public class StringMessage implements Message {
         }
     }
 
+    /**
+     * @deprecated Use {@link StringMessage#fromConfig(FileConfiguration, String, String)} instead. This constructor will be made private for 2.0.4-SNAPSHOT.
+     */
     @Deprecated(forRemoval = true)
     public StringMessage(@NotNull FileConfiguration config, @NotNull String path, @NotNull String def) {
         String message;
@@ -181,6 +190,9 @@ public class StringMessage implements Message {
         }
     }
 
+    /**
+     * @deprecated Use {@link StringMessage#ofOrDefault(String, String)} instead. This constructor will be made private for 2.0.4-SNAPSHOT.
+     */
     @Deprecated(forRemoval = true)
     public StringMessage(@Nullable String message, @NotNull String def) {
         if (message == null) {
@@ -191,6 +203,9 @@ public class StringMessage implements Message {
         }
     }
 
+    /**
+     * @deprecated Use {@link StringMessage#fromComponentMessage(ComponentMessage)} instead. This constructor will be made private for 2.0.4-SNAPSHOT.
+     */
     @Deprecated(forRemoval = true)
     public StringMessage(@NotNull ComponentMessage componentMessage) {
         this.message = MiniMessage.miniMessage().serialize(componentMessage.getMessage());
