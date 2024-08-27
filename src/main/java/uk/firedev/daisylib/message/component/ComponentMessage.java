@@ -39,6 +39,10 @@ public class ComponentMessage implements Message {
         return new ComponentMessage(message);
     }
 
+    public static ComponentMessage ofOrDefault(@Nullable Component message, @NotNull Component def) {
+        return message == null ? of(def) : of(message);
+    }
+
     public static ComponentMessage fromString(@NotNull String message) {
         return of(MiniMessage.miniMessage().deserialize(message));
     }
