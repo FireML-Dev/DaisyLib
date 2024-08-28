@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class PlayerMoveChunkEvent extends PlayerEvent implements Cancellable {
+
     private static final HandlerList handlers = new HandlerList();
     private final Chunk from;
     private final Chunk to;
