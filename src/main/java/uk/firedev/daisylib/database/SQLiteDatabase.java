@@ -8,14 +8,16 @@ import uk.firedev.daisylib.utils.FileUtils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Helps with connecting to a SQLite Database
  */
-public class SQLiteDatabase {
+public abstract class SQLiteDatabase {
 
     private Plugin plugin = null;
     private Connection connection = null;
+    private List<DatabaseModule> loadedModules;
 
     public SQLiteDatabase(@NotNull Plugin plugin) {
         setup(plugin);
@@ -33,6 +35,10 @@ public class SQLiteDatabase {
         return this.connection;
     }
 
+    abstract void startAutoSaveTask();
+
+    abstract void stopAutoSaveTask();
+
     public void closeConnection() {
         if (this.connection != null) {
             try {
@@ -42,6 +48,18 @@ public class SQLiteDatabase {
                 Loggers.error(plugin.getComponentLogger(), "Failed to close database connection.");
             }
         }
+    }
+
+    public void registerModule(@NotNull DatabaseModule module) {
+        if (loadedModules.contains(module)) {
+            return;
+        }
+        module.init();
+        loadedModules.add(module);
+    }
+
+    public List<DatabaseModule> getLoadedModules() {
+        return loadedModules;
     }
 
     public Plugin getPlugin() {
