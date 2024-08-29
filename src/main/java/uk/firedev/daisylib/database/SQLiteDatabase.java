@@ -37,9 +37,9 @@ public abstract class SQLiteDatabase {
         return this.connection;
     }
 
-    abstract void startAutoSaveTask();
+    public abstract void startAutoSaveTask();
 
-    abstract void stopAutoSaveTask();
+    public abstract void stopAutoSaveTask();
 
     public void closeConnection() {
         if (this.connection != null) {
