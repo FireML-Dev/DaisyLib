@@ -8,6 +8,7 @@ import uk.firedev.daisylib.utils.FileUtils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,7 @@ public abstract class SQLiteDatabase {
     public void setup(Plugin plugin) {
         this.plugin = plugin;
         initConnection();
+        loadedModules = new ArrayList<>();
     }
 
     public Connection getConnection() {
