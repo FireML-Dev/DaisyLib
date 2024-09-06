@@ -46,10 +46,8 @@ public class Config {
     }
 
     public void reload() {
-        File configFile = FileUtils.loadFile(getPlugin().getDataFolder(), getFileName(), getResourceName(), getPlugin());
-        if (configFile == null) {
-            return;
-        }
+        // BoostedYAML handles the file creation for us
+        File configFile = new File(getPlugin().getDataFolder(), getFileName());
 
         List<Settings> settingsList = new ArrayList<>(Arrays.asList(
                 getGeneralSettings(),
