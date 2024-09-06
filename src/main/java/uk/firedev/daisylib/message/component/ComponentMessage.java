@@ -128,6 +128,14 @@ public class ComponentMessage implements Message {
         return this;
     }
 
+    public ComponentMessage replace(@NotNull String placeholder, @NotNull String replacement) {
+        return applyReplacer(new ComponentReplacer().addReplacement(placeholder, replacement));
+    }
+
+    public ComponentMessage replace(@NotNull String placeholder, @NotNull Component replacement) {
+        return applyReplacer(new ComponentReplacer().addReplacement(placeholder, replacement));
+    }
+
     @Override
     public void sendMessage(@NotNull Audience audience) {
         audience.sendMessage(getMessage());
