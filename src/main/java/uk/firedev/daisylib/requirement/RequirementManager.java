@@ -4,8 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.requirement.requirements.*;
-import uk.firedev.daisylib.reward.RewardType;
-import uk.firedev.daisylib.reward.types.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

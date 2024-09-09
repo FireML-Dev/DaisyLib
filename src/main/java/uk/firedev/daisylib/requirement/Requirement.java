@@ -6,8 +6,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.reward.RewardManager;
-import uk.firedev.daisylib.reward.RewardType;
 
 import java.util.Arrays;
 import java.util.HashMap;

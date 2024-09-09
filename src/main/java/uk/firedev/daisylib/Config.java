@@ -11,7 +11,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.message.component.ComponentMessage;
-import uk.firedev.daisylib.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;

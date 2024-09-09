@@ -4,7 +4,6 @@ import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -56,10 +55,6 @@ public class ItemUtils {
         return item;
     }
 
-    public static ItemStack getHead(@NotNull OfflinePlayer player, @Nullable String displayName) {
-        return getHead(player.getUniqueId(), displayName);
-    }
-
     public static ItemStack getHead(@NotNull UUID uuid) {
         ItemStack item = ItemStack.of(Material.PLAYER_HEAD);
         item.editMeta(SkullMeta.class, meta -> {
@@ -103,9 +98,9 @@ public class ItemUtils {
         skull.setPlayerProfile(profile);
     }
 
-    public static void markOwned(@NotNull Item item, @NotNull OfflinePlayer player) {
+    public static void markOwned(@NotNull Item item, @NotNull UUID owner) {
         item.setPickupDelay(0);
-        item.setOwner(player.getUniqueId());
+        item.setOwner(owner);
         item.setCanMobPickup(false);
     }
 
@@ -130,13 +125,7 @@ public class ItemUtils {
     }
 
     public static void giveItems(@NotNull List<ItemStack> items, @NotNull Player player) {
-        if (items.isEmpty()) {
-            return;
-        }
-        player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.5f, 1.5f);
-        player.getInventory().addItem(items.toArray(ItemStack[]::new))
-                .values()
-                .forEach(item -> player.getWorld().dropItem(player.getLocation(), item));
+        giveItems(items.toArray(ItemStack[]::new), player);
     }
 
     public static void giveItem(@NotNull ItemStack item, @NotNull Player player) {

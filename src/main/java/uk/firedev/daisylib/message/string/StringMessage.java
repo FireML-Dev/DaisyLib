@@ -13,7 +13,6 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.message.Message;
 import uk.firedev.daisylib.message.component.ComponentMessage;
-import uk.firedev.daisylib.message.component.ComponentReplacer;
 
 import java.util.List;
 
