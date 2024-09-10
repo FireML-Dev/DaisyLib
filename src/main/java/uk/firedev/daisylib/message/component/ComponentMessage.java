@@ -230,6 +230,11 @@ public class ComponentMessage implements Message {
         return of(this.message);
     }
 
+    @Override
+    public int getLength() {
+        return toPlainText().length();
+    }
+
     public static ComponentMessage getHoverItem(ItemStack item) {
         if (item == null || item.isEmpty()) {
             return fromString("<white>[None]</white>");

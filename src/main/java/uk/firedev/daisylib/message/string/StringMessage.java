@@ -154,6 +154,11 @@ public class StringMessage implements Message {
         return of(this.message);
     }
 
+    @Override
+    public int getLength() {
+        return message.length();
+    }
+
     // Deprecated Constructors
 
     /**

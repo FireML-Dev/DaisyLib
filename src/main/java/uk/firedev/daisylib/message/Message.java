@@ -15,4 +15,6 @@ public interface Message {
 
     void broadcast();
 
+    int getLength();
+
 }
