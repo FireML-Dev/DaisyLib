@@ -34,6 +34,10 @@ public class ItemBuilder {
         this.material = material;
     }
 
+    public ItemBuilder(@Nullable Material material, @NotNull Material defaultMaterial) {
+        this.material = Objects.requireNonNullElse(material, defaultMaterial);
+    }
+
     public ItemBuilder(@NotNull String materialName, @NotNull Material defaultMaterial) {
         this.material = ItemUtils.getMaterial(materialName, defaultMaterial);
     }
