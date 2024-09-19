@@ -160,7 +160,8 @@ public class ComponentMessage implements Message {
     }
 
     public StringMessage toStringMessage() {
-        return StringMessage.fromComponentMessage(this);
+        String string = getMiniMessage().serialize(this.getMessage());
+        return StringMessage.of(string);
     }
 
     public String toPlainText() {
