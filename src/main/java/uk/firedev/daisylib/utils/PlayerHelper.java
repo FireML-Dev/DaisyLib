@@ -17,10 +17,7 @@ public class PlayerHelper {
      */
     public static @Nullable OfflinePlayer getOfflinePlayer(@NotNull UUID uuid) {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
-        if (offlinePlayer.hasPlayedBefore() || Bukkit.getPlayer(uuid) != null) {
-            return offlinePlayer;
-        }
-        return null;
+        return hasPlayerBeenOnServer(offlinePlayer) ? offlinePlayer : null;
     }
 
     /**
@@ -31,10 +28,7 @@ public class PlayerHelper {
      */
     public static @Nullable OfflinePlayer getOfflinePlayer(@NotNull String name) {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(name);
-        if (offlinePlayer.hasPlayedBefore() || Bukkit.getPlayer(name) != null) {
-            return offlinePlayer;
-        }
-        return null;
+        return hasPlayerBeenOnServer(offlinePlayer) ? offlinePlayer : null;
     }
 
     /**
@@ -46,7 +40,7 @@ public class PlayerHelper {
         if (offlinePlayer == null) {
             return false;
         }
-        return offlinePlayer.hasPlayedBefore() || Bukkit.getPlayer(offlinePlayer.getUniqueId()) != null;
+        return offlinePlayer.hasPlayedBefore() || offlinePlayer.isOnline();
     }
 
 }
