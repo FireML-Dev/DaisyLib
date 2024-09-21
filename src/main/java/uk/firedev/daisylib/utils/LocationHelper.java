@@ -12,6 +12,8 @@ import uk.firedev.daisylib.local.DaisyLib;
 
 public class LocationHelper {
 
+    private static final String separator = ";;";
+
     public static boolean isSpawnable(@NotNull Location location) {
         return location.getBlock().isPassable() && getAbove(location).isPassable() && getBelow(location).getType().isSolid();
     }
@@ -89,9 +91,9 @@ public class LocationHelper {
      * @return A string, built from the provided location.
      */
     public static String convertToString(@NotNull Location location, boolean includeYawPitch) {
-        String finalString = location.getWorld().getName() + "_" + location.getX() + "_" + location.getY() + "_" + location.getZ();
+        String finalString = location.getWorld().getName() + separator + location.getX() + separator + location.getY() + separator + location.getZ();
         if (includeYawPitch) {
-            finalString += "_" + location.getYaw() + "_" + location.getPitch();
+            finalString += separator + location.getYaw() + separator + location.getPitch();
         }
         return finalString;
     }
@@ -102,7 +104,7 @@ public class LocationHelper {
      * @return A location, built from the provided string.
      */
     public static Location getFromString(@NotNull String string) {
-        String[] split = string.split("_");
+        String[] split = string.split(separator);
         if (split.length < 4) {
             return null;
         }
