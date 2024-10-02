@@ -6,6 +6,13 @@ https://ci.firedev.uk/job/DaisyLib/
 
 [![CodeFactor](https://www.codefactor.io/repository/github/fireml-dev/daisylib/badge)](https://www.codefactor.io/repository/github/fireml-dev/daisylib)
 
+#### Versioning
+
+Starting with Version 2.0.4-SNAPSHOT, versioning is handled like so:
+- MAJOR - Changed when a massive part of the plugin is reworked
+- MINOR - When a new minecraft update is released, also the time for breaking changes to be made.
+- PATCH - When a new feature is added or a non-breaking change is made.
+
 #### Maven
 
 ```xml
