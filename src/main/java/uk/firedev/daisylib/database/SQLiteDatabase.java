@@ -31,7 +31,7 @@ public abstract class SQLiteDatabase {
         this.fileName = "data.db";
     }
 
-    public void setup(Plugin plugin) {
+    private void setup(Plugin plugin) {
         this.plugin = plugin;
         initConnection();
         loadedModules = new ArrayList<>();
