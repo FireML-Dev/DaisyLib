@@ -19,9 +19,16 @@ public abstract class SQLiteDatabase {
     private Plugin plugin = null;
     private Connection connection = null;
     private List<DatabaseModule> loadedModules;
+    private final String fileName;
+
+    public SQLiteDatabase(@NotNull Plugin plugin, @NotNull String fileName) {
+        setup(plugin);
+        this.fileName = fileName;
+    }
 
     public SQLiteDatabase(@NotNull Plugin plugin) {
         setup(plugin);
+        this.fileName = "data.db";
     }
 
     public void setup(Plugin plugin) {
@@ -77,7 +84,7 @@ public abstract class SQLiteDatabase {
         }
 
         // Try to connect to the SQLite database
-        String url = "jdbc:sqlite:" + this.plugin.getDataFolder() + "/data.db";
+        String url = "jdbc:sqlite:" + this.plugin.getDataFolder() + "/" + this.fileName;
 
         try {
             Class.forName("org.sqlite.JDBC");
