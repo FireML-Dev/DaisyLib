@@ -5,6 +5,7 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.local.config.MainConfig;
@@ -28,6 +29,17 @@ public class VaultManager {
     }
 
     /**
+     * Gets the Economy service, or throws a RuntimeException
+     * @return the Economy service
+     */
+    public static @NotNull Economy getEconomyOrThrow(@Nullable String throwMessage) {
+        if (economy == null) {
+            throw new RuntimeException(throwMessage == null ? "Failed to fetch Vault Economy!" : throwMessage);
+        }
+        return economy;
+    }
+
+    /**
      * Gets the Economy service if available.
      * @return the Economy service, or null if not available.
      */
@@ -36,11 +48,33 @@ public class VaultManager {
     }
 
     /**
+     * Gets the Permissions service, or throws a RuntimeException
+     * @return the Permissions service
+     */
+    public static @NotNull Permission getPermissionOrThrow(@Nullable String throwMessage) {
+        if (permission == null) {
+            throw new RuntimeException(throwMessage == null ? "Failed to fetch Vault Permissions!" : throwMessage);
+        }
+        return permission;
+    }
+
+    /**
      * Gets the Permissions service if available.
      * @return the Permissions service, or null if not available.
      */
     public static @Nullable Permission getPermissions() {
         return permission;
+    }
+
+    /**
+     * Gets the Chat service, or throws a RuntimeException
+     * @return the Chat service
+     */
+    public static @NotNull Chat getChatOrThrow(@Nullable String throwMessage) {
+        if (chat == null) {
+            throw new RuntimeException(throwMessage == null ? "Failed to fetch Vault Chat!" : throwMessage);
+        }
+        return chat;
     }
 
     /**
