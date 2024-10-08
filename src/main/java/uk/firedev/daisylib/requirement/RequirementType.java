@@ -2,13 +2,12 @@ package uk.firedev.daisylib.requirement;
 
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 
-import java.util.logging.Logger;
+import java.util.List;
 
 /**
  * A way to check if a player meets a certain requirement.
@@ -21,7 +20,7 @@ public interface RequirementType {
      * @param player The player to check
      * @param value The value to check
      */
-    boolean checkRequirement(@NotNull Player player, @NotNull String value);
+    boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> value);
 
     /**
      * The identifier for this Requirement
@@ -42,13 +41,6 @@ public interface RequirementType {
             return getPlugin().getComponentLogger();
         }
         return ComponentLogger.logger("DaisyLib via " + getPlugin().getName());
-    }
-
-    default Logger getLogger() {
-        if (getPlugin() instanceof DaisyLib) {
-            return getPlugin().getLogger();
-        }
-        return Logger.getLogger("DaisyLib via " + getPlugin().getName());
     }
 
     default boolean checkAsync() {

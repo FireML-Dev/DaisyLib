@@ -1,28 +1,39 @@
 package uk.firedev.daisylib.requirement.requirements;
 
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.requirement.RequirementData;
 import uk.firedev.daisylib.requirement.RequirementType;
 import uk.firedev.daisylib.utils.ObjectUtils;
+
+import java.util.List;
 
 public class MoneyRequirement implements RequirementType {
 
     @Override
-    public boolean checkRequirement(@NotNull Player player, @NotNull String value) {
-         if (!ObjectUtils.isDouble(value)) {
+    public boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> values) {
+         if (data.getPlayer() == null) {
              return false;
          }
-         double amount = Double.parseDouble(value);
-         if (VaultManager.getEconomy() == null) {
-             Loggers.warn(getComponentLogger(), "Vault economy not found! Please enable one to use the " + getIdentifier() + " requirement.");
-             return false;
-         } else {
-             return VaultManager.getEconomy().has(player, amount);
-         }
+        if (VaultManager.getEconomy() == null) {
+            Loggers.warn(getComponentLogger(), "Vault economy not found! Please enable one to use the " + getIdentifier() + " requirement.");
+            return false;
+        }
+        for (String value : values) {
+            double amount;
+            if (!ObjectUtils.isDouble(value)) {
+                Loggers.warn(getComponentLogger(), value + " is not a valid double");
+                continue;
+            }
+            amount = Double.parseDouble(value);
+            if (VaultManager.getEconomy().has(data.getPlayer(), amount)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

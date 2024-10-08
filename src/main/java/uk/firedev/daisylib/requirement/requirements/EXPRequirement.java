@@ -3,19 +3,34 @@ package uk.firedev.daisylib.requirement.requirements;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.requirement.RequirementData;
 import uk.firedev.daisylib.requirement.RequirementType;
 import uk.firedev.daisylib.utils.ObjectUtils;
+
+import java.util.List;
 
 public class EXPRequirement implements RequirementType {
 
     @Override
-    public boolean checkRequirement(@NotNull Player player, @NotNull String value) {
-        if (!ObjectUtils.isInt(value)) {
+    public boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> values) {
+        Player player = data.getPlayer();
+        if (player == null) {
             return false;
         }
-        int expNeeded = Integer.parseInt(value);
-        return player.calculateTotalExperiencePoints() >= expNeeded;
+        int experiencePoints = player.calculateTotalExperiencePoints();
+        for (String value : values) {
+            if (!ObjectUtils.isInt(value)) {
+                Loggers.warn(getComponentLogger(), value + " is not a valid integer");
+                continue;
+            }
+            int expNeeded = Integer.parseInt(value);
+            if (experiencePoints >= expNeeded) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
