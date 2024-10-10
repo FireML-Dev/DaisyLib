@@ -33,7 +33,7 @@ public class ItemBuilder {
     /**
      * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #itemBuilder(Material)} instead.
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public ItemBuilder(@NotNull Material material) {
         this.material = material;
     }
@@ -41,7 +41,7 @@ public class ItemBuilder {
     /**
      * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #itemBuilder(Material, Material)} instead.
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public ItemBuilder(@Nullable Material material, @NotNull Material defaultMaterial) {
         this.material = Objects.requireNonNullElse(material, defaultMaterial);
     }
@@ -49,9 +49,76 @@ public class ItemBuilder {
     /**
      * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #itemBuilder(String, Material)} instead.
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public ItemBuilder(@NotNull String materialName, @NotNull Material defaultMaterial) {
         this.material = ItemUtils.getMaterial(materialName, defaultMaterial);
+    }
+
+    /**
+     * @deprecated Use {@link #itemBuilder(Section, Material, ComponentReplacer, ComponentReplacer)} instead.
+     */
+    @Deprecated(forRemoval = true)
+    public ItemBuilder(@NotNull Section section, @NotNull Material defaultMaterial, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
+        // Material
+        this.material = ItemUtils.getMaterial(section.getString("material", defaultMaterial.toString()), defaultMaterial);
+
+        // Display
+        String display = section.getString("display");
+        if (display != null) {
+            this.display = ComponentMessage.fromString(display).applyReplacer(displayReplacer).getMessage();
+        }
+
+        // Lore
+        this.lore = section.getStringList("lore").stream().map(line -> ComponentMessage.fromString(line).applyReplacer(loreReplacer).getMessage()).toList();
+
+        // ItemFlags
+        List<ItemFlag> flags = section.getStringList("flags").stream()
+                .map(flagString -> {
+                    try {
+                        return ItemFlag.valueOf(flagString);
+                    } catch (IllegalArgumentException ex) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .toList();
+        this.flags.addAll(flags);
+
+        // Enchantments
+        List<String> stringEnchantments = section.getStringList("enchantments");
+        stringEnchantments.forEach(stringEnchantment -> {
+            // Split namespace and level
+            String[] namespaceSplit = stringEnchantment.split(":");
+            String namespace = namespaceSplit.length > 1 ? namespaceSplit[0] : "minecraft";
+            String[] levelSplit = namespaceSplit[namespaceSplit.length - 1].split(",");
+
+            // Get enchantment name and level
+            String enchantName = levelSplit[0];
+            String levelString = (levelSplit.length > 1) ? levelSplit[1] : "1";
+
+            // Create NamespacedKey and parse level
+            NamespacedKey enchantKey = new NamespacedKey(namespace, enchantName);
+            int level = Objects.requireNonNullElse(ObjectUtils.getInt(levelString), 1);
+
+            // Fetch the enchantment and put it into the map
+            Enchantment enchantment = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(enchantKey);
+            if (enchantment != null) {
+                enchantments.put(enchantment, level);
+            }
+        });
+
+        // Unbreakable
+        this.unbreakable = section.getBoolean("unbreakable");
+
+        // Amount
+        int amount = section.getInt("amount", 1);
+        if (amount < 1) {
+            amount = 1;
+        }
+        this.amount = amount;
+
+        // Glowing
+        this.glowing = section.getBoolean("glowing");
     }
 
     /**
@@ -142,74 +209,6 @@ public class ItemBuilder {
         builder.glowing = section.getBoolean("glowing");
 
         return builder;
-    }
-
-    /**
-     * Build an ItemBuilder from a Section object.
-     * @deprecated Use {@link #itemBuilder(Section, Material, ComponentReplacer, ComponentReplacer)} instead.
-     */
-    @Deprecated
-    public ItemBuilder(@NotNull Section section, @NotNull Material defaultMaterial, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
-        // Material
-        this.material = ItemUtils.getMaterial(section.getString("material", defaultMaterial.toString()), defaultMaterial);
-
-        // Display
-        String display = section.getString("display");
-        if (display != null) {
-            this.display = ComponentMessage.fromString(display).applyReplacer(displayReplacer).getMessage();
-        }
-
-        // Lore
-        this.lore = section.getStringList("lore").stream().map(line -> ComponentMessage.fromString(line).applyReplacer(loreReplacer).getMessage()).toList();
-
-        // ItemFlags
-        List<ItemFlag> flags = section.getStringList("flags").stream()
-                .map(flagString -> {
-                    try {
-                        return ItemFlag.valueOf(flagString);
-                    } catch (IllegalArgumentException ex) {
-                        return null;
-                    }
-                })
-                .filter(Objects::nonNull)
-                .toList();
-        this.flags.addAll(flags);
-
-        // Enchantments
-        List<String> stringEnchantments = section.getStringList("enchantments");
-        stringEnchantments.forEach(stringEnchantment -> {
-            // Split namespace and level
-            String[] namespaceSplit = stringEnchantment.split(":");
-            String namespace = namespaceSplit.length > 1 ? namespaceSplit[0] : "minecraft";
-            String[] levelSplit = namespaceSplit[namespaceSplit.length - 1].split(",");
-
-            // Get enchantment name and level
-            String enchantName = levelSplit[0];
-            String levelString = (levelSplit.length > 1) ? levelSplit[1] : "1";
-
-            // Create NamespacedKey and parse level
-            NamespacedKey enchantKey = new NamespacedKey(namespace, enchantName);
-            int level = Objects.requireNonNullElse(ObjectUtils.getInt(levelString), 1);
-
-            // Fetch the enchantment and put it into the map
-            Enchantment enchantment = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(enchantKey);
-            if (enchantment != null) {
-                enchantments.put(enchantment, level);
-            }
-        });
-
-        // Unbreakable
-        this.unbreakable = section.getBoolean("unbreakable");
-
-        // Amount
-        int amount = section.getInt("amount", 1);
-        if (amount < 1) {
-            amount = 1;
-        }
-        this.amount = amount;
-
-        // Glowing
-        this.glowing = section.getBoolean("glowing");
     }
 
     public ItemBuilder withMaterial(@NotNull Material material) {

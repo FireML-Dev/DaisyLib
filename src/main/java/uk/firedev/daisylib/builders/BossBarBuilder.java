@@ -25,7 +25,7 @@ public class BossBarBuilder {
     /**
      * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #bossBarBuilder()} instead.
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public BossBarBuilder() {}
 
     public static BossBarBuilder bossBarBuilder() {

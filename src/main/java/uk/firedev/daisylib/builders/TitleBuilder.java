@@ -24,7 +24,7 @@ public class TitleBuilder {
     /**
      * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #titleBuilder()} instead.
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public TitleBuilder() {}
 
     public static TitleBuilder titleBuilder() { return new TitleBuilder(); }
