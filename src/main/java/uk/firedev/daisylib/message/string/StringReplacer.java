@@ -14,6 +14,26 @@ public class StringReplacer implements Replacer {
     private Map<String, String> replacements = new HashMap<>();
 
     /**
+     * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #stringReplacer()} instead.
+     */
+    @Deprecated(forRemoval = true)
+    public StringReplacer() {}
+
+    public static StringReplacer stringReplacer() { return new StringReplacer(); }
+
+    public static StringReplacer stringReplacer(@NotNull Map<String, String> replacements) {
+        return new StringReplacer().addReplacements(replacements);
+    }
+
+    public static StringReplacer stringReplacer(@NotNull String... replacements) {
+        return new StringReplacer().addReplacements(replacements);
+    }
+
+    public static StringReplacer stringReplacer(@NotNull String string, @NotNull String replacement) {
+        return new StringReplacer().addReplacement(string, replacement);
+    }
+
+    /**
      * Adds a map of replacements.
      * @param replacements The replacements to add.
      * @return The modified StringReplacer
