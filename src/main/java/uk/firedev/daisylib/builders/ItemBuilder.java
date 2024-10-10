@@ -30,23 +30,125 @@ public class ItemBuilder {
     private int amount = 1;
     private boolean glowing = false;
 
+    /**
+     * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #itemBuilder(Material)} instead.
+     */
+    @Deprecated
     public ItemBuilder(@NotNull Material material) {
         this.material = material;
     }
 
+    /**
+     * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #itemBuilder(Material, Material)} instead.
+     */
+    @Deprecated
     public ItemBuilder(@Nullable Material material, @NotNull Material defaultMaterial) {
         this.material = Objects.requireNonNullElse(material, defaultMaterial);
     }
 
+    /**
+     * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #itemBuilder(String, Material)} instead.
+     */
+    @Deprecated
     public ItemBuilder(@NotNull String materialName, @NotNull Material defaultMaterial) {
         this.material = ItemUtils.getMaterial(materialName, defaultMaterial);
     }
 
     /**
-     * Build an ItemBuilder from a Section object.
+     * Create an ItemBuilder from a material.
+     * @param material The material to use.
+     */
+    public static ItemBuilder itemBuilder(@NotNull Material material) {
+        return new ItemBuilder(material);
+    }
+
+    /**
+     * Create an ItemBuilder from a material.
+     * @param material The material to use.
+     * @param defaultMaterial The default material, if the provided material is invalid.
+     */
+    public static ItemBuilder itemBuilder(@Nullable Material material, @NotNull Material defaultMaterial) {
+        return new ItemBuilder(Objects.requireNonNullElse(material, defaultMaterial));
+    }
+
+    /**
+     * Create an ItemBuilder from the material's name.
+     * @param materialName The material's name.
+     * @param defaultMaterial The default material, if the provided name is invalid.
+     */
+    public static ItemBuilder itemBuilder(@Nullable String materialName, @NotNull Material defaultMaterial) {
+        return new ItemBuilder(ItemUtils.getMaterial(materialName, defaultMaterial));
+    }
+
+    /**
+     * Create an ItemBuilder from a Section object.
      * @param section The Section for the item.
      * @param defaultMaterial The default material to use, if the configured material is invalid.
+     * @param displayReplacer An optional replacer for the item's display name.
+     * @param loreReplacer An optional replacer for the item's lore.
      */
+    public static ItemBuilder itemBuilder(@NotNull Section section, @NotNull Material defaultMaterial, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
+        ItemBuilder builder = new ItemBuilder(ItemUtils.getMaterial(section.getString("material", defaultMaterial.toString()), defaultMaterial));
+
+        String display = section.getString("display");
+        if (display != null) {
+            builder.display = ComponentMessage.fromString(display).applyReplacer(displayReplacer).getMessage();
+        }
+
+        builder.lore = section.getStringList("lore").stream().map(line -> ComponentMessage.fromString(line).applyReplacer(loreReplacer).getMessage()).toList();
+
+        List<ItemFlag> flags = section.getStringList("flags").stream()
+                .map(flagString -> {
+                    try {
+                        return ItemFlag.valueOf(flagString);
+                    } catch (IllegalArgumentException ex) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .toList();
+        builder.flags.addAll(flags);
+
+        List<String> stringEnchantments = section.getStringList("enchantments");
+        stringEnchantments.forEach(stringEnchantment -> {
+            // Split namespace and level
+            String[] namespaceSplit = stringEnchantment.split(":");
+            String namespace = namespaceSplit.length > 1 ? namespaceSplit[0] : "minecraft";
+            String[] levelSplit = namespaceSplit[namespaceSplit.length - 1].split(",");
+
+            // Get enchantment name and level
+            String enchantName = levelSplit[0];
+            String levelString = (levelSplit.length > 1) ? levelSplit[1] : "1";
+
+            // Create NamespacedKey and parse level
+            NamespacedKey enchantKey = new NamespacedKey(namespace, enchantName);
+            int level = Objects.requireNonNullElse(ObjectUtils.getInt(levelString), 1);
+
+            // Fetch the enchantment and put it into the map
+            Enchantment enchantment = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(enchantKey);
+            if (enchantment != null) {
+                builder.enchantments.put(enchantment, level);
+            }
+        });
+
+        builder.unbreakable = section.getBoolean("unbreakable");
+
+        int amount = section.getInt("amount", 1);
+        if (amount < 1) {
+            amount = 1;
+        }
+        builder.amount = amount;
+
+        builder.glowing = section.getBoolean("glowing");
+
+        return builder;
+    }
+
+    /**
+     * Build an ItemBuilder from a Section object.
+     * @deprecated Use {@link #itemBuilder(Section, Material, ComponentReplacer, ComponentReplacer)} instead.
+     */
+    @Deprecated
     public ItemBuilder(@NotNull Section section, @NotNull Material defaultMaterial, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
         // Material
         this.material = ItemUtils.getMaterial(section.getString("material", defaultMaterial.toString()), defaultMaterial);
