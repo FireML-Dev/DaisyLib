@@ -92,7 +92,7 @@ public class StringMessage implements Message {
     }
 
     public StringMessage replace(@NotNull String placeholder, @NotNull String replacement) {
-        return applyReplacer(new StringReplacer().addReplacement(placeholder, replacement));
+        return applyReplacer(StringReplacer.stringReplacer(placeholder, replacement));
     }
 
     @Override

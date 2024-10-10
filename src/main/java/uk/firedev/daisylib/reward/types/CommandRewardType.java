@@ -15,7 +15,7 @@ public class CommandRewardType implements RewardType {
         if (!checkAsync()) {
             return;
         }
-        value = new StringReplacer().addReplacements(
+        value = StringReplacer.stringReplacer(
                 "player", player.getName(),
                 "x", String.valueOf(player.getLocation().getX()),
                 "y", String.valueOf(player.getLocation().getY()),
