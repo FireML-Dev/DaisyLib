@@ -2,6 +2,7 @@ package uk.firedev.daisylib.reward;
 
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
@@ -14,9 +15,9 @@ public class Reward {
     private final @NotNull String fullIdentifier;
     private @NotNull String key;
     private @NotNull String value;
-    private final JavaPlugin plugin;
+    private final Plugin plugin;
 
-    public Reward(@NotNull String identifier, @NotNull JavaPlugin plugin) {
+    public Reward(@NotNull String identifier, @NotNull Plugin plugin) {
         this.plugin = plugin;
         this.fullIdentifier = identifier;
         String[] split = identifier.split(":");
