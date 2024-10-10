@@ -27,7 +27,7 @@ public class GUIUtils {
     }
 
     public static ItemStack createItemStack(@NotNull String materialName, @NotNull Material defaultMaterial, @NotNull String display, @NotNull List<String> lore) {
-        return new ItemBuilder(materialName, defaultMaterial)
+        return ItemBuilder.itemBuilder(materialName, defaultMaterial)
                 .withStringDisplay(display, null)
                 .withStringLore(lore, null)
                 .build();

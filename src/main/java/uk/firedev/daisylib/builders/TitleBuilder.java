@@ -21,6 +21,14 @@ public class TitleBuilder {
     private Component title = Component.empty();
     private Component subtitle = Component.empty();
 
+    /**
+     * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #titleBuilder()} instead.
+     */
+    @Deprecated(forRemoval = true)
+    public TitleBuilder() {}
+
+    public static TitleBuilder titleBuilder() { return new TitleBuilder(); }
+
     public TitleBuilder withTimings(int inTicks, int stayTicks, int outTicks) { return withIn(inTicks).withStay(stayTicks).withOut(outTicks); }
 
     public TitleBuilder withTimingsSeconds(int inSeconds, int staySeconds, int outSeconds) { return withInSeconds(inSeconds).withStaySeconds(staySeconds).withOutSeconds(outSeconds); }

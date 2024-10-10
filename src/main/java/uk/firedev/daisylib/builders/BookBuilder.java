@@ -5,6 +5,7 @@ import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.message.component.ComponentMessage;
@@ -18,6 +19,16 @@ public class BookBuilder {
     private Component title = null;
     private Component author = null;
     private List<Component> pages = new ArrayList<>();
+
+    /**
+     * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #bookBuilder()} instead.
+     */
+    @Deprecated(forRemoval = true)
+    public BookBuilder() {}
+
+    public static BookBuilder bookBuilder() {
+        return new BookBuilder();
+    }
 
     public BookBuilder withTitle(@NotNull Component title, @Nullable ComponentReplacer replacer) {
         if (replacer != null) {

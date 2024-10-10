@@ -16,6 +16,30 @@ public class ComponentReplacer implements Replacer {
     private Map<String, Component> replacements = new HashMap<>();
 
     /**
+     * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #componentReplacer()} instead.
+     */
+    @Deprecated(forRemoval = true)
+    public ComponentReplacer() {}
+
+    public static ComponentReplacer componentReplacer() { return new ComponentReplacer(); }
+
+    public static ComponentReplacer componentReplacer(@NotNull Map<String, Component> replacements) {
+        return new ComponentReplacer().addReplacements(replacements);
+    }
+
+    public static ComponentReplacer componentReplacer(@NotNull String... replacements) {
+        return new ComponentReplacer().addReplacements(replacements);
+    }
+
+    public static ComponentReplacer componentReplacer(@NotNull String string, @NotNull Component component) {
+        return new ComponentReplacer().addReplacement(string, component);
+    }
+
+    public static ComponentReplacer componentReplacer(@NotNull String string, @NotNull String replacement) {
+        return new ComponentReplacer().addReplacements(string, replacement);
+    }
+
+    /**
      * Adds a map of replacements.
      * @param replacements The replacements to add.
      * @return The modified ComponentReplacer

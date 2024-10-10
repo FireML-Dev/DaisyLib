@@ -71,7 +71,7 @@ public class LibCommand extends CommandAPICommand {
             ));
             builder.append(identifier, Component.text(", "));
         });
-        return new ComponentReplacer().addReplacement("list", builder.build());
+        return ComponentReplacer.componentReplacer("list", builder.build());
     }
 
     private CommandAPICommand getRequirementTypesCommand() {
@@ -100,7 +100,7 @@ public class LibCommand extends CommandAPICommand {
             ));
             builder.append(identifier, Component.text(", "));
         });
-        return new ComponentReplacer().addReplacement("list", builder.build());
+        return ComponentReplacer.componentReplacer("list", builder.build());
     }
 
 }

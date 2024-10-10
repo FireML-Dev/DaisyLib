@@ -20,7 +20,7 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
     }
 
     public ComponentReplacer getPrefixReplacer() {
-        return new ComponentReplacer().addReplacement("prefix", getPrefix().getMessage());
+        return ComponentReplacer.componentReplacer("prefix", getPrefix().getMessage());
     }
 
     // GENERAL MESSAGES
