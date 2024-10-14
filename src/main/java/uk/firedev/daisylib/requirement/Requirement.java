@@ -54,7 +54,7 @@ public class Requirement {
                 plugin.getLogger().warning("Attempted to process an invalid Requirement. Please check for earlier warnings.");
                 continue;
             }
-            RequirementType requirementType = RequirementManager.getInstance().getRegisteredRequirements().get(key);
+            RequirementType requirementType = RequirementManager.getInstance().getRequirementType(key);
             if (requirementType == null) {
                 Loggers.warn(getComponentLogger(), "Invalid requirement. Possible typo?: " + key);
                 continue;

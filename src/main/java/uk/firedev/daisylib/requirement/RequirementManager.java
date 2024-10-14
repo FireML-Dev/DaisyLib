@@ -1,6 +1,8 @@
 package uk.firedev.daisylib.requirement;
 
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.requirement.requirements.*;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 
 public class RequirementManager {
 
@@ -70,10 +73,49 @@ public class RequirementManager {
         return true;
     }
 
+    public @Nullable RequirementType getRequirementType(@NotNull String identifier) {
+        return requirements.get(identifier);
+    }
+
     public Map<String, RequirementType> getRegisteredRequirements() { return new HashMap<>(requirements); }
 
     public List<RequirementType> getRegisteredRequirementTypes() {
         return new ArrayList<>(requirements.values());
+    }
+
+    /**
+     * Alternative method of registering requirement types.
+     * @param identifier The type's identifier
+     * @param author The author of this requirement type
+     * @param plugin The plugin responsible for this requirement type
+     * @param checkLogic The code to run when checking the requirements. The List<String> will be the provided values to check against.
+     * @return Whether this type was registered or not
+     */
+    public boolean registerRequirement(@NotNull String identifier, @NotNull String author, @NotNull Plugin plugin, @NotNull BiFunction<@NotNull RequirementData, @NotNull List<String>, @NotNull Boolean> checkLogic) {
+
+        return registerRequirement(new RequirementType() {
+
+            @Override
+            public boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> value) {
+                return checkLogic.apply(data, value);
+            }
+
+            @Override
+            public @NotNull String getIdentifier() {
+                return identifier.toUpperCase();
+            }
+
+            @Override
+            public @NotNull String getAuthor() {
+                return author;
+            }
+
+            @Override
+            public @NotNull Plugin getPlugin() {
+                return plugin;
+            }
+        });
+
     }
 
 }
