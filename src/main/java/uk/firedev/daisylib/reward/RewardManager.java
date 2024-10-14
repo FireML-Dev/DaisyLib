@@ -1,5 +1,9 @@
 package uk.firedev.daisylib.reward;
 
+import org.apache.commons.lang3.function.TriFunction;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
@@ -9,6 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 public class RewardManager {
 
@@ -74,6 +80,40 @@ public class RewardManager {
 
     public List<RewardType> getRegisteredRewardTypes() {
         return new ArrayList<>(rewardTypes.values());
+    }
+
+    /**
+     * Alternative method of registering reward types.
+     * @param identifier The type's identifier
+     * @param author The author of this reward type
+     * @param plugin The plugin responsible for this reward type
+     * @param checkLogic The code to run when checking the reward. The String will be the provided value to check against.
+     * @return Whether this type was registered or not
+     */
+    public boolean registerRewardType(@NotNull String identifier, @NotNull String author, @NotNull Plugin plugin, @NotNull BiConsumer<@NotNull Player, @NotNull String> checkLogic) {
+
+        return registerRewardType(new RewardType() {
+            @Override
+            public void doReward(@NotNull Player player, @NotNull String value) {
+                checkLogic.accept(player, value);
+            }
+
+            @Override
+            public @NotNull String getIdentifier() {
+                return identifier;
+            }
+
+            @Override
+            public @NotNull String getAuthor() {
+                return author;
+            }
+
+            @Override
+            public @NotNull Plugin getPlugin() {
+                return plugin;
+            }
+        });
+
     }
 
 }

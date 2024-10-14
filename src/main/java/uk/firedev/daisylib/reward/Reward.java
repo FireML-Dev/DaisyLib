@@ -46,7 +46,7 @@ public class Reward {
         }
         for (RewardType rewardType : RewardManager.getInstance().getRegisteredRewardTypes()) {
             if (rewardType.isApplicable(this.key)) {
-                rewardType.doReward(player, this.key, this.value);
+                rewardType.doReward(player, this.value);
                 return;
             }
         }
