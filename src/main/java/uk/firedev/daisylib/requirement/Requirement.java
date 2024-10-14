@@ -1,57 +1,65 @@
 package uk.firedev.daisylib.requirement;
 
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Requirement {
 
-    private final Map<String, String> checkMap;
-    private final JavaPlugin plugin;
+    private final Map<String, List<String>> checkMap;
+    private final Plugin plugin;
 
-    public Requirement(@NotNull String identifier, @NotNull JavaPlugin plugin) {
+    public Requirement(@NotNull Plugin plugin) {
+        checkMap = new HashMap<>();
+        this.plugin = plugin;
+    }
+
+    public Requirement(@NotNull String identifier, @NotNull List<String> values, @NotNull Plugin plugin) {
         this.plugin = plugin;
         checkMap = new HashMap<>();
-        processIdentifier(identifier);
+        processRequirement(identifier, values);
     }
 
-    public Requirement(@NotNull List<String> identifiers, @NotNull JavaPlugin plugin) {
+    public Requirement(@NotNull Map<String, List<String>> requirements, @NotNull Plugin plugin) {
         this.plugin = plugin;
         checkMap = new HashMap<>();
-        identifiers.forEach(this::processIdentifier);
+        requirements.forEach(this::processRequirement);
     }
 
-    private void processIdentifier(@NotNull String identifier) {
-        String[] split = identifier.split(":");
-        try {
-            this.checkMap.putIfAbsent(split[0], String.join(":", Arrays.copyOfRange(split, 1, split.length)));
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            Loggers.warn(getComponentLogger(), "Broken requirement " + identifier);
-        }
+    public Requirement add(@NotNull String identifier, @NotNull List<String> values) {
+        processRequirement(identifier, values);
+        return this;
     }
 
-    public boolean meetsRequirements(@NotNull Player player) {
-        for (Map.Entry<String, String> entry : checkMap.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
+    public Requirement add(@NotNull Map<String, List<String>> requirements) {
+        requirements.forEach(this::processRequirement);
+        return this;
+    }
+
+    private void processRequirement(@NotNull String identifier, @NotNull List<String> values) {
+        this.checkMap.put(identifier, values);
+    }
+
+    public boolean meetsRequirements(@NotNull RequirementData data) {
+        for (Map.Entry<String, List<String>> entry : checkMap.entrySet()) {
+            String key = entry.getKey().toUpperCase();
+            List<String> value = entry.getValue();
             if (key.isEmpty() || value.isEmpty()) {
-                Loggers.warn(getComponentLogger(), "Attempted to process an invalid Requirement. Please check for earlier warnings.");
+                plugin.getLogger().warning("Attempted to process an invalid Requirement. Please check for earlier warnings.");
                 continue;
             }
-            RequirementType requirementType = RequirementManager.getInstance().getRegisteredRequirements().get(key);
+            RequirementType requirementType = RequirementManager.getInstance().getRequirementType(key);
             if (requirementType == null) {
-                Loggers.warn(getComponentLogger(), "Invalid requirement. Possible typo?: " + key + ":" + value);
+                Loggers.warn(getComponentLogger(), "Invalid requirement. Possible typo?: " + key);
                 continue;
             }
-            if (!requirementType.checkRequirement(player, value)) {
+            if (!requirementType.checkRequirement(data, value)) {
                 return false;
             }
         }
