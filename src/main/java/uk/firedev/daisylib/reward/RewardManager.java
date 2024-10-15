@@ -76,4 +76,8 @@ public class RewardManager {
         return new ArrayList<>(rewardTypes.values());
     }
 
+    public Map<String, RewardType> getRewardTypeMap() {
+        return new HashMap<>(rewardTypes);
+    }
+
 }
