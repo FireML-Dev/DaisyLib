@@ -13,6 +13,10 @@ import java.util.logging.Logger;
 
 public interface RewardType {
 
+    /**
+     * @deprecated This method will be removed for 2.1.0-SNAPSHOT. Use {@link RewardManager#getRewardType(String)} instead.
+     */
+    @Deprecated(forRemoval = true)
     default boolean isApplicable(@NotNull String key) {
         return key.equalsIgnoreCase(getIdentifier());
     }
