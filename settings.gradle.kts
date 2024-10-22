@@ -17,7 +17,7 @@ dependencyResolutionManagement {
             library("miniplaceholders", "io.github.miniplaceholders:miniplaceholders-api:2.2.3")
             library("boostedyaml", "dev.dejvokep:boosted-yaml:1.3.7")
 
-            plugin("shadow", "com.gradleup.shadow").version("8.3.0")
+            plugin("shadow", "com.gradleup.shadow").version("8.3.3")
             //plugin("paperweight", "io.papermc.paperweight.userdev").version("1.7.1")
             plugin("plugin-yml", "net.minecrell.plugin-yml.paper").version("0.6.0")
         }
