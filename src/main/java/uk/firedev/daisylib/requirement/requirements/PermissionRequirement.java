@@ -4,13 +4,25 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.requirement.RequirementData;
 import uk.firedev.daisylib.requirement.RequirementType;
+
+import java.util.List;
 
 public class PermissionRequirement implements RequirementType {
 
     @Override
-    public boolean checkRequirement(@NotNull Player player, @NotNull String value) {
-        return player.hasPermission(value);
+    public boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> values) {
+        Player player = data.getPlayer();
+        if (player == null) {
+            return false;
+        }
+        for (String value : values) {
+            if (player.hasPermission(value)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
