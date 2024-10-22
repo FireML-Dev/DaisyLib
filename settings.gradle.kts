@@ -6,7 +6,7 @@ dependencyResolutionManagement {
             library("paper-api", "io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
 
             // Both forks to support Paper Plugins on 1.21+
-            library("inventorygui", "uk.firedev:inventorygui:1.6.3-SNAPSHOT")
+            library("inventorygui", "uk.firedev:inventorygui:1.6.4-SNAPSHOT")
             library("anvilgui", "uk.firedev:anvilgui:2.0.1-SNAPSHOT")
 
             library("universalscheduler", "com.github.Anon8281:UniversalScheduler:0.1.6")
