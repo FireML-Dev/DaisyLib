@@ -1,10 +1,12 @@
-package uk.firedev.daisylib.local;
+package uk.firedev.daisylib.local.command;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.CommandPermission;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
+import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.local.command.subcommand.Test;
 import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
@@ -24,7 +26,7 @@ public class LibCommand extends CommandAPICommand {
         setPermission(CommandPermission.fromString("daisylib.command"));
         withShortDescription("Manage the plugin");
         withFullDescription("Manage the plugin");
-        withSubcommands(getReloadCommand(), getRewardTypesCommand(), getRequirementTypesCommand());
+        withSubcommands(getReloadCommand(), getRewardTypesCommand(), getRequirementTypesCommand(), Test.getInstance());
         executes((sender, arguments) -> {
             MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender);
         });

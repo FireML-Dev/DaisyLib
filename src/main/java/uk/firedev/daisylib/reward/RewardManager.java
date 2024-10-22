@@ -122,6 +122,8 @@ public class RewardManager {
             }
         });
 
+    public Map<String, RewardType> getRewardTypeMap() {
+        return new HashMap<>(rewardTypes);
     }
 
 }
