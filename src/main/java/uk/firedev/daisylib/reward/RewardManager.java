@@ -121,6 +121,7 @@ public class RewardManager {
                 return plugin;
             }
         });
+    }
 
     public Map<String, RewardType> getRewardTypeMap() {
         return new HashMap<>(rewardTypes);
