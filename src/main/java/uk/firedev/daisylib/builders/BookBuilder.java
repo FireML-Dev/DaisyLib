@@ -20,11 +20,7 @@ public class BookBuilder {
     private Component author = null;
     private List<Component> pages = new ArrayList<>();
 
-    /**
-     * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #bookBuilder()} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public BookBuilder() {}
+    private BookBuilder() {}
 
     public static BookBuilder bookBuilder() {
         return new BookBuilder();

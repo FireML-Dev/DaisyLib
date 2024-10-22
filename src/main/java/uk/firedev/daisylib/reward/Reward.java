@@ -16,14 +16,6 @@ public class Reward {
     private @NotNull String value;
     private final Plugin plugin;
 
-    /**
-     * @deprecated This constructor will be removed for 2.1.0-SNAPSHOT. Use {@link #Reward(String, Plugin)} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public Reward(@NotNull String identifier, @NotNull JavaPlugin plugin) {
-        this(identifier, (Plugin) plugin);
-    }
-
     public Reward(@NotNull String identifier, @NotNull Plugin plugin) {
         this.plugin = plugin;
         String[] split = identifier.split(":");

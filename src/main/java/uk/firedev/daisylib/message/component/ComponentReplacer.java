@@ -15,11 +15,7 @@ public class ComponentReplacer implements Replacer {
     private String suffix = "}";
     private Map<String, Component> replacements = new HashMap<>();
 
-    /**
-     * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #componentReplacer()} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public ComponentReplacer() {}
+    private ComponentReplacer() {}
 
     public static ComponentReplacer componentReplacer() { return new ComponentReplacer(); }
 

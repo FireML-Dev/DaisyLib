@@ -13,11 +13,7 @@ public class StringReplacer implements Replacer {
     private String suffix = "}";
     private Map<String, String> replacements = new HashMap<>();
 
-    /**
-     * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #stringReplacer()} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public StringReplacer() {}
+    private StringReplacer() {}
 
     public static StringReplacer stringReplacer() { return new StringReplacer(); }
 
