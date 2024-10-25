@@ -3,7 +3,7 @@ rootProject.name = "DaisyLib"
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            library("paper-api", "io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+            library("paper-api", "io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
 
             // Both forks to support Paper Plugins on 1.21+
             library("inventorygui", "uk.firedev:inventorygui:1.6.4-SNAPSHOT")
