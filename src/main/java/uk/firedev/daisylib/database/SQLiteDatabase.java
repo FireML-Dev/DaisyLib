@@ -22,13 +22,13 @@ public abstract class SQLiteDatabase {
     private final String fileName;
 
     public SQLiteDatabase(@NotNull Plugin plugin, @NotNull String fileName) {
-        setup(plugin);
         this.fileName = fileName;
+        setup(plugin);
     }
 
     public SQLiteDatabase(@NotNull Plugin plugin) {
-        setup(plugin);
         this.fileName = "data.db";
+        setup(plugin);
     }
 
     private void setup(Plugin plugin) {
