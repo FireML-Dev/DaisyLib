@@ -12,12 +12,20 @@ import uk.firedev.daisylib.local.DaisyLib;
 
 public class LocationHelper {
 
-    private static final String separator = ";;";
-
+    /**
+     * Checks if a location is spawnable
+     * @param location The location to check
+     * @return Whether the location is spawnable
+     */
     public static boolean isSpawnable(@NotNull Location location) {
         return location.getBlock().isPassable() && getAbove(location).isPassable() && getBelow(location).getType().isSolid();
     }
 
+    /**
+     * Gets the block below the provided block.
+     * @param block The block to use.
+     * @return The block below the provided block.
+     */
     public static Block getBelow(@NotNull Block block) {
         World world = block.getWorld();
         int x = block.getX();
@@ -26,10 +34,20 @@ public class LocationHelper {
         return world.getBlockAt(x, y, z);
     }
 
+    /**
+     * Gets the block below the provided location.
+     * @param location The location to use.
+     * @return The block below the provided location.
+     */
     public static Block getBelow(@NotNull Location location) {
         return getBelow(location.getBlock());
     }
 
+    /**
+     * Gets the block above the provided block.
+     * @param block The block to use.
+     * @return The block above the provided block.
+     */
     public static Block getAbove(@NotNull Block block) {
         World world = block.getWorld();
         int x = block.getX();
@@ -38,6 +56,11 @@ public class LocationHelper {
         return world.getBlockAt(x, y, z);
     }
 
+    /**
+     * Gets the block above the provided location.
+     * @param location The location to use.
+     * @return The block above the provided location.
+     */
     public static Block getAbove(@NotNull Location location) {
         return getAbove(location.getBlock());
     }
@@ -91,6 +114,17 @@ public class LocationHelper {
      * @return A string, built from the provided location.
      */
     public static String convertToString(@NotNull Location location, boolean includeYawPitch) {
+        return convertToString(location, includeYawPitch, ";;");
+    }
+
+    /**
+     * Creates a String from the provided Location.
+     * @param location The location to use.
+     * @param includeYawPitch Should the String include yaw and pitch?
+     * @param separator The String to separate each value with.
+     * @return A string, built from the provided location.
+     */
+    public static String convertToString(@NotNull Location location, boolean includeYawPitch, @NotNull String separator) {
         String finalString = location.getWorld().getName() + separator + location.getX() + separator + location.getY() + separator + location.getZ();
         if (includeYawPitch) {
             finalString += separator + location.getYaw() + separator + location.getPitch();
@@ -104,6 +138,16 @@ public class LocationHelper {
      * @return A location, built from the provided string.
      */
     public static Location getFromString(@NotNull String string) {
+        return getFromString(string, ";;");
+    }
+
+    /**
+     * Creates a Location from a String created by {@link #convertToString(Location, boolean, String)}
+     * @param string The string to use.
+     * @param separator The separator used in the string conversion.
+     * @return A location, built from the provided string.
+     */
+    public static Location getFromString(@NotNull String string, @NotNull String separator) {
         String[] split = string.split(separator);
         if (split.length < 4) {
             return null;
