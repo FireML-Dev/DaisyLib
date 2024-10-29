@@ -15,7 +15,6 @@ import uk.firedev.daisylib.local.config.MainConfig;
 import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.daisylib.requirement.RequirementManager;
 import uk.firedev.daisylib.reward.RewardManager;
-import uk.firedev.daisylib.utils.BlockUtils;
 
 public final class DaisyLib extends JavaPlugin {
 
@@ -53,9 +52,7 @@ public final class DaisyLib extends JavaPlugin {
         Bukkit.getPluginManager().callEvent(new DaisyLibReloadEvent());
     }
 
-    private void registerListeners() {
-        this.getServer().getPluginManager().registerEvents(new BlockUtils(), this);
-    }
+    private void registerListeners() {}
 
     private void loadManagers() {
         VaultManager.getInstance().load();
