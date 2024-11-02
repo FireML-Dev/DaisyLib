@@ -3,7 +3,6 @@ package uk.firedev.daisylib.reward;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
@@ -12,22 +11,12 @@ import java.util.Arrays;
 
 public class Reward {
 
-    private final @NotNull String fullIdentifier;
     private @NotNull String key;
     private @NotNull String value;
     private final Plugin plugin;
 
-    /**
-     * @deprecated This constructor will be removed for 2.1.0-SNAPSHOT. Use {@link #Reward(String, Plugin)} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public Reward(@NotNull String identifier, @NotNull JavaPlugin plugin) {
-        this(identifier, (Plugin) plugin);
-    }
-
     public Reward(@NotNull String identifier, @NotNull Plugin plugin) {
         this.plugin = plugin;
-        this.fullIdentifier = identifier;
         String[] split = identifier.split(":");
         try {
             this.key = split[0];
@@ -44,13 +33,12 @@ public class Reward {
             Loggers.warn(getComponentLogger(), "Attempted to give an invalid Reward. Please check for earlier warnings.");
             return;
         }
-        for (RewardType rewardType : RewardManager.getInstance().getRegisteredRewardTypes()) {
-            if (rewardType.isApplicable(this.key)) {
-                rewardType.doReward(player, this.key, this.value);
-                return;
-            }
+        RewardType rewardType = RewardManager.getInstance().getRewardType(this.key);
+        if (rewardType == null) {
+            Loggers.warn(getComponentLogger(), "Invalid reward. Possible typo?: " + this.key);
+            return;
         }
-        Loggers.warn(getComponentLogger(), "Invalid reward. Possible typo?: " + fullIdentifier);
+        rewardType.doReward(player, this.value);
     }
 
     public ComponentLogger getComponentLogger() {

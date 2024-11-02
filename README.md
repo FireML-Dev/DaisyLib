@@ -26,7 +26,7 @@ Starting with Version 2.0.4-SNAPSHOT, versioning is handled like so:
         <dependency>
             <groupId>uk.firedev</groupId>
             <artifactId>DaisyLib</artifactId>
-            <version>2.0.3-SNAPSHOT</version>
+            <version>2.1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -39,6 +39,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly("uk.firedev:DaisyLib:2.0.3-SNAPSHOT")
+    compileOnly("uk.firedev:DaisyLib:2.1.0-SNAPSHOT")
 }
 ```

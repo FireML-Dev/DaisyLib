@@ -22,11 +22,7 @@ public class BossBarBuilder {
     private BossBar.Color color = BossBar.Color.WHITE;
     private Set<BossBar.Flag> flags = new HashSet<>();
 
-    /**
-     * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #bossBarBuilder()} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public BossBarBuilder() {}
+    private BossBarBuilder() {}
 
     public static BossBarBuilder bossBarBuilder() {
         return new BossBarBuilder();

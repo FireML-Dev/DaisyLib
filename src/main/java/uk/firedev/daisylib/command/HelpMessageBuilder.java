@@ -15,11 +15,7 @@ public class HelpMessageBuilder {
     private final ComponentMessage header;
     private final ComponentMessage usageFormat;
 
-    /**
-     * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #create(ComponentMessage, ComponentMessage)} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public HelpMessageBuilder(@NotNull ComponentMessage header, @NotNull ComponentMessage usageFormat) {
+    private HelpMessageBuilder(@NotNull ComponentMessage header, @NotNull ComponentMessage usageFormat) {
         this.header = header;
         this.usageFormat = usageFormat;
     }

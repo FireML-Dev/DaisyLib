@@ -18,11 +18,7 @@ public class TabListBuilder {
 
     private Component footer = null;
 
-    /**
-     * @deprecated This constructor will be made private for 2.1.0-SNAPSHOT. Use {@link #tabListBuilder()} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public TabListBuilder() {}
+    private TabListBuilder() {}
 
     public static TabListBuilder tabListBuilder() { return new TabListBuilder(); }
 

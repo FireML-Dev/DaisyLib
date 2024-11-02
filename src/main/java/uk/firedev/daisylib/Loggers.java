@@ -25,7 +25,6 @@ public class Loggers {
         logException(logger, throwable);
     }
 
-
     public static void info(@NotNull ComponentLogger logger, @NotNull String message) {
         logger.info(ComponentMessage.fromString(message).getMessage());
     }
