@@ -52,14 +52,14 @@ public class RewardManager {
      * @return Whether the reward type was added or not
      */
     public boolean registerRewardType(RewardType rewardType) {
-        String identifier = rewardType.getIdentifier();
-        if (rewardTypes.containsKey(identifier.toUpperCase())) {
+        String identifier = rewardType.getIdentifier().toUpperCase();
+        if (rewardTypes.containsKey(identifier)) {
             return false;
         }
         Loggers.info(DaisyLib.getInstance().getComponentLogger(),
-                "<green>Registered <gold>" + rewardType.getIdentifier() + "</gold> RewardType by <gold>" + rewardType.getAuthor() + "</gold> from the plugin <aqua>" + rewardType.getPlugin().getName()
+                "<green>Registered <gold>" + identifier + "</gold> RewardType by <gold>" + rewardType.getAuthor() + "</gold> from the plugin <aqua>" + rewardType.getPlugin().getName()
         );
-        rewardTypes.put(identifier.toUpperCase(), rewardType);
+        rewardTypes.put(identifier, rewardType);
         return true;
     }
 
@@ -69,6 +69,7 @@ public class RewardManager {
      * @return Whether the reward type was removed or not
      */
     public boolean unregisterRewardType(@NotNull String rewardName) {
+        rewardName = rewardName.toUpperCase();
         if (!rewardTypes.containsKey(rewardName)) {
             return false;
         }
@@ -77,7 +78,7 @@ public class RewardManager {
     }
 
     public @Nullable RewardType getRewardType(@NotNull String identifier) {
-        return rewardTypes.get(identifier);
+        return rewardTypes.get(identifier.toUpperCase());
     }
 
     public List<RewardType> getRegisteredRewardTypes() {
@@ -115,6 +116,7 @@ public class RewardManager {
                 return plugin;
             }
         });
+
     }
 
     public Map<String, RewardType> getRewardTypeMap() {
