@@ -39,7 +39,6 @@ public class RewardManager {
             new ExpRewardType().register();
             new HealthRewardType().register();
             new MoneyRewardType().register();
-            new TeleportRewardType().register();
             loaded = true;
         }
     }
