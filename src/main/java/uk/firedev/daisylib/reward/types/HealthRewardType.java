@@ -20,7 +20,7 @@ public class HealthRewardType implements RewardType {
             return;
         }
         double amount = Double.parseDouble(value);
-        AttributeInstance attribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        AttributeInstance attribute = player.getAttribute(Attribute.MAX_HEALTH);
         double maxHealth;
         if (attribute == null) {
             maxHealth = 20.0D;
