@@ -5,9 +5,9 @@ dependencyResolutionManagement {
         create("libs") {
             library("paper-api", "io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
 
-            // Both forks to support Paper Plugins on 1.21+
-            library("inventorygui", "uk.firedev:inventorygui:1.6.4-SNAPSHOT")
-            library("anvilgui", "uk.firedev:anvilgui:2.0.1-SNAPSHOT")
+            // These two are the reason we need to use Spigot mappings. They will be put with the others if/when these libraries support MojMap
+            library("inventorygui", "de.themoep:inventorygui:1.6.4-SNAPSHOT")
+            library("anvilgui", "net.wesjd:anvilgui:1.10.3-SNAPSHOT")
 
             library("universalscheduler", "com.github.Anon8281:UniversalScheduler:0.1.6")
             library("placeholderapi", "me.clip:placeholderapi:2.11.6")

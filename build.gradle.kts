@@ -17,7 +17,8 @@ repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://repo.firedev.uk/repository/maven-public/")
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-    maven("https://repo.md5lukas.de/public/")
+    maven("https://repo.minebench.de/")
+    maven("https://repo.codemc.io/repository/maven-snapshots/")
 }
 
 dependencies {
@@ -112,9 +113,9 @@ tasks {
         relocate("dev.dejvokep.boostedyaml", "uk.firedev.daisylib.libs.boostedyaml")
         relocate("uk.firedev.vanishchecker", "uk.firedev.daisylib.utils.vanishchecker")
 
-        //manifest {
-        //    attributes["paperweight-mappings-namespace"] = "spigot"
-        //}
+        manifest {
+            attributes["paperweight-mappings-namespace"] = "spigot"
+        }
     }
     withType<JavaCompile> {
         options.encoding = "UTF-8"
