@@ -26,6 +26,7 @@ public class ComponentMessage implements Message {
 
     private @NotNull Component message;
     private static MiniMessage miniMessage = null;
+    private static JSONComponentSerializer jsonComponentSerializer = null;
 
     private ComponentMessage(@NotNull Component message) {
         this.message = message;
@@ -37,6 +38,10 @@ public class ComponentMessage implements Message {
 
     public static ComponentMessage ofOrDefault(@Nullable Component message, @NotNull Component def) {
         return message == null ? of(def) : of(message);
+    }
+
+    public static ComponentMessage fromJson(@NotNull String json) {
+        return of(getJsonComponentSerializer().deserialize(json));
     }
 
     public static ComponentMessage fromString(@NotNull String message) {
@@ -116,6 +121,13 @@ public class ComponentMessage implements Message {
         return miniMessage;
     }
 
+    public static JSONComponentSerializer getJsonComponentSerializer() {
+        if (jsonComponentSerializer == null) {
+            jsonComponentSerializer = JSONComponentSerializer.json();
+        }
+        return jsonComponentSerializer;
+    }
+
     public ComponentMessage applyReplacer(@Nullable ComponentReplacer replacer) {
         if (replacer != null) {
             this.message = replacer.replace(this.message);
@@ -164,8 +176,8 @@ public class ComponentMessage implements Message {
         return PlainTextComponentSerializer.plainText().serialize(this.message);
     }
 
-    public String toJSON() {
-        return JSONComponentSerializer.json().serialize(this.message);
+    public String toJson() {
+        return getJsonComponentSerializer().serialize(this.message);
     }
 
     public ComponentMessage stripStyling() {
