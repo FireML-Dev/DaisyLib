@@ -200,7 +200,8 @@ public class ComponentMessage implements Message {
     }
 
     public ComponentMessage parsePlaceholderAPI(@Nullable OfflinePlayer player) {
-        return toStringMessage().parsePAPI(player).toComponentMessage();
+        this.message = toStringMessage().parsePlaceholderAPI(player).toComponentMessage().getMessage();
+        return this;
     }
 
     public boolean matchesString(@NotNull String matcher) {
