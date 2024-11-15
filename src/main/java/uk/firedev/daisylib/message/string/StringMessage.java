@@ -4,6 +4,8 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -14,13 +16,28 @@ import uk.firedev.daisylib.message.Message;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringMessage implements Message {
+
+    private static LegacyComponentSerializer legacyComponentSerializer = null;
 
     private @NotNull String message;
 
     private StringMessage(@NotNull String message) {
         this.message = message;
+    }
+
+    /**
+     * Required for the {@link #parsePAPI(OfflinePlayer)} method. Should not be used elsewhere unless absolutely necessary.
+     * @return A Section LegacyComponentSerializer
+     */
+    public static LegacyComponentSerializer getLegacyComponentSerializer() {
+        if (legacyComponentSerializer == null) {
+            legacyComponentSerializer = LegacyComponentSerializer.legacySection();
+        }
+        return legacyComponentSerializer;
     }
 
     public static StringMessage of(@NotNull String message) {
@@ -118,9 +135,23 @@ public class StringMessage implements Message {
         return ComponentMessage.fromStringMessage(this);
     }
 
-    public StringMessage parsePAPI(@NotNull OfflinePlayer player) {
+    public StringMessage parsePAPI(@Nullable OfflinePlayer player) {
         if (DaisyLib.getInstance().isPluginEnabled("PlaceholderAPI")) {
-            this.message = PlaceholderAPI.setPlaceholders(player, this.message);
+            Matcher matcher = PlaceholderAPI.getPlaceholderPattern().matcher(this.message);
+            while (matcher.find()) {
+                // Find matched String
+                String matched = matcher.group();
+                // Convert to Legacy Component and into a MiniMessage String
+                String parsed = ComponentMessage.getMiniMessage().serialize(
+                    getLegacyComponentSerializer().deserialize(
+                            PlaceholderAPI.setPlaceholders(player, matched)
+                    )
+                );
+                // Escape matched String so we don't have issues
+                String safeMatched = Matcher.quoteReplacement(matched);
+                // Replace all instances of the matched String with the parsed placeholder.
+                this.message = this.message.replaceAll(safeMatched, parsed);
+            }
         }
         return this;
     }

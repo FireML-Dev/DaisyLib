@@ -10,6 +10,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -196,6 +197,10 @@ public class ComponentMessage implements Message {
             this.message = getMiniMessage().deserialize(stringMessage, resolver);
         }
         return this;
+    }
+
+    public ComponentMessage parsePlaceholderAPI(@Nullable OfflinePlayer player) {
+        return toStringMessage().parsePAPI(player).toComponentMessage();
     }
 
     public boolean matchesString(@NotNull String matcher) {

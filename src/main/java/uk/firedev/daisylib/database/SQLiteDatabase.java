@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Helps with connecting to a SQLite Database
+ * Helps with connecting to a SQLite database.
  */
 public abstract class SQLiteDatabase {
 
