@@ -135,7 +135,7 @@ public class StringMessage implements Message {
         return ComponentMessage.fromStringMessage(this);
     }
 
-    public StringMessage parsePAPI(@Nullable OfflinePlayer player) {
+    public StringMessage parsePlaceholderAPI(@Nullable OfflinePlayer player) {
         if (DaisyLib.getInstance().isPluginEnabled("PlaceholderAPI")) {
             Matcher matcher = PlaceholderAPI.getPlaceholderPattern().matcher(this.message);
             while (matcher.find()) {
@@ -143,9 +143,9 @@ public class StringMessage implements Message {
                 String matched = matcher.group();
                 // Convert to Legacy Component and into a MiniMessage String
                 String parsed = ComponentMessage.getMiniMessage().serialize(
-                    getLegacyComponentSerializer().deserialize(
-                            PlaceholderAPI.setPlaceholders(player, matched)
-                    )
+                        getLegacyComponentSerializer().deserialize(
+                                PlaceholderAPI.setPlaceholders(player, matched)
+                        )
                 );
                 // Escape matched String so we don't have issues
                 String safeMatched = Matcher.quoteReplacement(matched);
@@ -154,6 +154,14 @@ public class StringMessage implements Message {
             }
         }
         return this;
+    }
+
+    /**
+     * @deprecated Use {@link #parsePlaceholderAPI(OfflinePlayer)} instead. This method will be removed for version 2.2.0-SNAPSHOT.
+     */
+    @Deprecated(forRemoval = true)
+    public StringMessage parsePAPI(@Nullable OfflinePlayer player) {
+        return parsePlaceholderAPI(player);
     }
 
     public StringMessage addPrefix(@NotNull String prefix) {
