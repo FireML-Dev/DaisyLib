@@ -92,7 +92,7 @@ public class RewardManager {
      * @param checkLogic The code to run when checking the reward. The String will be the provided value to check against.
      * @return Whether this type was registered or not
      */
-    public boolean registerRewardType(@NotNull String identifier, @NotNull String author, @NotNull Plugin plugin, @NotNull BiConsumer<@NotNull Player, @NotNull String> checkLogic) {
+    public boolean registerRewardType(@NotNull String identifier, @NotNull String author, @NotNull Plugin plugin, @NotNull BiConsumer<Player, String> checkLogic) {
 
         return registerRewardType(new RewardType() {
             @Override
