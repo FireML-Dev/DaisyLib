@@ -91,7 +91,7 @@ public class RequirementManager {
      * @param checkLogic The code to run when checking the requirements. The List<String> will be the provided values to check against.
      * @return Whether this type was registered or not
      */
-    public boolean registerRequirement(@NotNull String identifier, @NotNull String author, @NotNull Plugin plugin, @NotNull BiFunction<@NotNull RequirementData, @NotNull List<String>, @NotNull Boolean> checkLogic) {
+    public boolean registerRequirement(@NotNull String identifier, @NotNull String author, @NotNull Plugin plugin, @NotNull BiFunction<RequirementData, List<String>, Boolean> checkLogic) {
 
         return registerRequirement(new RequirementType() {
 

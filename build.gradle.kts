@@ -19,6 +19,7 @@ repositories {
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.minebench.de/")
     maven("https://repo.codemc.io/repository/maven-snapshots/")
+    maven("https://repo.md5lukas.de/public")
 }
 
 dependencies {
@@ -36,7 +37,7 @@ dependencies {
 }
 
 group = "uk.firedev"
-version = "2.1.0-SNAPSHOT"
+version = "2.2.0-SNAPSHOT"
 description = "A collection of classes for easier use of Paper's API"
 java.sourceCompatibility = JavaVersion.VERSION_21
 
