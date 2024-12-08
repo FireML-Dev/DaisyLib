@@ -30,7 +30,6 @@ dependencies {
 
     implementation(libs.inventorygui)
     implementation(libs.anvilgui)
-    implementation(libs.universalscheduler)
     implementation(libs.commandapi)
     implementation(libs.vanishchecker)
     implementation(libs.boostedyaml)
@@ -48,7 +47,6 @@ paper {
     apiVersion = "1.21"
     author = "FireML"
     description = project.description.toString()
-    foliaSupported = true
 
     serverDependencies {
         register("Vault") {
@@ -109,7 +107,6 @@ tasks {
 
         relocate("de.themoep.inventorygui", "uk.firedev.daisylib.libs.themoep.inventorygui")
         relocate("net.wesjd.anvilgui", "uk.firedev.daisylib.libs.wesjd.anvilgui")
-        relocate("com.github.Anon8281.universalScheduler", "uk.firedev.daisylib.libs.Anon8281.universalScheduler")
         relocate("dev.jorel.commandapi", "uk.firedev.daisylib.libs.commandapi")
         relocate("dev.dejvokep.boostedyaml", "uk.firedev.daisylib.libs.boostedyaml")
         relocate("uk.firedev.vanishchecker", "uk.firedev.daisylib.utils.vanishchecker")

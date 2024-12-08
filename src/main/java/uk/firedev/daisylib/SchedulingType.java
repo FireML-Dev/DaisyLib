@@ -1,6 +1,8 @@
 package uk.firedev.daisylib;
 
-import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
 
 public enum SchedulingType {
@@ -8,17 +10,19 @@ public enum SchedulingType {
     SYNC,
     NONE;
 
+    private static final BukkitScheduler scheduler = Bukkit.getScheduler();
+
     /**
      * Runs a task based on the type.
      *
      * @param runnable the task to be executed
      * @param scheduler the task scheduler to use
      */
-    public void run(@NotNull Runnable runnable, @NotNull TaskScheduler scheduler) {
+    public void run(@NotNull Runnable runnable, @NotNull Plugin plugin) {
         switch (this) {
             case NONE -> runnable.run();
-            case ASYNC -> scheduler.runTaskAsynchronously(runnable);
-            case SYNC -> scheduler.runTask(runnable);
+            case ASYNC -> scheduler.runTaskAsynchronously(plugin, runnable);
+            case SYNC -> scheduler.runTask(plugin, runnable);
         }
     }
 
@@ -29,11 +33,11 @@ public enum SchedulingType {
      * @param runnable the task to be executed
      * @param scheduler the task scheduler to use
      */
-    public void runDelayed(@NotNull Runnable runnable, @NotNull TaskScheduler scheduler, long tickDelay) {
+    public void runDelayed(@NotNull Runnable runnable, @NotNull Plugin plugin, long tickDelay) {
         switch (this) {
             case NONE -> runnable.run();
-            case SYNC -> scheduler.runTaskLater(runnable, tickDelay);
-            case ASYNC -> scheduler.runTaskLaterAsynchronously(runnable, tickDelay);
+            case SYNC -> scheduler.runTaskLater(plugin, runnable, tickDelay);
+            case ASYNC -> scheduler.runTaskLaterAsynchronously(plugin, runnable, tickDelay);
         }
     }
 

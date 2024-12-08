@@ -8,7 +8,6 @@ dependencyResolutionManagement {
             // Requires the remapping shenanigans to work - Compiled against an old Spigot version.
             library("inventorygui", "de.themoep:inventorygui:1.6.4-SNAPSHOT")
 
-            library("universalscheduler", "com.github.Anon8281:UniversalScheduler:0.1.6")
             library("placeholderapi", "me.clip:placeholderapi:2.11.6")
             library("vault", "com.github.MilkBowl:VaultAPI:1.7.1")
             library("commandapi", "dev.jorel:commandapi-bukkit-shade:9.7.0")

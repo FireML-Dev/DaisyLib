@@ -1,7 +1,5 @@
 package uk.firedev.daisylib.local;
 
-import com.github.Anon8281.universalScheduler.UniversalScheduler;
-import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import org.bukkit.Bukkit;
@@ -19,7 +17,6 @@ import uk.firedev.daisylib.reward.RewardManager;
 public final class DaisyLib extends JavaPlugin {
 
     private static DaisyLib instance;
-    private static TaskScheduler scheduler;
 
     @Override
     public void onLoad() {
@@ -33,7 +30,6 @@ public final class DaisyLib extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        scheduler = UniversalScheduler.getScheduler(this);
         CommandAPI.onEnable();
         ExampleConfig.load();
         reload();
@@ -62,9 +58,7 @@ public final class DaisyLib extends JavaPlugin {
     }
 
     public static DaisyLib getInstance() { return instance; }
-
-    public static TaskScheduler getScheduler() { return scheduler; }
-
+    
     public boolean isPluginEnabled(@NotNull String pluginName) {
         return getServer().getPluginManager().isPluginEnabled(pluginName);
     }
