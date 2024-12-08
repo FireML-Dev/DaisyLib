@@ -156,14 +156,6 @@ public class StringMessage implements Message {
         return this;
     }
 
-    /**
-     * @deprecated Use {@link #parsePlaceholderAPI(OfflinePlayer)} instead. This method will be removed for version 2.2.0-SNAPSHOT.
-     */
-    @Deprecated(forRemoval = true)
-    public StringMessage parsePAPI(@Nullable OfflinePlayer player) {
-        return parsePlaceholderAPI(player);
-    }
-
     public StringMessage addPrefix(@NotNull String prefix) {
         this.message = prefix + this.message;
         return this;
