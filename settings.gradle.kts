@@ -18,7 +18,7 @@ dependencyResolutionManagement {
             // TODO update this to 2.0.1 after my PR is merged
             library("anvilgui", "de.md5lukas:anvilgui:2.0.0")
 
-            plugin("shadow", "com.gradleup.shadow").version("8.3.3")
+            plugin("shadow", "com.gradleup.shadow").version("8.3.5")
             //plugin("paperweight", "io.papermc.paperweight.userdev").version("1.7.1")
             plugin("plugin-yml", "net.minecrell.plugin-yml.paper").version("0.6.0")
         }
