@@ -19,6 +19,7 @@ repositories {
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.minebench.de/")
     maven("https://repo.codemc.io/repository/maven-snapshots/")
+    maven("https://repo.md5lukas.de/public")
 }
 
 dependencies {
