@@ -36,7 +36,7 @@ dependencies {
 }
 
 group = "uk.firedev"
-version = "2.1.0-SNAPSHOT"
+version = "2.2.0-SNAPSHOT"
 description = "A collection of classes for easier use of Paper's API"
 java.sourceCompatibility = JavaVersion.VERSION_21
 
