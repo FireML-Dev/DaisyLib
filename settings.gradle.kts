@@ -3,7 +3,7 @@ rootProject.name = "DaisyLib"
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            library("paper-api", "io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
+            library("paper-api", "io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
 
             // Requires the remapping shenanigans to work - Compiled against an old Spigot version.
             library("inventorygui", "de.themoep:inventorygui:1.6.4-SNAPSHOT")
