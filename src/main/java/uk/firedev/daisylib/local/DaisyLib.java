@@ -33,7 +33,7 @@ public final class DaisyLib extends JavaPlugin {
         CommandAPI.onEnable();
         ExampleConfig.load();
         reload();
-        LibCommand.getInstance().register();
+        new LibCommand().getCommand().register();
         loadManagers();
         registerListeners();
     }

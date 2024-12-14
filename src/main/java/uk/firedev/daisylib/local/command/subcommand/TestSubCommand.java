@@ -14,20 +14,11 @@ import uk.firedev.daisylib.reward.RewardType;
 import java.util.List;
 import java.util.Objects;
 
-public class Test extends CommandAPICommand {
+public class TestSubCommand {
 
-    private static Test instance = null;
-
-    private Test() {
-        super("test");
-        withSubcommands(getRewardTypeCommand(), getRequirementTypeCommand());
-    }
-
-    public static Test getInstance() {
-        if (instance == null) {
-            instance = new Test();
-        }
-        return instance;
+    public CommandAPICommand getCommand() {
+        return new CommandAPICommand("test")
+                .withSubcommands(getRewardTypeCommand(), getRequirementTypeCommand());
     }
 
     private CommandAPICommand getRewardTypeCommand() {

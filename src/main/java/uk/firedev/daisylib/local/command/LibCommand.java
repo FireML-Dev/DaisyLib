@@ -6,7 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.local.command.subcommand.Test;
+import uk.firedev.daisylib.local.command.subcommand.TestSubCommand;
 import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
@@ -17,26 +17,17 @@ import uk.firedev.daisylib.reward.RewardType;
 
 import java.util.List;
 
-public class LibCommand extends CommandAPICommand {
+public class LibCommand {
 
-    private static LibCommand instance = null;
-
-    private LibCommand() {
-        super("daisylib");
-        setPermission(CommandPermission.fromString("daisylib.command"));
-        withShortDescription("Manage the plugin");
-        withFullDescription("Manage the plugin");
-        withSubcommands(getReloadCommand(), getRewardTypesCommand(), getRequirementTypesCommand(), Test.getInstance());
-        executes((sender, arguments) -> {
-            MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender);
-        });
-    }
-
-    public static LibCommand getInstance() {
-        if (instance == null) {
-            instance = new LibCommand();
-        }
-        return instance;
+    public CommandAPICommand getCommand() {
+        return new CommandAPICommand("daisylib")
+                .withPermission(CommandPermission.fromString("daisylib.command"))
+                .withShortDescription("Manage the plugin")
+                .withFullDescription("Manage the plugin")
+                .withSubcommands(getReloadCommand(), getRewardTypesCommand(), getRequirementTypesCommand(), new TestSubCommand().getCommand())
+                .executes((sender, arguments) -> {
+                    MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender);
+                });
     }
 
     private CommandAPICommand getReloadCommand() {
