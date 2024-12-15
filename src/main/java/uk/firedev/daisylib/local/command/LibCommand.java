@@ -1,7 +1,6 @@
 package uk.firedev.daisylib.local.command;
 
 import dev.jorel.commandapi.CommandAPICommand;
-import dev.jorel.commandapi.CommandPermission;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -19,18 +18,25 @@ import java.util.List;
 
 public class LibCommand {
 
-    public CommandAPICommand getCommand() {
-        return new CommandAPICommand("daisylib")
-                .withPermission(CommandPermission.fromString("daisylib.command"))
-                .withShortDescription("Manage the plugin")
-                .withFullDescription("Manage the plugin")
-                .withSubcommands(getReloadCommand(), getRewardTypesCommand(), getRequirementTypesCommand(), new TestSubCommand().getCommand())
-                .executes((sender, arguments) -> {
-                    MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender);
-                });
+    private static CommandAPICommand command = null;
+
+    private LibCommand() {}
+
+    public static CommandAPICommand getCommand() {
+        if (command == null) {
+            command = new CommandAPICommand("daisylib")
+                    .withPermission("daisylib.command")
+                    .withFullDescription("Manage the plugin")
+                    .withShortDescription("Manage the plugin")
+                    .withSubcommands(getReloadCommand(), getRewardTypesCommand(), getRequirementTypesCommand(), TestSubCommand.getCommand())
+                    .executes((sender, args) -> {
+                        MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender);
+                    });
+        }
+        return command;
     }
 
-    private CommandAPICommand getReloadCommand() {
+    private static CommandAPICommand getReloadCommand() {
         return new CommandAPICommand("reload")
                 .executes(((sender, arguments) -> {
                     DaisyLib.getInstance().reload();
@@ -38,7 +44,7 @@ public class LibCommand {
                 }));
     }
 
-    private CommandAPICommand getRewardTypesCommand() {
+    private static CommandAPICommand getRewardTypesCommand() {
         return new CommandAPICommand("rewardTypes")
                 .executes((sender, arguments) -> {
                     List<RewardType> registeredTypes = RewardManager.getInstance().getRegisteredRewardTypes();
@@ -52,7 +58,7 @@ public class LibCommand {
                 });
     }
 
-    private ComponentReplacer getRewardTypeListReplacer(List<RewardType> types) {
+    private static ComponentReplacer getRewardTypeListReplacer(List<RewardType> types) {
         TextComponent.Builder builder = Component.text();
         types.forEach(rewardType -> {
             Component identifier = ComponentMessage.fromString(rewardType.getIdentifier()).getMessage();
@@ -67,7 +73,7 @@ public class LibCommand {
         return ComponentReplacer.componentReplacer("list", builder.build());
     }
 
-    private CommandAPICommand getRequirementTypesCommand() {
+    private static CommandAPICommand getRequirementTypesCommand() {
         return new CommandAPICommand("requirementTypes")
                 .executes((sender, arguments) -> {
                     List<RequirementType> registeredTypes = RequirementManager.getInstance().getRegisteredRequirementTypes();
@@ -81,7 +87,7 @@ public class LibCommand {
                 });
     }
 
-    private ComponentReplacer getRequirementTypeListReplacer(List<RequirementType> types) {
+    private static ComponentReplacer getRequirementTypeListReplacer(List<RequirementType> types) {
         TextComponent.Builder builder = Component.text();
         types.forEach(rewardType -> {
             Component identifier = ComponentMessage.fromString(rewardType.getIdentifier()).getMessage();
