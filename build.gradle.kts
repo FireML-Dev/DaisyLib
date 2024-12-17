@@ -33,6 +33,7 @@ dependencies {
     implementation(libs.commandapi)
     implementation(libs.vanishchecker)
     implementation(libs.boostedyaml)
+    implementation(libs.bstats)
 }
 
 group = "uk.firedev"
@@ -105,10 +106,14 @@ tasks {
         archiveVersion.set(project.version.toString())
         archiveClassifier.set("")
 
+        // Libs Package
         relocate("de.themoep.inventorygui", "uk.firedev.daisylib.libs.themoep.inventorygui")
         relocate("net.wesjd.anvilgui", "uk.firedev.daisylib.libs.wesjd.anvilgui")
         relocate("dev.jorel.commandapi", "uk.firedev.daisylib.libs.commandapi")
         relocate("dev.dejvokep.boostedyaml", "uk.firedev.daisylib.libs.boostedyaml")
+        relocate("org.bstats", "uk.firedev.daisylib.libs.bstats")
+
+        // Utils Package
         relocate("uk.firedev.vanishchecker", "uk.firedev.daisylib.utils.vanishchecker")
 
         manifest {

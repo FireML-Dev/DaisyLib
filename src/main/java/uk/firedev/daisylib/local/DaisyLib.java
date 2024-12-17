@@ -2,6 +2,7 @@ package uk.firedev.daisylib.local;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -17,6 +18,7 @@ import uk.firedev.daisylib.reward.RewardManager;
 public final class DaisyLib extends JavaPlugin {
 
     private static DaisyLib instance;
+    private Metrics metrics;
 
     @Override
     public void onLoad() {
@@ -36,6 +38,7 @@ public final class DaisyLib extends JavaPlugin {
         LibCommand.getCommand().register();
         loadManagers();
         registerListeners();
+        loadMetrics();
     }
 
     @Override
@@ -47,6 +50,10 @@ public final class DaisyLib extends JavaPlugin {
         MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
         Bukkit.getPluginManager().callEvent(new DaisyLibReloadEvent());
+    }
+
+    private void loadMetrics() {
+        this.metrics = new Metrics(this, 24173);
     }
 
     private void registerListeners() {}
