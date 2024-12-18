@@ -42,30 +42,19 @@ public class Config {
         this.plugin = plugin;
         this.configUpdater = configUpdater;
         reload();
+        update();
     }
 
     public void reload() {
         // BoostedYAML handles the file creation for us
         File configFile = new File(getPlugin().getDataFolder(), getFileName());
 
-        List<Settings> settingsList = new ArrayList<>(Arrays.asList(
-                getGeneralSettings(),
-                getDumperSettings()
-        ));
-
-        if (configUpdater) {
-            settingsList.add(getLoaderSettings());
-            settingsList.add(getUpdaterSettings());
-        }
-
-        final Settings[] settings = settingsList.toArray(new Settings[0]);
-
         try {
             InputStream resource = getPlugin().getResource(getResourceName());
             if (resource == null) {
-                this.config = YamlDocument.create(configFile, settings);
+                this.config = YamlDocument.create(configFile, getSettings());
             } else {
-                this.config = YamlDocument.create(configFile, resource, settings);
+                this.config = YamlDocument.create(configFile, resource, getSettings());
             }
             this.file = configFile;
             if (configUpdater) {
@@ -86,6 +75,20 @@ public class Config {
 
     public String getResourceName() { return this.resourceName; }
 
+    public Settings[] getSettings() {
+        List<Settings> settingsList = new ArrayList<>(Arrays.asList(
+                getGeneralSettings(),
+                getDumperSettings(),
+                getLoaderSettings()
+        ));
+
+        if (configUpdater) {
+            settingsList.add(getUpdaterSettings());
+        }
+
+        return settingsList.toArray(Settings[]::new);
+    }
+
     public GeneralSettings getGeneralSettings() {
         return GeneralSettings.builder().setUseDefaults(false).build();
     }
@@ -95,7 +98,7 @@ public class Config {
     }
 
     public LoaderSettings getLoaderSettings() {
-        return LoaderSettings.builder().setAutoUpdate(true).build();
+        return LoaderSettings.DEFAULT;
     }
 
     public UpdaterSettings getUpdaterSettings() {
@@ -108,6 +111,25 @@ public class Config {
 
     public ComponentMessage getComponentMessage(@NotNull String path, @NotNull String def) {
         return ComponentMessage.fromConfig(getConfig(), path, MiniMessage.miniMessage().deserialize(def));
+    }
+
+    public void save() {
+        try {
+            getConfig().save();
+        } catch (IOException exception) {
+            Loggers.warn(plugin.getComponentLogger(), "Failed to save " + getFileName());
+        }
+    }
+
+    public void update() {
+        if (!configUpdater) {
+            return;
+        }
+        try {
+            getConfig().update();
+        } catch (IOException exception) {
+            Loggers.warn(plugin.getComponentLogger(), "Failed to update " + getFileName());
+        }
     }
 
 }
