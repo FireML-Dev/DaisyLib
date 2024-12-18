@@ -99,7 +99,11 @@ public class Config {
     }
 
     public UpdaterSettings getUpdaterSettings() {
-        return UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build();
+        return UpdaterSettings.builder()
+                .setEnableDowngrading(false)
+                .setKeepAll(true)
+                .setVersioning(new BasicVersioning("config-version"))
+                .build();
     }
 
     public ComponentMessage getComponentMessage(@NotNull String path, @NotNull String def) {
