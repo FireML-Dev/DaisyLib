@@ -72,7 +72,7 @@ public class Config {
                 this.config.update();
             }
         } catch (IOException ex) {
-            plugin.getLogger().log(Level.SEVERE, ex.getMessage(), ex);
+            Loggers.logException(plugin.getComponentLogger(), ex);
         }
     }
 
