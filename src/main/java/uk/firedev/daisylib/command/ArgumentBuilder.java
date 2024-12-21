@@ -6,6 +6,7 @@ import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.StringArgument;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
@@ -18,6 +19,13 @@ public class ArgumentBuilder {
                         info -> CompletableFuture.supplyAsync(() -> function.apply(info))
                 )
         );
+    }
+
+    public static <T> T resolveArgument(@Nullable Object object, @NotNull Class<T> clazz) {
+        if (clazz.isInstance(object)) {
+            return clazz.cast(object);
+        }
+        return null;
     }
 
 }
