@@ -21,11 +21,19 @@ public class ArgumentBuilder {
         );
     }
 
-    public static <T> T resolveArgument(@Nullable Object object, @NotNull Class<T> clazz) {
+    public static <T> @Nullable T resolveArgument(@Nullable Object object, @NotNull Class<T> clazz) {
         if (clazz.isInstance(object)) {
             return clazz.cast(object);
         }
         return null;
+    }
+
+    public static <T> @NotNull T resolveArgumentOrThrow(@Nullable Object object, @NotNull Class<T> clazz) {
+        T resolved = resolveArgument(object, clazz);
+        if (resolved == null) {
+            throw new IllegalArgumentException("Argument is invalid or null.");
+        }
+        return resolved;
     }
 
 }
