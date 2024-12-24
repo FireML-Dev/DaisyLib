@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.actions.types;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.actions.ActionContext;
@@ -14,7 +15,7 @@ public class BreakActionType extends ActionType {
         return "break";
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onBreakBlock(BlockBreakEvent event) {
         fire(ActionContext.create()
                 .withPlayer(event.getPlayer())
