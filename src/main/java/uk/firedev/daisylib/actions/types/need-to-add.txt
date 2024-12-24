@@ -1,3 +1,5 @@
 CraftActionType - Missed because it needs more thought
 SmeltActionType - Requires a way to get a player from the furnace
 BrewActionType - Requires a way to get the player from the brewing stand
+MilkActionType - Do we even need this?
+ExploreActionType - Requires more code. Do we even need this?
