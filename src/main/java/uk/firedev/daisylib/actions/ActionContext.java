@@ -2,10 +2,13 @@ package uk.firedev.daisylib.actions;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
 
 public class ActionContext {
 
@@ -13,6 +16,7 @@ public class ActionContext {
     private Block block;
     private Entity affectedEntity;
     private ItemStack item;
+    private Map<Enchantment, Integer> enchantments;
 
     private ActionContext() {}
 
@@ -54,6 +58,15 @@ public class ActionContext {
 
     public @Nullable ItemStack getItem() {
         return item;
+    }
+
+    public ActionContext withEnchantments(@Nullable Map<Enchantment, Integer> enchantments) {
+        this.enchantments = enchantments;
+        return this;
+    }
+
+    public @Nullable Map<Enchantment, Integer> getEnchantments() {
+        return enchantments;
     }
 
 }
