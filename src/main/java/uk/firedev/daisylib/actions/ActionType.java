@@ -11,7 +11,7 @@ public abstract class ActionType implements Listener {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
-    abstract @NotNull String getActionIdentifier();
+    public abstract @NotNull String getActionIdentifier();
 
     public void fire(@NotNull ActionContext context) {
         ActionManager.getInstance().fire(getActionIdentifier(), context);

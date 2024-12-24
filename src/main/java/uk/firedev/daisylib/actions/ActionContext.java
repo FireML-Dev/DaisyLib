@@ -36,12 +36,12 @@ public class ActionContext {
         return block;
     }
 
-    public ActionContext withEntity(@Nullable Entity affectedEntity) {
+    public ActionContext withAffectedEntity(@Nullable Entity affectedEntity) {
         this.affectedEntity = affectedEntity;
         return this;
     }
 
-    public @Nullable Entity getEntity() {
+    public @Nullable Entity getAffectedEntity() {
         return affectedEntity;
     }
 

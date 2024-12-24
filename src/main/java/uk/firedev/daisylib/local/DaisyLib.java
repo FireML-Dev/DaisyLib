@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
+import uk.firedev.daisylib.actions.ActionManager;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
 import uk.firedev.daisylib.local.command.LibCommand;
 import uk.firedev.daisylib.local.config.ExampleConfig;
@@ -62,6 +63,7 @@ public final class DaisyLib extends JavaPlugin {
         VaultManager.getInstance().load();
         RewardManager.getInstance().load();
         RequirementManager.getInstance().load();
+        ActionManager.getInstance().load();
     }
 
     public static DaisyLib getInstance() { return instance; }

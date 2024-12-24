@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.actions;
 
+import org.bukkit.event.EventHandler;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class ActionListener {

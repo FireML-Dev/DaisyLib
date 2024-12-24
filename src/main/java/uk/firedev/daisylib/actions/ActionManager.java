@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.actions;
 
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.actions.types.BreakActionType;
 import uk.firedev.daisylib.local.DaisyLib;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class ActionManager {
 
     private static ActionManager instance = null;
 
+    private boolean loaded = false;
     private final TreeMap<String, ArrayList<ActionListener>> listenerMap;
 
     private ActionManager() {
@@ -22,6 +24,17 @@ public class ActionManager {
             instance = new ActionManager();
         }
         return instance;
+    }
+
+    public void load() {
+        if (isLoaded()) {
+            return;
+        }
+        new BreakActionType().register(DaisyLib.getInstance());
+    }
+
+    public boolean isLoaded() {
+        return loaded;
     }
 
     public boolean registerListener(@NotNull String actionName, @NotNull ActionListener listener) {

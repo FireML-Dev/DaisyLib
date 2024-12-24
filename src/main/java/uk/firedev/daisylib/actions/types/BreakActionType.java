@@ -1,0 +1,26 @@
+package uk.firedev.daisylib.actions.types;
+
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.actions.ActionContext;
+import uk.firedev.daisylib.actions.ActionType;
+
+public class BreakActionType extends ActionType {
+
+    @NotNull
+    @Override
+    public String getActionIdentifier() {
+        return "break";
+    }
+
+    @EventHandler
+    public void onBreakBlock(BlockBreakEvent event) {
+        fire(ActionContext.create()
+                .withPlayer(event.getPlayer())
+                .withBlock(event.getBlock())
+                .withAffectedEntity(event.getPlayer())
+        );
+    }
+
+}
