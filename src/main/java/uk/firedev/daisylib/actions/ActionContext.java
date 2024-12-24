@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public class ActionContext {
@@ -11,6 +12,7 @@ public class ActionContext {
     private Player player;
     private Block block;
     private Entity affectedEntity;
+    private ItemStack item;
 
     private ActionContext() {}
 
@@ -43,6 +45,15 @@ public class ActionContext {
 
     public @Nullable Entity getAffectedEntity() {
         return affectedEntity;
+    }
+
+    public ActionContext withItem(@Nullable ItemStack item) {
+        this.item = item;
+        return this;
+    }
+
+    public @Nullable ItemStack getItem() {
+        return item;
     }
 
 }
