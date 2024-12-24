@@ -22,6 +22,9 @@ public class ExplodeActionType extends ActionType {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onExplodeEntity(EntityExplodeEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
         Entity entity = event.getEntity();
         Entity source = null;
 

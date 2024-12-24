@@ -17,6 +17,9 @@ public class BreakActionType extends ActionType {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onBreakBlock(BlockBreakEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
         fire(ActionContext.create()
                 .withPlayer(event.getPlayer())
                 .withBlock(event.getBlock())

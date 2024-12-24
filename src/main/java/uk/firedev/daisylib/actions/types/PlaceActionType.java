@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.actions.types;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.actions.ActionContext;
@@ -14,8 +15,11 @@ public class PlaceActionType extends ActionType {
         return "place";
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onBlockPlaced(BlockPlaceEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
         fire(ActionContext.create()
                 .withPlayer(event.getPlayer())
                 .withBlock(event.getBlock())
