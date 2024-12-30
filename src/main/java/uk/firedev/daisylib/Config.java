@@ -22,6 +22,7 @@ import java.util.logging.Level;
 
 public class Config {
 
+    private final boolean allowIO;
     private final String fileName;
     private final String resourceName;
     private final Plugin plugin;
@@ -37,6 +38,7 @@ public class Config {
      * @param configUpdater Should the config updater be used?
      */
     public Config(@NotNull String fileName, @NotNull String resourceName, @NotNull Plugin plugin, boolean configUpdater) {
+        this.allowIO = true;
         this.fileName = fileName;
         this.resourceName = resourceName;
         this.plugin = plugin;
@@ -45,7 +47,23 @@ public class Config {
         update();
     }
 
+    /**
+     * Creates an empty instance of the Config class.
+     * All I/O methods are disabled.
+     */
+    public Config(@NotNull Plugin plugin) throws IOException {
+        this.allowIO = false;
+        this.fileName = null;
+        this.resourceName = null;
+        this.plugin = plugin;
+        this.configUpdater = false;
+        this.config = YamlDocument.create(InputStream.nullInputStream());
+    }
+
     public void reload() {
+        if (!allowIO) {
+            return;
+        }
         // BoostedYAML handles the file creation for us
         File configFile = new File(getPlugin().getDataFolder(), getFileName());
 
@@ -114,6 +132,9 @@ public class Config {
     }
 
     public void save() {
+        if (!allowIO) {
+            return;
+        }
         try {
             getConfig().save();
         } catch (IOException exception) {
@@ -122,7 +143,7 @@ public class Config {
     }
 
     public void update() {
-        if (!configUpdater) {
+        if (!allowIO || !configUpdater) {
             return;
         }
         try {
