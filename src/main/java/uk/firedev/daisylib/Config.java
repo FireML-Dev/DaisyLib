@@ -43,7 +43,17 @@ public class Config {
         this.resourceName = resourceName;
         this.plugin = plugin;
         this.configUpdater = configUpdater;
-        reload();
+        reload(new File(getPlugin().getDataFolder(), getFileName()));
+        update();
+    }
+
+    public Config(@NotNull File file, @NotNull Plugin plugin, boolean configUpdater) {
+        this.allowIO = true;
+        this.fileName = file.getName();
+        this.resourceName = null;
+        this.plugin = plugin;
+        this.configUpdater = configUpdater;
+        reload(file);
         update();
     }
 
@@ -61,20 +71,25 @@ public class Config {
     }
 
     public void reload() {
+        if (!allowIO || this.file == null) {
+            return;
+        }
+        reload(this.file);
+    }
+
+    public void reload(@NotNull File file) {
         if (!allowIO) {
             return;
         }
-        // BoostedYAML handles the file creation for us
-        File configFile = new File(getPlugin().getDataFolder(), getFileName());
 
         try {
-            InputStream resource = getPlugin().getResource(getResourceName());
+            InputStream resource = getResourceName() == null ? null : getPlugin().getResource(getResourceName());
             if (resource == null) {
-                this.config = YamlDocument.create(configFile, getSettings());
+                this.config = YamlDocument.create(file, getSettings());
             } else {
-                this.config = YamlDocument.create(configFile, resource, getSettings());
+                this.config = YamlDocument.create(file, resource, getSettings());
             }
-            this.file = configFile;
+            this.file = file;
             if (configUpdater) {
                 this.config.update();
             }
