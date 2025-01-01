@@ -65,14 +65,14 @@ public class ItemBuilder {
 
         String display = section.getString("display");
         if (display != null) {
-            builder.withDisplay(ComponentMessage.fromString(display).getMessage(), displayReplacer);
+            builder = builder.withDisplay(ComponentMessage.fromString(display).getMessage(), displayReplacer);
         }
 
         List<Component> lore = section.getStringList("lore").stream()
                 .map(ComponentMessage::fromString)
                 .map(ComponentMessage::getMessage)
                 .toList();
-        builder.withLore(lore, loreReplacer);
+        builder = builder.withLore(lore, loreReplacer);
 
         List<ItemFlag> flags = section.getStringList("flags").stream()
                 .map(flagString -> {
@@ -84,10 +84,10 @@ public class ItemBuilder {
                 })
                 .filter(Objects::nonNull)
                 .toList();
-        builder.addFlags(flags);
+        builder = builder.addFlags(flags);
 
         List<String> stringEnchantments = section.getStringList("enchantments");
-        stringEnchantments.forEach(stringEnchantment -> {
+        for (String stringEnchantment : stringEnchantments) {
             // Split namespace and level
             String[] namespaceSplit = stringEnchantment.split(":");
             String namespace = namespaceSplit.length > 1 ? namespaceSplit[0] : "minecraft";
@@ -104,16 +104,16 @@ public class ItemBuilder {
             // Fetch the enchantment and put it into the map
             Enchantment enchantment = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(enchantKey);
             if (enchantment != null) {
-                builder.addEnchantment(enchantment, level);
+                builder = builder.addEnchantment(enchantment, level);
             }
-        });
+        }
 
-        builder.setUnbreakable(section.getBoolean("unbreakable"));
+        builder = builder.setUnbreakable(section.getBoolean("unbreakable"));
 
         int amount = section.getInt("amount", 1);
-        builder.withAmount(Math.max(1, amount));
+        builder = builder.withAmount(Math.max(1, amount));
 
-        builder.setGlowing(section.getBoolean("glowing"));
+        builder = builder.setGlowing(section.getBoolean("glowing"));
 
         return builder;
     }
