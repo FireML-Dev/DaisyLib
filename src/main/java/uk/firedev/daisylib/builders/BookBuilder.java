@@ -13,6 +13,7 @@ import uk.firedev.daisylib.message.string.StringReplacer;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class BookBuilder {
 
     private Component title = null;

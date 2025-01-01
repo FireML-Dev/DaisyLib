@@ -20,7 +20,6 @@ public class BlastFurnaceRecipe extends org.bukkit.inventory.BlastingRecipe impl
         this.key = key;
     }
 
-
     @Override
     public boolean isRegistered() {
         return this.registered;
@@ -35,4 +34,5 @@ public class BlastFurnaceRecipe extends org.bukkit.inventory.BlastingRecipe impl
     public NamespacedKey getNamespacedKey() {
         return key;
     }
+
 }

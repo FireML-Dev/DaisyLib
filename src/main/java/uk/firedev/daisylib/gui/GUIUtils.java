@@ -30,7 +30,7 @@ public class GUIUtils {
         return ItemBuilder.itemBuilder(materialName, defaultMaterial)
                 .withStringDisplay(display, null)
                 .withStringLore(lore, null)
-                .build();
+                .getItem();
     }
 
 }

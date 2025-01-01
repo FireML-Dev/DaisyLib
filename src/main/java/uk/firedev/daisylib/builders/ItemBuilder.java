@@ -21,25 +21,10 @@ import java.util.*;
 
 public class ItemBuilder {
 
-    private Material material;
-    private Component display = null;
-    private List<Component> lore = new ArrayList<>();
-    private Set<ItemFlag> flags = new HashSet<>();
-    private Map<Enchantment, Integer> enchantments = new HashMap<>();
-    private boolean unbreakable = false;
-    private int amount = 1;
-    private boolean glowing = false;
+    private @NotNull ItemStack item;
 
     private ItemBuilder(@NotNull Material material) {
-        this.material = material;
-    }
-
-    private ItemBuilder(@Nullable Material material, @NotNull Material defaultMaterial) {
-        this.material = Objects.requireNonNullElse(material, defaultMaterial);
-    }
-
-    private ItemBuilder(@NotNull String materialName, @NotNull Material defaultMaterial) {
-        this.material = ItemUtils.getMaterial(materialName, defaultMaterial);
+        this.item = ItemStack.of(material);
     }
 
     /**
@@ -76,14 +61,18 @@ public class ItemBuilder {
      * @param loreReplacer An optional replacer for the item's lore.
      */
     public static ItemBuilder itemBuilder(@NotNull Section section, @NotNull Material defaultMaterial, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
-        ItemBuilder builder = new ItemBuilder(ItemUtils.getMaterial(section.getString("material", defaultMaterial.toString()), defaultMaterial));
+        ItemBuilder builder = itemBuilder(section.getString("material", defaultMaterial.toString()), defaultMaterial);
 
         String display = section.getString("display");
         if (display != null) {
-            builder.display = ComponentMessage.fromString(display).applyReplacer(displayReplacer).getMessage();
+            builder.withDisplay(ComponentMessage.fromString(display).getMessage(), displayReplacer);
         }
 
-        builder.lore = section.getStringList("lore").stream().map(line -> ComponentMessage.fromString(line).applyReplacer(loreReplacer).getMessage()).toList();
+        List<Component> lore = section.getStringList("lore").stream()
+                .map(ComponentMessage::fromString)
+                .map(ComponentMessage::getMessage)
+                .toList();
+        builder.withLore(lore, loreReplacer);
 
         List<ItemFlag> flags = section.getStringList("flags").stream()
                 .map(flagString -> {
@@ -95,7 +84,7 @@ public class ItemBuilder {
                 })
                 .filter(Objects::nonNull)
                 .toList();
-        builder.flags.addAll(flags);
+        builder.addFlags(flags);
 
         List<String> stringEnchantments = section.getStringList("enchantments");
         stringEnchantments.forEach(stringEnchantment -> {
@@ -115,38 +104,35 @@ public class ItemBuilder {
             // Fetch the enchantment and put it into the map
             Enchantment enchantment = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(enchantKey);
             if (enchantment != null) {
-                builder.enchantments.put(enchantment, level);
+                builder.addEnchantment(enchantment, level);
             }
         });
 
-        builder.unbreakable = section.getBoolean("unbreakable");
+        builder.setUnbreakable(section.getBoolean("unbreakable"));
 
         int amount = section.getInt("amount", 1);
-        if (amount < 1) {
-            amount = 1;
-        }
-        builder.amount = amount;
+        builder.withAmount(Math.max(1, amount));
 
-        builder.glowing = section.getBoolean("glowing");
+        builder.setGlowing(section.getBoolean("glowing"));
 
         return builder;
     }
 
     public ItemBuilder withMaterial(@NotNull Material material) {
-        this.material = material;
+        this.item = this.item.withType(material);
         return this;
     }
 
     public ItemBuilder withMaterial(@NotNull String materialName, @NotNull Material defaultMaterial) {
-        this.material = ItemUtils.getMaterial(materialName, defaultMaterial);
-        return this;
+        return withMaterial(ItemUtils.getMaterial(materialName, defaultMaterial));
     }
 
     public ItemBuilder withDisplay(@NotNull Component display, @Nullable ComponentReplacer replacer) {
         if (replacer != null) {
             display = replacer.replace(display);
         }
-        this.display = display;
+        final Component finalDisplay = display;
+        this.item.editMeta(meta -> meta.displayName(finalDisplay));
         return this;
     }
 
@@ -154,15 +140,15 @@ public class ItemBuilder {
         if (replacer != null) {
             display = replacer.replace(display);
         }
-        this.display = ComponentMessage.fromString(display).getMessage();
-        return this;
+        return withDisplay(ComponentMessage.fromString(display).getMessage(), null);
     }
 
     public ItemBuilder withLore(@NotNull List<Component> lore, @Nullable ComponentReplacer replacer) {
         if (replacer != null) {
             lore = replacer.replace(lore);
         }
-        this.lore = lore;
+        final List<Component> finalLore = lore;
+        this.item.editMeta(meta -> meta.lore(finalLore));
         return this;
     }
 
@@ -170,15 +156,25 @@ public class ItemBuilder {
         if (replacer != null) {
             lore = replacer.replace(lore);
         }
-        this.lore = lore.stream().map(line -> ComponentMessage.fromString(line).getMessage()).toList();
-        return this;
+        return withLore(
+                lore.stream()
+                        .map(ComponentMessage::fromString)
+                        .map(ComponentMessage::getMessage)
+                        .toList(),
+                null
+        );
     }
 
     public ItemBuilder addLore(@NotNull Component line, @Nullable ComponentReplacer replacer) {
         if (replacer != null) {
             line = replacer.replace(line);
         }
-        this.lore.add(line);
+        final Component finalLine = line;
+        this.item.editMeta(meta -> {
+            List<Component> lore = Objects.requireNonNullElse(meta.lore(), new ArrayList<>());
+            lore.add(finalLine);
+            meta.lore(lore);
+        });
         return this;
     }
 
@@ -186,15 +182,14 @@ public class ItemBuilder {
         if (replacer != null) {
             line = replacer.replace(line);
         }
-        this.lore.add(ComponentMessage.fromString(line).getMessage());
-        return this;
+        return addLore(ComponentMessage.fromString(line).getMessage(), null);
     }
 
     public ItemBuilder addLore(@NotNull List<Component> lines, @Nullable ComponentReplacer replacer) {
         if (replacer != null) {
             lines = replacer.replace(lines);
         }
-        this.lore.addAll(lines);
+        lines.forEach(line -> addLore(line, null));
         return this;
     }
 
@@ -202,111 +197,101 @@ public class ItemBuilder {
         if (replacer != null) {
             lines = replacer.replace(lines);
         }
-        this.lore.addAll(lines.stream().map(line -> ComponentMessage.fromString(line).getMessage()).toList());
-        return this;
+        return addLore(
+                lines.stream()
+                        .map(ComponentMessage::fromString)
+                        .map(ComponentMessage::getMessage)
+                        .toList(),
+                null
+        );
     }
 
     public ItemBuilder addAllFlags() {
-        this.flags = Set.of(ItemFlag.values());
+        this.item.editMeta(meta -> meta.addItemFlags(ItemFlag.values()));
         return this;
     }
 
     public ItemBuilder removeAllFlags() {
-        this.flags.clear();
+        this.item.editMeta(meta -> meta.removeItemFlags(ItemFlag.values()));
         return this;
     }
 
     public ItemBuilder addFlag(@NotNull ItemFlag flag) {
-        this.flags.add(flag);
+        this.item.editMeta(meta -> meta.addItemFlags(flag));
         return this;
     }
 
     public ItemBuilder removeFlag(@NotNull ItemFlag flag) {
-        this.flags.remove(flag);
+        this.item.editMeta(meta -> meta.removeItemFlags(flag));
         return this;
     }
 
     public ItemBuilder addFlags(@NotNull List<ItemFlag> flags) {
-        this.flags.addAll(flags);
+        this.item.editMeta(meta -> meta.addItemFlags(flags.toArray(ItemFlag[]::new)));
         return this;
     }
 
     public ItemBuilder removeFlags(@NotNull List<ItemFlag> flags) {
-        flags.forEach(this.flags::remove);
+        this.item.editMeta(meta -> meta.removeItemFlags(flags.toArray(ItemFlag[]::new)));
         return this;
     }
 
     public ItemBuilder setEnchantments(@NotNull Map<Enchantment, Integer> enchantments) {
-        this.enchantments = enchantments;
+        this.item.removeEnchantments();
+        this.item.addUnsafeEnchantments(enchantments);
         return this;
     }
 
     public ItemBuilder removeAllEnchantments() {
-        this.enchantments.clear();
+        this.item.removeEnchantments();
         return this;
     }
 
     public ItemBuilder addEnchantment(@NotNull Enchantment enchantment, int level) {
-        this.enchantments.put(enchantment, level);
+        this.item.addEnchantment(enchantment, level);
         return this;
     }
 
     public ItemBuilder removeEnchantment(@NotNull Enchantment enchantment) {
-        this.enchantments.remove(enchantment);
+        this.item.removeEnchantment(enchantment);
         return this;
     }
 
     public ItemBuilder addEnchantments(@NotNull Map<Enchantment, Integer> enchantments) {
-        this.enchantments.putAll(enchantments);
+        this.item.addEnchantments(enchantments);
         return this;
     }
 
     public ItemBuilder removeEnchantments(@NotNull List<Enchantment> enchantments) {
-        enchantments.forEach(enchantment -> this.enchantments.remove(enchantment));
+        enchantments.forEach(this.item::removeEnchantment);
         return this;
     }
 
     public ItemBuilder setUnbreakable(boolean unbreakable) {
-        this.unbreakable = unbreakable;
+        this.item.editMeta(meta -> meta.setUnbreakable(unbreakable));
         return this;
     }
 
     public ItemBuilder setGlowing(boolean glowing) {
-        this.glowing = glowing;
+        this.item.editMeta(meta -> meta.setEnchantmentGlintOverride(glowing));
         return this;
     }
 
     public ItemBuilder withAmount(int amount) {
-        if (this.amount < 1) {
-            amount = 1;
-        }
-        this.amount = amount;
+        this.item.setAmount(Math.max(1, amount));
         return this;
     }
 
+    /**
+     * @deprecated Use {@link #getItem()} instead.
+     */
+    @Deprecated(forRemoval = true)
     public ItemStack build() {
-        if (this.material == null) {
-            return null;
-        }
-        ItemStack stack = ItemStack.of(this.material);
-        stack.editMeta(meta -> {
-            if (this.display != null) {
-                meta.displayName(this.display);
-            }
-            if (!this.lore.isEmpty()) {
-                meta.lore(this.lore);
-            }
-            if (!this.flags.isEmpty()) {
-                meta.addItemFlags(this.flags.toArray(ItemFlag[]::new));
-            }
-            if (!this.enchantments.isEmpty()) {
-                this.enchantments.forEach((enchantment, integer) -> meta.addEnchant(enchantment, integer, true));
-            }
-            meta.setEnchantmentGlintOverride(this.glowing);
-            meta.setUnbreakable(this.unbreakable);
-        });
-        stack.setAmount(this.amount);
-        return stack;
+        return this.item;
+    }
+
+    public @NotNull ItemStack getItem() {
+        return this.item;
     }
 
 }
