@@ -17,7 +17,7 @@ public interface RequirementType {
 
     /**
      * Checks if a player meets this requirement.
-     * @param player The player to check
+     * @param data The data to check against
      * @param value The value to check
      */
     boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> value);

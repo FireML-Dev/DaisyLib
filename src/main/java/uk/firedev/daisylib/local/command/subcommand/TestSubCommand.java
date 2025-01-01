@@ -18,7 +18,7 @@ public class TestSubCommand {
 
     private static CommandAPICommand command = null;
 
-    private TestSubCommand() {};
+    private TestSubCommand() {}
 
     public static CommandAPICommand getCommand() {
         if (command == null) {

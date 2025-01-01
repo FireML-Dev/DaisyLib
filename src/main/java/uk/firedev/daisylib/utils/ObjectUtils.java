@@ -165,7 +165,6 @@ public class ObjectUtils {
      * @param def The default value.
      * @return The provided index, or the default value.
      */
-    @SuppressWarnings("UnreachableCode")
     public static <T> T getOrDefault(@NotNull T[] array, int index, T def) {
         try {
             return array[index];

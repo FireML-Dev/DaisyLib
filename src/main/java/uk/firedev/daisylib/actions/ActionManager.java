@@ -31,6 +31,7 @@ public class ActionManager {
             return;
         }
         new BreakActionType().register(DaisyLib.getInstance());
+        loaded = true;
     }
 
     public boolean isLoaded() {

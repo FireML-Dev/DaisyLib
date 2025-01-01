@@ -28,7 +28,7 @@ public class StringMessage implements Message {
     }
 
     /**
-     * Required for the {@link #parsePAPI(OfflinePlayer)} method. Should not be used elsewhere unless absolutely necessary.
+     * Required for the {@link #parsePlaceholderAPI(OfflinePlayer)} method. Should not be used elsewhere unless absolutely necessary.
      * @return A Section LegacyComponentSerializer
      */
     public static LegacyComponentSerializer getLegacyComponentSerializer() {

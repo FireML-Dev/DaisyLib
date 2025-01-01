@@ -38,7 +38,6 @@ public final class DaisyLib extends JavaPlugin {
         reload();
         LibCommand.getCommand().register();
         loadManagers();
-        registerListeners();
         loadMetrics();
     }
 
@@ -56,8 +55,6 @@ public final class DaisyLib extends JavaPlugin {
     private void loadMetrics() {
         this.metrics = new Metrics(this, 24173);
     }
-
-    private void registerListeners() {}
 
     private void loadManagers() {
         VaultManager.getInstance().load();

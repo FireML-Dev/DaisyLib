@@ -3,7 +3,6 @@ package uk.firedev.daisylib.actions.types;
 import io.papermc.paper.event.entity.EntityDyeEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.entity.SheepDyeWoolEvent;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.actions.ActionContext;
 import uk.firedev.daisylib.actions.ActionType;

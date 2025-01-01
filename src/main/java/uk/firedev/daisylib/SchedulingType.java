@@ -14,9 +14,8 @@ public enum SchedulingType {
 
     /**
      * Runs a task based on the type.
-     *
      * @param runnable the task to be executed
-     * @param scheduler the task scheduler to use
+     * @param plugin the plugin to run the task
      */
     public void run(@NotNull Runnable runnable, @NotNull Plugin plugin) {
         switch (this) {
@@ -31,7 +30,8 @@ public enum SchedulingType {
      * If the type is {@link SchedulingType#NONE}, the delay will be ignored.
      *
      * @param runnable the task to be executed
-     * @param scheduler the task scheduler to use
+     * @param plugin the plugin to run the task
+     * @param tickDelay the delay in ticks
      */
     public void runDelayed(@NotNull Runnable runnable, @NotNull Plugin plugin, long tickDelay) {
         switch (this) {

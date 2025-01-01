@@ -1,6 +1,5 @@
 package uk.firedev.daisylib.actions;
 
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;

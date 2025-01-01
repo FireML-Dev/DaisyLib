@@ -124,7 +124,7 @@ public class VaultManager {
             return false;
         }
         economy = rsp.getProvider();
-        return economy != null;
+        return true;
     }
 
     private boolean setupPermissions() {
@@ -136,7 +136,7 @@ public class VaultManager {
             return false;
         }
         permission = rsp.getProvider();
-        return permission != null;
+        return true;
     }
 
     private boolean setupChat() {
@@ -148,7 +148,7 @@ public class VaultManager {
             return false;
         }
         chat = rsp.getProvider();
-        return chat != null;
+        return true;
     }
 
 }

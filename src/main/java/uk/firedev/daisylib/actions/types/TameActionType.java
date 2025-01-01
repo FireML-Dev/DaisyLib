@@ -1,6 +1,5 @@
 package uk.firedev.daisylib.actions.types;
 
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
