@@ -6,7 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.api.builders.ItemBuilder;
+import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.api.message.string.StringMessage;

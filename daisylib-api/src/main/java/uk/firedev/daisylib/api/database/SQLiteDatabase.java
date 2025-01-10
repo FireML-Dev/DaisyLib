@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.database;
+package uk.firedev.daisylib.api.database;
 
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;

@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.api.builders;
+package uk.firedev.daisylib.builders;
 
 import dev.dejvokep.boostedyaml.block.implementation.Section;
 import io.papermc.paper.registry.RegistryAccess;

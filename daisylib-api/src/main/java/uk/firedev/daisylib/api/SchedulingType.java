@@ -1,4 +1,4 @@
-package uk.firedev.daisylib;
+package uk.firedev.daisylib.api;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
