@@ -1,5 +1,8 @@
 rootProject.name = "DaisyLib"
 
+include(":daisylib-api")
+include(":daisylib-plugin")
+
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
