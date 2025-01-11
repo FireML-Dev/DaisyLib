@@ -93,18 +93,23 @@ publishing {
             artifactId = rootProject.name
             version = project.version.toString()
 
-            from(components["java"])
+            from(components["shadow"])
         }
     }
 }
 
 tasks {
+    jar {
+        doLast {
+            val jarFile = archiveFile.get().asFile
+            jarFile.delete()
+        }
+    }
     build {
         dependsOn(shadowJar)
     }
     shadowJar {
-
-        archiveBaseName.set(project.name)
+        archiveBaseName.set(rootProject.name)
         archiveVersion.set(project.version.toString())
         archiveClassifier.set("")
 
