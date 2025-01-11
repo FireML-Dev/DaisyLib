@@ -64,6 +64,10 @@ paper {
             required = false
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
+        register("MiniPlaceholders") {
+            required = false
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
     }
 }
 
