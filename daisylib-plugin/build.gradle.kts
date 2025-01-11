@@ -44,7 +44,7 @@ description = "A collection of classes for easier use of Paper's API"
 java.sourceCompatibility = JavaVersion.VERSION_21
 
 paper {
-    name = project.name
+    name = rootProject.name
     version = project.version.toString()
     main = "uk.firedev.daisylib.local.DaisyLib"
     apiVersion = "1.21"
