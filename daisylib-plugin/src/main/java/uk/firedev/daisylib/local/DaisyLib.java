@@ -64,9 +64,5 @@ public final class DaisyLib extends JavaPlugin {
     }
 
     public static DaisyLib getInstance() { return instance; }
-    
-    public boolean isPluginEnabled(@NotNull String pluginName) {
-        return getServer().getPluginManager().isPluginEnabled(pluginName);
-    }
 
 }
