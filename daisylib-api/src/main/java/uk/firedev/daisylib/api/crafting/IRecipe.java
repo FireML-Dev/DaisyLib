@@ -1,8 +1,9 @@
-package uk.firedev.daisylib.crafting;
+package uk.firedev.daisylib.api.crafting;
 
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.plugin.Plugin;
 
 public interface IRecipe extends Recipe {
 
@@ -46,5 +47,7 @@ public interface IRecipe extends Recipe {
     void setRegistered(boolean registered);
 
     NamespacedKey getNamespacedKey();
+
+    Plugin getPlugin();
 
 }

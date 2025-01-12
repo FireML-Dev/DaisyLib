@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.crafting;
+package uk.firedev.daisylib.api.crafting;
 
 import io.papermc.paper.event.server.ServerResourcesReloadedEvent;
 import org.bukkit.Bukkit;
@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.api.utils.ItemUtils;
 
 import java.util.ArrayList;
@@ -19,10 +18,12 @@ public class RecipeUtil implements Listener {
 
     private static RecipeUtil instance;
 
-    private List<IRecipe> recipeList = new ArrayList<>();
+    private final List<IRecipe> recipeList;
     private boolean isListenerRegistered = false;
 
-    private RecipeUtil() {}
+    private RecipeUtil() {
+        recipeList = new ArrayList<>();
+    }
 
     public static RecipeUtil getInstance() {
         if (instance == null) {
@@ -42,11 +43,9 @@ public class RecipeUtil implements Listener {
 
     public void addRecipe(@NotNull IRecipe recipe) {
         if (!isListenerRegistered) {
-            Bukkit.getPluginManager().registerEvents(this, DaisyLib.getInstance());
+            // We use the recipe's plugin here, it shouldn't matter too much.
+            Bukkit.getPluginManager().registerEvents(this, recipe.getPlugin());
             isListenerRegistered = true;
-        }
-        if (recipeList == null) {
-            recipeList = new ArrayList<>();
         }
         if (recipeList.contains(recipe)) {
             return;
@@ -55,9 +54,6 @@ public class RecipeUtil implements Listener {
     }
 
     public void removeRecipe(@NotNull IRecipe recipe) {
-        if (recipeList == null) {
-            recipeList = new ArrayList<>();
-        }
         recipeList.remove(recipe);
     }
 
