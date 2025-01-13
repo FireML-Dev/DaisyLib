@@ -1,11 +1,12 @@
 package uk.firedev.daisylib.local.command;
 
-import dev.jorel.commandapi.CommandAPICommand;
+import dev.jorel.commandapi.CommandTree;
+import dev.jorel.commandapi.arguments.Argument;
+import dev.jorel.commandapi.arguments.LiteralArgument;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.local.command.subcommand.TestSubCommand;
 import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
@@ -18,34 +19,36 @@ import java.util.List;
 
 public class LibCommand {
 
-    private static CommandAPICommand command = null;
+    private static CommandTree command = null;
 
     private LibCommand() {}
 
-    public static CommandAPICommand getCommand() {
+    public static CommandTree getCommand() {
         if (command == null) {
-            command = new CommandAPICommand("daisylib")
+            command = new CommandTree("daisylib")
                     .withPermission("daisylib.command")
                     .withFullDescription("Manage the plugin")
                     .withShortDescription("Manage the plugin")
-                    .withSubcommands(getReloadCommand(), getRewardTypesCommand(), getRequirementTypesCommand(), TestSubCommand.getCommand())
                     .executes((sender, args) -> {
                         MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender);
-                    });
+                    })
+                    .then(getReloadBranch())
+                    .then(getRewardTypesBranch())
+                    .then(getRequirementTypesBranch());
         }
         return command;
     }
 
-    private static CommandAPICommand getReloadCommand() {
-        return new CommandAPICommand("reload")
+    private static Argument<String> getReloadBranch() {
+        return new LiteralArgument("reload")
                 .executes(((sender, arguments) -> {
                     DaisyLib.getInstance().reload();
                     MessageConfig.getInstance().getReloadedMessage().sendMessage(sender);
                 }));
     }
 
-    private static CommandAPICommand getRewardTypesCommand() {
-        return new CommandAPICommand("rewardTypes")
+    private static Argument<String> getRewardTypesBranch() {
+        return new LiteralArgument("rewardTypes")
                 .executes((sender, arguments) -> {
                     List<RewardType> registeredTypes = RewardManager.getInstance().getRegisteredRewardTypes();
                     if (registeredTypes.isEmpty()) {
@@ -73,8 +76,8 @@ public class LibCommand {
         return ComponentReplacer.componentReplacer("list", builder.build());
     }
 
-    private static CommandAPICommand getRequirementTypesCommand() {
-        return new CommandAPICommand("requirementTypes")
+    private static Argument<String> getRequirementTypesBranch() {
+        return new LiteralArgument("requirementTypes")
                 .executes((sender, arguments) -> {
                     List<RequirementType> registeredTypes = RequirementManager.getInstance().getRegisteredRequirementTypes();
                     if (registeredTypes.isEmpty()) {
