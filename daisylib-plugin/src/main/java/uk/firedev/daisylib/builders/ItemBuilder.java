@@ -248,7 +248,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addEnchantment(@NotNull Enchantment enchantment, int level) {
-        this.item.addEnchantment(enchantment, level);
+        this.item.addUnsafeEnchantment(enchantment, level);
         return this;
     }
 
@@ -258,7 +258,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addEnchantments(@NotNull Map<Enchantment, Integer> enchantments) {
-        this.item.addEnchantments(enchantments);
+        this.item.addUnsafeEnchantments(enchantments);
         return this;
     }
 
