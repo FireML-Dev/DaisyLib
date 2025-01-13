@@ -50,7 +50,6 @@ public class PlaceholderProvider {
             return;
         }
         new PAPIWrapper(plugin, globalPlaceholderMap, audiencePlaceholderMap).register();
-        System.out.println("Registered PAPI");
     }
 
     public void registerMiniPlaceholders() {
@@ -77,7 +76,6 @@ public class PlaceholderProvider {
         }
         // Register this expansion
         builder.build().register();
-        System.out.println("Registered MiniPlaceholders");
     }
 
 }
