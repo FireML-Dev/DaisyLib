@@ -4,6 +4,7 @@ import dev.jorel.commandapi.CommandTree;
 import dev.jorel.commandapi.arguments.Argument;
 import dev.jorel.commandapi.arguments.LiteralArgument;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
 import uk.firedev.daisylib.local.DaisyLib;
@@ -15,6 +16,8 @@ import uk.firedev.daisylib.requirement.RequirementType;
 import uk.firedev.daisylib.reward.RewardManager;
 import uk.firedev.daisylib.reward.RewardType;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class LibCommand {
@@ -62,18 +65,28 @@ public class LibCommand {
     }
 
     private static ComponentReplacer getRewardTypeListReplacer(List<RewardType> types) {
-        TextComponent.Builder builder = Component.text();
-        types.forEach(rewardType -> {
-            Component identifier = ComponentMessage.fromString(rewardType.getIdentifier()).getMessage();
-            identifier = identifier.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    ComponentMessage.fromString(
-                            "<white>Author: " + rewardType.getAuthor() + "\n" +
-                            "<white>Registered Plugin: " + rewardType.getPlugin().getName()
-                    ).getMessage()
-            ));
-            builder.append(identifier, Component.text(", "));
-        });
-        return ComponentReplacer.componentReplacer("list", builder.build());
+
+        // Gather all reward types in their intended format
+        List<Component> typeComponents = types.stream()
+                .map(rewardType -> {
+                    Component identifier = ComponentMessage.fromString(rewardType.getIdentifier()).getMessage();
+                    identifier = identifier.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
+                            ComponentMessage.fromString(
+                                    "<white>Author: " + rewardType.getAuthor() + "\n" +
+                                            "<white>Registered Plugin: " + rewardType.getPlugin().getName()
+                            ).getMessage()
+                    ));
+                    return identifier;
+                })
+                .toList();
+
+        // Join the formatted types together with a comma
+        Component joined = Component.join(
+                JoinConfiguration.commas(true),
+                typeComponents
+        );
+
+        return ComponentReplacer.componentReplacer("list", joined);
     }
 
     private static Argument<String> getRequirementTypesBranch() {
@@ -91,18 +104,28 @@ public class LibCommand {
     }
 
     private static ComponentReplacer getRequirementTypeListReplacer(List<RequirementType> types) {
-        TextComponent.Builder builder = Component.text();
-        types.forEach(rewardType -> {
-            Component identifier = ComponentMessage.fromString(rewardType.getIdentifier()).getMessage();
-            identifier = identifier.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    ComponentMessage.fromString(
-                            "<white>Author: " + rewardType.getAuthor() + "\n" +
-                                    "<white>Registered Plugin: " + rewardType.getPlugin().getName()
-                    ).getMessage()
-            ));
-            builder.append(identifier, Component.text(", "));
-        });
-        return ComponentReplacer.componentReplacer("list", builder.build());
+
+        // Gather all requirement types in their intended format
+        List<Component> typeComponents = types.stream()
+                .map(requirementType -> {
+                    Component identifier = ComponentMessage.fromString(requirementType.getIdentifier()).getMessage();
+                    identifier = identifier.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
+                            ComponentMessage.fromString(
+                                    "<white>Author: " + requirementType.getAuthor() + "\n" +
+                                            "<white>Registered Plugin: " + requirementType.getPlugin().getName()
+                            ).getMessage()
+                    ));
+                    return identifier;
+                })
+                .toList();
+
+        // Join the formatted types together with a comma
+        Component joined = Component.join(
+                JoinConfiguration.commas(true),
+                typeComponents
+        );
+
+        return ComponentReplacer.componentReplacer("list", joined);
     }
 
 }
