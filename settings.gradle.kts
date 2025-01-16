@@ -12,7 +12,7 @@ dependencyResolutionManagement {
             library("inventorygui", "de.themoep:inventorygui:1.6.4-SNAPSHOT")
 
             library("placeholderapi", "me.clip:placeholderapi:2.11.6")
-            library("vault", "com.github.MilkBowl:VaultAPI:1.7.1")
+            library("vault", "com.github.MilkBowl:VaultAPI:1.7")
             library("commandapi", "dev.jorel:commandapi-bukkit-shade:9.7.0")
             library("vanishchecker", "uk.firedev:VanishChecker:1.0.4")
             library("miniplaceholders", "io.github.miniplaceholders:miniplaceholders-api:2.2.3")
