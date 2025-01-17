@@ -29,35 +29,64 @@ public class PlaceholderProvider {
         this.plugin = plugin;
     }
 
+    /**
+     * Creates a new PlaceholderProvider for the provided plugin.
+     */
     public static PlaceholderProvider create(@NotNull Plugin plugin) {
         return new PlaceholderProvider(plugin);
     }
 
+    /**
+     * Adds a new global placeholder.
+     * @param placeholder The placeholder itself.
+     * @param supplier A supplier for the placeholder's replacement
+     */
     public PlaceholderProvider addGlobalPlaceholder(@NotNull String placeholder, @NotNull Supplier<Component> supplier) {
         this.globalPlaceholderMap.putIfAbsent(placeholder.toLowerCase(), supplier);
         return this;
     }
 
+    /**
+     * Adds a new dynamic global placeholder.
+     * @param placeholder The placeholder itself, before the dynamic part.
+     * @param function A function that uses the dynamic value to get the placeholder's replacement.
+     */
     public PlaceholderProvider addGlobalDynamicPlaceholder(@NotNull String placeholder, @NotNull Function<String, Component> function) {
         this.globalDynamicPlaceholderMap.putIfAbsent(placeholder, function);
         return this;
     }
 
+    /**
+     * Adds a new audience placeholder.
+     * @param placeholder The placeholder itself.
+     * @param function A function that uses the found audience to get the placeholder's replacement.
+     */
     public PlaceholderProvider addAudiencePlaceholder(@NotNull String placeholder, @NotNull Function<Audience, Component> function) {
         this.audiencePlaceholderMap.putIfAbsent(placeholder.toLowerCase(), function);
         return this;
     }
 
+    /**
+     * Adds a new dynamic audience placeholder.
+     * @param placeholder The placeholder itself, before the dynamic part.
+     * @param function A function that uses the found audience and the dynamic value to get the placeholder's replacement.
+     */
     public PlaceholderProvider addAudienceDynamicPlaceholder(@NotNull String placeholder, @NotNull BiFunction<Audience, String, Component> function) {
         this.audienceDynamicPlaceholderMap.putIfAbsent(placeholder.toLowerCase(), function);
         return this;
     }
 
+    /**
+     * Registers this provider with PlaceholderAPI and MiniPlaceholders
+     */
     public void register() {
         registerPlaceholderAPI();
         registerMiniPlaceholders();
     }
 
+    /**
+     * Registers this provider with PlaceholderAPI
+     */
     public void registerPlaceholderAPI() {
         if (!plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             return;
@@ -65,6 +94,9 @@ public class PlaceholderProvider {
         new PAPIWrapper(plugin, globalPlaceholderMap, globalDynamicPlaceholderMap, audiencePlaceholderMap, audienceDynamicPlaceholderMap).register();
     }
 
+    /**
+     * Registers this provider with MiniPlaceholders
+     */
     public void registerMiniPlaceholders() {
         if (!plugin.getServer().getPluginManager().isPluginEnabled("MiniPlaceholders")) {
             return;
