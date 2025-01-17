@@ -14,10 +14,12 @@ import java.util.function.Function;
 public class ArgumentBuilder {
 
     public static Argument<String> getAsyncStringsArgument(@NotNull String name, @NotNull Function<SuggestionInfo<CommandSender>, String[]> function) {
-        return new StringArgument(name).includeSuggestions(
-                ArgumentSuggestions.stringsAsync(
-                        info -> CompletableFuture.supplyAsync(() -> function.apply(info))
-                )
+        return new StringArgument(name).includeSuggestions(getAsyncSuggestions(function));
+    }
+
+    public static ArgumentSuggestions<CommandSender> getAsyncSuggestions(@NotNull Function<SuggestionInfo<CommandSender>, String[]> function) {
+        return ArgumentSuggestions.stringsAsync(
+                info -> CompletableFuture.supplyAsync(() -> function.apply(info))
         );
     }
 
