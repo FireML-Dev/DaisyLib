@@ -44,7 +44,7 @@ public final class DaisyLib extends JavaPlugin {
 
         // Testing dynamic.
         PlaceholderProvider.create(this)
-                .addGlobalDynamicPlaceholder("daisylib_test", value -> {
+                .addGlobalDynamicPlaceholder("test", value -> {
                     if (value.equalsIgnoreCase("cools")) {
                         return Component.text("matched :)");
                     }
