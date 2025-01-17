@@ -2,12 +2,15 @@ package uk.firedev.daisylib.local;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
+import net.kyori.adventure.text.Component;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.actions.ActionManager;
+import uk.firedev.daisylib.api.placeholders.PlaceholderProvider;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
 import uk.firedev.daisylib.local.command.LibCommand;
 import uk.firedev.daisylib.local.config.ExampleConfig;
@@ -39,6 +42,22 @@ public final class DaisyLib extends JavaPlugin {
         LibCommand.getCommand().register();
         loadManagers();
         loadMetrics();
+
+        // Testing dynamic.
+        PlaceholderProvider.create(this)
+                .addGlobalDynamicPlaceholder("test", value -> {
+                    if (value.equalsIgnoreCase("cools")) {
+                        return Component.text("matched :)");
+                    }
+                    return Component.text("did not match :(");
+                })
+                .addAudienceDynamicPlaceholder("audience", (audience, value) -> {
+                    if (!(audience instanceof Player player)) {
+                        return Component.text("No player");
+                    }
+                    return Component.text("Dynamic matches name? " + value.equals(player.getName()));
+                })
+                .register();
     }
 
     @Override
