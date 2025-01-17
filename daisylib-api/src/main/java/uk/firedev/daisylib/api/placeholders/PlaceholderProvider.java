@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -22,6 +23,7 @@ public class PlaceholderProvider {
     private final Map<String, Supplier<Component>> globalPlaceholderMap = new HashMap<>();
     private final Map<String, Function<String, Component>> globalDynamicPlaceholderMap = new HashMap<>();
     private final Map<String, Function<Audience, Component>> audiencePlaceholderMap = new HashMap<>();
+    private final Map<String, BiFunction<Audience, String, Component>> audienceDynamicPlaceholderMap = new HashMap<>();
 
     private PlaceholderProvider(@NotNull Plugin plugin) {
         this.plugin = plugin;
@@ -46,6 +48,11 @@ public class PlaceholderProvider {
         return this;
     }
 
+    public PlaceholderProvider addAudienceDynamicPlaceholder(@NotNull String placeholder, @NotNull BiFunction<Audience, String, Component> function) {
+        this.audienceDynamicPlaceholderMap.putIfAbsent(placeholder.toLowerCase(), function);
+        return this;
+    }
+
     public void register() {
         registerPlaceholderAPI();
         registerMiniPlaceholders();
@@ -55,7 +62,7 @@ public class PlaceholderProvider {
         if (!plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             return;
         }
-        new PAPIWrapper(plugin, globalPlaceholderMap, globalDynamicPlaceholderMap, audiencePlaceholderMap).register();
+        new PAPIWrapper(plugin, globalPlaceholderMap, globalDynamicPlaceholderMap, audiencePlaceholderMap, audienceDynamicPlaceholderMap).register();
     }
 
     public void registerMiniPlaceholders() {
@@ -88,6 +95,16 @@ public class PlaceholderProvider {
             builder = builder.globalPlaceholder(placeholder, (queue, ctx) -> {
                 String value = queue.popOr("Needed thing").value();
                 return Tag.selfClosingInserting(function.apply(value));
+            });
+        }
+
+        // Add dynamic audience placeholders
+        for (Map.Entry<String, BiFunction<Audience, String, Component>> entry : audienceDynamicPlaceholderMap.entrySet()) {
+            String placeholder = entry.getKey();
+            BiFunction<Audience, String, Component> function = entry.getValue();
+            builder = builder.audiencePlaceholder(placeholder, (audience, queue, ctx) -> {
+                String value = queue.popOr("Needed thing").value();
+                return Tag.selfClosingInserting(function.apply(audience, value));
             });
         }
 

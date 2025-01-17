@@ -5,6 +5,7 @@ import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import net.kyori.adventure.text.Component;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
@@ -49,6 +50,12 @@ public final class DaisyLib extends JavaPlugin {
                         return Component.text("matched :)");
                     }
                     return Component.text("did not match :(");
+                })
+                .addAudienceDynamicPlaceholder("audience", (audience, value) -> {
+                    if (!(audience instanceof Player player)) {
+                        return Component.text("No player");
+                    }
+                    return Component.text("Dynamic matches name? " + value.equals(player.getName()));
                 })
                 .register();
     }
