@@ -20,6 +20,7 @@ public class PlaceholderProvider {
 
     private final Plugin plugin;
     private final Map<String, Supplier<Component>> globalPlaceholderMap = new HashMap<>();
+    private final Map<String, Function<String, Component>> globalDynamicPlaceholderMap = new HashMap<>();
     private final Map<String, Function<Audience, Component>> audiencePlaceholderMap = new HashMap<>();
 
     private PlaceholderProvider(@NotNull Plugin plugin) {
@@ -32,6 +33,11 @@ public class PlaceholderProvider {
 
     public PlaceholderProvider addGlobalPlaceholder(@NotNull String placeholder, @NotNull Supplier<Component> supplier) {
         this.globalPlaceholderMap.putIfAbsent(placeholder.toLowerCase(), supplier);
+        return this;
+    }
+
+    public PlaceholderProvider addGlobalDynamicPlaceholder(@NotNull String placeholder, @NotNull Function<String, Component> function) {
+        this.globalDynamicPlaceholderMap.putIfAbsent(placeholder, function);
         return this;
     }
 
@@ -49,7 +55,7 @@ public class PlaceholderProvider {
         if (!plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             return;
         }
-        new PAPIWrapper(plugin, globalPlaceholderMap, audiencePlaceholderMap).register();
+        new PAPIWrapper(plugin, globalPlaceholderMap, globalDynamicPlaceholderMap, audiencePlaceholderMap).register();
     }
 
     public void registerMiniPlaceholders() {
@@ -74,6 +80,17 @@ public class PlaceholderProvider {
             builder = builder.audiencePlaceholder(placeholder, (audience, argumentQueue, context) ->
                     Tag.selfClosingInserting(value.apply(audience)));
         }
+
+        // Add dynamic global placeholders
+        for (Map.Entry<String, Function<String, Component>> entry : globalDynamicPlaceholderMap.entrySet()) {
+            String placeholder = entry.getKey();
+            Function<String, Component> function = entry.getValue();
+            builder = builder.globalPlaceholder(placeholder, (queue, ctx) -> {
+                String value = queue.popOr("Needed thing").value();
+                return Tag.selfClosingInserting(function.apply(value));
+            });
+        }
+
         // Register this expansion
         builder.build().register();
     }
