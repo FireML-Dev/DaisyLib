@@ -2,6 +2,8 @@ package uk.firedev.daisylib.api.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,6 +43,15 @@ public class PlayerHelper {
             return false;
         }
         return offlinePlayer.hasPlayedBefore() || offlinePlayer.isOnline();
+    }
+
+    /**
+     * Gets the block the provided player is standing on.
+     * @param player The player to check.
+     * @return The block this player is standing on.
+     */
+    public static @NotNull Block getPlayerStandingOn(@NotNull Player player) {
+        return player.getLocation().clone().subtract(0, 0.05, 0).getBlock();
     }
 
 }
