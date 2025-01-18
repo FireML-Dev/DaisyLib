@@ -8,9 +8,6 @@ dependencyResolutionManagement {
         create("libs") {
             library("paper-api", "io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
 
-            // Requires the remapping shenanigans to work - Compiled against an old Spigot version.
-            library("inventorygui", "de.themoep:inventorygui:1.6.4-SNAPSHOT")
-
             library("placeholderapi", "me.clip:placeholderapi:2.11.6")
             library("vault", "com.github.MilkBowl:VaultAPI:1.7")
             library("commandapi", "dev.jorel:commandapi-bukkit-shade:9.7.0")
@@ -18,6 +15,7 @@ dependencyResolutionManagement {
             library("miniplaceholders", "io.github.miniplaceholders:miniplaceholders-api:2.2.3")
             library("boostedyaml", "dev.dejvokep:boosted-yaml:1.3.7")
             library("bstats", "org.bstats:bstats-bukkit:3.1.0")
+            library("inventorygui", "uk.firedev:inventorygui:1.6.4-1.21.4-SNAPSHOT")
             // TODO update this to 2.0.1 after my PR is merged
             library("anvilgui", "de.md5lukas:anvilgui:2.0.0")
 

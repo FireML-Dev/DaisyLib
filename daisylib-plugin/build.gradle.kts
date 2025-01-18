@@ -128,10 +128,6 @@ tasks {
 
         // Utils Package
         relocate("uk.firedev.vanishchecker", "uk.firedev.daisylib.utils.vanishchecker")
-
-        manifest {
-            attributes["paperweight-mappings-namespace"] = "spigot"
-        }
     }
     withType<JavaCompile> {
         options.encoding = "UTF-8"
