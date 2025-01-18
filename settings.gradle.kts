@@ -10,7 +10,7 @@ dependencyResolutionManagement {
 
             library("placeholderapi", "me.clip:placeholderapi:2.11.6")
             library("vault", "com.github.MilkBowl:VaultAPI:1.7")
-            library("commandapi", "dev.jorel:commandapi-bukkit-shade:9.7.0")
+            library("commandapi", "dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.7.0")
             library("vanishchecker", "uk.firedev:VanishChecker:1.0.4")
             library("miniplaceholders", "io.github.miniplaceholders:miniplaceholders-api:2.2.3")
             library("boostedyaml", "dev.dejvokep:boosted-yaml:1.3.7")
