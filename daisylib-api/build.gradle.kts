@@ -24,7 +24,9 @@ repositories {
 dependencies {
     compileOnly(libs.paper.api)
     compileOnly(libs.placeholderapi)
-    compileOnly(libs.vault)
+    compileOnly(libs.vault) {
+        exclude("*", "*")
+    }
     compileOnly(libs.miniplaceholders)
     compileOnly(libs.boostedyaml)
 }
