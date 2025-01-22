@@ -33,8 +33,8 @@ public class VaultManager {
      * Gets the Economy service, or throws a RuntimeException
      * @return the Economy service
      */
-    public static @NotNull Economy getEconomyOrThrow(@Nullable String throwMessage) {
-        if (economy == null) {
+    public @NotNull Economy getEconomyOrThrow(@Nullable String throwMessage) {
+        if (!loaded || economy == null) {
             throw new RuntimeException(throwMessage == null ? "Failed to fetch Vault Economy!" : throwMessage);
         }
         return economy;
@@ -44,7 +44,10 @@ public class VaultManager {
      * Gets the Economy service if available.
      * @return the Economy service, or null if not available.
      */
-    public static @Nullable Economy getEconomy() {
+    public @Nullable Economy getEconomy() {
+        if (!loaded) {
+            return null;
+        }
         return economy;
     }
 
@@ -52,8 +55,8 @@ public class VaultManager {
      * Gets the Permissions service, or throws a RuntimeException
      * @return the Permissions service
      */
-    public static @NotNull Permission getPermissionOrThrow(@Nullable String throwMessage) {
-        if (permission == null) {
+    public @NotNull Permission getPermissionOrThrow(@Nullable String throwMessage) {
+        if (!loaded || permission == null) {
             throw new RuntimeException(throwMessage == null ? "Failed to fetch Vault Permissions!" : throwMessage);
         }
         return permission;
@@ -63,7 +66,10 @@ public class VaultManager {
      * Gets the Permissions service if available.
      * @return the Permissions service, or null if not available.
      */
-    public static @Nullable Permission getPermissions() {
+    public @Nullable Permission getPermissions() {
+        if (!loaded) {
+            return null;
+        }
         return permission;
     }
 
@@ -71,8 +77,8 @@ public class VaultManager {
      * Gets the Chat service, or throws a RuntimeException
      * @return the Chat service
      */
-    public static @NotNull Chat getChatOrThrow(@Nullable String throwMessage) {
-        if (chat == null) {
+    public @NotNull Chat getChatOrThrow(@Nullable String throwMessage) {
+        if (!loaded || chat == null) {
             throw new RuntimeException(throwMessage == null ? "Failed to fetch Vault Chat!" : throwMessage);
         }
         return chat;
@@ -82,7 +88,10 @@ public class VaultManager {
      * Gets the Chat service if available.
      * @return the Chat service, or null if not available.
      */
-    public static @Nullable Chat getChat() {
+    public @Nullable Chat getChat() {
+        if (!loaded) {
+            return null;
+        }
         return chat;
     }
 

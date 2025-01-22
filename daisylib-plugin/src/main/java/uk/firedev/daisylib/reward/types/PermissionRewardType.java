@@ -13,10 +13,10 @@ public class PermissionRewardType implements RewardType {
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
         
-        if (VaultManager.getPermissions() == null) {
+        if (VaultManager.getInstance().getPermissions() == null) {
             Loggers.warn(getComponentLogger(), "DaisyLib's VaultManager is not enabled! Enable to use RewardType " + getIdentifier());
         } else {
-            VaultManager.getPermissions().playerAdd(null, player, value);
+            VaultManager.getInstance().getPermissions().playerAdd(null, player, value);
         }
     }
 

@@ -18,7 +18,7 @@ public class MoneyRequirement implements RequirementType {
          if (data.getPlayer() == null) {
              return false;
          }
-        if (VaultManager.getEconomy() == null) {
+        if (VaultManager.getInstance().getEconomy() == null) {
             Loggers.warn(getComponentLogger(), "Vault economy not found! Please enable one to use the " + getIdentifier() + " requirement.");
             return false;
         }
@@ -29,7 +29,7 @@ public class MoneyRequirement implements RequirementType {
                 continue;
             }
             amount = Double.parseDouble(value);
-            if (VaultManager.getEconomy().has(data.getPlayer(), amount)) {
+            if (VaultManager.getInstance().getEconomy().has(data.getPlayer(), amount)) {
                 return true;
             }
         }

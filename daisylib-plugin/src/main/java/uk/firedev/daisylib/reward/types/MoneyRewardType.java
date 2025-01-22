@@ -22,10 +22,10 @@ public class MoneyRewardType implements RewardType {
         if (amount < 0) {
             amount = 0.0D;
         }
-        if (VaultManager.getEconomy() == null) {
+        if (VaultManager.getInstance().getEconomy() == null) {
             Loggers.warn(getComponentLogger(), "DaisyLib's VaultManager is not enabled! Enable to use RewardType " + getIdentifier());
         } else {
-            VaultManager.getEconomy().depositPlayer(player, amount);
+            VaultManager.getInstance().getEconomy().depositPlayer(player, amount);
         }
     }
 
