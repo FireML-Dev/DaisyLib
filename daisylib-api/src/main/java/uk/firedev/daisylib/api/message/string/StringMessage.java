@@ -1,6 +1,5 @@
 package uk.firedev.daisylib.api.message.string;
 
-import dev.dejvokep.boostedyaml.YamlDocument;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -8,6 +7,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
@@ -63,7 +63,7 @@ public class StringMessage implements Message {
         return componentMessage.toStringMessage();
     }
 
-    public static StringMessage fromConfig(@NotNull YamlDocument config, @NotNull String path, @NotNull String def) {
+    public static StringMessage fromConfig(@NotNull YamlConfiguration config, @NotNull String path, @NotNull String def) {
         String message;
         if (config.isList(path)) {
             message = String.join("\n", config.getStringList(path));

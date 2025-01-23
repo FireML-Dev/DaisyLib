@@ -1,11 +1,11 @@
 package uk.firedev.daisylib.builders;
 
-import dev.dejvokep.boostedyaml.block.implementation.Section;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -60,7 +60,7 @@ public class ItemBuilder {
      * @param displayReplacer An optional replacer for the item's display name.
      * @param loreReplacer An optional replacer for the item's lore.
      */
-    public static ItemBuilder itemBuilder(@NotNull Section section, @NotNull Material defaultMaterial, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
+    public static ItemBuilder itemBuilder(@NotNull ConfigurationSection section, @NotNull Material defaultMaterial, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
         ItemBuilder builder = itemBuilder(section.getString("material", defaultMaterial.toString()), defaultMaterial);
 
         String display = section.getString("display");
