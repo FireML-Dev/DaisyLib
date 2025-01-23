@@ -1,13 +1,15 @@
 package uk.firedev.daisylib.local.config;
 
+import uk.firedev.daisylib.ConfigBase;
 import uk.firedev.daisylib.local.DaisyLib;
 
-public class MainConfig extends uk.firedev.daisylib.Config {
+public class MainConfig extends ConfigBase {
 
     private static MainConfig instance = null;
 
     private MainConfig() {
-        super("config.yml", "config.yml", DaisyLib.getInstance(), true);
+        super("config.yml", "config.yml", DaisyLib.getInstance());
+        enableConfigUpdates(true);
     }
 
     public static MainConfig getInstance() {

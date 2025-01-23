@@ -66,8 +66,8 @@ public final class DaisyLib extends JavaPlugin {
     }
 
     public void reload() {
-        MainConfig.getInstance().reload();
-        MessageConfig.getInstance().reload();
+        MainConfig.getInstance().init();
+        MessageConfig.getInstance().init();
         Bukkit.getPluginManager().callEvent(new DaisyLibReloadEvent());
     }
 
