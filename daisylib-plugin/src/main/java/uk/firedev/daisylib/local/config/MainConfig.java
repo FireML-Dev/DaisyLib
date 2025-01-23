@@ -1,6 +1,6 @@
 package uk.firedev.daisylib.local.config;
 
-import uk.firedev.daisylib.ConfigBase;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.local.DaisyLib;
 
 public class MainConfig extends ConfigBase {
@@ -9,7 +9,7 @@ public class MainConfig extends ConfigBase {
 
     private MainConfig() {
         super("config.yml", "config.yml", DaisyLib.getInstance());
-        enableConfigUpdates(true);
+        withDefaultUpdaterSettings();
     }
 
     public static MainConfig getInstance() {

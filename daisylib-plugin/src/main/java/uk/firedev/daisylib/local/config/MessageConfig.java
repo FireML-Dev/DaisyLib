@@ -1,6 +1,6 @@
 package uk.firedev.daisylib.local.config;
 
-import uk.firedev.daisylib.ConfigBase;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
@@ -11,7 +11,7 @@ public class MessageConfig extends ConfigBase {
 
     private MessageConfig() {
         super("messages.yml", "messages.yml", DaisyLib.getInstance());
-        enableConfigUpdates(true);
+        withDefaultUpdaterSettings()''
     }
 
     public static MessageConfig getInstance() {

@@ -1,5 +1,7 @@
 package uk.firedev.daisylib.local;
 
+import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
+import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import net.kyori.adventure.text.Component;
@@ -7,7 +9,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.actions.ActionManager;
 import uk.firedev.daisylib.api.placeholders.PlaceholderProvider;
@@ -42,6 +44,15 @@ public final class DaisyLib extends JavaPlugin {
         LibCommand.getCommand().register();
         loadManagers();
         loadMetrics();
+
+        new ConfigBase("example.yml", "example.yml", this)
+                .withUpdaterSettings(
+                        UpdaterSettings.builder()
+                                .setVersioning(new BasicVersioning("config-version"))
+                                .addCustomLogic("2", config -> config.set("initial-key", false))
+                                .build()
+                )
+                .init();
 
         // Testing dynamic.
         PlaceholderProvider.create(this)
