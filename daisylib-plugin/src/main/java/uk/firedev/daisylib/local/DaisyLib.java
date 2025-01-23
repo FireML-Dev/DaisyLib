@@ -44,31 +44,6 @@ public final class DaisyLib extends JavaPlugin {
         LibCommand.getCommand().register();
         loadManagers();
         loadMetrics();
-
-        new ConfigBase("example.yml", "example.yml", this)
-                .withUpdaterSettings(
-                        UpdaterSettings.builder()
-                                .setVersioning(new BasicVersioning("config-version"))
-                                .addCustomLogic("2", config -> config.set("initial-key", false))
-                                .build()
-                )
-                .init();
-
-        // Testing dynamic.
-        PlaceholderProvider.create(this)
-                .addGlobalDynamicPlaceholder("test", value -> {
-                    if (value.equalsIgnoreCase("cools")) {
-                        return Component.text("matched :)");
-                    }
-                    return Component.text("did not match :(");
-                })
-                .addAudienceDynamicPlaceholder("audience", (audience, value) -> {
-                    if (!(audience instanceof Player player)) {
-                        return Component.text("No player");
-                    }
-                    return Component.text("Dynamic matches name? " + value.equals(player.getName()));
-                })
-                .register();
     }
 
     @Override

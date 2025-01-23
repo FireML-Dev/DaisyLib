@@ -11,7 +11,7 @@ public class MessageConfig extends ConfigBase {
 
     private MessageConfig() {
         super("messages.yml", "messages.yml", DaisyLib.getInstance());
-        withDefaultUpdaterSettings()''
+        withDefaultUpdaterSettings();
     }
 
     public static MessageConfig getInstance() {

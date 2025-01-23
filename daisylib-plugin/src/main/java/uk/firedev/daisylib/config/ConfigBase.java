@@ -84,6 +84,7 @@ public class ConfigBase {
         this.updaterSettings = UpdaterSettings.builder()
                 .setVersioning(new BasicVersioning("config-version"))
                 .build();
+        return this;
     }
 
     // Loading and Reloading
