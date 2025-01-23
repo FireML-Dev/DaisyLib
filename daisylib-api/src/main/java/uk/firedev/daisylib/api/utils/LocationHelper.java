@@ -1,10 +1,10 @@
 package uk.firedev.daisylib.api.utils;
 
-import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
@@ -71,13 +71,8 @@ public class LocationHelper {
      * @param path The path to set the location at.
      * @param location The location to add.
      */
-    public static void addToConfig(@NotNull YamlDocument config, @NotNull String path, @NotNull Location location) {
-        config.set(path + ".world", location.getWorld().getName());
-        config.set(path + ".x", location.getX());
-        config.set(path + ".y", location.getY());
-        config.set(path + ".z", location.getZ());
-        config.set(path + ".yaw", location.getYaw());
-        config.set(path + ".pitch", location.getPitch());
+    public static void addToConfig(@NotNull YamlConfiguration config, @NotNull String path, @NotNull Location location) {
+        config.set(path, location);
     }
 
     /**
@@ -86,24 +81,8 @@ public class LocationHelper {
      * @param path The path to get the values from.
      * @return The location, or null if it is invalid.
      */
-    public static @Nullable Location getFromConfig(@NotNull YamlDocument config, @NotNull String path) {
-        String worldName = config.getString(path + ".world");
-        if (worldName == null) {
-            return null;
-        }
-
-        World world = Bukkit.getWorld(worldName);
-        if (world == null) {
-            return null;
-        }
-
-        double x = config.getDouble(path + ".x");
-        double y = config.getDouble(path + ".y");
-        double z = config.getDouble(path + ".z");
-        float yaw = config.getFloat(path + ".yaw");
-        float pitch = config.getFloat(path + ".pitch");
-
-        return new Location(world, x, y, z, yaw, pitch);
+    public static @Nullable Location getFromConfig(@NotNull YamlConfiguration config, @NotNull String path) {
+        return config.getLocation(path);
     }
 
     /**
