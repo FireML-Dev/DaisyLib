@@ -28,7 +28,6 @@ dependencies {
         exclude("*", "*")
     }
     compileOnly(libs.miniplaceholders)
-    compileOnly(libs.boostedyaml)
 }
 
 group = "uk.firedev"
