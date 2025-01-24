@@ -42,7 +42,7 @@ public abstract class SQLiteDatabase {
         setup(plugin);
     }
 
-    public void setup(Plugin plugin) {
+    private void setup(Plugin plugin) {
         this.plugin = plugin;
         initConnection();
     }
