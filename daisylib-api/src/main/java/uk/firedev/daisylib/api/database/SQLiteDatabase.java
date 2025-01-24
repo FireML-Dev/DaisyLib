@@ -6,9 +6,11 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.utils.FileUtils;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -63,6 +65,29 @@ public abstract class SQLiteDatabase {
             } catch (SQLException ex) {
                 Loggers.error(plugin.getComponentLogger(), "Failed to close database connection.");
             }
+        }
+    }
+
+    public boolean addTable(@NotNull String table) {
+        try (Statement statement = this.connection.createStatement()) {
+            statement.execute("CREATE TABLE IF NOT EXISTS " + table);
+            return true;
+        } catch (SQLException exception) {
+            Loggers.error(plugin.getComponentLogger(), "Failed to create table " + table, exception);
+            return false;
+        }
+    }
+
+    public boolean addColumn(@NotNull String table, @NotNull String column, @NotNull String type) {
+        try (Statement statement = this.connection.createStatement()) {
+            statement.execute("ALTER TABLE " + table + " ADD COLUMN " + column + " " + type);
+            return true;
+        } catch (SQLException exception) {
+            if (exception.getMessage().contains("duplicate column name")) {
+                return true;
+            }
+            Loggers.error(plugin.getComponentLogger(), "Failed to add column " + column + " to table " + table, exception);
+            return false;
         }
     }
 

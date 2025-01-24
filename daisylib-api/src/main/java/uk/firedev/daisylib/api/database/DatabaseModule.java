@@ -9,9 +9,6 @@ public interface DatabaseModule {
     void save();
 
     default void register(@NotNull SQLiteDatabase database) {
-        if (database.getConnection() == null) {
-            throw new RuntimeException("Tried to load a DatabaseModule before the Database was loaded!");
-        }
         database.registerModule(this);
     }
 
