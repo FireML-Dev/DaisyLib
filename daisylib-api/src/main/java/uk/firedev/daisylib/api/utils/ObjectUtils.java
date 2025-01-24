@@ -1,57 +1,11 @@
 package uk.firedev.daisylib.api.utils;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.NamespacedKey;
-import org.bukkit.World;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class ObjectUtils {
-
-    /**
-     * Creates a String from the provided chunk.
-     * @param chunk The chunk to use.
-     * @return A string, built from the provided chunk.
-     */
-    public static String chunkToString(@NotNull Chunk chunk) {
-        return chunk.getWorld().getName() + "_" + chunk.getX() + "_" + chunk.getZ();
-    }
-
-    /**
-     * Creates a Chunk from a String created by {@link #chunkToString(Chunk)}
-     * @param string The string to use.
-     * @return A chunk, built from the provided string.
-     */
-    public static Chunk chunkFromString(@NotNull String string) {
-        String[] split = string.split("_");
-        if (split.length < 3) {
-            return null;
-        }
-        World world = Bukkit.getWorld(split[0]);
-        if (world == null) {
-            return null;
-        }
-        int x = Integer.parseInt(split[1]);
-        int z = Integer.parseInt(split[2]);
-        return world.getChunkAt(x, z);
-    }
-
-    /**
-     * Creates a NamespacedKey with the provided values.
-     * @param key The value of the key. Must not be null.
-     * @param plugin The plugin to create the key. Defaults to DaisyLib if null.
-     * @return A NamespacedKey instance with the given key and plugin.
-     */
-    public static NamespacedKey createNamespacedKey(@NotNull String key, @Nullable JavaPlugin plugin) {
-        if (plugin == null) {
-            return new NamespacedKey("daisylib", key);
-        }
-        return new NamespacedKey(plugin, key);
-    }
 
     /**
      * Checks if a String is a valid Integer.
@@ -73,10 +27,11 @@ public class ObjectUtils {
      * @return The Integer, or null if it isn't an Integer.
      */
     public static @Nullable Integer getInt(@NotNull String str) {
-        if (isInt(str)) {
+        try {
             return Integer.parseInt(str);
+        } catch (NumberFormatException exception) {
+            return null;
         }
-        return null;
     }
 
     /**
@@ -99,10 +54,11 @@ public class ObjectUtils {
      * @return The Long, or null if it isn't a Long.
      */
     public static @Nullable Long getLong(@NotNull String str) {
-        if (isLong(str)) {
+        try {
             return Long.parseLong(str);
+        } catch (NumberFormatException exception) {
+            return null;
         }
-        return null;
     }
 
     /**
@@ -125,10 +81,11 @@ public class ObjectUtils {
      * @return The Double, or null if it isn't a Double.
      */
     public static @Nullable Double getDouble(@NotNull String str) {
-        if (isDouble(str)) {
+        try {
             return Double.parseDouble(str);
+        } catch (NumberFormatException exception) {
+            return null;
         }
-        return null;
     }
 
     /**
@@ -151,10 +108,11 @@ public class ObjectUtils {
      * @return The Float, or null if it isn't a Float.
      */
     public static @Nullable Float getFloat(@NotNull String str) {
-        if (isFloat(str)) {
+        try {
             return Float.parseFloat(str);
+        } catch (NumberFormatException exception) {
+            return null;
         }
-        return null;
     }
 
     /**
