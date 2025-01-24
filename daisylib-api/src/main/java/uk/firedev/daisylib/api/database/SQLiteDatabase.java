@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.api.database;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
@@ -10,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Helps with connecting to a SQLite database.
@@ -40,35 +42,13 @@ public abstract class SQLiteDatabase {
         setup(plugin);
     }
 
-    /**
-     * Creates a new SQLiteDatabase instance with the specified file name.
-     * <p>
-     * You must run {@link #setup(Plugin)} before using this instance.
-     * @param fileName The database's file name.
-     */
-    public SQLiteDatabase(@NotNull String fileName) {
-        this.fileName = fileName;
-    }
-
-    /**
-     * Creates a new SQLiteDatabase instance.
-     * <p>
-     * You must run {@link #setup(Plugin)} before using this instance.
-     */
-    public SQLiteDatabase() {
-        this.fileName = "data.db";
-    }
-
     public void setup(Plugin plugin) {
         this.plugin = plugin;
         initConnection();
     }
 
-    public Connection getConnection() {
-        if (this.connection == null) {
-            throw new RuntimeException("Database connection is not initialized. Please call setup(Plugin) first.");
-        }
-        return this.connection;
+    public @NotNull Connection getConnection() {
+        return Objects.requireNonNull(this.connection, "Connection was not initialized?");
     }
 
     public abstract void startAutoSaveTask();
@@ -125,10 +105,9 @@ public abstract class SQLiteDatabase {
         try {
             Class.forName("org.sqlite.JDBC");
             this.connection = DriverManager.getConnection(url);
-        } catch (SQLException | ClassNotFoundException e) {
-            Loggers.error(plugin.getComponentLogger(), "Failed to connect to the database. Disabling " + plugin.getName() + ".");
-            Loggers.logException(plugin.getComponentLogger(), e);
-            plugin.getServer().getPluginManager().disablePlugin(plugin);
+        } catch (SQLException | ClassNotFoundException exception) {
+            Loggers.error(plugin.getComponentLogger(), "Failed to connect to the database. Disabling " + plugin.getName() + ".", exception);
+            Bukkit.getPluginManager().disablePlugin(plugin);
         }
 
         Loggers.info(plugin.getComponentLogger(), "Successfully connected to the database.");
