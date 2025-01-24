@@ -1,13 +1,10 @@
 package uk.firedev.daisylib.api.utils;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.api.Loggers;
 
 public class LocationHelper {
 
@@ -26,11 +23,7 @@ public class LocationHelper {
      * @return The block below the provided block.
      */
     public static Block getBelow(@NotNull Block block) {
-        World world = block.getWorld();
-        int x = block.getX();
-        int y = block.getY() - 1;
-        int z = block.getZ();
-        return world.getBlockAt(x, y, z);
+        return block.getRelative(0, -1, 0);
     }
 
     /**
@@ -48,11 +41,7 @@ public class LocationHelper {
      * @return The block above the provided block.
      */
     public static Block getAbove(@NotNull Block block) {
-        World world = block.getWorld();
-        int x = block.getX();
-        int y = block.getY() + 1;
-        int z = block.getZ();
-        return world.getBlockAt(x, y, z);
+        return block.getRelative(0, 1, 0);
     }
 
     /**
@@ -83,68 +72,6 @@ public class LocationHelper {
      */
     public static @Nullable Location getFromConfig(@NotNull YamlConfiguration config, @NotNull String path) {
         return config.getLocation(path);
-    }
-
-    /**
-     * Creates a String from the provided Location.
-     * @param location The location to use.
-     * @param includeYawPitch Should the String include yaw and pitch?
-     * @return A string, built from the provided location.
-     */
-    public static String convertToString(@NotNull Location location, boolean includeYawPitch) {
-        return convertToString(location, includeYawPitch, ";;");
-    }
-
-    /**
-     * Creates a String from the provided Location.
-     * @param location The location to use.
-     * @param includeYawPitch Should the String include yaw and pitch?
-     * @param separator The String to separate each value with.
-     * @return A string, built from the provided location.
-     */
-    public static String convertToString(@NotNull Location location, boolean includeYawPitch, @NotNull String separator) {
-        String finalString = location.getWorld().getName() + separator + location.getX() + separator + location.getY() + separator + location.getZ();
-        if (includeYawPitch) {
-            finalString += separator + location.getYaw() + separator + location.getPitch();
-        }
-        return finalString;
-    }
-
-    /**
-     * Creates a Location from a String created by {@link #convertToString(Location, boolean)}
-     * @param string The string to use.
-     * @return A location, built from the provided string.
-     */
-    public static Location getFromString(@NotNull String string) {
-        return getFromString(string, ";;");
-    }
-
-    /**
-     * Creates a Location from a String created by {@link #convertToString(Location, boolean, String)}
-     * @param string The string to use.
-     * @param separator The separator used in the string conversion.
-     * @return A location, built from the provided string.
-     */
-    public static Location getFromString(@NotNull String string, @NotNull String separator) {
-        String[] split = string.split(separator);
-        if (split.length < 4) {
-            return null;
-        }
-        World world = Bukkit.getWorld(split[0]);
-        if (world == null) {
-            return null;
-        }
-        try {
-            double x = Double.parseDouble(split[1]);
-            double y = Double.parseDouble(split[2]);
-            double z = Double.parseDouble(split[3]);
-            float yaw = Float.parseFloat(ObjectUtils.getOrDefault(split, 4, String.valueOf(180)));
-            float pitch = Float.parseFloat(ObjectUtils.getOrDefault(split, 5, String.valueOf(0)));
-            return new Location(world, x, y, z, yaw, pitch);
-        } catch (NumberFormatException ex) {
-            Loggers.warn(LocationHelper.class, "Failed to parse a Location from a String.", ex);
-            return null;
-        }
     }
 
 }
