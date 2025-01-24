@@ -18,28 +18,55 @@ public abstract class SQLiteDatabase {
 
     private Plugin plugin = null;
     private Connection connection = null;
-    private List<DatabaseModule> loadedModules;
+    private final List<DatabaseModule> loadedModules = new ArrayList<>();
     private final String fileName;
 
+    /**
+     * Creates a new SQLiteDatabase instance with the specified file name.
+     * @param plugin The plugin this database belongs to.
+     * @param fileName The database's file name.
+     */
     public SQLiteDatabase(@NotNull Plugin plugin, @NotNull String fileName) {
         this.fileName = fileName;
         setup(plugin);
     }
 
+    /**
+     * Creates a new SQLiteDatabase instance.
+     * @param plugin The plugin this database belongs to.
+     */
     public SQLiteDatabase(@NotNull Plugin plugin) {
         this.fileName = "data.db";
         setup(plugin);
     }
 
-    private void setup(Plugin plugin) {
+    /**
+     * Creates a new SQLiteDatabase instance with the specified file name.
+     * <p>
+     * You must run {@link #setup(Plugin)} before using this instance.
+     * @param fileName The database's file name.
+     */
+    public SQLiteDatabase(@NotNull String fileName) {
+        this.fileName = fileName;
+    }
+
+    /**
+     * Creates a new SQLiteDatabase instance.
+     * <p>
+     * You must run {@link #setup(Plugin)} before using this instance.
+     */
+    public SQLiteDatabase() {
+        this.fileName = "data.db";
+    }
+
+    public void setup(Plugin plugin) {
         this.plugin = plugin;
         initConnection();
-        loadedModules = new ArrayList<>();
     }
 
     public Connection getConnection() {
         if (this.connection == null) {
-            initConnection();
+            throw new RuntimeException("Database connection is not initialized. Please call setup(Plugin) first.");
         }
         return this.connection;
     }
@@ -60,6 +87,9 @@ public abstract class SQLiteDatabase {
     }
 
     public void registerModule(@NotNull DatabaseModule module) {
+        if (this.connection == null) {
+            throw new RuntimeException("Database connection is not initialized. Please call setup(Plugin) first.");
+        }
         if (loadedModules.contains(module)) {
             return;
         }
@@ -68,10 +98,16 @@ public abstract class SQLiteDatabase {
     }
 
     public List<DatabaseModule> getLoadedModules() {
+        if (this.connection == null) {
+            throw new RuntimeException("Database connection is not initialized. Please call setup() first.");
+        }
         return loadedModules;
     }
 
     public Plugin getPlugin() {
+        if (this.connection == null) {
+            throw new RuntimeException("Plugin is not available. Please call setup(Plugin) first.");
+        }
         return plugin;
     }
 
