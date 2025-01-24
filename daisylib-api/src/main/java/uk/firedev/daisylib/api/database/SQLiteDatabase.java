@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -68,9 +69,14 @@ public abstract class SQLiteDatabase {
         }
     }
 
-    public boolean addTable(@NotNull String table) {
+    public boolean addTable(@NotNull String table, @NotNull Map<String, String> columns) {
+        StringBuilder builder = new StringBuilder("CREATE TABLE IF NOT EXISTS " + table + " (");
+        columns.forEach((column, type) -> builder.append(column).append(" ").append(type).append(", "));
+        // To remove the trailing comma and space
+        builder.setLength(builder.length() - 2);
+        builder.append(")");
         try (Statement statement = this.connection.createStatement()) {
-            statement.execute("CREATE TABLE IF NOT EXISTS " + table);
+            statement.execute(builder.toString());
             return true;
         } catch (SQLException exception) {
             Loggers.error(plugin.getComponentLogger(), "Failed to create table " + table, exception);
