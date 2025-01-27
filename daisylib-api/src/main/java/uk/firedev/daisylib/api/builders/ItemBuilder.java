@@ -32,7 +32,7 @@ public class ItemBuilder {
      * Create an ItemBuilder from a material.
      * @param material The material to use.
      */
-    public static ItemBuilder itemBuilder(@NotNull Material material) {
+    public static ItemBuilder create(@NotNull Material material) {
         return new ItemBuilder(material);
     }
 
@@ -41,7 +41,7 @@ public class ItemBuilder {
      * @param material The material to use.
      * @param defaultMaterial The default material, if the provided material is invalid.
      */
-    public static ItemBuilder itemBuilder(@Nullable Material material, @NotNull Material defaultMaterial) {
+    public static ItemBuilder create(@Nullable Material material, @NotNull Material defaultMaterial) {
         return new ItemBuilder(Objects.requireNonNullElse(material, defaultMaterial));
     }
 
@@ -50,7 +50,7 @@ public class ItemBuilder {
      * @param materialName The material's name.
      * @param defaultMaterial The default material, if the provided name is invalid.
      */
-    public static ItemBuilder itemBuilder(@Nullable String materialName, @NotNull Material defaultMaterial) {
+    public static ItemBuilder create(@Nullable String materialName, @NotNull Material defaultMaterial) {
         return new ItemBuilder(ItemUtils.getMaterial(materialName, defaultMaterial));
     }
 
