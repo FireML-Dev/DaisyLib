@@ -11,6 +11,7 @@ import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.api.message.string.StringMessage;
 import uk.firedev.daisylib.api.message.string.StringReplacer;
+import uk.firedev.daisylib.api.utils.ItemUtils;
 
 import java.util.List;
 
@@ -31,6 +32,16 @@ public class GUIUtils {
                 .withStringDisplay(display, null)
                 .withStringLore(lore, null)
                 .getItem();
+    }
+
+    public static ItemStack createFiller(@NotNull String materialName, @NotNull Material defaultMaterial) {
+        Material material = ItemUtils.getMaterial(materialName, defaultMaterial);
+        ItemStack item = ItemStack.of(material);
+        item.editMeta(meta -> {
+            meta.customName(Component.empty());
+            meta.setHideTooltip(true);
+        });
+        return item;
     }
 
 }
