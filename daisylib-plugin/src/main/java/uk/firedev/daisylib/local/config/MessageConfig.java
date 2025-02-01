@@ -1,9 +1,9 @@
 package uk.firedev.daisylib.local.config;
 
-import uk.firedev.daisylib.config.ConfigBase;
-import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
+import uk.firedev.daisylib.config.ConfigBase;
+import uk.firedev.daisylib.local.DaisyLib;
 
 public class MessageConfig extends ConfigBase {
 

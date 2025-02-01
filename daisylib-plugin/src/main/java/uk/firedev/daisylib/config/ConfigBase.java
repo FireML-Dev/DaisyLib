@@ -17,8 +17,13 @@ import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ConfigBase {
 
@@ -105,9 +110,9 @@ public class ConfigBase {
     private void performBoostedYamlUpdates() {
 
         List<Settings> settingsList = new ArrayList<>(Arrays.asList(
-                GeneralSettings.builder().setUseDefaults(false).build(),
-                DumperSettings.DEFAULT,
-                LoaderSettings.DEFAULT
+            GeneralSettings.builder().setUseDefaults(false).build(),
+            DumperSettings.DEFAULT,
+            LoaderSettings.DEFAULT
         ));
         settingsList.add(updaterSettings == null ? UpdaterSettings.DEFAULT : updaterSettings);
 

@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -21,7 +20,7 @@ public class PAPIWrapper extends PlaceholderExpansion {
     private final Map<String, Supplier<Component>> globalMap;
     private final Map<String, Function<String, Component>> globalDynamicMap;
     private final Map<String, Function<Audience, Component>> audienceMap;
-    Map<String, BiFunction<Audience, String, Component>> audienceDynamicMap;
+    private final Map<String, BiFunction<Audience, String, Component>> audienceDynamicMap;
 
     protected PAPIWrapper(@NotNull Plugin plugin, @NotNull Map<String, Supplier<Component>> globalMap, @NotNull Map<String, Function<String, Component>> globalDynamicMap, @NotNull Map<String, Function<Audience, Component>> audienceMap, Map<String, BiFunction<Audience, String, Component>> audienceDynamicMap) {
         this.plugin = plugin;

@@ -4,10 +4,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
+import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.requirement.RequirementData;
 import uk.firedev.daisylib.requirement.RequirementType;
-import uk.firedev.daisylib.api.utils.ObjectUtils;
 
 import java.util.List;
 

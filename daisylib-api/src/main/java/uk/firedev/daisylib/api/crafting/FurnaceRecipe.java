@@ -4,7 +4,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginBase;
 import org.jetbrains.annotations.NotNull;
 
 public class FurnaceRecipe extends org.bukkit.inventory.FurnaceRecipe implements IRecipe {

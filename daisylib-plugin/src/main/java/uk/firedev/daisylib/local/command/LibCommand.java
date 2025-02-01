@@ -3,21 +3,19 @@ package uk.firedev.daisylib.local.command;
 import dev.jorel.commandapi.CommandTree;
 import dev.jorel.commandapi.arguments.Argument;
 import dev.jorel.commandapi.arguments.LiteralArgument;
+import dev.jorel.commandapi.executors.CommandExecutor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.HoverEvent;
-import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
+import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.daisylib.requirement.RequirementManager;
 import uk.firedev.daisylib.requirement.RequirementType;
 import uk.firedev.daisylib.reward.RewardManager;
 import uk.firedev.daisylib.reward.RewardType;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class LibCommand {
@@ -32,9 +30,7 @@ public class LibCommand {
                     .withPermission("daisylib.command")
                     .withFullDescription("Manage the plugin")
                     .withShortDescription("Manage the plugin")
-                    .executes((sender, args) -> {
-                        MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender);
-                    })
+                    .executes((CommandExecutor) (sender, args) -> MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender))
                     .then(getReloadBranch())
                     .then(getRewardTypesBranch())
                     .then(getRequirementTypesBranch());

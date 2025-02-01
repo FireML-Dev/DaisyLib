@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.api.message.string.StringReplacer;
+import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.reward.RewardType;
 
 public class CommandRewardType implements RewardType {

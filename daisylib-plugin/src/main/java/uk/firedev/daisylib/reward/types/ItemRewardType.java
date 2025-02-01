@@ -6,10 +6,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.reward.RewardType;
 import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
+import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.reward.RewardType;
 
 public class ItemRewardType implements RewardType {
 

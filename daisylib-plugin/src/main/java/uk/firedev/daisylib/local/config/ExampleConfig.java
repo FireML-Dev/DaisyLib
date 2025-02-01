@@ -3,14 +3,11 @@ package uk.firedev.daisylib.local.config;
 import org.bukkit.configuration.file.YamlConfiguration;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.api.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 /**
  * This file is reset on every server start.
