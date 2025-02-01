@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.utils;
+package uk.firedev.daisylib.api.utils;
 
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.local.config.MessageConfig;

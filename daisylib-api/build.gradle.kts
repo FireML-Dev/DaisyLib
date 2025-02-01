@@ -90,11 +90,6 @@ publishing {
     }
 }
 
-java {
-    withSourcesJar()
-    withJavadocJar()
-}
-
 tasks {
     jar {
         archiveBaseName.set(project.name)
@@ -103,9 +98,5 @@ tasks {
     }
     withType<JavaCompile> {
         options.encoding = "UTF-8"
-    }
-    withType<Javadoc> {
-        options.encoding = "UTF-8"
-        (options as CoreJavadocOptions).addBooleanOption("Xdoclint:none", true)
     }
 }

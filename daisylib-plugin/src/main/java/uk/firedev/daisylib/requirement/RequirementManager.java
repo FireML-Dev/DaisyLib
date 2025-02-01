@@ -88,7 +88,7 @@ public class RequirementManager {
      * @param identifier The type's identifier
      * @param author The author of this requirement type
      * @param plugin The plugin responsible for this requirement type
-     * @param checkLogic The code to run when checking the requirements. The string list will be the provided values to check against.
+     * @param checkLogic The code to run when checking the requirements. The List<String> will be the provided values to check against.
      * @return Whether this type was registered or not
      */
     public boolean registerRequirement(@NotNull String identifier, @NotNull String author, @NotNull Plugin plugin, @NotNull BiFunction<RequirementData, List<String>, Boolean> checkLogic) {

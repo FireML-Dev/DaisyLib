@@ -80,7 +80,7 @@ public class DatabaseUtils {
 
     /**
      * Turns a location into a JSON String
-     * @param location The location to turn into a JSON String
+     * @param list The location to turn into a JSON String
      */
     public static @NotNull String prepareLocation(@NotNull Location location) {
         return prepareMap(location.serialize());
@@ -101,7 +101,7 @@ public class DatabaseUtils {
 
     /**
      * Turns a chunk into a JSON String
-     * @param chunk The chunk to turn into a JSON String
+     * @param list The location to turn into a JSON String
      */
     public static @NotNull String prepareChunk(@NotNull Chunk chunk) {
         Map<String, String> serialized = Map.of(
