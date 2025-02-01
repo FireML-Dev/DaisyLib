@@ -61,10 +61,10 @@ public abstract class SQLiteDatabase {
         if (this.connection != null) {
             try {
                 this.connection.close();
-                this.connection = null;
             } catch (SQLException ex) {
                 Loggers.error(plugin.getComponentLogger(), "Failed to close database connection.");
             }
+            this.connection = null;
         }
     }
 
