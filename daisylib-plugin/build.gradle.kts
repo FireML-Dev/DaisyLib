@@ -49,7 +49,7 @@ paper {
     name = rootProject.name
     version = project.version.toString()
     main = "uk.firedev.daisylib.local.DaisyLib"
-    apiVersion = "1.21"
+    apiVersion = "1.21.4"
     author = "FireML"
     description = project.description.toString()
 
@@ -70,6 +70,40 @@ paper {
             required = false
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
+    }
+}
+
+tasks {
+    jar {
+        enabled = false
+    }
+    build {
+        dependsOn(shadowJar)
+    }
+    shadowJar {
+        archiveBaseName.set(rootProject.name)
+        archiveVersion.set(project.version.toString())
+        archiveClassifier.set("")
+
+        from(sourceSets.main.get().output)
+        from(javadoc.get().outputs)
+
+        // Libs Package
+        relocate("de.themoep.inventorygui", "uk.firedev.daisylib.libs.themoep.inventorygui")
+        relocate("net.wesjd.anvilgui", "uk.firedev.daisylib.libs.wesjd.anvilgui")
+        relocate("dev.jorel.commandapi", "uk.firedev.daisylib.libs.commandapi")
+        relocate("dev.dejvokep.boostedyaml", "uk.firedev.daisylib.libs.boostedyaml")
+        relocate("org.bstats", "uk.firedev.daisylib.libs.bstats")
+
+        // Utils Package
+        relocate("uk.firedev.vanishchecker", "uk.firedev.daisylib.utils.vanishchecker")
+    }
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+    }
+    withType<Javadoc> {
+        options.encoding = "UTF-8"
+        (options as CoreJavadocOptions).addBooleanOption("Xdoclint:none", true)
     }
 }
 
@@ -99,46 +133,12 @@ publishing {
             artifactId = rootProject.name
             version = project.version.toString()
 
-            from(components["shadow"])
+            from(components["java"])
         }
     }
 }
 
 java {
-    withSourcesJar()
     withJavadocJar()
-}
-
-tasks {
-    jar {
-        doLast {
-            val jarFile = archiveFile.get().asFile
-            jarFile.delete()
-        }
-    }
-    build {
-        dependsOn(shadowJar)
-    }
-    shadowJar {
-        archiveBaseName.set(rootProject.name)
-        archiveVersion.set(project.version.toString())
-        archiveClassifier.set("")
-
-        // Libs Package
-        relocate("de.themoep.inventorygui", "uk.firedev.daisylib.libs.themoep.inventorygui")
-        relocate("net.wesjd.anvilgui", "uk.firedev.daisylib.libs.wesjd.anvilgui")
-        relocate("dev.jorel.commandapi", "uk.firedev.daisylib.libs.commandapi")
-        relocate("dev.dejvokep.boostedyaml", "uk.firedev.daisylib.libs.boostedyaml")
-        relocate("org.bstats", "uk.firedev.daisylib.libs.bstats")
-
-        // Utils Package
-        relocate("uk.firedev.vanishchecker", "uk.firedev.daisylib.utils.vanishchecker")
-    }
-    withType<JavaCompile> {
-        options.encoding = "UTF-8"
-    }
-    withType<Javadoc> {
-        options.encoding = "UTF-8"
-        (options as CoreJavadocOptions).addBooleanOption("Xdoclint:none", true)
-    }
+    withSourcesJar()
 }
