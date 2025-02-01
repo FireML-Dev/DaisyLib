@@ -5,6 +5,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A simple way to schedule tasks using the {@link BukkitScheduler}.
+ */
 public enum SchedulingType {
     ASYNC,
     SYNC,
@@ -27,6 +30,7 @@ public enum SchedulingType {
 
     /**
      * Runs a delayed task based on the type.
+     * <p>
      * If the type is {@link SchedulingType#NONE}, the delay will be ignored.
      *
      * @param runnable the task to be executed
