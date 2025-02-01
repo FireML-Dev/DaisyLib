@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
@@ -106,7 +107,7 @@ public class StringMessage implements Message {
     }
 
     @Override
-    public void sendMessage(@NotNull Audience audience) {
+    public void sendMessage(@Nullable Audience audience) {
         toComponentMessage().sendMessage(audience);
     }
 
@@ -116,7 +117,7 @@ public class StringMessage implements Message {
     }
 
     @Override
-    public void sendActionBar(@NotNull Audience audience) {
+    public void sendActionBar(@Nullable Audience audience) {
         toComponentMessage().sendActionBar(audience);
     }
 

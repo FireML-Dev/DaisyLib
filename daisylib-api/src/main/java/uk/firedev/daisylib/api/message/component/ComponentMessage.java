@@ -144,8 +144,10 @@ public class ComponentMessage implements Message {
     }
 
     @Override
-    public void sendMessage(@NotNull Audience audience) {
-        audience.sendMessage(getMessage());
+    public void sendMessage(@Nullable Audience audience) {
+        if (audience != null) {
+            audience.sendMessage(getMessage());
+        }
     }
 
     @Override
@@ -154,8 +156,10 @@ public class ComponentMessage implements Message {
     }
 
     @Override
-    public void sendActionBar(@NotNull Audience audience) {
-        audience.sendActionBar(getMessage());
+    public void sendActionBar(@Nullable Audience audience) {
+        if (audience != null) {
+            audience.sendActionBar(getMessage());
+        }
     }
 
     @Override
