@@ -58,14 +58,15 @@ public abstract class SQLiteDatabase {
     public abstract void stopAutoSaveTask();
 
     public void closeConnection() {
-        if (this.connection != null) {
-            try {
-                this.connection.close();
-            } catch (SQLException ex) {
-                Loggers.error(plugin.getComponentLogger(), "Failed to close database connection.");
-            }
-            this.connection = null;
+        if (this.connection == null) {
+            return;
         }
+        try {
+            this.connection.close();
+        } catch (SQLException ex) {
+            Loggers.error(plugin.getComponentLogger(), "Failed to close database connection.");
+        }
+        this.connection = null;
     }
 
     public boolean addTable(@NotNull String table, @NotNull Map<String, String> columns) {
@@ -97,9 +98,6 @@ public abstract class SQLiteDatabase {
     }
 
     public void registerModule(@NotNull DatabaseModule module) {
-        if (this.connection == null) {
-            throw new RuntimeException("Database connection is not initialized. Please call setup(Plugin) first.");
-        }
         if (loadedModules.contains(module)) {
             return;
         }
@@ -108,16 +106,10 @@ public abstract class SQLiteDatabase {
     }
 
     public List<DatabaseModule> getLoadedModules() {
-        if (this.connection == null) {
-            throw new RuntimeException("Database connection is not initialized. Please call setup() first.");
-        }
         return loadedModules;
     }
 
     public Plugin getPlugin() {
-        if (this.connection == null) {
-            throw new RuntimeException("Plugin is not available. Please call setup(Plugin) first.");
-        }
         return plugin;
     }
 
