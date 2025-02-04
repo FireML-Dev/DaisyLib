@@ -13,8 +13,6 @@ public enum SchedulingType {
     SYNC,
     NONE;
 
-    private static final BukkitScheduler scheduler = Bukkit.getScheduler();
-
     /**
      * Runs a task based on the type.
      * @param runnable the task to be executed
@@ -23,8 +21,8 @@ public enum SchedulingType {
     public void run(@NotNull Runnable runnable, @NotNull Plugin plugin) {
         switch (this) {
             case NONE -> runnable.run();
-            case ASYNC -> scheduler.runTaskAsynchronously(plugin, runnable);
-            case SYNC -> scheduler.runTask(plugin, runnable);
+            case ASYNC -> Bukkit.getScheduler().runTaskAsynchronously(plugin, runnable);
+            case SYNC -> Bukkit.getScheduler().runTask(plugin, runnable);
         }
     }
 
@@ -40,8 +38,8 @@ public enum SchedulingType {
     public void runDelayed(@NotNull Runnable runnable, @NotNull Plugin plugin, long tickDelay) {
         switch (this) {
             case NONE -> runnable.run();
-            case SYNC -> scheduler.runTaskLater(plugin, runnable, tickDelay);
-            case ASYNC -> scheduler.runTaskLaterAsynchronously(plugin, runnable, tickDelay);
+            case SYNC -> Bukkit.getScheduler().runTaskLater(plugin, runnable, tickDelay);
+            case ASYNC -> Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, runnable, tickDelay);
         }
     }
 
