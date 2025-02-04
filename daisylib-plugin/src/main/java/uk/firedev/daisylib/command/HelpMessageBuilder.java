@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 
 public class HelpMessageBuilder {
 
-    private String commandName;
+    private final String commandName;
     private final HashMap<String, Supplier<ComponentMessage>> usages;
     private final Supplier<ComponentMessage> header;
     private final Supplier<ComponentMessage> help;
