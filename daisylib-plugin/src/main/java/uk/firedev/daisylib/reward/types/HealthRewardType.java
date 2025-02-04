@@ -14,12 +14,11 @@ public class HealthRewardType implements RewardType {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
-        
-        if (!ObjectUtils.isDouble(value)) {
+        Double amount = ObjectUtils.getDouble(value);
+        if (amount == null) {
             Loggers.info(getComponentLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;
         }
-        double amount = Double.parseDouble(value);
         AttributeInstance attribute = player.getAttribute(Attribute.MAX_HEALTH);
         double maxHealth;
         if (attribute == null) {

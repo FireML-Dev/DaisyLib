@@ -21,12 +21,12 @@ public class HealthRequirement implements RequirementType {
         }
         double currentHealth = player.getHealth();
         for (String value : values) {
-            if (!ObjectUtils.isDouble(value)) {
+            Double amount = ObjectUtils.getDouble(value);
+            if (amount == null) {
                 Loggers.warn(getComponentLogger(), value + " is not a valid double");
                 continue;
             }
-            double healthNeeded = Double.parseDouble(value);
-            if (currentHealth >= healthNeeded) {
+            if (currentHealth >= amount) {
                 return true;
             }
         }

@@ -21,12 +21,12 @@ public class EXPRequirement implements RequirementType {
         }
         int experiencePoints = player.calculateTotalExperiencePoints();
         for (String value : values) {
-            if (!ObjectUtils.isInt(value)) {
+            Integer amount = ObjectUtils.getInt(value);
+            if (amount == null) {
                 Loggers.warn(getComponentLogger(), value + " is not a valid integer");
                 continue;
             }
-            int expNeeded = Integer.parseInt(value);
-            if (experiencePoints >= expNeeded) {
+            if (experiencePoints >= amount) {
                 return true;
             }
         }

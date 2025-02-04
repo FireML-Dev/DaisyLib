@@ -23,12 +23,11 @@ public class MoneyRequirement implements RequirementType {
             return false;
         }
         for (String value : values) {
-            double amount;
-            if (!ObjectUtils.isDouble(value)) {
+            Double amount = ObjectUtils.getDouble(value);
+            if (amount == null) {
                 Loggers.warn(getComponentLogger(), value + " is not a valid double");
                 continue;
             }
-            amount = Double.parseDouble(value);
             if (VaultManager.getInstance().getEconomy().has(data.getPlayer(), amount)) {
                 return true;
             }
