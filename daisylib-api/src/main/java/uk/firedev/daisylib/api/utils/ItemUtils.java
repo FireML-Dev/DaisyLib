@@ -14,7 +14,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class ItemUtils {
@@ -114,14 +116,13 @@ public class ItemUtils {
         return material != null ? hideAllFlags(ItemStack.of(material)) : null;
     }
 
-    public static void giveItems(@NotNull ItemStack[] items, @NotNull Player player) {
+    public static void giveItems(@Nullable ItemStack @NotNull [] items, @NotNull Player player) {
         if (items.length == 0) {
             return;
         }
         player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.5f, 1.5f);
-        player.getInventory().addItem(items)
-                .values()
-                .forEach(item -> player.getWorld().dropItem(player.getLocation(), item));
+        ItemStack[] filteredItems = Arrays.stream(items).filter(Objects::nonNull).toArray(ItemStack[]::new);
+        player.give(filteredItems);
     }
 
     public static void giveItems(@NotNull List<ItemStack> items, @NotNull Player player) {

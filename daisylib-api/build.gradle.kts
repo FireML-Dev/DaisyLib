@@ -7,7 +7,7 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
+    //mavenLocal()
     mavenCentral()
     gradlePluginPortal()
     maven("https://repo.papermc.io/repository/maven-public/")
