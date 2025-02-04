@@ -20,7 +20,7 @@ public class TabListBuilder {
 
     private TabListBuilder() {}
 
-    public static TabListBuilder tabListBuilder() { return new TabListBuilder(); }
+    public static TabListBuilder create() { return new TabListBuilder(); }
 
     public TabListBuilder withHeader(@NotNull Component header, @Nullable ComponentReplacer replacer) {
         if (replacer != null) {

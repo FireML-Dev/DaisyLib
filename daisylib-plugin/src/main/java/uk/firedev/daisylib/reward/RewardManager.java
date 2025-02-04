@@ -8,17 +8,14 @@ import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.reward.types.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 public class RewardManager {
 
     private static RewardManager instance = null;
 
-    private final Map<String, RewardType> rewardTypes = new HashMap<>();
+    private final TreeMap<String, RewardType> rewardTypes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private boolean loaded = false;
 
     private RewardManager() {}
@@ -51,7 +48,7 @@ public class RewardManager {
      * @return Whether the reward type was added or not
      */
     public boolean registerRewardType(RewardType rewardType) {
-        String identifier = rewardType.getIdentifier().toUpperCase();
+        String identifier = rewardType.getIdentifier();
         if (rewardTypes.containsKey(identifier)) {
             return false;
         }
@@ -68,7 +65,6 @@ public class RewardManager {
      * @return Whether the reward type was removed or not
      */
     public boolean unregisterRewardType(@NotNull String rewardName) {
-        rewardName = rewardName.toUpperCase();
         if (!rewardTypes.containsKey(rewardName)) {
             return false;
         }
@@ -77,7 +73,7 @@ public class RewardManager {
     }
 
     public @Nullable RewardType getRewardType(@NotNull String identifier) {
-        return rewardTypes.get(identifier.toUpperCase());
+        return rewardTypes.get(identifier);
     }
 
     public List<RewardType> getRegisteredRewardTypes() {
@@ -118,8 +114,11 @@ public class RewardManager {
 
     }
 
+    /**
+     * @return A read-only copy of the reward type map
+     */
     public Map<String, RewardType> getRewardTypeMap() {
-        return new HashMap<>(rewardTypes);
+        return Map.copyOf(rewardTypes);
     }
 
 }

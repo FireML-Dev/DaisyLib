@@ -20,7 +20,7 @@ public class CooldownHelper {
         cooldownMap = new HashMap<>();
     }
 
-    public static CooldownHelper cooldownHelper() { return new CooldownHelper(); }
+    public static CooldownHelper create() { return new CooldownHelper(); }
 
     public void applyCooldown(@NotNull UUID uuid, @NotNull Duration duration) {
         cooldownMap.put(uuid, Instant.now().plus(duration));

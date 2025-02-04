@@ -24,11 +24,12 @@ public class ItemRewardType implements RewardType {
         }
         int quantity = 1;
         if (splitValue.length >= 2) {
-            if (!ObjectUtils.isInt(splitValue[1])) {
+            Integer amount = ObjectUtils.getInt(splitValue[1]);
+            if (amount == null) {
                 Loggers.info(getComponentLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + splitValue[1]);
                 return;
             }
-            quantity = Math.max(Integer.parseInt(splitValue[1]), 1);
+            quantity = Math.max(amount, 1);
         }
         ItemStack item = ItemStack.of(material);
         for (int i = 0; i < quantity; ++i) {

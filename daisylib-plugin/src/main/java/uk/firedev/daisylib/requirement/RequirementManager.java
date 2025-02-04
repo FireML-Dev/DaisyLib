@@ -7,17 +7,14 @@ import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.requirement.requirements.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiFunction;
 
 public class RequirementManager {
 
     private static RequirementManager instance;
 
-    private final Map<String, RequirementType> requirements = new HashMap<>();
+    private final TreeMap<String, RequirementType> requirements = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private boolean loaded = false;
 
     private RequirementManager() {}
@@ -48,8 +45,8 @@ public class RequirementManager {
      * @param requirementType The requirement type instance you wish to register
      * @return Whether the requirement type was added or not
      */
-    public boolean registerRequirement(RequirementType requirementType) {
-        String identifier = requirementType.getIdentifier().toUpperCase();
+    public boolean registerRequirement(@NotNull RequirementType requirementType) {
+        String identifier = requirementType.getIdentifier();
         if (requirements.containsKey(identifier)) {
             return false;
         }
@@ -77,7 +74,10 @@ public class RequirementManager {
         return requirements.get(identifier);
     }
 
-    public Map<String, RequirementType> getRegisteredRequirements() { return new HashMap<>(requirements); }
+    /**
+     * @return A read-only copy of the requirement map
+     */
+    public Map<String, RequirementType> getRegisteredRequirements() { return Map.copyOf(requirements); }
 
     public List<RequirementType> getRegisteredRequirementTypes() {
         return new ArrayList<>(requirements.values());
@@ -102,7 +102,7 @@ public class RequirementManager {
 
             @Override
             public @NotNull String getIdentifier() {
-                return identifier.toUpperCase();
+                return identifier;
             }
 
             @Override

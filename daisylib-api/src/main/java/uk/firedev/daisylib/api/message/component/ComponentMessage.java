@@ -136,11 +136,11 @@ public class ComponentMessage implements Message {
     }
 
     public ComponentMessage replace(@NotNull String placeholder, @NotNull String replacement) {
-        return applyReplacer(ComponentReplacer.componentReplacer(placeholder, replacement));
+        return applyReplacer(ComponentReplacer.create(placeholder, replacement));
     }
 
     public ComponentMessage replace(@NotNull String placeholder, @NotNull Component replacement) {
-        return applyReplacer(ComponentReplacer.componentReplacer(placeholder, replacement));
+        return applyReplacer(ComponentReplacer.create(placeholder, replacement));
     }
 
     @Override

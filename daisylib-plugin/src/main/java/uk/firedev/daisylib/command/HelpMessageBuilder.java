@@ -6,59 +6,78 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
+import uk.firedev.daisylib.local.config.MainConfig;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public class HelpMessageBuilder {
 
-    private final ComponentMessage header;
-    private final ComponentMessage usageFormat;
+    private String commandName;
+    private final HashMap<String, Supplier<ComponentMessage>> usages;
+    private final Supplier<ComponentMessage> header;
+    private final Supplier<ComponentMessage> help;
 
-    private HelpMessageBuilder(@NotNull ComponentMessage header, @NotNull ComponentMessage usageFormat) {
+    private HelpMessageBuilder(@NotNull String commandName, @NotNull HashMap<String, Supplier<ComponentMessage>> usages, @NotNull Supplier<ComponentMessage> header, @NotNull Supplier<ComponentMessage> help) {
+        this.commandName = commandName;
+        this.usages = usages;
         this.header = header;
-        this.usageFormat = usageFormat;
+        this.help = help;
     }
 
     /**
      * Creates a HelpMessageBuilder instance
-     * @param header The header to display.
-     * @param usageFormat The format for each usage message.
      */
-    public static HelpMessageBuilder create(@NotNull ComponentMessage header, @NotNull ComponentMessage usageFormat) {
-        return new HelpMessageBuilder(header, usageFormat);
+    public static HelpMessageBuilder create(@NotNull String commandName, @NotNull Supplier<ComponentMessage> header, @NotNull Supplier<ComponentMessage> help) {
+        return new HelpMessageBuilder(commandName, new HashMap<>(), header, help);
+    }
+
+    /**
+     * Creates a HelpMessageBuilder instance with the provided usages
+     */
+    public static HelpMessageBuilder create(@NotNull String commandName, @NotNull HashMap<String, Supplier<ComponentMessage>> usages, @NotNull Supplier<ComponentMessage> header, @NotNull Supplier<ComponentMessage> help) {
+        return new HelpMessageBuilder(commandName, usages, header, help);
+    }
+
+    /**
+     * Adds a usage to this builder
+     */
+    public HelpMessageBuilder addUsage(@NotNull String name, @NotNull Supplier<ComponentMessage> helpMessage) {
+        this.usages.putIfAbsent(name, helpMessage);
+        return this;
     }
 
     /**
      * Creates the final message.
-     * @param usages The command's usages.
-     * @param commandVariable The variable to use for each command usage. Defaults to "command" if null.
-     * @param descriptionVariable The variable to use for each command description. Defaults to "description" if null.
      * @return The created help message
      */
-    public ComponentMessage buildMessage(@NotNull Map<String, String> usages, @Nullable String commandVariable, @Nullable String descriptionVariable) {
-        final ComponentMessage finalMessage = this.header.duplicate();
-        final String finalCommandVariable = Objects.requireNonNullElse(commandVariable, "command");
-        final String finalDescriptionVariable = Objects.requireNonNullElse(descriptionVariable, "description");
+    public ComponentMessage buildMessage() {
+        final ComponentMessage message = header.get();
         usages.forEach((key, value) -> {
-            ComponentReplacer replacer = ComponentReplacer.componentReplacer(
-                    finalCommandVariable, key,
-                    finalDescriptionVariable, value
-            );
-            finalMessage.append(Component.newline()).append(this.usageFormat.duplicate().applyReplacer(replacer));
+            ComponentMessage usage = help.get();
+            usage.replace("command", constructCommand(key));
+            usage.replace("description", value.get().getMessage());
+            message.append(Component.newline());
+            message.append(usage);
         });
-        return finalMessage;
+        return message;
+    }
+
+    /**
+     * Adds "/[commandName] " to the start of the provided usage.
+     */
+    private String constructCommand(@NotNull String key) {
+        return "/" + commandName + " " + key;
     }
 
     /**
      * Sends the final message to the provided audience.
      * @param audience The audience to send the message to.
-     * @param usages The command's usages.
-     * @param commandVariable The variable to use for each command usage.
-     * @param descriptionVariable The variable to use for each command description.
      */
-    public void sendMessage(@NotNull Audience audience, @NotNull Map<String, String> usages, @Nullable String commandVariable, @Nullable String descriptionVariable) {
-        buildMessage(usages, commandVariable, descriptionVariable).sendMessage(audience);
+    public void sendMessage(@NotNull Audience audience) {
+        buildMessage().sendMessage(audience);
     }
 
 

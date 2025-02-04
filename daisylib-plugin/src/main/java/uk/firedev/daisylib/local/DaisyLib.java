@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.actions.ActionManager;
+import uk.firedev.daisylib.events.CustomEventListener;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
 import uk.firedev.daisylib.local.command.LibCommand;
 import uk.firedev.daisylib.local.config.ExampleConfig;
@@ -36,6 +37,7 @@ public final class DaisyLib extends JavaPlugin {
         ExampleConfig.load();
         reload();
         LibCommand.getCommand().register();
+        getServer().getPluginManager().registerEvents(new CustomEventListener(), this);
         loadManagers();
         loadMetrics();
     }

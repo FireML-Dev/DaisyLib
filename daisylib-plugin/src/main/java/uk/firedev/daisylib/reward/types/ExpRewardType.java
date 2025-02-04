@@ -12,12 +12,11 @@ public class ExpRewardType implements RewardType {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
-        
-        if (!ObjectUtils.isDouble(value)) {
+        Integer amount = ObjectUtils.getInt(value);
+        if (amount == null) {
             Loggers.info(getComponentLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;
         }
-        int amount = (int) Double.parseDouble(value);
         player.giveExp(amount);
     }
 

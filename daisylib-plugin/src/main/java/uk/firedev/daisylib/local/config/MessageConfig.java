@@ -22,7 +22,7 @@ public class MessageConfig extends ConfigBase {
     }
 
     public ComponentReplacer getPrefixReplacer() {
-        return ComponentReplacer.componentReplacer("prefix", getPrefix().getMessage());
+        return ComponentReplacer.create("prefix", getPrefix().getMessage());
     }
 
     // GENERAL MESSAGES

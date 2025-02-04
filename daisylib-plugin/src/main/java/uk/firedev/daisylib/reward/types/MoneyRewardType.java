@@ -13,12 +13,11 @@ public class MoneyRewardType implements RewardType {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
-        
-        if (!ObjectUtils.isDouble(value)) {
+        Double amount = ObjectUtils.getDouble(value);
+        if (amount == null) {
             Loggers.warn(getComponentLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
             return;
         }
-        double amount = Double.parseDouble(value);
         if (amount < 0) {
             amount = 0.0D;
         }

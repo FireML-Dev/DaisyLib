@@ -43,4 +43,5 @@ public class PlayerMoveChunkEvent extends PlayerEvent implements Cancellable {
     public static HandlerList getHandlerList() {
         return handlers;
     }
+
 }

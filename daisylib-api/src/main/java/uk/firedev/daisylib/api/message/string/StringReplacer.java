@@ -15,17 +15,17 @@ public class StringReplacer implements Replacer {
 
     private StringReplacer() {}
 
-    public static StringReplacer stringReplacer() { return new StringReplacer(); }
+    public static StringReplacer create() { return new StringReplacer(); }
 
-    public static StringReplacer stringReplacer(@NotNull Map<String, String> replacements) {
+    public static StringReplacer create(@NotNull Map<String, String> replacements) {
         return new StringReplacer().addReplacements(replacements);
     }
 
-    public static StringReplacer stringReplacer(@NotNull String... replacements) {
+    public static StringReplacer create(@NotNull String... replacements) {
         return new StringReplacer().addReplacements(replacements);
     }
 
-    public static StringReplacer stringReplacer(@NotNull String string, @NotNull String replacement) {
+    public static StringReplacer create(@NotNull String string, @NotNull String replacement) {
         return new StringReplacer().addReplacement(string, replacement);
     }
 

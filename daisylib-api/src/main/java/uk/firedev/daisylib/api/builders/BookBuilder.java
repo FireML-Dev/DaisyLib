@@ -22,7 +22,7 @@ public class BookBuilder {
 
     private BookBuilder() {}
 
-    public static BookBuilder bookBuilder() {
+    public static BookBuilder create() {
         return new BookBuilder();
     }
 

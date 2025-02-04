@@ -41,7 +41,7 @@ dependencies {
 }
 
 group = "uk.firedev"
-version = "2.2.0-SNAPSHOT"
+version = properties["project-version"] as String
 description = "A collection of classes for easier use of Paper's API"
 java.sourceCompatibility = JavaVersion.VERSION_21
 
