@@ -82,7 +82,7 @@ public class LibCommand {
                 typeComponents
         );
 
-        return ComponentReplacer.componentReplacer("list", joined);
+        return ComponentReplacer.create("list", joined);
     }
 
     private static Argument<String> getRequirementTypesBranch() {
@@ -121,7 +121,7 @@ public class LibCommand {
                 typeComponents
         );
 
-        return ComponentReplacer.componentReplacer("list", joined);
+        return ComponentReplacer.create("list", joined);
     }
 
 }

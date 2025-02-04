@@ -103,7 +103,7 @@ public class StringMessage implements Message {
     }
 
     public StringMessage replace(@NotNull String placeholder, @NotNull String replacement) {
-        return applyReplacer(StringReplacer.stringReplacer(placeholder, replacement));
+        return applyReplacer(StringReplacer.create(placeholder, replacement));
     }
 
     @Override

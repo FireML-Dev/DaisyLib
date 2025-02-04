@@ -41,7 +41,7 @@ public class HelpMessageBuilder {
         final String finalCommandVariable = Objects.requireNonNullElse(commandVariable, "command");
         final String finalDescriptionVariable = Objects.requireNonNullElse(descriptionVariable, "description");
         usages.forEach((key, value) -> {
-            ComponentReplacer replacer = ComponentReplacer.componentReplacer(
+            ComponentReplacer replacer = ComponentReplacer.create(
                     finalCommandVariable, key,
                     finalDescriptionVariable, value
             );

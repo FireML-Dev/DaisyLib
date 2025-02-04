@@ -12,14 +12,13 @@ public class CommandRewardType implements RewardType {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
-        
-        value = StringReplacer.stringReplacer(
+        StringReplacer replacer = StringReplacer.create(
                 "player", player.getName(),
                 "x", String.valueOf(player.getLocation().getX()),
                 "y", String.valueOf(player.getLocation().getY()),
                 "z", String.valueOf(player.getLocation().getZ())
-        ).replace(value);
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), value);
+        );
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replacer.replace(value));
     }
 
     @Override
