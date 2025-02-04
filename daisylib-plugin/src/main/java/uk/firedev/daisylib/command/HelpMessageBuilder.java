@@ -50,6 +50,14 @@ public class HelpMessageBuilder {
     }
 
     /**
+     * Adds multiple usages to this builder
+     */
+    public HelpMessageBuilder addUsages(@NotNull Map<String, Supplier<ComponentMessage>> usages) {
+        usages.forEach(this::addUsage);
+        return this;
+    }
+
+    /**
      * Creates the final message.
      * @return The created help message
      */
