@@ -23,7 +23,7 @@ public class TitleBuilder {
 
     private TitleBuilder() {}
 
-    public static TitleBuilder titleBuilder() { return new TitleBuilder(); }
+    public static TitleBuilder create() { return new TitleBuilder(); }
 
     public TitleBuilder withTimings(int inTicks, int stayTicks, int outTicks) { return withIn(inTicks).withStay(stayTicks).withOut(outTicks); }
 

@@ -24,7 +24,7 @@ public class BossBarBuilder {
 
     private BossBarBuilder() {}
 
-    public static BossBarBuilder bossBarBuilder() {
+    public static BossBarBuilder create() {
         return new BossBarBuilder();
     }
 

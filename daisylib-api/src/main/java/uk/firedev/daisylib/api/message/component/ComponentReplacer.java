@@ -17,21 +17,21 @@ public class ComponentReplacer implements Replacer {
 
     private ComponentReplacer() {}
 
-    public static ComponentReplacer componentReplacer() { return new ComponentReplacer(); }
+    public static ComponentReplacer create() { return new ComponentReplacer(); }
 
-    public static ComponentReplacer componentReplacer(@NotNull Map<String, Component> replacements) {
+    public static ComponentReplacer create(@NotNull Map<String, Component> replacements) {
         return new ComponentReplacer().addReplacements(replacements);
     }
 
-    public static ComponentReplacer componentReplacer(@NotNull String... replacements) {
+    public static ComponentReplacer create(@NotNull String... replacements) {
         return new ComponentReplacer().addReplacements(replacements);
     }
 
-    public static ComponentReplacer componentReplacer(@NotNull String string, @NotNull Component component) {
+    public static ComponentReplacer create(@NotNull String string, @NotNull Component component) {
         return new ComponentReplacer().addReplacement(string, component);
     }
 
-    public static ComponentReplacer componentReplacer(@NotNull String string, @NotNull String replacement) {
+    public static ComponentReplacer create(@NotNull String string, @NotNull String replacement) {
         return new ComponentReplacer().addReplacements(string, replacement);
     }
 
