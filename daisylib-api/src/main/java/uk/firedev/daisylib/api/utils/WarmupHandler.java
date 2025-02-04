@@ -20,7 +20,7 @@ public class WarmupHandler extends BukkitRunnable {
 
     // Task things
     private BukkitTask task = null;
-    private int passed = 1;
+    private int passed = 0;
 
     private WarmupHandler(int warmupSeconds, @NotNull Player player) {
         this.warmupSeconds = warmupSeconds;
@@ -67,7 +67,7 @@ public class WarmupHandler extends BukkitRunnable {
             passed = warmupSeconds;
             return;
         }
-        this.task = runTaskTimer(plugin, 20L, 20L);
+        this.task = runTaskTimer(plugin, 0L, 20L);
     }
 
     public void stop() {
@@ -88,10 +88,10 @@ public class WarmupHandler extends BukkitRunnable {
             stop();
             return;
         }
+        passed++;
         if (waitAction != null) {
             waitAction.accept(passed, player);
         }
-        passed++;
     }
 
 }
