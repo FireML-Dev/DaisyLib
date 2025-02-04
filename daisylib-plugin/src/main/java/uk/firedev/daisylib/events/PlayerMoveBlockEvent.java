@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class PlayerMoveBlockEvent extends PlayerEvent implements Cancellable {
+
     private static final HandlerList handlers = new HandlerList();
     private final Location from;
     private final Location to;
@@ -42,4 +43,5 @@ public class PlayerMoveBlockEvent extends PlayerEvent implements Cancellable {
     public static HandlerList getHandlerList() {
         return handlers;
     }
+
 }
