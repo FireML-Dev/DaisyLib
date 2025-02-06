@@ -5,6 +5,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
+
 /**
  * A simple way to schedule tasks using the {@link BukkitScheduler}.
  */
@@ -41,6 +44,33 @@ public enum SchedulingType {
             case SYNC -> Bukkit.getScheduler().runTaskLater(plugin, runnable, tickDelay);
             case ASYNC -> Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, runnable, tickDelay);
         }
+    }
+
+    /**
+     * Runs the provided task in a {@link CompletableFuture} instead of {@link BukkitScheduler}.
+     *
+     * @param runnable the task to be executed.
+     */
+    public CompletableFuture<Void> runFuture(@NotNull Runnable runnable) {
+        return switch (this) {
+            case NONE, SYNC -> {
+                runnable.run();
+                yield CompletableFuture.completedFuture(null);
+            }
+            case ASYNC -> CompletableFuture.runAsync(runnable);
+        };
+    }
+
+    /**
+     * Runs the provided supplier in a {@link CompletableFuture}.
+     *
+     * @param supplier the supplier to be executed.
+     */
+    public <T> CompletableFuture<T> supplyFuture(@NotNull Supplier<T> supplier) {
+        return switch (this) {
+            case NONE, SYNC -> CompletableFuture.completedFuture(supplier.get());
+            case ASYNC -> CompletableFuture.supplyAsync(supplier);
+        };
     }
 
 }
