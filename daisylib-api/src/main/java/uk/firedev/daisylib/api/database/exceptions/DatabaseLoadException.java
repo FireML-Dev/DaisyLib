@@ -8,8 +8,8 @@ public class DatabaseLoadException extends Exception {
         super(message);
     }
 
-    public DatabaseLoadException(@NotNull Exception exception) {
-        super(exception);
+    public DatabaseLoadException(@NotNull Throwable throwable) {
+        super(throwable);
     }
 
 }
