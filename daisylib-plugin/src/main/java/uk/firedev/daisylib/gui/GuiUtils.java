@@ -15,7 +15,7 @@ import uk.firedev.daisylib.api.utils.ItemUtils;
 
 import java.util.List;
 
-public class GUIUtils {
+public class GuiUtils {
 
     public static String getFormattedTitle(@NotNull String title, @Nullable StringReplacer replacer) {
         Component parsed = StringMessage.of(title).applyReplacer(replacer).toComponentMessage().getMessage();
