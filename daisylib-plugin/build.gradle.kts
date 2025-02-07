@@ -32,7 +32,7 @@ dependencies {
     }
     compileOnly(libs.miniplaceholders)
 
-    implementation(libs.inventorygui)
+    implementation(libs.triumphgui)
     implementation(libs.anvilgui)
     implementation(libs.commandapi)
     implementation(libs.vanishchecker)
@@ -120,7 +120,7 @@ tasks {
         archiveClassifier.set("")
 
         // Libs Package
-        relocate("de.themoep.inventorygui", "uk.firedev.daisylib.libs.themoep.inventorygui")
+        relocate("dev.triumphteam.gui", "uk.firedev.daisylib.libs.triumphgui")
         relocate("net.wesjd.anvilgui", "uk.firedev.daisylib.libs.wesjd.anvilgui")
         relocate("dev.jorel.commandapi", "uk.firedev.daisylib.libs.commandapi")
         relocate("dev.dejvokep.boostedyaml", "uk.firedev.daisylib.libs.boostedyaml")
