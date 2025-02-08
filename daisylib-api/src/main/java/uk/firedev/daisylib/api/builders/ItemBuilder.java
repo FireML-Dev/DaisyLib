@@ -240,7 +240,7 @@ public class ItemBuilder {
     }
 
     public @NotNull ItemStack getItem() {
-        return this.item;
+        return this.item.clone();
     }
 
     // TODO support for external plugin items
