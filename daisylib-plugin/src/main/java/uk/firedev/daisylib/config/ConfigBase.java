@@ -114,7 +114,10 @@ public class ConfigBase {
             DumperSettings.DEFAULT,
             LoaderSettings.DEFAULT
         ));
-        settingsList.add(updaterSettings == null ? UpdaterSettings.DEFAULT : updaterSettings);
+
+        if (updaterSettings != null) {
+            settingsList.add(updaterSettings);
+        }
 
         try {
             YamlDocument document;
@@ -124,7 +127,9 @@ public class ConfigBase {
             } else {
                 document = YamlDocument.create(file, resource, settingsList.toArray(Settings[]::new));
             }
-            document.update();
+            if (updaterSettings != null) {
+                document.update();
+            }
             document.save();
         } catch (IOException exception) {
             Loggers.logException(plugin.getComponentLogger(), exception);

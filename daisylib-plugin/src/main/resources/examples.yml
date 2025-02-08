@@ -27,3 +27,50 @@ item-example:
   amount: 32
   # Should the item glow? (As if it was enchanted)
   glowing: true
+
+# The format for a GUI config
+gui-example:
+  # The title of the GUI
+  title: My Gui
+  # Only applies if the GUI does not have pages
+  # Valid types: https://www.javadoc.io/static/dev.triumphteam/triumph-gui/3.1.10/dev/triumphteam/gui/components/GuiType.html#enum-constant-summary
+  type: CHEST
+  # Only applies if the type is CHEST
+  rows: 6
+  # Only applies if the GUI has pages
+  page-size: 45
+
+  # Controls the filler item
+  filler:
+    # How should this GUI be filled?
+    # Valid types: https://github.com/FireML-Dev/DaisyLib/tree/main/daisylib-plugin/src/main/java/uk/firedev/daisylib/gui/FillerType.java
+    type: ALL
+    # Only applies if the type is SIDE.
+    # Valid sides: https://www.javadoc.io/static/dev.triumphteam/triumph-gui/3.1.10/dev/triumphteam/gui/components/util/GuiFiller.Side.html#enum-constant-summary
+    side: BOTH
+    # Only applies if the type is BETWEEN
+    between-points:
+      rowFrom: 1
+      columnFrom: 1
+      rowTo: 6
+      columnTo: 6
+    # The material to fill with
+    material: GRAY_STAINED_GLASS_PANE
+
+  items:
+    test-item:
+      # Configure the item's slot locations here
+      # Should be formatted as: row,column
+      locations:
+        - 5,6
+        - 1,1
+      # The actions that should be run when this item is clicked
+      # The only action that each GUI shares is "close". The other actions are specific to their own GUIs.
+      # GUIs with pages also have access to "next-page" and "previous-page"
+      click-actions:
+        left: next-page
+        right: previous-page
+        middle: close
+        drop: close
+      # See the ItemBuilder example above for the remaining config options
+      material: DIAMOND_SWORD

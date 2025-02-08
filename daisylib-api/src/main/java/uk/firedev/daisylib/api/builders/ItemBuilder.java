@@ -1,7 +1,11 @@
 package uk.firedev.daisylib.api.builders;
 
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -11,6 +15,7 @@ import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.api.message.string.StringReplacer;
 import uk.firedev.daisylib.api.utils.ItemUtils;
+import uk.firedev.daisylib.api.utils.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +57,21 @@ public class ItemBuilder {
         return new ItemBuilder(ItemUtils.getMaterial(materialName, defaultMaterial));
     }
 
+    /**
+     * Creates an ItemBuilder with AIR, and loads the provided config.
+     * @param section The config to load
+     * @param displayReplacer A replacer for the item's display name
+     * @param loreReplacer A replacer for the item's lore
+     * @return A new ItemBuilder loaded from the provided config.
+     */
+    public static ItemBuilder createWithConfig(@NotNull ConfigurationSection section, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
+        return create(Material.AIR).loadConfig(section, displayReplacer, loreReplacer);
+    }
+
     public ItemBuilder withMaterial(@NotNull Material material) {
-        this.item = this.item.withType(material);
+        ItemStack newItem = ItemStack.of(material);
+        newItem.setItemMeta(this.item.getItemMeta());
+        this.item = newItem;
         return this;
     }
 
@@ -233,7 +251,63 @@ public class ItemBuilder {
     }
 
     public @NotNull ItemStack getItem() {
-        return this.item;
+        return this.item.clone();
+    }
+
+    // TODO support for external plugin items
+    public ItemBuilder loadConfig(@NotNull ConfigurationSection section, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
+        Material material = ItemUtils.getMaterial(section.getString("material"));
+        if (material != null) {
+            withMaterial(material);
+        }
+
+        String display = section.getString("display");
+        if (display != null) {
+            withDisplay(ComponentMessage.fromString(display).getMessage(), displayReplacer);
+        }
+
+        List<Component> lore = section.getStringList("lore").stream()
+            .map(ComponentMessage::fromString)
+            .map(ComponentMessage::getMessage)
+            .toList();
+        withLore(lore, loreReplacer);
+
+        List<ItemFlag> flags = section.getStringList("flags").stream()
+            .map(flagString -> ObjectUtils.getEnumValue(ItemFlag.class, flagString))
+            .filter(Objects::nonNull)
+            .toList();
+       addFlags(flags);
+
+        List<String> stringEnchantments = section.getStringList("enchantments");
+        for (String stringEnchantment : stringEnchantments) {
+            // Split namespace and level
+            String[] namespaceSplit = stringEnchantment.split(":");
+            String namespace = namespaceSplit.length > 1 ? namespaceSplit[0] : "minecraft";
+            String[] levelSplit = namespaceSplit[namespaceSplit.length - 1].split(",");
+
+            // Get enchantment name and level
+            String enchantName = levelSplit[0];
+            String levelString = (levelSplit.length > 1) ? levelSplit[1] : "1";
+
+            // Create NamespacedKey and parse level
+            NamespacedKey enchantKey = new NamespacedKey(namespace, enchantName);
+            int level = Objects.requireNonNullElse(ObjectUtils.getInt(levelString), 1);
+
+            // Fetch the enchantment and put it into the map
+            Enchantment enchantment = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(enchantKey);
+            if (enchantment != null) {
+                addEnchantment(enchantment, level);
+            }
+        }
+
+        setUnbreakable(section.getBoolean("unbreakable"));
+
+        int amount = section.getInt("amount", 1);
+        withAmount(Math.max(1, amount));
+
+        setGlowing(section.getBoolean("glowing"));
+
+        return this;
     }
 
 }

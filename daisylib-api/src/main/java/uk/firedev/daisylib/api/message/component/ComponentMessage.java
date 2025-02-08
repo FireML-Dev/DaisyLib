@@ -10,8 +10,7 @@ import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -63,7 +62,7 @@ public class ComponentMessage implements Message {
         return fromString(stringMessage.getMessage());
     }
 
-    public static ComponentMessage fromConfig(@NotNull YamlConfiguration config, @NotNull String path, @NotNull Component def) {
+    public static ComponentMessage fromConfig(@NotNull ConfigurationSection config, @NotNull String path, @NotNull Component def) {
         String message;
         if (config.isList(path)) {
             message = String.join("\n", config.getStringList(path));
@@ -73,27 +72,7 @@ public class ComponentMessage implements Message {
         return fromConfigString(message, def, path);
     }
 
-    public static ComponentMessage fromConfig(@NotNull YamlConfiguration config, @NotNull String path, @NotNull String def) {
-        String message;
-        if (config.isList(path)) {
-            message = String.join("\n", config.getStringList(path));
-        } else {
-            message = config.getString(path);
-        }
-        return fromConfigString(message, getMiniMessage().deserialize(def), path);
-    }
-
-    public static ComponentMessage fromConfig(@NotNull FileConfiguration config, @NotNull String path, @NotNull Component def) {
-        String message;
-        if (config.isList(path)) {
-            message = String.join("\n", config.getStringList(path));
-        } else {
-            message = config.getString(path);
-        }
-        return fromConfigString(message, def, path);
-    }
-
-    public static ComponentMessage fromConfig(@NotNull FileConfiguration config, @NotNull String path, @NotNull String def) {
+    public static ComponentMessage fromConfig(@NotNull ConfigurationSection config, @NotNull String path, @NotNull String def) {
         String message;
         if (config.isList(path)) {
             message = String.join("\n", config.getStringList(path));

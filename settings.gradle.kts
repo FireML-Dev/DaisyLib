@@ -15,7 +15,7 @@ dependencyResolutionManagement {
             library("miniplaceholders", "io.github.miniplaceholders:miniplaceholders-api:2.2.3")
             library("boostedyaml", "dev.dejvokep:boosted-yaml:1.3.7")
             library("bstats", "org.bstats:bstats-bukkit:3.1.0")
-            library("inventorygui", "uk.firedev:inventorygui:1.6.4-1.21.4-SNAPSHOT")
+            library("triumphgui", "dev.triumphteam:triumph-gui:3.1.11")
             // TODO update this to 2.0.1 after my PR is merged
             library("anvilgui", "de.md5lukas:anvilgui:2.0.0")
 
