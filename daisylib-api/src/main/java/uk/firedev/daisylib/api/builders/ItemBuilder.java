@@ -58,7 +58,9 @@ public class ItemBuilder {
     }
 
     public ItemBuilder withMaterial(@NotNull Material material) {
-        this.item = this.item.withType(material);
+        ItemStack newItem = ItemStack.of(material);
+        newItem.setItemMeta(this.item.getItemMeta());
+        this.item = newItem;
         return this;
     }
 
