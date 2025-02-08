@@ -6,6 +6,7 @@ import dev.triumphteam.gui.components.util.GuiFiller;
 import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
+import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -177,7 +178,13 @@ public class ConfigGui {
         GuiFiller filler = gui.getFiller();
 
         switch (fillerType) {
-            case ALL -> filler.fill(item);
+            case ALL -> {
+                if (gui instanceof PaginatedGui) {
+                    Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Paginated GUIs cannot use FillerType.ALL");
+                    return;
+                }
+                filler.fill(item);
+            }
             case BORDER -> filler.fillBorder(item);
             case SIDE -> {
                 GuiFiller.Side side = ObjectUtils.getEnumValue(
