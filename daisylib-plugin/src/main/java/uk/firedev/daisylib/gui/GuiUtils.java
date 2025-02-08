@@ -62,9 +62,7 @@ public class GuiUtils {
     }
 
     public static void addGuiItem(@NotNull BaseGui gui, @NotNull ConfigurationSection itemSection) {
-        ItemStack item = ItemBuilder.create(Material.AIR)
-            .loadConfig(itemSection, null, null)
-            .getItem();
+        ItemStack item = ItemBuilder.createWithConfig(itemSection, null, null).getItem();
         if (item.getType() == Material.AIR) {
             return;
         }

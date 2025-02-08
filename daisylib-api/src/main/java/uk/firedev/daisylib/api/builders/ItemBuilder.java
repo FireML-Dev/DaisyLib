@@ -57,6 +57,17 @@ public class ItemBuilder {
         return new ItemBuilder(ItemUtils.getMaterial(materialName, defaultMaterial));
     }
 
+    /**
+     * Creates an ItemBuilder with AIR, and loads the provided config.
+     * @param section The config to load
+     * @param displayReplacer A replacer for the item's display name
+     * @param loreReplacer A replacer for the item's lore
+     * @return A new ItemBuilder loaded from the provided config.
+     */
+    public static ItemBuilder createWithConfig(@NotNull ConfigurationSection section, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
+        return create(Material.AIR).loadConfig(section, displayReplacer, loreReplacer);
+    }
+
     public ItemBuilder withMaterial(@NotNull Material material) {
         ItemStack newItem = ItemStack.of(material);
         newItem.setItemMeta(this.item.getItemMeta());
