@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.gui;
 
 import dev.triumphteam.gui.components.GuiType;
+import dev.triumphteam.gui.components.ScrollType;
 import dev.triumphteam.gui.components.util.GuiFiller;
 import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
@@ -24,11 +25,11 @@ import java.util.function.Consumer;
 
 public class ConfigGui {
 
-    private final TreeMap<String, Consumer<InventoryClickEvent>> actions = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    private final ConfigurationSection config;
-    private final Player player;
+    protected final TreeMap<String, Consumer<InventoryClickEvent>> actions = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    protected final ConfigurationSection config;
+    protected final Player player;
 
-    private BaseGui gui;
+    protected BaseGui gui;
 
     public ConfigGui(@NotNull ConfigurationSection config, @NotNull Player player) {
 
@@ -45,6 +46,10 @@ public class ConfigGui {
         return this.gui;
     }
 
+    public ConfigurationSection getGuiConfig() {
+        return config;
+    }
+
     public void open() {
         getGui().open(this.player);
     }
@@ -59,7 +64,7 @@ public class ConfigGui {
 
     // Loading Things
 
-    private BaseGui createGui() {
+    protected BaseGui createGui() {
         GuiType type = ObjectUtils.getEnumValue(
             GuiType.class,
             config.getString("type", "CHEST")
@@ -70,7 +75,6 @@ public class ConfigGui {
 
         ComponentMessage title = ComponentMessage.fromConfig(config, "title", "Gui");
 
-        // Create the Gui
         BaseGui gui = Gui.gui()
             .disableAllInteractions()
             .title(title.getMessage())
@@ -87,7 +91,7 @@ public class ConfigGui {
         return gui;
     }
 
-    private void loadItems(@NotNull BaseGui gui) {
+    protected void loadItems(@NotNull BaseGui gui) {
         ConfigurationSection itemSection = this.config.getConfigurationSection("items");
         if (itemSection == null) {
             return;
@@ -101,7 +105,7 @@ public class ConfigGui {
         });
     }
 
-    private void addGuiItem(@NotNull BaseGui gui, @NotNull ConfigurationSection itemSection) {
+    protected void addGuiItem(@NotNull BaseGui gui, @NotNull ConfigurationSection itemSection) {
         ItemStack item = ItemBuilder.createWithConfig(itemSection, null, null).getItem();
         if (item.getType() == Material.AIR) {
             return;
@@ -137,7 +141,7 @@ public class ConfigGui {
         });
     }
 
-    private void loadFiller(@NotNull BaseGui gui) {
+    protected void loadFiller(@NotNull BaseGui gui) {
         ConfigurationSection fillerSection = this.config.getConfigurationSection("filler");
         if (fillerSection == null) {
             return;

@@ -36,6 +36,8 @@ gui-example:
   type: CHEST
   # Only applies if the type is CHEST
   rows: 6
+  # Only applies if the GUI has pages
+  page-size: 45
 
   # Controls the filler item
   filler:
@@ -63,9 +65,10 @@ gui-example:
         - 1,1
       # The actions that should be run when this item is clicked
       # The only action that each GUI shares is "close". The other actions are specific to their own GUIs.
+      # GUIs with pages also have access to "next-page" and "previous-page"
       click-actions:
-        left: close
-        right: close
+        left: next-page
+        right: previous-page
         middle: close
         drop: close
       # See the ItemBuilder example above for the remaining config options
