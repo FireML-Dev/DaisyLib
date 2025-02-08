@@ -35,6 +35,22 @@ public class ObjectUtils {
     }
 
     /**
+     * Gets an int from a String or returns the default
+     * @param str The string to use.
+     * @return The int, or the default value if it isn't an int.
+     */
+    public static int getIntOrDefault(@Nullable String str, int defaultInt) {
+        if (str == null) {
+            return defaultInt;
+        }
+        Integer value = getInt(str);
+        if (value == null) {
+            return defaultInt;
+        }
+        return value;
+    }
+
+    /**
      * Checks if a String is a valid Long.
      * @param str The String to check.
      * @return Is the String a Long?
@@ -59,6 +75,22 @@ public class ObjectUtils {
         } catch (NumberFormatException exception) {
             return null;
         }
+    }
+
+    /**
+     * Gets a long from a String or returns the default
+     * @param str The string to use.
+     * @return The long, or the default value if it isn't a long.
+     */
+    public static long getLongOrDefault(@Nullable String str, long defaultLong) {
+        if (str == null) {
+            return defaultLong;
+        }
+        Long value = getLong(str);
+        if (value == null) {
+            return defaultLong;
+        }
+        return value;
     }
 
     /**
@@ -89,6 +121,22 @@ public class ObjectUtils {
     }
 
     /**
+     * Gets a double from a String or returns the default
+     * @param str The string to use.
+     * @return The double, or the default value if it isn't a double.
+     */
+    public static double getDoubleOrDefault(@Nullable String str, double defaultDouble) {
+        if (str == null) {
+            return defaultDouble;
+        }
+        Double value = getDouble(str);
+        if (value == null) {
+            return defaultDouble;
+        }
+        return value;
+    }
+
+    /**
      * Checks if a String is a valid Float.
      * @param str The String to check.
      * @return Is the String a Float?
@@ -113,6 +161,22 @@ public class ObjectUtils {
         } catch (NumberFormatException exception) {
             return null;
         }
+    }
+
+    /**
+     * Gets a float from a String or returns the default
+     * @param str The string to use.
+     * @return The float, or the default value if it isn't a float.
+     */
+    public static float getFloatOrDefault(@Nullable String str, float defaultFloat) {
+        if (str == null) {
+            return defaultFloat;
+        }
+        Float value = getFloat(str);
+        if (value == null) {
+            return defaultFloat;
+        }
+        return value;
     }
 
     /**
