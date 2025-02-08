@@ -76,20 +76,16 @@ paper {
 publishing {
     repositories {
         maven {
-            name = "firedevRepo"
+            url = uri("https://repo.codemc.io/repository/FireML/")
 
-            // Repository settings
-            var repoUrlString = "https://repo.firedev.uk/repository/maven-"
-            repoUrlString += if (project.version.toString().endsWith("-SNAPSHOT")) {
-                "snapshots/"
-            } else {
-                "releases/"
-            }
-            url = uri(repoUrlString)
+            val mavenUsername = System.getenv("JENKINS_USERNAME")
+            val mavenPassword = System.getenv("JENKINS_PASSWORD")
 
-            credentials(PasswordCredentials::class)
-            authentication {
-                create<BasicAuthentication>("basic")
+            if (mavenUsername != null && mavenPassword != null) {
+                credentials {
+                    username = mavenUsername
+                    password = mavenPassword
+                }
             }
         }
     }
