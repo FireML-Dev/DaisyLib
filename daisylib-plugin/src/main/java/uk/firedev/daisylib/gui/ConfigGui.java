@@ -9,6 +9,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.builders.ItemBuilder;
@@ -17,17 +18,48 @@ import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.Consumer;
 
 public class ConfigGui {
 
-    private final BaseGui gui;
+    private final TreeMap<String, Consumer<InventoryClickEvent>> actions = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private final ConfigurationSection config;
     private final Player player;
 
+    private BaseGui gui;
+
     public ConfigGui(@NotNull ConfigurationSection config, @NotNull Player player) {
+
+        actions.put("close", event -> event.getWhoClicked().closeInventory());
+
         this.config = config;
         this.player = player;
+    }
 
+    public BaseGui getGui() {
+        if (this.gui == null) {
+            this.gui = createGui();
+        }
+        return this.gui;
+    }
+
+    public void open() {
+        getGui().open(this.player);
+    }
+
+    public void addActions(@NotNull Map<String, Consumer<InventoryClickEvent>> actions) {
+        actions.forEach(this::addAction);
+    }
+
+    public void addAction(@NotNull String name, @NotNull Consumer<InventoryClickEvent> action) {
+        this.actions.putIfAbsent(name, action);
+    }
+
+    // Loading Things
+
+    private BaseGui createGui() {
         GuiType type = ObjectUtils.getEnumValue(
             GuiType.class,
             config.getString("type", "CHEST")
@@ -39,7 +71,7 @@ public class ConfigGui {
         ComponentMessage title = ComponentMessage.fromConfig(config, "title", "Gui");
 
         // Create the Gui
-        this.gui = Gui.gui()
+        BaseGui gui = Gui.gui()
             .disableAllInteractions()
             .title(title.getMessage())
             .type(type)
@@ -47,23 +79,15 @@ public class ConfigGui {
             .create();
 
         // Load configured items
-        loadItems();
+        loadItems(gui);
 
         // Load filler
-        loadFiller();
+        loadFiller(gui);
+
+        return gui;
     }
 
-    public BaseGui getGui() {
-        return this.gui;
-    }
-
-    public void open() {
-        this.gui.open(this.player);
-    }
-
-    // Loading Things
-
-    private void loadItems() {
+    private void loadItems(@NotNull BaseGui gui) {
         ConfigurationSection itemSection = this.config.getConfigurationSection("items");
         if (itemSection == null) {
             return;
@@ -73,16 +97,35 @@ public class ConfigGui {
             if (section == null) {
                 return;
             }
-            addGuiItem(section);
+            addGuiItem(gui, section);
         });
     }
 
-    private void addGuiItem(@NotNull ConfigurationSection itemSection) {
+    private void addGuiItem(@NotNull BaseGui gui, @NotNull ConfigurationSection itemSection) {
         ItemStack item = ItemBuilder.createWithConfig(itemSection, null, null).getItem();
         if (item.getType() == Material.AIR) {
             return;
         }
-        GuiItem guiItem = new GuiItem(item);
+        GuiItem guiItem;
+        ConfigurationSection actionSection = itemSection.getConfigurationSection("click-actions");
+        if (actionSection != null) {
+            guiItem = new GuiItem(item, event -> {
+                Consumer<InventoryClickEvent> action = switch (event.getClick()) {
+                    case LEFT -> actions.get(actionSection.getString("left", ""));
+                    case RIGHT -> actions.get(actionSection.getString("right", ""));
+                    case MIDDLE -> actions.get(actionSection.getString("middle", ""));
+                    case DROP -> actions.get(actionSection.getString("drop", ""));
+                    default -> null;
+                };
+                if (action == null) {
+                    event.setCancelled(true);
+                    return;
+                }
+                action.accept(event);
+            });
+        } else {
+            guiItem = new GuiItem(item);
+        }
         // Put the item in all of its configured locations
         itemSection.getStringList("locations").forEach(location -> {
             String[] splitLocation = location.split(",", 2);
@@ -90,11 +133,11 @@ public class ConfigGui {
             String rowStr = ObjectUtils.getOrDefault(splitLocation, 1, null);
             int column = ObjectUtils.getIntOrDefault(columnStr, -1);
             int row = ObjectUtils.getIntOrDefault(rowStr, -1);
-            this.gui.setItem(row, column, guiItem);
+            gui.setItem(row, column, guiItem);
         });
     }
 
-    private void loadFiller() {
+    private void loadFiller(@NotNull BaseGui gui) {
         ConfigurationSection fillerSection = this.config.getConfigurationSection("filler");
         if (fillerSection == null) {
             return;
@@ -120,7 +163,7 @@ public class ConfigGui {
 
         // Handle filler
         GuiItem item = new GuiItem(fillerItem);
-        GuiFiller filler = this.gui.getFiller();
+        GuiFiller filler = gui.getFiller();
 
         switch (fillerType) {
             case ALL -> filler.fill(item);
