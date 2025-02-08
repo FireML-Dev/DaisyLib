@@ -13,32 +13,13 @@ Starting with Version 2.0.4-SNAPSHOT, versioning is handled like so:
 - MINOR - When a new minecraft update is released, also the time for breaking changes to be made.
 - PATCH - When a new feature is added or a non-breaking change is made.
 
-#### Maven
-
-```xml
-    <repository>
-        <id>firedev-repo</id>
-        <url>https://repo.firedev.uk/repository/maven-public/</url>
-    </repository>
-```
-```xml
-    <dependencies>
-        <dependency>
-            <groupId>uk.firedev</groupId>
-            <artifactId>DaisyLib</artifactId>
-            <version>2.2.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-```
-
 #### Gradle (Kotlin)
 ```kotlin
 repositories {
-    maven("https://repo.firedev.uk/repository/maven-public/")
+    maven("https://repo.codemc.io/repository/FireML/")
 }
 
 dependencies {
-    compileOnly("uk.firedev:DaisyLib:2.2.0-SNAPSHOT")
+    compileOnly("uk.firedev:DaisyLib:2.3.0-SNAPSHOT")
 }
 ```
