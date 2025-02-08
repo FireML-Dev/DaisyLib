@@ -145,4 +145,15 @@ public class ObjectUtils {
         }
     }
 
+    public static @Nullable <E extends Enum<E>> E getEnumValue(@NotNull Class<E> enumClass, @Nullable String value) {
+        if (value == null) {
+            return null;
+        }
+        try {
+            return Enum.valueOf(enumClass, value);
+        } catch (IllegalArgumentException exception) {
+            return null;
+        }
+    }
+
 }
