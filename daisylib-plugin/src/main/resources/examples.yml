@@ -32,6 +32,7 @@ item-example:
 gui-example:
   # The title of the GUI
   title: My Gui
+  # Only applies if the GUI does not have pages
   # Valid types: https://www.javadoc.io/static/dev.triumphteam/triumph-gui/3.1.10/dev/triumphteam/gui/components/GuiType.html#enum-constant-summary
   type: CHEST
   # Only applies if the type is CHEST
