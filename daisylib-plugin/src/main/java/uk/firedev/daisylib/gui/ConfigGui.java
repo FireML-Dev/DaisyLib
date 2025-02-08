@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.builders.ItemBuilder;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.utils.ItemUtils;
@@ -31,12 +32,18 @@ public class ConfigGui {
 
     protected BaseGui gui;
 
-    public ConfigGui(@NotNull ConfigurationSection config, @NotNull Player player) {
-
+    public ConfigGui(@Nullable ConfigurationSection config, @NotNull Player player) {
         actions.put("close", event -> event.getWhoClicked().closeInventory());
 
         this.config = config;
         this.player = player;
+
+        if (config == null) {
+            this.gui = Gui.gui()
+                .disableAllInteractions()
+                .rows(6)
+                .create();
+        }
     }
 
     public BaseGui getGui() {
