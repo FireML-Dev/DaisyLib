@@ -39,11 +39,11 @@ public class PaginatedConfigGui extends ConfigGui {
             .pageSize(config.getInt("page-size", 45))
             .create();
 
-        // Load configured items
-        loadItems(gui);
-
         // Load filler
         loadFiller(gui);
+
+        // Load configured items
+        loadItems(gui);
 
         return gui;
     }

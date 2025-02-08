@@ -15,10 +15,12 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.builders.ItemBuilder;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
+import uk.firedev.daisylib.local.DaisyLib;
 
 import java.util.List;
 import java.util.Map;
@@ -90,11 +92,11 @@ public class ConfigGui {
             .rows(config.getInt("rows", 6))
             .create();
 
-        // Load configured items
-        loadItems(gui);
-
         // Load filler
         loadFiller(gui);
+
+        // Load configured items
+        loadItems(gui);
 
         return gui;
     }
