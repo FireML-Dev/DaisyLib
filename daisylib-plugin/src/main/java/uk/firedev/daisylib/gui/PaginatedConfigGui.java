@@ -6,11 +6,12 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 
 public class PaginatedConfigGui extends ConfigGui {
 
-    public PaginatedConfigGui(@NotNull ConfigurationSection config, @NotNull Player player) {
+    public PaginatedConfigGui(@Nullable ConfigurationSection config, @NotNull Player player) {
         super(config, player);
         super.actions.put("next-page", event -> {
             if (getGui() instanceof PaginatedGui pages) {
