@@ -60,7 +60,7 @@ gui-example:
   items:
     test-item:
       # Configure the item's slot locations here
-      # Should be formatted as: row,column
+      # Should be formatted as: column,row
       locations:
         - 5,6
         - 1,1
