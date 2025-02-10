@@ -65,9 +65,6 @@ public class ItemBuilder {
      * @return A new ItemBuilder loaded from the provided config.
      */
     public static ItemBuilder createWithConfig(@Nullable ConfigurationSection section, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
-        if (section == null) {
-            return create(Material.AIR);
-        }
         return create(Material.AIR).loadConfig(section, displayReplacer, loreReplacer);
     }
 
@@ -258,7 +255,11 @@ public class ItemBuilder {
     }
 
     // TODO support for external plugin items
-    public ItemBuilder loadConfig(@NotNull ConfigurationSection section, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
+    public ItemBuilder loadConfig(@Nullable ConfigurationSection section, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
+        if (section == null) {
+            return this;
+        }
+
         Material material = ItemUtils.getMaterial(section.getString("material"));
         if (material != null) {
             withMaterial(material);
