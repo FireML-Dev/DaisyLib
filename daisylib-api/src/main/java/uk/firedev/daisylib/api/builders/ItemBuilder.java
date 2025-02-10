@@ -64,7 +64,10 @@ public class ItemBuilder {
      * @param loreReplacer A replacer for the item's lore
      * @return A new ItemBuilder loaded from the provided config.
      */
-    public static ItemBuilder createWithConfig(@NotNull ConfigurationSection section, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
+    public static ItemBuilder createWithConfig(@Nullable ConfigurationSection section, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
+        if (section == null) {
+            return create(Material.AIR);
+        }
         return create(Material.AIR).loadConfig(section, displayReplacer, loreReplacer);
     }
 
