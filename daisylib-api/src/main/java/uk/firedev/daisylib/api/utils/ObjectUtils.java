@@ -214,7 +214,7 @@ public class ObjectUtils {
             return null;
         }
         try {
-            return Enum.valueOf(enumClass, value);
+            return Enum.valueOf(enumClass, value.toUpperCase());
         } catch (IllegalArgumentException exception) {
             return null;
         }
