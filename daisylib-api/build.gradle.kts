@@ -1,9 +1,6 @@
-import net.minecrell.pluginyml.paper.PaperPluginDescription
-
 plugins {
     `java-library`
     `maven-publish`
-    alias(libs.plugins.plugin.yml)
 }
 
 repositories {
@@ -33,30 +30,6 @@ group = "uk.firedev"
 version = properties["project-version"] as String
 description = "A collection of classes for easier use of Paper's API"
 java.sourceCompatibility = JavaVersion.VERSION_21
-
-paper {
-    name = project.name
-    version = project.version.toString()
-    main = "uk.firedev.daisylib.local.DaisyLib"
-    apiVersion = "1.21"
-    author = "FireML"
-    description = project.description.toString()
-
-    serverDependencies {
-        register("Vault") {
-            required = false
-            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
-        }
-        register("Denizen") {
-            required = false
-            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
-        }
-        register("PlaceholderAPI") {
-            required = false
-            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
-        }
-    }
-}
 
 publishing {
     repositories {

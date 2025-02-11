@@ -37,6 +37,8 @@ dependencies {
     implementation(libs.vanishchecker)
     implementation(libs.boostedyaml)
     implementation(libs.bstats)
+
+    paperLibrary(libs.nashorn)
 }
 
 group = "uk.firedev"
@@ -51,6 +53,9 @@ paper {
     apiVersion = "1.21.4"
     author = "FireML"
     description = project.description.toString()
+
+    loader = "uk.firedev.daisylib.local.LibraryLoader"
+    generateLibrariesJson = true
 
     serverDependencies {
         register("Vault") {
