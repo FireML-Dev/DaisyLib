@@ -95,11 +95,11 @@ public class ConfigBase {
     // Loading and Reloading
 
     public void init() {
-        performBoostedYamlUpdates();
         reload();
     }
 
     public void reload() {
+        performBoostedYamlUpdates();
         try {
             fileConfig.load(file);
         } catch (IOException | InvalidConfigurationException | IllegalArgumentException exception) {
