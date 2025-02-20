@@ -286,11 +286,11 @@ public class ItemBuilder {
         for (String stringEnchantment : stringEnchantments) {
             // Split namespace and level
             String[] namespaceSplit = stringEnchantment.split(":");
-            String namespace = namespaceSplit.length > 1 ? namespaceSplit[0] : "minecraft";
+            String namespace = (namespaceSplit.length > 1 ? namespaceSplit[0] : "minecraft").toLowerCase();
             String[] levelSplit = namespaceSplit[namespaceSplit.length - 1].split(",");
 
             // Get enchantment name and level
-            String enchantName = levelSplit[0];
+            String enchantName = levelSplit[0].toLowerCase();
             String levelString = (levelSplit.length > 1) ? levelSplit[1] : "1";
 
             // Create NamespacedKey and parse level
