@@ -37,6 +37,7 @@ dependencies {
     implementation(libs.vanishchecker)
     implementation(libs.boostedyaml)
     implementation(libs.bstats)
+    implementation(libs.customblockdata)
 
     paperLibrary(libs.nashorn)
 }
@@ -125,6 +126,7 @@ tasks {
         relocate("dev.jorel.commandapi", "uk.firedev.daisylib.libs.commandapi")
         relocate("dev.dejvokep.boostedyaml", "uk.firedev.daisylib.libs.boostedyaml")
         relocate("org.bstats", "uk.firedev.daisylib.libs.bstats")
+        relocate("com.jeff_media.customblockdata", "uk.firedev.daisylib.libs.customblockdata")
 
         // Utils Package
         relocate("uk.firedev.vanishchecker", "uk.firedev.daisylib.utils.vanishchecker")
