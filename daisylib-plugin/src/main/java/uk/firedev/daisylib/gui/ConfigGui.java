@@ -138,7 +138,7 @@ public class ConfigGui {
                 action.accept(event);
             });
         } else {
-            guiItem = new GuiItem(item);
+            guiItem = new GuiItem(item, event -> event.setCancelled(true));
         }
         // Put the item in all of its configured locations
         itemSection.getStringList("locations").forEach(location -> {

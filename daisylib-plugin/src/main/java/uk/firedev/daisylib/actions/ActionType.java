@@ -14,7 +14,7 @@ public abstract class ActionType implements Listener {
     public abstract @NotNull String getActionIdentifier();
 
     public void fire(@NotNull ActionContext context) {
-        ActionManager.getInstance().fire(getActionIdentifier(), context);
+        ActionManager.getInstance().fire(this, context);
     }
 
     @Override
