@@ -7,9 +7,11 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class ActionType implements Listener {
 
-    public void register(@NotNull Plugin plugin) {
-        Bukkit.getPluginManager().registerEvents(this, plugin);
+    public void register() {
+        ActionManager.getInstance().registerActionType(this);
     }
+
+    public abstract @NotNull Plugin getPlugin();
 
     public abstract @NotNull String getActionIdentifier();
 
