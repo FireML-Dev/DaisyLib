@@ -2,9 +2,10 @@ package uk.firedev.daisylib.api.utils;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
+import org.bukkit.*;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -30,26 +31,17 @@ public class ItemUtils {
     }
 
     public static @Nullable Material getMaterial(@Nullable String materialName) {
-        if (materialName == null) {
+        if (materialName == null || materialName.isEmpty()) {
             return null;
         }
-        try {
-            return Material.valueOf(materialName.toUpperCase());
-        } catch (IllegalArgumentException ex) {
-            return null;
-        }
+        return ObjectUtils.getEnumValue(Material.class, materialName);
     }
 
-    public static boolean validMaterial(String materialName) {
+    public static boolean validMaterial(@Nullable String materialName) {
         if (materialName == null || materialName.isEmpty()) {
             return false;
         }
-        try {
-            Material.valueOf(materialName.toUpperCase());
-            return true;
-        } catch (IllegalArgumentException ex) {
-            return false;
-        }
+        return getMaterial(materialName) != null;
     }
 
     public static ItemStack setGlowing(@NotNull ItemStack item, boolean glowing) {
@@ -134,6 +126,18 @@ public class ItemUtils {
         player.getInventory().addItem(item)
                 .values()
                 .forEach(remaining -> player.getWorld().dropItem(player.getLocation(), remaining));
+    }
+
+    public static @Nullable Enchantment getEnchantment(@Nullable String enchantmentName) {
+        if (enchantmentName == null || enchantmentName.isEmpty()) {
+            return null;
+        }
+        NamespacedKey key = NamespacedKey.fromString(enchantmentName);
+        if (key == null) {
+            return null;
+        }
+        Registry<@NotNull Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
+        return registry.get(key);
     }
 
 }
