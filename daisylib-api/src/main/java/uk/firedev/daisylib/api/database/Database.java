@@ -33,6 +33,7 @@ public abstract class Database {
     public void load() throws DatabaseLoadException {
         initConnection();
         initTables();
+        startAutoSaveTask();
     }
 
     public void reload() {
