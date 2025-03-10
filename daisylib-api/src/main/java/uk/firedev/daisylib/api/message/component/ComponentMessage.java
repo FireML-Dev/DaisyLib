@@ -39,6 +39,10 @@ public class ComponentMessage implements Message {
         return message == null ? of(def) : of(message);
     }
 
+    public static ComponentMessage fromPlainText(@NotNull String plainText) {
+        return of(Component.text(plainText));
+    }
+
     public static ComponentMessage fromJson(@NotNull String json) {
         return of(getJsonComponentSerializer().deserialize(json));
     }
