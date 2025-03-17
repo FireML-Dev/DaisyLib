@@ -60,4 +60,20 @@ public abstract class ItemAddon implements Addon {
         return unregister(getIdentifier());
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof ItemAddon addon)) {
+            return false;
+        }
+        return getIdentifier().equals(addon.getIdentifier());
+    }
+
+    @Override
+    public int hashCode() {
+        return getIdentifier().hashCode();
+    }
+
 }
