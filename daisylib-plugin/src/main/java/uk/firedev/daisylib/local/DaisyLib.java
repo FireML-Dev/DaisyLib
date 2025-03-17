@@ -6,6 +6,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.VaultManager;
+import uk.firedev.daisylib.addons.items.DenizenItemAddon;
 import uk.firedev.daisylib.addons.items.NexoItemAddon;
 import uk.firedev.daisylib.events.CustomEventListener;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
@@ -66,6 +67,7 @@ public final class DaisyLib extends JavaPlugin {
 
     private void loadAddons() {
         new NexoItemAddon().register();
+        new DenizenItemAddon().register();
     }
 
     public static DaisyLib getInstance() { return instance; }

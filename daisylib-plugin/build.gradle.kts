@@ -21,6 +21,7 @@ repositories {
     maven("https://repo.md5lukas.de/public")
 
     // ItemAddons
+    maven("https://maven.citizensnpcs.co/repo")
     maven("https://repo.nexomc.com/releases")
 }
 
@@ -35,6 +36,9 @@ dependencies {
     compileOnly(libs.miniplaceholders)
 
     // ItemAddons
+    compileOnly(libs.denizen) {
+        exclude("*", "*")
+    }
     compileOnly(libs.nexo)
 
     implementation(libs.triumphgui)
