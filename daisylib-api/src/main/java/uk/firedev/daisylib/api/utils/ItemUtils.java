@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.api.addons.ItemAddon;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 
 import java.util.Arrays;
@@ -22,12 +23,17 @@ import java.util.UUID;
 
 public class ItemUtils {
 
-    public static @NotNull Material getMaterial(@Nullable String materialName, @NotNull Material defaultMaterial) {
-        Material material = getMaterial(materialName);
-        if (material == null) {
-            return defaultMaterial;
+    public static @Nullable ItemStack getItem(@Nullable String itemName) {
+        Material material = getMaterial(itemName);
+        if (material != null) {
+            return ItemStack.of(material);
         }
-        return material;
+        return ItemAddon.processString(itemName);
+    }
+
+    public static @NotNull ItemStack getItem(@Nullable String itemName, @NotNull ItemStack defaultItem) {
+        ItemStack item = getItem(itemName);
+        return item == null ? defaultItem : item;
     }
 
     public static @Nullable Material getMaterial(@Nullable String materialName) {
@@ -35,6 +41,14 @@ public class ItemUtils {
             return null;
         }
         return ObjectUtils.getEnumValue(Material.class, materialName);
+    }
+
+    public static @NotNull Material getMaterial(@Nullable String materialName, @NotNull Material defaultMaterial) {
+        Material material = getMaterial(materialName);
+        if (material == null) {
+            return defaultMaterial;
+        }
+        return material;
     }
 
     public static boolean validMaterial(@Nullable String materialName) {

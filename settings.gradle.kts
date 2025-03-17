@@ -13,6 +13,8 @@ dependencyResolutionManagement {
             library("placeholderapi", "me.clip:placeholderapi:2.11.6")
             library("vault", "com.github.MilkBowl:VaultAPI:1.7")
             library("miniplaceholders", "io.github.miniplaceholders:miniplaceholders-api:2.2.3")
+            library("nexo", "com.nexomc:nexo:0.7.0")
+            library("denizen", "com.denizenscript:denizen:1.3.1-SNAPSHOT")
 
             // implementation dependencies
             library("triumphgui", "dev.triumphteam:triumph-gui:3.1.11")

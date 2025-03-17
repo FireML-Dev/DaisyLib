@@ -6,6 +6,8 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.VaultManager;
+import uk.firedev.daisylib.addons.items.DenizenItemAddon;
+import uk.firedev.daisylib.addons.items.NexoItemAddon;
 import uk.firedev.daisylib.events.CustomEventListener;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
 import uk.firedev.daisylib.local.command.LibCommand;
@@ -24,7 +26,6 @@ public final class DaisyLib extends JavaPlugin {
     public void onLoad() {
         CommandAPI.onLoad(new CommandAPIBukkitConfig(this)
                 .shouldHookPaperReload(true)
-                .usePluginNamespace()
                 .missingExecutorImplementationMessage("You are not able to use this command!")
         );
     }
@@ -38,6 +39,7 @@ public final class DaisyLib extends JavaPlugin {
         LibCommand.getCommand().register();
         getServer().getPluginManager().registerEvents(new CustomEventListener(), this);
         loadManagers();
+        loadAddons();
         loadMetrics();
     }
 
@@ -60,6 +62,11 @@ public final class DaisyLib extends JavaPlugin {
         VaultManager.getInstance().load();
         RewardManager.getInstance().load();
         RequirementManager.getInstance().load();
+    }
+
+    private void loadAddons() {
+        new NexoItemAddon().register();
+        new DenizenItemAddon().register();
     }
 
     public static DaisyLib getInstance() { return instance; }

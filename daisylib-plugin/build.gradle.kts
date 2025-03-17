@@ -19,6 +19,10 @@ repositories {
     maven("https://repo.minebench.de/")
     maven("https://repo.codemc.io/repository/maven-snapshots/")
     maven("https://repo.md5lukas.de/public")
+
+    // ItemAddons
+    maven("https://maven.citizensnpcs.co/repo")
+    maven("https://repo.nexomc.com/releases")
 }
 
 dependencies {
@@ -30,6 +34,12 @@ dependencies {
         exclude("*", "*")
     }
     compileOnly(libs.miniplaceholders)
+
+    // ItemAddons
+    compileOnly(libs.denizen) {
+        exclude("*", "*")
+    }
+    compileOnly(libs.nexo)
 
     implementation(libs.triumphgui)
     implementation(libs.anvilgui)

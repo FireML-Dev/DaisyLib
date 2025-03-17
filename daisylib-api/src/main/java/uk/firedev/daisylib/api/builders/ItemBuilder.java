@@ -254,15 +254,14 @@ public class ItemBuilder {
         return this.item.clone();
     }
 
-    // TODO support for external plugin items
-    public ItemBuilder loadConfig(@Nullable ConfigurationSection section, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
+    private ItemBuilder loadConfig(@Nullable ConfigurationSection section, @Nullable ComponentReplacer displayReplacer, @Nullable ComponentReplacer loreReplacer) {
         if (section == null) {
             return this;
         }
 
-        Material material = ItemUtils.getMaterial(section.getString("material"));
-        if (material != null) {
-            withMaterial(material);
+        ItemStack item = ItemUtils.getItem(section.getString("material"));
+        if (item != null) {
+            this.item = item;
         }
 
         String display = section.getString("display");
