@@ -25,7 +25,10 @@ public abstract class ItemAddon implements Addon {
         return true;
     }
 
-    public static @Nullable ItemStack processString(@NotNull String string) {
+    public static @Nullable ItemStack processString(@Nullable String string) {
+        if (string == null) {
+            return null;
+        }
         String[] split = string.split("=");
         String name;
         String itemId;
