@@ -35,7 +35,7 @@ public class HealthRequirementAddon extends RequirementAddon {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "HEALTH";
+        return "Health";
     }
 
     @Override

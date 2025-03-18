@@ -39,7 +39,7 @@ public class ItemRewardAddon extends RewardAddon {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "ITEM";
+        return "Item";
     }
 
     @Override

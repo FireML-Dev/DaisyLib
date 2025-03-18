@@ -39,7 +39,7 @@ public class MoneyRequirementAddon extends RequirementAddon {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "MONEY";
+        return "Money";
     }
 
     @Override

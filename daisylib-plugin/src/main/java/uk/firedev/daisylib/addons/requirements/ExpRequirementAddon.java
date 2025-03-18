@@ -35,7 +35,7 @@ public class ExpRequirementAddon extends RequirementAddon {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "EXP";
+        return "Exp";
     }
 
     @Override

@@ -38,7 +38,7 @@ public class HealthRewardAddon extends RewardAddon {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "HEALTH";
+        return "Health";
     }
 
     @Override

@@ -23,7 +23,7 @@ public class PermissionRewardAddon extends RewardAddon {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "PERMISSION";
+        return "Permission";
     }
 
     @Override

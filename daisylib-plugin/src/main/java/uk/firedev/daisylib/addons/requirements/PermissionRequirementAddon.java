@@ -27,7 +27,7 @@ public class PermissionRequirementAddon extends RequirementAddon {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "PERMISSION";
+        return "Permission";
     }
 
     @Override

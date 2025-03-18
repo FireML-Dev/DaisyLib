@@ -32,7 +32,7 @@ public class MoneyRewardAddon extends RewardAddon {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "MONEY";
+        return "Money";
     }
 
     @Override

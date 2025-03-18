@@ -23,7 +23,7 @@ public class CommandRewardAddon extends RewardAddon {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "COMMAND";
+        return "Command";
     }
 
     @Override

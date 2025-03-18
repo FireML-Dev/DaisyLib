@@ -22,7 +22,7 @@ public class ExpRewardAddon extends RewardAddon {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "EXP";
+        return "Exp";
     }
 
     @Override

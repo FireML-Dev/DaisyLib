@@ -40,7 +40,7 @@ public class HoldingRequirementAddon extends RequirementAddon {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "HOLDING";
+        return "Holding";
     }
 
     @Override
