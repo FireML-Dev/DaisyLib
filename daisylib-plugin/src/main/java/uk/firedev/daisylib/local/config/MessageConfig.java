@@ -43,12 +43,12 @@ public class MessageConfig extends ConfigBase {
                 .applyReplacer(getPrefixReplacer());
     }
 
-    public ComponentMessage getNoRewardTypesMessage() {
+    public ComponentMessage getNoRewardAddonsMessage() {
         return getComponentMessage("main-command.reward-types.none", "<aqua>There are no registered reward types.</aqua>")
                 .applyReplacer(getPrefixReplacer());
     }
 
-    public ComponentMessage getListRewardTypesMessage() {
+    public ComponentMessage getListRewardAddonsMessage() {
         return getComponentMessage("main-command.reward-types.list", "<aqua>Registered Reward Types:</aqua> <green>{list}</green>")
                 .applyReplacer(getPrefixReplacer());
     }

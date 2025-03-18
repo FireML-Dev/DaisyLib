@@ -6,9 +6,9 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.message.string.StringReplacer;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.reward.RewardType;
+import uk.firedev.daisylib.api.addons.RewardAddon;
 
-public class CommandRewardType implements RewardType {
+public class CommandRewardAddon extends RewardAddon {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
@@ -32,7 +32,7 @@ public class CommandRewardType implements RewardType {
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NotNull Plugin getOwningPlugin() {
         return DaisyLib.getInstance();
     }
 

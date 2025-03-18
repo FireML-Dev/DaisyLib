@@ -15,7 +15,6 @@ import uk.firedev.daisylib.local.config.ExampleConfig;
 import uk.firedev.daisylib.local.config.MainConfig;
 import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.daisylib.requirement.RequirementManager;
-import uk.firedev.daisylib.reward.RewardManager;
 
 public final class DaisyLib extends JavaPlugin {
 
@@ -60,13 +59,17 @@ public final class DaisyLib extends JavaPlugin {
 
     private void loadManagers() {
         VaultManager.getInstance().load();
-        RewardManager.getInstance().load();
         RequirementManager.getInstance().load();
     }
 
     private void loadAddons() {
+        // ItemAddons
         new NexoItemAddon().register();
         new DenizenItemAddon().register();
+
+        // RewardAddons
+
+        // RequirementAddons
     }
 
     public static DaisyLib getInstance() { return instance; }

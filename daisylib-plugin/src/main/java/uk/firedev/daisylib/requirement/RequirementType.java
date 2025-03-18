@@ -45,7 +45,7 @@ public interface RequirementType {
 
     default boolean checkAsync() {
         if (!Bukkit.isPrimaryThread()) {
-            IllegalAccessException ex = new IllegalAccessException("Attempted to trigger a RewardType asynchronously. This is not supported!");
+            IllegalAccessException ex = new IllegalAccessException("Attempted to trigger a RewardAddon asynchronously. This is not supported!");
             Loggers.logException(getComponentLogger(), ex);
             return false;
         }

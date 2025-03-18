@@ -7,16 +7,16 @@ import dev.jorel.commandapi.executors.CommandExecutor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.event.HoverEvent;
+import uk.firedev.daisylib.api.addons.RewardAddon;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.daisylib.requirement.RequirementManager;
 import uk.firedev.daisylib.requirement.RequirementType;
-import uk.firedev.daisylib.reward.RewardManager;
-import uk.firedev.daisylib.reward.RewardType;
 
 import java.util.List;
+import java.util.Map;
 
 public class LibCommand {
 
@@ -32,7 +32,7 @@ public class LibCommand {
                     .withShortDescription("Manage the plugin")
                     .executes((CommandExecutor) (sender, args) -> MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender))
                     .then(getReloadBranch())
-                    .then(getRewardTypesBranch())
+                    .then(getRewardAddonsBranch())
                     .then(getRequirementTypesBranch());
         }
         return command;
@@ -46,30 +46,30 @@ public class LibCommand {
                 }));
     }
 
-    private static Argument<String> getRewardTypesBranch() {
+    private static Argument<String> getRewardAddonsBranch() {
         return new LiteralArgument("rewardTypes")
                 .executes((sender, arguments) -> {
-                    List<RewardType> registeredTypes = RewardManager.getInstance().getRegisteredRewardTypes();
+                    Map<String, RewardAddon> registeredTypes = RewardAddon.getLoadedAddons();
                     if (registeredTypes.isEmpty()) {
-                        MessageConfig.getInstance().getNoRewardTypesMessage().sendMessage(sender);
+                        MessageConfig.getInstance().getNoRewardAddonsMessage().sendMessage(sender);
                     } else {
-                        MessageConfig.getInstance().getListRewardTypesMessage()
-                                .applyReplacer(getRewardTypeListReplacer(registeredTypes))
+                        MessageConfig.getInstance().getListRewardAddonsMessage()
+                                .applyReplacer(getRewardAddonListReplacer(registeredTypes))
                                 .sendMessage(sender);
                     }
                 });
     }
 
-    private static ComponentReplacer getRewardTypeListReplacer(List<RewardType> types) {
+    private static ComponentReplacer getRewardAddonListReplacer(Map<String, RewardAddon> types) {
 
         // Gather all reward types in their intended format
-        List<Component> typeComponents = types.stream()
+        List<Component> typeComponents = types.values().stream()
                 .map(rewardType -> {
                     Component identifier = ComponentMessage.fromString(rewardType.getIdentifier()).getMessage();
                     identifier = identifier.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
                             ComponentMessage.fromString(
                                     "<white>Author: " + rewardType.getAuthor() + "\n" +
-                                            "<white>Registered Plugin: " + rewardType.getPlugin().getName()
+                                            "<white>Registered Plugin: " + rewardType.getOwningPlugin().getName()
                             ).getMessage()
                     ));
                     return identifier;

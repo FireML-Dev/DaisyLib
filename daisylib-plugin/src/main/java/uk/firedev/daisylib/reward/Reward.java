@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
+import uk.firedev.daisylib.api.addons.RewardAddon;
 import uk.firedev.daisylib.local.DaisyLib;
 
 import java.util.Arrays;
@@ -33,7 +34,7 @@ public class Reward {
             Loggers.warn(getComponentLogger(), "Attempted to give an invalid Reward. Please check for earlier warnings.");
             return;
         }
-        RewardType rewardType = RewardManager.getInstance().getRewardType(this.key);
+        RewardAddon rewardType = RewardAddon.get(this.key);
         if (rewardType == null) {
             Loggers.warn(getComponentLogger(), "Invalid reward. Possible typo?: " + this.key);
             return;

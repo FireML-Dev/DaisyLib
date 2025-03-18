@@ -9,9 +9,9 @@ import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.reward.RewardType;
+import uk.firedev.daisylib.api.addons.RewardAddon;
 
-public class ItemRewardType implements RewardType {
+public class ItemRewardAddon extends RewardAddon {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
@@ -19,14 +19,14 @@ public class ItemRewardType implements RewardType {
         String[] splitValue = value.split(",");
         Material material = ItemUtils.getMaterial(splitValue[0]);
         if (material == null) {
-            Loggers.info(getComponentLogger(), "Invalid material specified for RewardType " + getIdentifier() + ": " + splitValue[0]);
+            Loggers.info(getClass(), "Invalid material specified: " + splitValue[0]);
             return;
         }
         int quantity = 1;
         if (splitValue.length >= 2) {
             Integer amount = ObjectUtils.getInt(splitValue[1]);
             if (amount == null) {
-                Loggers.info(getComponentLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + splitValue[1]);
+                Loggers.info(getClass(), "Invalid number specified: " + splitValue[1]);
                 return;
             }
             quantity = Math.max(amount, 1);
@@ -48,7 +48,7 @@ public class ItemRewardType implements RewardType {
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NotNull Plugin getOwningPlugin() {
         return DaisyLib.getInstance();
     }
 

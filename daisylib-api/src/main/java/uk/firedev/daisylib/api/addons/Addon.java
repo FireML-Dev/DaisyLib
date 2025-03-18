@@ -3,12 +3,28 @@ package uk.firedev.daisylib.api.addons;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-public interface Addon {
+public abstract class Addon {
 
-    @NotNull String getIdentifier();
+    public abstract @NotNull String getIdentifier();
 
-    @NotNull Plugin getOwningPlugin();
+    public abstract @NotNull Plugin getOwningPlugin();
 
-    @NotNull String getAuthor();
+    public abstract @NotNull String getAuthor();
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof ItemAddon addon)) {
+            return false;
+        }
+        return getIdentifier().equals(addon.getIdentifier());
+    }
+
+    @Override
+    public int hashCode() {
+        return getIdentifier().hashCode();
+    }
 
 }

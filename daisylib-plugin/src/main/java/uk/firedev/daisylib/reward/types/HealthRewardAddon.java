@@ -8,15 +8,15 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.reward.RewardType;
+import uk.firedev.daisylib.api.addons.RewardAddon;
 
-public class HealthRewardType implements RewardType {
+public class HealthRewardAddon extends RewardAddon {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
         Double amount = ObjectUtils.getDouble(value);
         if (amount == null) {
-            Loggers.info(getComponentLogger(), "Invalid number specified for RewardType " + getIdentifier() + ": " + value);
+            Loggers.info(getClass(), "Invalid number specified: " + value);
             return;
         }
         AttributeInstance attribute = player.getAttribute(Attribute.MAX_HEALTH);
@@ -47,7 +47,7 @@ public class HealthRewardType implements RewardType {
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NotNull Plugin getOwningPlugin() {
         return DaisyLib.getInstance();
     }
 
