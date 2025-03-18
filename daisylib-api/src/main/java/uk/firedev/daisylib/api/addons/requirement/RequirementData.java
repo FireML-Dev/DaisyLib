@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.requirement;
+package uk.firedev.daisylib.api.addons.requirement;
 
 import org.bukkit.Location;
 import org.bukkit.World;

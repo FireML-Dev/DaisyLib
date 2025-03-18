@@ -1,10 +1,9 @@
-package uk.firedev.daisylib.requirement;
+package uk.firedev.daisylib.api.addons.requirement;
 
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.local.DaisyLib;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.Map;
 
 public class Requirement {
 
+    private final ComponentLogger logger = ComponentLogger.logger(getClass());
     private final Map<String, List<String>> checkMap;
     private final Plugin plugin;
 
@@ -54,12 +54,12 @@ public class Requirement {
                 plugin.getLogger().warning("Attempted to process an invalid Requirement. Please check for earlier warnings.");
                 continue;
             }
-            RequirementType requirementType = RequirementManager.getInstance().getRequirementType(key);
-            if (requirementType == null) {
+            RequirementAddon requirementAddon = RequirementAddon.get(key);
+            if (requirementAddon == null) {
                 Loggers.warn(getComponentLogger(), "Invalid requirement. Possible typo?: " + key);
                 continue;
             }
-            if (!requirementType.checkRequirement(data, value)) {
+            if (!requirementAddon.checkRequirement(data, value)) {
                 return false;
             }
         }
@@ -67,10 +67,7 @@ public class Requirement {
     }
 
     public ComponentLogger getComponentLogger() {
-        if (plugin instanceof DaisyLib) {
-            return plugin.getComponentLogger();
-        }
-        return ComponentLogger.logger("DaisyLib via " + plugin.getName());
+        return logger;
     }
 
 }

@@ -7,13 +7,12 @@ import dev.jorel.commandapi.executors.CommandExecutor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.event.HoverEvent;
+import uk.firedev.daisylib.api.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.api.addons.reward.RewardAddon;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.local.config.MessageConfig;
-import uk.firedev.daisylib.requirement.RequirementManager;
-import uk.firedev.daisylib.requirement.RequirementType;
 
 import java.util.List;
 import java.util.Map;
@@ -33,7 +32,7 @@ public class LibCommand {
                     .executes((CommandExecutor) (sender, args) -> MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender))
                     .then(getReloadBranch())
                     .then(getRewardAddonsBranch())
-                    .then(getRequirementTypesBranch());
+                    .then(getRequirementAddonsBranch());
         }
         return command;
     }
@@ -85,30 +84,29 @@ public class LibCommand {
         return ComponentReplacer.create("list", joined);
     }
 
-    private static Argument<String> getRequirementTypesBranch() {
+    private static Argument<String> getRequirementAddonsBranch() {
         return new LiteralArgument("requirementTypes")
                 .executes((sender, arguments) -> {
-                    List<RequirementType> registeredTypes = RequirementManager.getInstance().getRegisteredRequirementTypes();
-                    if (registeredTypes.isEmpty()) {
+                    Map<String, RequirementAddon> registeredAddons = RequirementAddon.getLoadedAddons();
+                    if (registeredAddons.isEmpty()) {
                         MessageConfig.getInstance().getNoRequirementTypesMessage().sendMessage(sender);
                     } else {
                         MessageConfig.getInstance().getListRequirementTypesMessage()
-                                .applyReplacer(getRequirementTypeListReplacer(registeredTypes))
+                                .applyReplacer(getRequirementAddonListReplacer(registeredAddons))
                                 .sendMessage(sender);
                     }
                 });
     }
 
-    private static ComponentReplacer getRequirementTypeListReplacer(List<RequirementType> types) {
-
+    private static ComponentReplacer getRequirementAddonListReplacer(Map<String, RequirementAddon> types) {
         // Gather all requirement types in their intended format
-        List<Component> typeComponents = types.stream()
+        List<Component> typeComponents = types.values().stream()
                 .map(requirementType -> {
                     Component identifier = ComponentMessage.fromString(requirementType.getIdentifier()).getMessage();
                     identifier = identifier.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
                             ComponentMessage.fromString(
                                     "<white>Author: " + requirementType.getAuthor() + "\n" +
-                                            "<white>Registered Plugin: " + requirementType.getPlugin().getName()
+                                            "<white>Registered Plugin: " + requirementType.getOwningPlugin().getName()
                             ).getMessage()
                     ));
                     return identifier;

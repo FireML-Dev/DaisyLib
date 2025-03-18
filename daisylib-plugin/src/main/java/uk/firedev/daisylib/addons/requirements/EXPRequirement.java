@@ -1,15 +1,17 @@
-package uk.firedev.daisylib.requirement.requirements;
+package uk.firedev.daisylib.addons.requirements;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.api.Loggers;
+import uk.firedev.daisylib.api.addons.requirement.RequirementAddon;
+import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.requirement.RequirementData;
-import uk.firedev.daisylib.requirement.RequirementType;
+import uk.firedev.daisylib.api.addons.requirement.RequirementData;
 
 import java.util.List;
 
-public class PermissionRequirement implements RequirementType {
+public class EXPRequirement extends RequirementAddon {
 
     @Override
     public boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> values) {
@@ -17,8 +19,14 @@ public class PermissionRequirement implements RequirementType {
         if (player == null) {
             return false;
         }
+        int experiencePoints = player.calculateTotalExperiencePoints();
         for (String value : values) {
-            if (player.hasPermission(value)) {
+            Integer amount = ObjectUtils.getInt(value);
+            if (amount == null) {
+                Loggers.warn(getClass(), value + " is not a valid integer");
+                continue;
+            }
+            if (experiencePoints >= amount) {
                 return true;
             }
         }
@@ -27,7 +35,7 @@ public class PermissionRequirement implements RequirementType {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "PERMISSION";
+        return "EXP";
     }
 
     @Override
@@ -36,7 +44,7 @@ public class PermissionRequirement implements RequirementType {
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NotNull Plugin getOwningPlugin() {
         return DaisyLib.getInstance();
     }
 

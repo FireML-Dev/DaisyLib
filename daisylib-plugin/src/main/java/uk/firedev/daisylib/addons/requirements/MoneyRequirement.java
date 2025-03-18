@@ -1,34 +1,36 @@
-package uk.firedev.daisylib.requirement.requirements;
+package uk.firedev.daisylib.addons.requirements;
 
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.api.Loggers;
+import uk.firedev.daisylib.api.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.requirement.RequirementData;
-import uk.firedev.daisylib.requirement.RequirementType;
+import uk.firedev.daisylib.api.addons.requirement.RequirementData;
 
 import java.util.List;
 
-public class MoneyRequirement implements RequirementType {
+public class MoneyRequirement extends RequirementAddon {
 
     @Override
     public boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> values) {
          if (data.getPlayer() == null) {
              return false;
          }
-        if (VaultManager.getInstance().getEconomy() == null) {
-            Loggers.warn(getComponentLogger(), "Vault economy not found! Please enable one to use the " + getIdentifier() + " requirement.");
+        Economy economy = VaultManager.getInstance().getEconomy();
+        if (economy == null) {
+            Loggers.warn(getClass(), "Vault Economy not found! Please enable one to use this requirement.");
             return false;
         }
         for (String value : values) {
             Double amount = ObjectUtils.getDouble(value);
             if (amount == null) {
-                Loggers.warn(getComponentLogger(), value + " is not a valid double");
+                Loggers.warn(getClass(), value + " is not a valid double");
                 continue;
             }
-            if (VaultManager.getInstance().getEconomy().has(data.getPlayer(), amount)) {
+            if (economy.has(data.getPlayer(), amount)) {
                 return true;
             }
         }
@@ -46,7 +48,7 @@ public class MoneyRequirement implements RequirementType {
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NotNull Plugin getOwningPlugin() {
         return DaisyLib.getInstance();
     }
 

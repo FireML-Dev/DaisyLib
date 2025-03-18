@@ -68,20 +68,4 @@ public abstract class RewardAddon extends Addon {
         return unregister(getIdentifier());
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof RewardAddon addon)) {
-            return false;
-        }
-        return getIdentifier().equals(addon.getIdentifier());
-    }
-
-    @Override
-    public int hashCode() {
-        return getIdentifier().hashCode();
-    }
-
 }

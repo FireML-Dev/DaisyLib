@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.requirement.requirements;
+package uk.firedev.daisylib.addons.requirements;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -6,14 +6,13 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
+import uk.firedev.daisylib.api.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.requirement.RequirementData;
-import uk.firedev.daisylib.requirement.RequirementType;
-
+import uk.firedev.daisylib.api.addons.requirement.RequirementData;
 import java.util.List;
 
-public class HoldingRequirement implements RequirementType {
+public class HoldingRequirement extends RequirementAddon {
 
     @Override
     public boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> values) {
@@ -24,7 +23,7 @@ public class HoldingRequirement implements RequirementType {
         for (String value : values) {
             Material material = ItemUtils.getMaterial(value);
             if (material == null) {
-                Loggers.warn(getComponentLogger(), value + " is not a valid material");
+                Loggers.warn(getClass(), value + " is not a valid material");
                 continue;
             }
             if (eitherHandHasMaterial(player, material)) {
@@ -50,7 +49,7 @@ public class HoldingRequirement implements RequirementType {
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NotNull Plugin getOwningPlugin() {
         return DaisyLib.getInstance();
     }
 

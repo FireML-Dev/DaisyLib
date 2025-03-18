@@ -1,17 +1,17 @@
-package uk.firedev.daisylib.requirement.requirements;
+package uk.firedev.daisylib.addons.requirements;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
+import uk.firedev.daisylib.api.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.requirement.RequirementData;
-import uk.firedev.daisylib.requirement.RequirementType;
+import uk.firedev.daisylib.api.addons.requirement.RequirementData;
 
 import java.util.List;
 
-public class EXPRequirement implements RequirementType {
+public class HealthRequirement extends RequirementAddon {
 
     @Override
     public boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> values) {
@@ -19,14 +19,14 @@ public class EXPRequirement implements RequirementType {
         if (player == null) {
             return false;
         }
-        int experiencePoints = player.calculateTotalExperiencePoints();
+        double currentHealth = player.getHealth();
         for (String value : values) {
-            Integer amount = ObjectUtils.getInt(value);
+            Double amount = ObjectUtils.getDouble(value);
             if (amount == null) {
-                Loggers.warn(getComponentLogger(), value + " is not a valid integer");
+                Loggers.warn(getClass(), value + " is not a valid double");
                 continue;
             }
-            if (experiencePoints >= amount) {
+            if (currentHealth >= amount) {
                 return true;
             }
         }
@@ -35,7 +35,7 @@ public class EXPRequirement implements RequirementType {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "EXP";
+        return "HEALTH";
     }
 
     @Override
@@ -44,7 +44,7 @@ public class EXPRequirement implements RequirementType {
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NotNull Plugin getOwningPlugin() {
         return DaisyLib.getInstance();
     }
 
