@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.api.addons.exceptions;
+package uk.firedev.daisylib.api.addons;
 
 public class InvalidAddonException extends RuntimeException {
 

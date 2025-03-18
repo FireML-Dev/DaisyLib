@@ -1,11 +1,11 @@
-package uk.firedev.daisylib.api.addons;
+package uk.firedev.daisylib.api.addons.reward;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.api.addons.exceptions.InvalidAddonException;
-import uk.firedev.daisylib.api.addons.exceptions.InvalidRewardException;
+import uk.firedev.daisylib.api.addons.Addon;
+import uk.firedev.daisylib.api.addons.InvalidAddonException;
 
 import java.util.Map;
 import java.util.TreeMap;

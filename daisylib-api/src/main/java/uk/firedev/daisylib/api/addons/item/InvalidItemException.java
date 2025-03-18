@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.api.addons.exceptions;
+package uk.firedev.daisylib.api.addons.item;
 
 public class InvalidItemException extends RuntimeException {
 

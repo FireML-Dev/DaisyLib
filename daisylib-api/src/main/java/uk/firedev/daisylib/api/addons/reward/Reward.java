@@ -1,17 +1,16 @@
-package uk.firedev.daisylib.reward;
+package uk.firedev.daisylib.api.addons.reward;
 
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.api.addons.RewardAddon;
-import uk.firedev.daisylib.local.DaisyLib;
 
 import java.util.Arrays;
 
 public class Reward {
 
+    private final ComponentLogger logger = ComponentLogger.logger(getClass());
     private @NotNull String key;
     private @NotNull String value;
     private final Plugin plugin;
@@ -43,10 +42,7 @@ public class Reward {
     }
 
     public ComponentLogger getComponentLogger() {
-        if (plugin instanceof DaisyLib) {
-            return plugin.getComponentLogger();
-        }
-        return ComponentLogger.logger("DaisyLib via " + plugin.getName());
+        return logger;
     }
 
 }

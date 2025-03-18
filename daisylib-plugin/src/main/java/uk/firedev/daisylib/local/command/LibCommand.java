@@ -7,7 +7,7 @@ import dev.jorel.commandapi.executors.CommandExecutor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.event.HoverEvent;
-import uk.firedev.daisylib.api.addons.RewardAddon;
+import uk.firedev.daisylib.api.addons.reward.RewardAddon;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.local.DaisyLib;

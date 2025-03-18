@@ -2,6 +2,7 @@ package uk.firedev.daisylib.api.addons;
 
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.api.addons.item.ItemAddon;
 
 public abstract class Addon {
 

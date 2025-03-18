@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.api.addons.exceptions;
+package uk.firedev.daisylib.api.addons.reward;
 
 public class InvalidRewardException extends RuntimeException {
 

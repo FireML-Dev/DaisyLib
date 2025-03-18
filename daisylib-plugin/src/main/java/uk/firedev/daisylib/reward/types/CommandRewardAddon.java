@@ -6,7 +6,7 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.message.string.StringReplacer;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.api.addons.RewardAddon;
+import uk.firedev.daisylib.api.addons.reward.RewardAddon;
 
 public class CommandRewardAddon extends RewardAddon {
 

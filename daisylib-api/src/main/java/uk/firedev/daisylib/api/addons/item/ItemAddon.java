@@ -1,11 +1,11 @@
-package uk.firedev.daisylib.api.addons;
+package uk.firedev.daisylib.api.addons.item;
 
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.api.addons.exceptions.InvalidAddonException;
-import uk.firedev.daisylib.api.addons.exceptions.InvalidItemException;
+import uk.firedev.daisylib.api.addons.Addon;
+import uk.firedev.daisylib.api.addons.InvalidAddonException;
 
 import java.util.TreeMap;
 

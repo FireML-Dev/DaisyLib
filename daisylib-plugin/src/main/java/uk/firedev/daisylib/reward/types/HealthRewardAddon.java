@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.api.addons.RewardAddon;
+import uk.firedev.daisylib.api.addons.reward.RewardAddon;
 
 public class HealthRewardAddon extends RewardAddon {
 

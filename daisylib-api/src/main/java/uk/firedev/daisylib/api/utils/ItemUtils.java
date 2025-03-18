@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.api.addons.ItemAddon;
+import uk.firedev.daisylib.api.addons.item.ItemAddon;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 
 import java.util.Arrays;
