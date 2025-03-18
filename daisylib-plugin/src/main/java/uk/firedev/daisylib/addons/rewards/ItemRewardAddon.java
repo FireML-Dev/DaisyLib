@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.reward.types;
+package uk.firedev.daisylib.addons.rewards;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

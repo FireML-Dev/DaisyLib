@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.reward.types;
+package uk.firedev.daisylib.addons.rewards;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;

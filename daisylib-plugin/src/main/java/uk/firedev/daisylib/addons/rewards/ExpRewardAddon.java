@@ -1,29 +1,28 @@
-package uk.firedev.daisylib.reward.types;
+package uk.firedev.daisylib.addons.rewards;
 
-import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.api.addons.reward.RewardAddon;
+import uk.firedev.daisylib.api.utils.ObjectUtils;
+import uk.firedev.daisylib.local.DaisyLib;
 
-public class PermissionRewardAddon extends RewardAddon {
+public class ExpRewardAddon extends RewardAddon {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
-        Permission permission = VaultManager.getInstance().getPermissions();
-        if (permission == null) {
-            Loggers.warn(getClass(), "DaisyLib's VaultManager is not enabled! Enable to use this RewardAddon.");
-        } else {
-            permission.playerAdd(null, player, value);
+        Integer amount = ObjectUtils.getInt(value);
+        if (amount == null) {
+            Loggers.info(getClass(), "Invalid number specified: " + value);
+            return;
         }
+        player.giveExp(amount);
     }
 
     @Override
     public @NotNull String getIdentifier() {
-        return "PERMISSION";
+        return "EXP";
     }
 
     @Override
