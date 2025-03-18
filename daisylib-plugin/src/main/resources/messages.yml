@@ -3,8 +3,8 @@ main-command:
   usage: "{prefix}<aqua>Usage: /daisylib reload</aqua>"
   reloaded: "{prefix}<aqua>Successfully reloaded the plugin.</aqua>"
   list-addons:
-    none: "{prefix}<aqua>There are no registered {name}.</aqua>"
-    list: "{prefix}<aqua>Registered {name}:</aqua> <green>{list}</green>"
+    none: "{prefix}<aqua>There are no registered {name}s.</aqua>"
+    list: "{prefix}<aqua>Registered {name}s:</aqua> <green>{list}</green>"
 time-units:
   year:
     single: " year"

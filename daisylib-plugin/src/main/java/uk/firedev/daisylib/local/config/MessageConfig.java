@@ -46,13 +46,13 @@ public class MessageConfig extends ConfigBase {
     }
 
     public ComponentMessage getNoAddonsMessage(@NotNull Class<? extends Addon> clazz) {
-        return getComponentMessage("main-command.list-addons.none", "{prefix}<aqua>There are no registered {name}.</aqua>")
+        return getComponentMessage("main-command.list-addons.none", "{prefix}<aqua>There are no registered {name}s.</aqua>")
             .replace("name", clazz.getSimpleName())
             .applyReplacer(getPrefixReplacer());
     }
 
     public ComponentMessage getListAddonsMessage(@NotNull Class<? extends Addon> clazz) {
-        return getComponentMessage("main-command.list-addons.list", "{prefix}<aqua>Registered {name}:</aqua> <green>{list}</green>")
+        return getComponentMessage("main-command.list-addons.list", "{prefix}<aqua>Registered {name}s:</aqua> <green>{list}</green>")
             .replace("name", clazz.getSimpleName())
             .applyReplacer(getPrefixReplacer());
     }

@@ -61,7 +61,7 @@ public class LibCommand {
                 if (registered.isEmpty()) {
                     MessageConfig.getInstance().getNoAddonsMessage(ItemAddon.class).sendMessage(info.sender());
                 } else {
-                    MessageConfig.getInstance().getListAddonsMessage(RequirementAddon.class)
+                    MessageConfig.getInstance().getListAddonsMessage(ItemAddon.class)
                         .applyReplacer(getAddonListReplacer(registered))
                         .sendMessage(info.sender());
                 }
@@ -75,7 +75,7 @@ public class LibCommand {
                     if (registered.isEmpty()) {
                         MessageConfig.getInstance().getNoAddonsMessage(RewardAddon.class).sendMessage(info.sender());
                     } else {
-                        MessageConfig.getInstance().getListAddonsMessage(RequirementAddon.class)
+                        MessageConfig.getInstance().getListAddonsMessage(RewardAddon.class)
                             .applyReplacer(getAddonListReplacer(registered))
                             .sendMessage(info.sender());
                     }
@@ -104,7 +104,7 @@ public class LibCommand {
                     identifier = identifier.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
                             ComponentMessage.fromString(
                                     "<white>Author: " + rewardType.getAuthor() + "\n" +
-                                            "<white>Registered Plugin: " + rewardType.getOwningPlugin().getName()
+                                    "<white>Registered Plugin: " + rewardType.getOwningPlugin().getName()
                             ).getMessage()
                     ));
                     return identifier;
