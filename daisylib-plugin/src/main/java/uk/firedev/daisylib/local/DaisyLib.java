@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.addons.items.DenizenItemAddon;
 import uk.firedev.daisylib.addons.items.NexoItemAddon;
+import uk.firedev.daisylib.addons.requirements.*;
 import uk.firedev.daisylib.addons.rewards.*;
 import uk.firedev.daisylib.events.CustomEventListener;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
@@ -75,6 +76,11 @@ public final class DaisyLib extends JavaPlugin {
         new PermissionRewardAddon().register();
 
         // RequirementAddons
+        new ExpRequirementAddon().register();
+        new HealthRequirementAddon().register();
+        new HoldingRequirementAddon().register();
+        new MoneyRequirementAddon().register();
+        new PermissionRequirementAddon().register();
     }
 
     public static DaisyLib getInstance() { return instance; }

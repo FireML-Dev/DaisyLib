@@ -12,7 +12,7 @@ import uk.firedev.daisylib.api.addons.requirement.RequirementData;
 
 import java.util.List;
 
-public class MoneyRequirement extends RequirementAddon {
+public class MoneyRequirementAddon extends RequirementAddon {
 
     @Override
     public boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> values) {
