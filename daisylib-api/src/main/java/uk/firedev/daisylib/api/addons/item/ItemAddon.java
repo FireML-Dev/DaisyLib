@@ -7,11 +7,16 @@ import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.addons.Addon;
 import uk.firedev.daisylib.api.addons.InvalidAddonException;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 public abstract class ItemAddon extends Addon {
 
     private static final TreeMap<String, ItemAddon> loadedAddons = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+
+    public static Map<String, ItemAddon> getLoadedAddons() {
+        return Map.copyOf(loadedAddons);
+    }
 
     public static @Nullable ItemAddon get(@NotNull String identifier) {
         return loadedAddons.get(identifier);

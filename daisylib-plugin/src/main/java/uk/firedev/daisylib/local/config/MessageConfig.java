@@ -1,5 +1,7 @@
 package uk.firedev.daisylib.local.config;
 
+import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.api.addons.Addon;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.config.ConfigBase;
@@ -35,32 +37,24 @@ public class MessageConfig extends ConfigBase {
 
     public ComponentMessage getMainUsageMessage() {
         return getComponentMessage("main-command.usage", "<aqua>Usage: /daisylib reload</aqua>")
-                .applyReplacer(getPrefixReplacer());
+            .applyReplacer(getPrefixReplacer());
     }
 
     public ComponentMessage getReloadedMessage() {
         return getComponentMessage("main-command.reloaded", "<aqua>Successfully reloaded the plugin.</aqua>")
-                .applyReplacer(getPrefixReplacer());
+            .applyReplacer(getPrefixReplacer());
     }
 
-    public ComponentMessage getNoRewardAddonsMessage() {
-        return getComponentMessage("main-command.reward-types.none", "<aqua>There are no registered reward types.</aqua>")
-                .applyReplacer(getPrefixReplacer());
+    public ComponentMessage getNoAddonsMessage(@NotNull Class<? extends Addon> clazz) {
+        return getComponentMessage("main-command.list-addons.none", "{prefix}<aqua>There are no registered {name}.</aqua>")
+            .replace("name", clazz.getSimpleName())
+            .applyReplacer(getPrefixReplacer());
     }
 
-    public ComponentMessage getListRewardAddonsMessage() {
-        return getComponentMessage("main-command.reward-types.list", "<aqua>Registered Reward Types:</aqua> <green>{list}</green>")
-                .applyReplacer(getPrefixReplacer());
-    }
-
-    public ComponentMessage getNoRequirementTypesMessage() {
-        return getComponentMessage("main-command.requirement-types.none", "<aqua>There are no registered requirement types.</aqua>")
-                .applyReplacer(getPrefixReplacer());
-    }
-
-    public ComponentMessage getListRequirementTypesMessage() {
-        return getComponentMessage("main-command.requirement-types.list", "<aqua>Registered Requirement Types:</aqua> <green>{list}</green>")
-                .applyReplacer(getPrefixReplacer());
+    public ComponentMessage getListAddonsMessage(@NotNull Class<? extends Addon> clazz) {
+        return getComponentMessage("main-command.list-addons.list", "{prefix}<aqua>Registered {name}:</aqua> <green>{list}</green>")
+            .replace("name", clazz.getSimpleName())
+            .applyReplacer(getPrefixReplacer());
     }
 
 }

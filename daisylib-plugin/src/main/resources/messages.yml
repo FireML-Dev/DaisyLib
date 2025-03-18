@@ -2,12 +2,9 @@ prefix: "<gray>[DaisyLib]</gray> "
 main-command:
   usage: "{prefix}<aqua>Usage: /daisylib reload</aqua>"
   reloaded: "{prefix}<aqua>Successfully reloaded the plugin.</aqua>"
-  reward-types:
-    none: "{prefix}<aqua>There are no registered reward types.</aqua>"
-    list: "{prefix}<aqua>Registered Reward Types:</aqua> <green>{list}</green>"
-  requirement-types:
-    none: "{prefix}<aqua>There are no registered requirement types.</aqua>"
-    list: "{prefix}<aqua>Registered Requirement Types:</aqua> <green>{list}</green>"
+  list-addons:
+    none: "{prefix}<aqua>There are no registered {name}.</aqua>"
+    list: "{prefix}<aqua>Registered {name}:</aqua> <green>{list}</green>"
 time-units:
   year:
     single: " year"
@@ -29,4 +26,4 @@ time-units:
     multiple: " seconds"
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 3
+config-version: 4
