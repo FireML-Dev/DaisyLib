@@ -15,11 +15,10 @@ public class ItemRewardAddon extends RewardAddon {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
-        
         String[] splitValue = value.split(",");
-        Material material = ItemUtils.getMaterial(splitValue[0]);
-        if (material == null) {
-            Loggers.info(getClass(), "Invalid material specified: " + splitValue[0]);
+        ItemStack item = ItemUtils.getItem(splitValue[0]);
+        if (item == null) {
+            Loggers.info(getClass(), "Invalid item specified: " + splitValue[0]);
             return;
         }
         int quantity = 1;
@@ -31,7 +30,7 @@ public class ItemRewardAddon extends RewardAddon {
             }
             quantity = Math.max(amount, 1);
         }
-        ItemStack item = ItemStack.of(material);
+        item.setAmount(quantity);
         for (int i = 0; i < quantity; ++i) {
             ItemUtils.giveItem(item, player);
         }
