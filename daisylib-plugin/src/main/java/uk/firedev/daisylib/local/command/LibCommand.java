@@ -31,10 +31,15 @@ public class LibCommand {
                     .withShortDescription("Manage the plugin")
                     .executes((CommandExecutor) (sender, args) -> MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender))
                     .then(getReloadBranch())
-                    .then(getRewardAddonsBranch())
-                    .then(getRequirementAddonsBranch());
+                    .then(getListBranch());
         }
         return command;
+    }
+
+    private static Argument<String> getListBranch() {
+        return new LiteralArgument("list")
+            .then(getRequirementAddonsBranch())
+            .then(getRewardAddonsBranch());
     }
 
     private static Argument<String> getReloadBranch() {
@@ -46,7 +51,7 @@ public class LibCommand {
     }
 
     private static Argument<String> getRewardAddonsBranch() {
-        return new LiteralArgument("rewardTypes")
+        return new LiteralArgument("rewardAddons")
                 .executes((sender, arguments) -> {
                     Map<String, RewardAddon> registeredTypes = RewardAddon.getLoadedAddons();
                     if (registeredTypes.isEmpty()) {
@@ -85,7 +90,7 @@ public class LibCommand {
     }
 
     private static Argument<String> getRequirementAddonsBranch() {
-        return new LiteralArgument("requirementTypes")
+        return new LiteralArgument("requirementAddons")
                 .executes((sender, arguments) -> {
                     Map<String, RequirementAddon> registeredAddons = RequirementAddon.getLoadedAddons();
                     if (registeredAddons.isEmpty()) {
