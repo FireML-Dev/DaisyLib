@@ -1,10 +1,10 @@
 prefix: "<gray>[DaisyLib]</gray> "
 main-command:
-  usage: "{prefix}<aqua>Usage: /daisylib reload</aqua>"
-  reloaded: "{prefix}<aqua>Successfully reloaded the plugin.</aqua>"
+  usage: "{prefix}<#F0E68C>Usage: /daisylib reload"
+  reloaded: "{prefix}<#F0E68C>Successfully reloaded the plugin."
   list-addons:
-    none: "{prefix}<aqua>There are no registered {name}s.</aqua>"
-    list: "{prefix}<aqua>Registered {name}s:</aqua> <green>{list}</green>"
+    none: "{prefix}<#F0E68C>There are no registered {name}s."
+    list: "{prefix}<#F0E68C>Registered {name}s:</color> <green>{list}</green>"
 time-units:
   year:
     single: " year"

@@ -36,23 +36,23 @@ public class MessageConfig extends ConfigBase {
     // MAIN COMMAND MESSAGES
 
     public ComponentMessage getMainUsageMessage() {
-        return getComponentMessage("main-command.usage", "<aqua>Usage: /daisylib reload</aqua>")
+        return getComponentMessage("main-command.usage", "{prefix}<#F0E68C>Usage: /daisylib reload")
             .applyReplacer(getPrefixReplacer());
     }
 
     public ComponentMessage getReloadedMessage() {
-        return getComponentMessage("main-command.reloaded", "<aqua>Successfully reloaded the plugin.</aqua>")
+        return getComponentMessage("main-command.reloaded", "{prefix}<#F0E68C>Successfully reloaded the plugin.")
             .applyReplacer(getPrefixReplacer());
     }
 
     public ComponentMessage getNoAddonsMessage(@NotNull Class<? extends Addon> clazz) {
-        return getComponentMessage("main-command.list-addons.none", "{prefix}<aqua>There are no registered {name}s.</aqua>")
+        return getComponentMessage("main-command.list-addons.none", "{prefix}<#F0E68C>There are no registered {name}s.")
             .replace("name", clazz.getSimpleName())
             .applyReplacer(getPrefixReplacer());
     }
 
     public ComponentMessage getListAddonsMessage(@NotNull Class<? extends Addon> clazz) {
-        return getComponentMessage("main-command.list-addons.list", "{prefix}<aqua>Registered {name}s:</aqua> <green>{list}</green>")
+        return getComponentMessage("main-command.list-addons.list", "{prefix}<#F0E68C>Registered {name}s:</color> <green>{list}</green>")
             .replace("name", clazz.getSimpleName())
             .applyReplacer(getPrefixReplacer());
     }
