@@ -242,14 +242,6 @@ public class ItemBuilder {
         return this;
     }
 
-    /**
-     * @deprecated Use {@link #getItem()} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public ItemStack build() {
-        return this.item;
-    }
-
     public @NotNull ItemStack getItem() {
         return this.item.clone();
     }

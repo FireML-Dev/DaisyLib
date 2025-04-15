@@ -17,11 +17,10 @@ import java.util.*;
  */
 public abstract class Database {
 
-    private Plugin plugin;
+    private final Plugin plugin;
     private Connection connection = null;
     private BukkitTask autoSave = null;
 
-    private final Map<String, String> columns = new HashMap<>();
     private final List<DatabaseModule> modules = new ArrayList<>();
 
     public Database(@NotNull Plugin plugin) {
@@ -85,7 +84,7 @@ public abstract class Database {
     public void initTables() throws DatabaseLoadException {
         try {
             addTable(getTable(), getColumns());
-            for (Map.Entry<String, String> entry : columns.entrySet()) {
+            for (Map.Entry<String, String> entry : getColumns().entrySet()) {
                 addColumn(getTable(), entry.getKey(), entry.getValue());
             }
         } catch (SQLException exception) {

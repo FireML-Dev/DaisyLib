@@ -14,7 +14,7 @@ repositories {
     maven("https://jitpack.io")
     maven("https://maven.citizensnpcs.co/repo/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    maven("https://repo.firedev.uk/repository/maven-public/")
+    maven("https://repo.codemc.io/repository/FireML/")
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.minebench.de/")
     maven("https://repo.codemc.io/repository/maven-snapshots/")
@@ -61,7 +61,7 @@ paper {
     name = rootProject.name
     version = project.version.toString()
     main = "uk.firedev.daisylib.local.DaisyLib"
-    apiVersion = "1.21.4"
+    apiVersion = "1.21.5"
     author = "FireML"
     description = project.description.toString()
 
