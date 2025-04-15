@@ -3,7 +3,6 @@ package uk.firedev.daisylib.local.command;
 import dev.jorel.commandapi.CommandTree;
 import dev.jorel.commandapi.arguments.Argument;
 import dev.jorel.commandapi.arguments.LiteralArgument;
-import dev.jorel.commandapi.executors.CommandExecutor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -18,25 +17,21 @@ import uk.firedev.daisylib.local.config.MessageConfig;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class LibCommand {
-
-    private static CommandTree command = null;
 
     private LibCommand() {}
 
     public static CommandTree getCommand() {
-        if (command == null) {
-            command = new CommandTree("daisylib")
-                    .withPermission("daisylib.command")
-                    .withFullDescription("Manage the plugin")
-                    .withShortDescription("Manage the plugin")
-                    .executes((CommandExecutor) (sender, args) -> MessageConfig.getInstance().getMainUsageMessage().sendMessage(sender))
-                    .then(getReloadBranch())
-                    .then(getListBranch());
-        }
-        return command;
+        return new CommandTree("daisylib")
+            .withPermission("daisylib.command")
+            .withFullDescription("Manage the plugin")
+            .withShortDescription("Manage the plugin")
+            .executes(info -> {
+                MessageConfig.getInstance().getMainUsageMessage().sendMessage(info.sender());
+            })
+            .then(getReloadBranch())
+            .then(getListBranch());
     }
 
     private static Argument<String> getReloadBranch() {
