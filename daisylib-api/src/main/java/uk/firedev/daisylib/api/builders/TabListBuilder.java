@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
-import uk.firedev.daisylib.api.message.string.StringReplacer;
 
 import java.util.List;
 
@@ -30,11 +29,8 @@ public class TabListBuilder {
         return this;
     }
 
-    public TabListBuilder withStringHeader(@NotNull String header, @Nullable StringReplacer replacer) {
-        if (replacer != null) {
-            header = replacer.replace(header);
-        }
-        this.header = ComponentMessage.fromString(header).getMessage();
+    public TabListBuilder withStringHeader(@NotNull String header, @Nullable ComponentReplacer replacer) {
+        this.header = ComponentMessage.fromString(header).applyReplacer(replacer).getMessage();
         return this;
     }
 
@@ -46,11 +42,8 @@ public class TabListBuilder {
         return this;
     }
 
-    public TabListBuilder withStringFooter(@NotNull String footer, @Nullable StringReplacer replacer) {
-        if (replacer != null) {
-            footer = replacer.replace(footer);
-        }
-        this.footer = ComponentMessage.fromString(footer).getMessage();
+    public TabListBuilder withStringFooter(@NotNull String footer, @Nullable ComponentReplacer replacer) {
+        this.footer = ComponentMessage.fromString(footer).applyReplacer(replacer).getMessage();
         return this;
     }
 
@@ -58,7 +51,7 @@ public class TabListBuilder {
         return withHeader(header, replacer).withFooter(footer, replacer);
     }
 
-    public TabListBuilder withStringHeaderFooter(@NotNull String header, @NotNull String footer, @Nullable StringReplacer replacer) {
+    public TabListBuilder withStringHeaderFooter(@NotNull String header, @NotNull String footer, @Nullable ComponentReplacer replacer) {
         return withStringHeader(header, replacer).withStringFooter(footer, replacer);
     }
 

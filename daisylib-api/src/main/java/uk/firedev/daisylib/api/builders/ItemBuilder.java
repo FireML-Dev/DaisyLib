@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
-import uk.firedev.daisylib.api.message.string.StringReplacer;
+
 import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 
@@ -88,11 +88,8 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder withStringDisplay(@NotNull String display, @Nullable StringReplacer replacer) {
-        if (replacer != null) {
-            display = replacer.replace(display);
-        }
-        return withDisplay(ComponentMessage.fromString(display).getMessage(), null);
+    public ItemBuilder withStringDisplay(@NotNull String display, @Nullable ComponentReplacer replacer) {
+        return withDisplay(ComponentMessage.fromString(display).applyReplacer(replacer).getMessage(), null);
     }
 
     public ItemBuilder withLore(@NotNull List<Component> lore, @Nullable ComponentReplacer replacer) {
@@ -104,16 +101,12 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder withStringLore(@NotNull List<String> lore, @Nullable StringReplacer replacer) {
-        if (replacer != null) {
-            lore = replacer.replace(lore);
-        }
+    public ItemBuilder withStringLore(@NotNull List<String> lore, @Nullable ComponentReplacer replacer) {
         return withLore(
-                lore.stream()
-                        .map(ComponentMessage::fromString)
-                        .map(ComponentMessage::getMessage)
-                        .toList(),
-                null
+            lore.stream()
+                .map(string -> ComponentMessage.fromString(string).applyReplacer(replacer).getMessage())
+                .toList(),
+            null
         );
     }
 
@@ -130,11 +123,8 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder addStringLore(@NotNull String line, @Nullable StringReplacer replacer) {
-        if (replacer != null) {
-            line = replacer.replace(line);
-        }
-        return addLore(ComponentMessage.fromString(line).getMessage(), null);
+    public ItemBuilder addStringLore(@NotNull String line, @Nullable ComponentReplacer replacer) {
+        return addLore(ComponentMessage.fromString(line).applyReplacer(replacer).getMessage(), null);
     }
 
     public ItemBuilder addLore(@NotNull List<Component> lines, @Nullable ComponentReplacer replacer) {
@@ -145,16 +135,12 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder addStringLore(@NotNull List<String> lines, @Nullable StringReplacer replacer) {
-        if (replacer != null) {
-            lines = replacer.replace(lines);
-        }
+    public ItemBuilder addStringLore(@NotNull List<String> lines, @Nullable ComponentReplacer replacer) {
         return addLore(
-                lines.stream()
-                        .map(ComponentMessage::fromString)
-                        .map(ComponentMessage::getMessage)
-                        .toList(),
-                null
+            lines.stream()
+                .map(string -> ComponentMessage.fromString(string).applyReplacer(replacer).getMessage())
+                .toList(),
+            null
         );
     }
 

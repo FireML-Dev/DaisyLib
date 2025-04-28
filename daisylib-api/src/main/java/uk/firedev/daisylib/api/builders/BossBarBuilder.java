@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
-import uk.firedev.daisylib.api.message.string.StringReplacer;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -36,11 +36,8 @@ public class BossBarBuilder {
         return this;
     }
 
-    public BossBarBuilder withStringTitle(@NotNull String title, @Nullable StringReplacer replacer) {
-        if (replacer != null) {
-            title = replacer.replace(title);
-        }
-        this.title = ComponentMessage.fromString(title).getMessage();
+    public BossBarBuilder withStringTitle(@NotNull String title, @Nullable ComponentReplacer replacer) {
+        this.title = ComponentMessage.fromString(title).applyReplacer(replacer).getMessage();
         return this;
     }
 
