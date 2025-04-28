@@ -1,15 +1,19 @@
 package uk.firedev.daisylib.api.message.component;
 
 import io.github.miniplaceholders.api.MiniPlaceholders;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,53 +21,76 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.message.Message;
-import uk.firedev.daisylib.api.message.string.StringMessage;
+import uk.firedev.daisylib.api.utils.ObjectUtils;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
 
 public class ComponentMessage implements Message {
 
     private @NotNull Component message;
+    private @NotNull MessageType messageType;
+
+    private static LegacyComponentSerializer legacyComponentSerializer = null;
     private static MiniMessage miniMessage = null;
     private static JSONComponentSerializer jsonComponentSerializer = null;
 
-    private ComponentMessage(@NotNull Component message) {
+    private ComponentMessage(@NotNull Component message, @NotNull MessageType messageType) {
         this.message = message;
+        this.messageType = messageType;
+    }
+
+    public static ComponentMessage of(@NotNull Component message, @NotNull MessageType messageType) {
+        return new ComponentMessage(message, messageType);
     }
 
     public static ComponentMessage of(@NotNull Component message) {
-        return new ComponentMessage(message);
+        return of(message, MessageType.CHAT);
+    }
+
+    public static ComponentMessage ofOrDefault(@Nullable Component message, @NotNull Component def, @NotNull MessageType messageType) {
+        return message == null ? of(def, messageType) : of(message, messageType);
     }
 
     public static ComponentMessage ofOrDefault(@Nullable Component message, @NotNull Component def) {
-        return message == null ? of(def) : of(message);
+        return ofOrDefault(message, def, MessageType.CHAT);
+    }
+
+    public static ComponentMessage fromPlainText(@NotNull String plainText, @NotNull MessageType messageType) {
+        return of(Component.text(plainText), messageType);
     }
 
     public static ComponentMessage fromPlainText(@NotNull String plainText) {
-        return of(Component.text(plainText));
+        return fromPlainText(plainText, MessageType.CHAT);
+    }
+
+    public static ComponentMessage fromJson(@NotNull String json, @NotNull MessageType messageType) {
+        return of(getJsonComponentSerializer().deserialize(json), messageType);
     }
 
     public static ComponentMessage fromJson(@NotNull String json) {
-        return of(getJsonComponentSerializer().deserialize(json));
+        return fromJson(json, MessageType.CHAT);
+    }
+
+    public static ComponentMessage fromString(@NotNull String message, @NotNull MessageType messageType) {
+        return of(getMiniMessage().deserialize(message), messageType);
     }
 
     public static ComponentMessage fromString(@NotNull String message) {
-        return of(getMiniMessage().deserialize(message));
+        return fromString(message, MessageType.CHAT);
+    }
+
+    public static ComponentMessage fromString(@Nullable String message, @NotNull Component def, @NotNull MessageType messageType) {
+        if (message == null) {
+            Loggers.warn(ComponentMessage.class, "Invalid message supplied. Using the default value.");
+            return of(def, messageType);
+        }
+        return fromString(message, messageType);
     }
 
     public static ComponentMessage fromString(@Nullable String message, @NotNull Component def) {
-        final Component finalMessage;
-        if (message == null) {
-            finalMessage = def;
-            Loggers.warn(ComponentMessage.class, "Invalid message supplied. Using the default value.");
-        } else {
-            finalMessage = getMiniMessage().deserialize(message);
-        }
-        return of(finalMessage);
-    }
-
-    public static ComponentMessage fromStringMessage(@NotNull StringMessage stringMessage) {
-        return fromString(stringMessage.getMessage());
+        return fromString(message, def, MessageType.CHAT);
     }
 
     public static ComponentMessage fromConfig(@NotNull ConfigurationSection config, @NotNull String path, @NotNull Component def) {
@@ -77,13 +104,32 @@ public class ComponentMessage implements Message {
     }
 
     public static ComponentMessage fromConfig(@NotNull ConfigurationSection config, @NotNull String path, @NotNull String def) {
-        String message;
-        if (config.isList(path)) {
-            message = String.join("\n", config.getStringList(path));
+        ConfigurationSection section = config.getConfigurationSection(path);
+        if (section == null) {
+            return processConfig(config.get(path), path, getMiniMessage().deserialize(def));
         } else {
-            message = config.getString(path);
+            MessageType type = ObjectUtils.getEnumValue(
+                MessageType.class,
+                section.getString("type", "CHAT"),
+                MessageType.CHAT
+            );
+            return processConfig(section.getString("message"), path, getMiniMessage().deserialize(def)).setMessageType(type);
         }
-        return fromConfigString(message, getMiniMessage().deserialize(def), path);
+    }
+
+    private static ComponentMessage processConfig(@Nullable Object object, @NotNull String path, @NotNull Component def) {
+        if (object == null) {
+            return fromConfigString(null, def, path);
+        }
+        if (object instanceof List<?> list) {
+            List<String> strings = list.stream()
+                    .filter(Objects::nonNull)
+                    .map(Object::toString)
+                    .toList();
+            return fromConfigString(String.join("\n",strings), def, path);
+        } else {
+            return fromConfigString(object.toString(), def, path);
+        }
     }
 
     private static ComponentMessage fromConfigString(@Nullable String message, @NotNull Component def, @NotNull String path) {
@@ -102,6 +148,13 @@ public class ComponentMessage implements Message {
             miniMessage = MiniMessage.miniMessage();
         }
         return miniMessage;
+    }
+
+    public static LegacyComponentSerializer getLegacyComponentSerializer() {
+        if (legacyComponentSerializer == null) {
+            legacyComponentSerializer = LegacyComponentSerializer.legacySection();
+        }
+        return legacyComponentSerializer;
     }
 
     public static JSONComponentSerializer getJsonComponentSerializer() {
@@ -129,7 +182,18 @@ public class ComponentMessage implements Message {
     @Override
     public void sendMessage(@Nullable Audience audience) {
         if (audience != null) {
-            audience.sendMessage(getMessage());
+            switch (messageType) {
+                case CHAT -> audience.sendMessage(getMessage());
+                case ACTION_BAR -> audience.sendActionBar(getMessage());
+                case TITLE -> {
+                    Title title = Title.title(getMessage(), Component.empty());
+                    audience.showTitle(title);
+                }
+                case SUBTITLE -> {
+                    Title title = Title.title(Component.empty(), getMessage());
+                    audience.showTitle(title);
+                }
+            }
         }
     }
 
@@ -152,11 +216,6 @@ public class ComponentMessage implements Message {
 
     public @NotNull Component getMessage() {
         return this.message.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
-    }
-
-    public StringMessage toStringMessage() {
-        String string = getMiniMessage().serialize(this.getMessage());
-        return StringMessage.of(string);
     }
 
     public String toPlainText() {
@@ -186,7 +245,25 @@ public class ComponentMessage implements Message {
     }
 
     public ComponentMessage parsePlaceholderAPI(@Nullable OfflinePlayer player) {
-        this.message = toStringMessage().parsePlaceholderAPI(player).toComponentMessage().getMessage();
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            String stringMessage = getMiniMessage().serialize(this.message);
+            Matcher matcher = PlaceholderAPI.getPlaceholderPattern().matcher(stringMessage);
+            while (matcher.find()) {
+                // Find matched String
+                String matched = matcher.group();
+                // Convert to Legacy Component and into a MiniMessage String
+                String parsed = ComponentMessage.getMiniMessage().serialize(
+                    getLegacyComponentSerializer().deserialize(
+                        PlaceholderAPI.setPlaceholders(player, matched)
+                    )
+                );
+                // Escape matched String so we don't have issues
+                String safeMatched = Matcher.quoteReplacement(matched);
+                // Replace all instances of the matched String with the parsed placeholder.
+                stringMessage = stringMessage.replaceAll(safeMatched, parsed);
+            }
+            this.message = getMiniMessage().deserialize(stringMessage);
+        }
         return this;
     }
 
@@ -213,10 +290,6 @@ public class ComponentMessage implements Message {
         return this;
     }
 
-    public ComponentMessage addPrefix(@NotNull StringMessage prefix) {
-        return addPrefix(prefix.toComponentMessage());
-    }
-
     public ComponentMessage append(@NotNull Component append) {
         this.message = this.message.append(append);
         return this;
@@ -234,6 +307,11 @@ public class ComponentMessage implements Message {
     @Override
     public int getLength() {
         return toPlainText().length();
+    }
+
+    public ComponentMessage setMessageType(@NotNull MessageType messageType) {
+        this.messageType = messageType;
+        return this;
     }
 
     public static ComponentMessage getHoverItem(ItemStack item) {

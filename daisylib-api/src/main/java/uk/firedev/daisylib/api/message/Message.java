@@ -18,4 +18,11 @@ public interface Message {
 
     int getLength();
 
+    enum MessageType {
+        CHAT,
+        ACTION_BAR,
+        TITLE,
+        SUBTITLE
+    }
+
 }
