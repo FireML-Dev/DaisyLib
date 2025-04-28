@@ -94,27 +94,25 @@ public class ComponentMessage implements Message {
     }
 
     public static ComponentMessage fromConfig(@NotNull ConfigurationSection config, @NotNull String path, @NotNull Component def) {
-        String message;
-        if (config.isList(path)) {
-            message = String.join("\n", config.getStringList(path));
-        } else {
-            message = config.getString(path);
-        }
-        return fromConfigString(message, def, path);
-    }
-
-    public static ComponentMessage fromConfig(@NotNull ConfigurationSection config, @NotNull String path, @NotNull String def) {
         ConfigurationSection section = config.getConfigurationSection(path);
         if (section == null) {
-            return processConfig(config.get(path), path, getMiniMessage().deserialize(def));
+            return processConfig(config.get(path), path, def);
         } else {
             MessageType type = ObjectUtils.getEnumValue(
                 MessageType.class,
                 section.getString("type", "CHAT"),
                 MessageType.CHAT
             );
-            return processConfig(section.getString("message"), path, getMiniMessage().deserialize(def)).setMessageType(type);
+            return processConfig(section.getString("message"), path, def).setMessageType(type);
         }
+    }
+
+    public static ComponentMessage fromConfig(@NotNull ConfigurationSection config, @NotNull String path, @NotNull String def) {
+        return fromConfig(
+            config,
+            path,
+            getMiniMessage().deserialize(def)
+        );
     }
 
     private static ComponentMessage processConfig(@Nullable Object object, @NotNull String path, @NotNull Component def) {
