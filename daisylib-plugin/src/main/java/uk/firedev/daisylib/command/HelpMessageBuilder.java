@@ -3,14 +3,10 @@ package uk.firedev.daisylib.command;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
-import uk.firedev.daisylib.api.message.component.ComponentReplacer;
-import uk.firedev.daisylib.local.config.MainConfig;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 public class HelpMessageBuilder {

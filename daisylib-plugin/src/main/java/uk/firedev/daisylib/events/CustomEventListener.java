@@ -1,7 +1,5 @@
 package uk.firedev.daisylib.events;
 
-import com.destroystokyo.paper.event.entity.PhantomPreSpawnEvent;
-import com.destroystokyo.paper.event.entity.PreCreatureSpawnEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

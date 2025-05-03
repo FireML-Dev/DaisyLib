@@ -1,20 +1,15 @@
 package uk.firedev.daisylib.api.database;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.database.exceptions.DatabaseLoadException;
 import uk.firedev.daisylib.api.utils.FileUtils;
 
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Helps with connecting to a SQLite database.

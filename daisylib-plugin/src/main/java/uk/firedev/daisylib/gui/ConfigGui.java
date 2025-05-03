@@ -1,7 +1,6 @@
 package uk.firedev.daisylib.gui;
 
 import dev.triumphteam.gui.components.GuiType;
-import dev.triumphteam.gui.components.ScrollType;
 import dev.triumphteam.gui.components.util.GuiFiller;
 import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;

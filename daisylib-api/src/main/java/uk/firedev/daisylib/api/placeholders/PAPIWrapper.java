@@ -13,6 +13,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@SuppressWarnings("UnstableApiUsage")
 public class PAPIWrapper extends PlaceholderExpansion {
 
     private final LegacyComponentSerializer legacyComponentSerializer = LegacyComponentSerializer.legacySection();

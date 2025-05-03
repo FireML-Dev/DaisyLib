@@ -16,6 +16,7 @@ import java.util.function.Supplier;
 /**
  * Allows easy creation of placeholders for both PlaceholderAPI and MiniPlaceholders.
  */
+@SuppressWarnings("UnstableApiUsage")
 public class PlaceholderProvider {
 
     private final Plugin plugin;
