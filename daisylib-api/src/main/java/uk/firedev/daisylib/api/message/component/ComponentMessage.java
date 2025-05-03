@@ -13,7 +13,6 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -21,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.message.Message;
+import uk.firedev.daisylib.api.message.string.StringMessage;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 
 import java.util.List;
@@ -91,6 +91,10 @@ public class ComponentMessage implements Message {
 
     public static ComponentMessage fromString(@Nullable String message, @NotNull Component def) {
         return fromString(message, def, MessageType.CHAT);
+    }
+
+    public static ComponentMessage fromStringMessage(@NotNull StringMessage stringMessage) {
+        return fromString(stringMessage.getMessage()).setMessageType(stringMessage.getMessageType());
     }
 
     public static ComponentMessage fromConfig(@NotNull ConfigurationSection config, @NotNull String path, @NotNull Component def) {
@@ -196,18 +200,6 @@ public class ComponentMessage implements Message {
     }
 
     @Override
-    public void sendMessage(@NotNull List<Audience> audienceList) {
-        audienceList.forEach(this::sendMessage);
-    }
-
-    @Override
-    public void sendActionBar(@Nullable Audience audience) {
-        if (audience != null) {
-            audience.sendActionBar(getMessage());
-        }
-    }
-
-    @Override
     public void broadcast() {
         Bukkit.broadcast(getMessage());
     }
@@ -307,9 +299,18 @@ public class ComponentMessage implements Message {
         return toPlainText().length();
     }
 
+    public @NotNull MessageType getMessageType() {
+        return this.messageType;
+    }
+
     public ComponentMessage setMessageType(@NotNull MessageType messageType) {
         this.messageType = messageType;
         return this;
+    }
+
+    public StringMessage toStringMessage() {
+        String string = getMiniMessage().serialize(this.getMessage());
+        return StringMessage.of(string).setMessageType(messageType);
     }
 
     public static ComponentMessage getHoverItem(ItemStack item) {

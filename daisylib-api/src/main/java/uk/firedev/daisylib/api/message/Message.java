@@ -10,9 +10,9 @@ public interface Message {
 
     void sendMessage(@Nullable Audience audience);
 
-    void sendMessage(@NotNull List<Audience> audienceList);
-
-    void sendActionBar(@Nullable Audience audience);
+    default void sendMessage(@NotNull List<Audience> audienceList) {
+        audienceList.forEach(this::sendMessage);
+    }
 
     void broadcast();
 

@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.checkerframework.checker.units.qual.A;
@@ -14,8 +15,10 @@ import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.message.Message;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
+import uk.firedev.daisylib.api.utils.ObjectUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 
 public class StringMessage implements Message {
@@ -23,9 +26,11 @@ public class StringMessage implements Message {
     private static LegacyComponentSerializer legacyComponentSerializer = null;
 
     private @NotNull String message;
+    private @NotNull MessageType messageType;
 
-    private StringMessage(@NotNull String message) {
+    private StringMessage(@NotNull String message, @NotNull MessageType messageType) {
         this.message = message;
+        this.messageType = messageType;
     }
 
     /**
@@ -39,49 +44,74 @@ public class StringMessage implements Message {
         return legacyComponentSerializer;
     }
 
+    public static StringMessage of(@NotNull String message, @NotNull MessageType messageType) {
+        return new StringMessage(message, messageType);
+    }
+
     public static StringMessage of(@NotNull String message) {
-        return new StringMessage(message);
+        return of(message, MessageType.CHAT);
+    }
+
+    public static StringMessage ofOrDefault(@Nullable String message, @NotNull String def, @NotNull MessageType messageType) {
+        return message == null ? of(def, messageType) : of(message, messageType);
     }
 
     public static StringMessage ofOrDefault(@Nullable String message, @NotNull String def) {
-        return message == null ? of(def) : of(message);
+        return ofOrDefault(message, def, MessageType.CHAT);
+    }
+
+    public static StringMessage fromComponent(@NotNull Component message, @NotNull MessageType messageType) {
+        return ComponentMessage.of(message, messageType).toStringMessage();
     }
 
     public static StringMessage fromComponent(@NotNull Component message) {
-        return ComponentMessage.of(message).toStringMessage();
+        return fromComponent(message, MessageType.CHAT);
+    }
+
+    public static StringMessage fromComponent(@Nullable Component message, @NotNull String def, @NotNull MessageType messageType) {
+        if (message == null) {
+            Loggers.warn(StringMessage.class, "Invalid message supplied. Using the default value.");
+            return of(def, messageType);
+        } else {
+            return ComponentMessage.of(message, messageType).toStringMessage();
+        }
     }
 
     public static StringMessage fromComponent(@Nullable Component message, @NotNull String def) {
-        if (message == null) {
-            Loggers.warn(StringMessage.class, "Invalid message supplied. Using the default value.");
-            return of(def);
-        } else {
-            return ComponentMessage.of(message).toStringMessage();
-        }
+        return fromComponent(message, def, MessageType.CHAT);
     }
 
     public static StringMessage fromComponentMessage(@NotNull ComponentMessage componentMessage) {
         return componentMessage.toStringMessage();
     }
 
-    public static StringMessage fromConfig(@NotNull YamlConfiguration config, @NotNull String path, @NotNull String def) {
-        String message;
-        if (config.isList(path)) {
-            message = String.join("\n", config.getStringList(path));
+    public static StringMessage fromConfig(@NotNull ConfigurationSection config, @NotNull String path, @NotNull String def) {
+        ConfigurationSection section = config.getConfigurationSection(path);
+        if (section == null) {
+            return processConfig(config.get(path), path, def);
         } else {
-            message = config.getString(path);
+            MessageType type = ObjectUtils.getEnumValue(
+                MessageType.class,
+                section.getString("type", "CHAT"),
+                MessageType.CHAT
+            );
+            return processConfig(section.getString("message"), path, def).setMessageType(type);
         }
-        return fromConfigString(message, def, path);
     }
 
-    public static StringMessage fromConfig(@NotNull FileConfiguration config, @NotNull String path, @NotNull String def) {
-        String message;
-        if (config.isList(path)) {
-            message = String.join("\n", config.getStringList(path));
-        } else {
-            message = config.getString(path);
+    private static StringMessage processConfig(@Nullable Object object, @NotNull String path, @NotNull String def) {
+        if (object == null) {
+            return fromConfigString(null, def, path);
         }
-        return fromConfigString(message, def, path);
+        if (object instanceof List<?> list) {
+            List<String> strings = list.stream()
+                .filter(Objects::nonNull)
+                .map(Object::toString)
+                .toList();
+            return fromConfigString(String.join("\n",strings), def, path);
+        } else {
+            return fromConfigString(object.toString(), def, path);
+        }
     }
 
     private static StringMessage fromConfigString(@Nullable String message, @NotNull String def, @NotNull String path) {
@@ -109,16 +139,6 @@ public class StringMessage implements Message {
     @Override
     public void sendMessage(@Nullable Audience audience) {
         toComponentMessage().sendMessage(audience);
-    }
-
-    @Override
-    public void sendMessage(@NotNull List<Audience> audienceList) {
-        toComponentMessage().sendMessage(audienceList);
-    }
-
-    @Override
-    public void sendActionBar(@Nullable Audience audience) {
-        toComponentMessage().sendActionBar(audience);
     }
 
     @Override
@@ -177,6 +197,15 @@ public class StringMessage implements Message {
 
     public StringMessage duplicate() {
         return of(this.message);
+    }
+
+    public @NotNull MessageType getMessageType() {
+        return this.messageType;
+    }
+
+    public StringMessage setMessageType(@NotNull MessageType messageType) {
+        this.messageType = messageType;
+        return this;
     }
 
     @Override
