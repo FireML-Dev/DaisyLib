@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
-import uk.firedev.daisylib.api.message.string.StringReplacer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +33,8 @@ public class BookBuilder {
         return this;
     }
 
-    public BookBuilder withStringTitle(@NotNull String title, @Nullable StringReplacer replacer) {
-        if (replacer != null) {
-            title = replacer.replace(title);
-        }
-        this.title = ComponentMessage.fromString(title).getMessage();
+    public BookBuilder withStringTitle(@NotNull String title, @Nullable ComponentReplacer replacer) {
+        this.title = ComponentMessage.fromString(title).applyReplacer(replacer).getMessage();
         return this;
     }
 
@@ -60,11 +56,8 @@ public class BookBuilder {
         return this;
     }
 
-    public BookBuilder withStringPages(@NotNull List<String> pages, @Nullable StringReplacer replacer) {
-        if (replacer != null) {
-            pages = replacer.replace(pages);
-        }
-        this.pages = pages.stream().map(page -> ComponentMessage.fromString(page).getMessage()).toList();
+    public BookBuilder withStringPages(@NotNull List<String> pages, @Nullable ComponentReplacer replacer) {
+        this.pages = pages.stream().map(page -> ComponentMessage.fromString(page).applyReplacer(replacer).getMessage()).toList();
         return this;
     }
 
@@ -76,27 +69,18 @@ public class BookBuilder {
         return this;
     }
 
-    public BookBuilder addStringPage(@NotNull String page, @Nullable StringReplacer replacer) {
-        if (replacer != null) {
-            page = replacer.replace(page);
-        }
-        this.pages.add(ComponentMessage.fromString(page).getMessage());
+    public BookBuilder addStringPage(@NotNull String page, @Nullable ComponentReplacer replacer) {
+        this.pages.add(ComponentMessage.fromString(page).applyReplacer(replacer).getMessage());
         return this;
     }
 
     public BookBuilder addPages(@NotNull List<Component> pages, @Nullable ComponentReplacer replacer) {
-        if (replacer != null) {
-            pages = replacer.replace(pages);
-        }
-        this.pages.addAll(pages.stream().map(page -> ComponentMessage.of(page).getMessage()).toList());
+        this.pages.addAll(pages.stream().map(page -> ComponentMessage.of(page).applyReplacer(replacer).getMessage()).toList());
         return this;
     }
 
-    public BookBuilder addStringPages(@NotNull List<String> pages, @Nullable StringReplacer replacer) {
-        if (replacer != null) {
-            pages = replacer.replace(pages);
-        }
-        this.pages.addAll(pages.stream().map(page -> ComponentMessage.fromString(page).getMessage()).toList());
+    public BookBuilder addStringPages(@NotNull List<String> pages, @Nullable ComponentReplacer replacer) {
+        this.pages.addAll(pages.stream().map(page -> ComponentMessage.fromString(page).applyReplacer(replacer).getMessage()).toList());
         return this;
     }
 

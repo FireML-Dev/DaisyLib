@@ -66,7 +66,7 @@ public class RecipeUtil implements Listener {
     }
 
     public static @NotNull RecipeChoice getRecipeChoiceFromMaterial(@NotNull Material material) {
-        if (material.isEmpty()) {
+        if (material.isAir()) {
             return RecipeChoice.empty();
         } else {
             return new RecipeChoice.MaterialChoice(material);

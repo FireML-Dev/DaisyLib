@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
-import uk.firedev.daisylib.api.message.string.StringReplacer;
+
 
 import java.time.Duration;
 
@@ -85,11 +85,8 @@ public class TitleBuilder {
         return this;
     }
 
-    public TitleBuilder withStringTitle(@NotNull String title, @Nullable StringReplacer replacer) {
-        if (replacer != null) {
-            title = replacer.replace(title);
-        }
-        this.title = ComponentMessage.fromString(title).getMessage();
+    public TitleBuilder withStringTitle(@NotNull String title, @Nullable ComponentReplacer replacer) {
+        this.title = ComponentMessage.fromString(title).applyReplacer(replacer).getMessage();
         return this;
     }
 
@@ -101,11 +98,8 @@ public class TitleBuilder {
         return this;
     }
 
-    public TitleBuilder withStringSubtitle(@NotNull String subtitle, @Nullable StringReplacer replacer) {
-        if (replacer != null) {
-            subtitle = replacer.replace(subtitle);
-        }
-        this.subtitle = ComponentMessage.fromString(subtitle).getMessage();
+    public TitleBuilder withStringSubtitle(@NotNull String subtitle, @Nullable ComponentReplacer replacer) {
+        this.subtitle = ComponentMessage.fromString(subtitle).applyReplacer(replacer).getMessage();
         return this;
     }
 
