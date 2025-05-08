@@ -4,9 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ObjectUtils {
-
     /**
      * Checks if a String is a valid Integer.
      * @param str The String to check.
@@ -226,6 +226,19 @@ public class ObjectUtils {
         } catch (IllegalArgumentException exception) {
             return null;
         }
+    }
+
+    /**
+     * @apiNote This method can be used asynchronously.
+     */
+    public static boolean randomChance(double chance) {
+        if (chance < 0) {
+            return false;
+        }
+        if (chance >= 100) {
+            return true;
+        }
+        return chance > ThreadLocalRandom.current().nextDouble(100);
     }
 
 }
