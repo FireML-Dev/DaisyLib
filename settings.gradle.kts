@@ -2,6 +2,7 @@ rootProject.name = "DaisyLib"
 
 include(":daisylib-api")
 include(":daisylib-plugin")
+include(":daisylib-configurate")
 
 dependencyResolutionManagement {
     versionCatalogs {
@@ -27,6 +28,7 @@ dependencyResolutionManagement {
 
             // Loaded via Paper's library loader
             library("nashorn", "org.openjdk.nashorn:nashorn-core:15.6")
+            library("configurate", "org.spongepowered:configurate-yaml:4.2.0")
 
             // Gradle plugins
             plugin("shadow", "com.gradleup.shadow").version("8.3.5")

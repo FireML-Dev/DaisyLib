@@ -27,6 +27,7 @@ repositories {
 
 dependencies {
     api(project(":daisylib-api"))
+    api(project(":daisylib-configurate"))
 
     compileOnly(libs.paper.api)
     compileOnly(libs.placeholderapi)
@@ -50,6 +51,7 @@ dependencies {
     implementation(libs.customblockdata)
 
     paperLibrary(libs.nashorn)
+    paperLibrary(libs.configurate)
 }
 
 group = "uk.firedev"
