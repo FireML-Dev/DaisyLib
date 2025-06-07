@@ -29,7 +29,7 @@ dependencyResolutionManagement {
             library("nashorn", "org.openjdk.nashorn:nashorn-core:15.6")
 
             // Gradle plugins
-            plugin("shadow", "com.gradleup.shadow").version("8.3.5")
+            plugin("shadow", "com.gradleup.shadow").version("9.0.0-beta15")
             plugin("plugin-yml", "de.eldoria.plugin-yml.paper").version("0.7.1")
         }
     }
