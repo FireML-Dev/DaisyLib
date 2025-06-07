@@ -12,17 +12,12 @@ repositories {
     gradlePluginPortal()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://jitpack.io")
-    maven("https://maven.citizensnpcs.co/repo/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://repo.codemc.io/repository/FireML/")
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.minebench.de/")
     maven("https://repo.codemc.io/repository/maven-snapshots/")
     maven("https://repo.md5lukas.de/public")
-
-    // ItemAddons
-    maven("https://maven.citizensnpcs.co/repo")
-    maven("https://repo.nexomc.com/releases")
 }
 
 dependencies {
@@ -34,12 +29,6 @@ dependencies {
         exclude("*", "*")
     }
     compileOnly(libs.miniplaceholders)
-
-    // ItemAddons
-    compileOnly(libs.denizen) {
-        exclude("*", "*")
-    }
-    compileOnly(libs.nexo)
 
     implementation(libs.triumphgui)
     implementation(libs.anvilgui)
@@ -61,7 +50,7 @@ paper {
     name = rootProject.name
     version = project.version.toString()
     main = "uk.firedev.daisylib.local.DaisyLib"
-    apiVersion = "1.21.5"
+    apiVersion = "1.21.6"
     author = "FireML"
     description = project.description.toString()
 
@@ -70,10 +59,6 @@ paper {
 
     serverDependencies {
         register("Vault") {
-            required = false
-            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
-        }
-        register("Denizen") {
             required = false
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
