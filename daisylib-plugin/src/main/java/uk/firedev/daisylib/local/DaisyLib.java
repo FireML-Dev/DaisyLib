@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.local;
 
+import com.jeff_media.customblockdata.CustomBlockData;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import org.bstats.bukkit.Metrics;
@@ -41,6 +42,7 @@ public final class DaisyLib extends JavaPlugin {
     public void onEnable() {
         instance = this;
         CommandAPI.onEnable();
+        CustomBlockData.registerListener(this);
         ExampleConfig.load();
         reload();
         LibCommand.getCommand().register();
