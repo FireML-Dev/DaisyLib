@@ -58,6 +58,10 @@ public class ItemUtils {
         return getItemType(itemName) != null;
     }
 
+    /**
+     * @deprecated Use {@link #getItemType(String)} or {@link BlockUtils#getBlockType(String)} instead.
+     */
+    @Deprecated
     public static @Nullable Material getMaterial(@Nullable String materialName) {
         if (materialName == null || materialName.isEmpty()) {
             return null;
@@ -65,11 +69,19 @@ public class ItemUtils {
         return ObjectUtils.getEnumValue(Material.class, materialName);
     }
 
+    /**
+     * @deprecated Use {@link #getItemType(String, ItemType)} or {@link BlockUtils#getBlockType(String, org.bukkit.block.BlockType)} instead.
+     */
+    @Deprecated
     public static @NotNull Material getMaterial(@Nullable String materialName, @NotNull Material defaultMaterial) {
         Material material = getMaterial(materialName);
         return material == null ? defaultMaterial : material;
     }
 
+    /**
+     * @deprecated Use {@link #isValidItemType(String)} or {@link BlockUtils#isValidBlockType(String)} instead.
+     */
+    @Deprecated
     public static boolean isValidMaterial(@Nullable String materialName) {
         return getMaterial(materialName) != null;
     }
