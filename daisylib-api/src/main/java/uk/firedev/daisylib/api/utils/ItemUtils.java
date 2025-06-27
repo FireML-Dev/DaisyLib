@@ -145,11 +145,6 @@ public class ItemUtils {
         return item;
     }
 
-
-    public static ItemStack toIcon(Material material) {
-        return material != null ? hideAllFlags(ItemStack.of(material)) : null;
-    }
-
     public static void giveItems(@Nullable ItemStack @NotNull [] items, @NotNull Player player) {
         if (items.length == 0) {
             return;

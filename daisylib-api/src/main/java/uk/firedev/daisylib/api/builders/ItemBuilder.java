@@ -38,7 +38,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Create an ItemBuilder from a material.
+     * Create an ItemBuilder from an ItemType.
      * @param itemType The {@link ItemType} to use.
      */
     public static ItemBuilder create(@NotNull ItemType itemType) {
@@ -54,7 +54,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Create an ItemBuilder from a material.
+     * Create an ItemBuilder from an ItemType.
      * @param itemType The {@link ItemType} to use.
      * @param defaultItemType The default ItemType, if the provided ItemType is invalid.
      */

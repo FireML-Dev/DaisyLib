@@ -3,7 +3,7 @@
 
 # The format for ItemBuilder's Section constructor
 item-example:
-  # The material for the item
+  # The ItemType to use
   material: stone
   # The item's display name
   display: <light_purple>Test Item
@@ -54,7 +54,7 @@ gui-example:
       columnFrom: 1
       rowTo: 6
       columnTo: 6
-    # The material to fill with
+    # The ItemType to fill with
     material: GRAY_STAINED_GLASS_PANE
 
   items:
