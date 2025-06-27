@@ -7,11 +7,11 @@ import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
@@ -116,7 +116,7 @@ public class ConfigGui {
 
     protected void addGuiItem(@NotNull BaseGui gui, @NotNull ConfigurationSection itemSection) {
         ItemStack item = ItemBuilder.createWithConfig(itemSection, null, null).getItem();
-        if (item.getType() == Material.AIR) {
+        if (item.isEmpty()) {
             return;
         }
         GuiItem guiItem;
@@ -166,9 +166,13 @@ public class ConfigGui {
         }
 
         // Prepare the filler item
-        ItemStack fillerItem = ItemStack.of(
-            ItemUtils.getMaterial(fillerSection.getString("material"), Material.AIR)
+        ItemType itemType = ItemUtils.getItemType(
+            fillerSection.getString("material")
         );
+        if (itemType == null || itemType == ItemType.AIR) {
+            return;
+        }
+        ItemStack fillerItem = itemType.createItemStack();
         fillerItem.editMeta(meta -> {
             meta.customName(Component.empty());
             meta.setHideTooltip(true);

@@ -4,12 +4,14 @@ import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
+import net.kyori.adventure.key.Key;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,9 +26,9 @@ import java.util.UUID;
 public class ItemUtils {
 
     public static @Nullable ItemStack getItem(@Nullable String itemName) {
-        Material material = getMaterial(itemName);
-        if (material != null) {
-            return ItemStack.of(material);
+        ItemType itemType = getItemType(itemName);
+        if (itemType != null) {
+            return itemType.createItemStack();
         }
         return ItemAddon.processString(itemName);
     }
@@ -36,6 +38,30 @@ public class ItemUtils {
         return item == null ? defaultItem : item;
     }
 
+    public static @Nullable ItemType getItemType(@Nullable String itemName) {
+        if (itemName == null || itemName.isEmpty()) {
+            return null;
+        }
+        Key key = NamespacedKey.fromString(itemName);
+        if (key == null) {
+            return null;
+        }
+        return RegistryAccess.registryAccess().getRegistry(RegistryKey.ITEM).get(key);
+    }
+
+    public static @NotNull ItemType getItemType(@Nullable String itemName, @NotNull ItemType defaultType) {
+        ItemType type = getItemType(itemName);
+        return type == null ? defaultType : type;
+    }
+
+    public static boolean isValidItemType(@Nullable String itemName) {
+        return getItemType(itemName) != null;
+    }
+
+    /**
+     * @deprecated Use {@link #getItemType(String)} or {@link BlockUtils#getBlockType(String)} instead.
+     */
+    @Deprecated
     public static @Nullable Material getMaterial(@Nullable String materialName) {
         if (materialName == null || materialName.isEmpty()) {
             return null;
@@ -43,18 +69,20 @@ public class ItemUtils {
         return ObjectUtils.getEnumValue(Material.class, materialName);
     }
 
+    /**
+     * @deprecated Use {@link #getItemType(String, ItemType)} or {@link BlockUtils#getBlockType(String, org.bukkit.block.BlockType)} instead.
+     */
+    @Deprecated
     public static @NotNull Material getMaterial(@Nullable String materialName, @NotNull Material defaultMaterial) {
         Material material = getMaterial(materialName);
-        if (material == null) {
-            return defaultMaterial;
-        }
-        return material;
+        return material == null ? defaultMaterial : material;
     }
 
-    public static boolean validMaterial(@Nullable String materialName) {
-        if (materialName == null || materialName.isEmpty()) {
-            return false;
-        }
+    /**
+     * @deprecated Use {@link #isValidItemType(String)} or {@link BlockUtils#isValidBlockType(String)} instead.
+     */
+    @Deprecated
+    public static boolean isValidMaterial(@Nullable String materialName) {
         return getMaterial(materialName) != null;
     }
 
@@ -115,11 +143,6 @@ public class ItemUtils {
     public static ItemStack hideAllFlags(@NotNull ItemStack item) {
         item.editMeta(meta -> meta.addItemFlags(ItemFlag.values()));
         return item;
-    }
-
-
-    public static ItemStack toIcon(Material material) {
-        return material != null ? hideAllFlags(ItemStack.of(material)) : null;
     }
 
     public static void giveItems(@Nullable ItemStack @NotNull [] items, @NotNull Player player) {
