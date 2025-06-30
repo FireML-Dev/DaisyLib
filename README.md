@@ -1,5 +1,8 @@
 ## DaisyLib
 
+> [!WARNING]  
+> This library is nowhere near stable, and things may change at any time.
+
 A collection of classes for easier use of Paper's API.
 
 https://ci.firedev.uk/job/DaisyLib/
