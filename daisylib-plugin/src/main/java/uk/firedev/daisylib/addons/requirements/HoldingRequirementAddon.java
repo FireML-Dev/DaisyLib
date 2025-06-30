@@ -21,6 +21,8 @@ public class HoldingRequirementAddon extends RequirementAddon {
             return false;
         }
         for (String value : values) {
+            // Suppress deprecation warning as no alternative API exists just yet.
+            @SuppressWarnings("deprecation")
             Material material = ItemUtils.getMaterial(value);
             if (material == null) {
                 Loggers.warn(getClass(), value + " is not a valid material");

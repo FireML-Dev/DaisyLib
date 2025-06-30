@@ -65,6 +65,7 @@ public class ItemBuilder {
     /**
      * @deprecated Use {@link #create(ItemType, ItemType)} instead.
      */
+    @Deprecated
     public static ItemBuilder create(@Nullable Material material, @NotNull Material defaultMaterial) {
         return material == null ? new ItemBuilder(defaultMaterial) : new ItemBuilder(material);
     }
