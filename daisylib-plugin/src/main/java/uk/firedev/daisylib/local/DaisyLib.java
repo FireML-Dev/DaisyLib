@@ -35,6 +35,7 @@ public final class DaisyLib extends JavaPlugin {
         CommandAPI.onLoad(new CommandAPIBukkitConfig(this)
                 .shouldHookPaperReload(true)
                 .missingExecutorImplementationMessage("You are not able to use this command!")
+                .beLenientForMinorVersions(true)
         );
     }
 

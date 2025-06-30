@@ -61,6 +61,8 @@ public class ItemUtils {
     /**
      * @deprecated Use {@link #getItemType(String)} or {@link BlockUtils#getBlockType(String)} instead.
      */
+    // Suppress deprecation warning as this is still used where alternative API does not exist just yet.
+    @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
     public static @Nullable Material getMaterial(@Nullable String materialName) {
         if (materialName == null || materialName.isEmpty()) {
@@ -72,6 +74,8 @@ public class ItemUtils {
     /**
      * @deprecated Use {@link #getItemType(String, ItemType)} or {@link BlockUtils#getBlockType(String, org.bukkit.block.BlockType)} instead.
      */
+    // Suppress deprecation warning as this is still used where alternative API does not exist just yet.
+    @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
     public static @NotNull Material getMaterial(@Nullable String materialName, @NotNull Material defaultMaterial) {
         Material material = getMaterial(materialName);

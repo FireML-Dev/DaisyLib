@@ -73,6 +73,8 @@ public class RecipeUtil implements Listener {
         }
     }
 
+    // Suppress deprecation warning as no alternative API exists just yet.
+    @SuppressWarnings("deprecation")
     public static @NotNull RecipeChoice getRecipeChoiceFromMaterialName(@NotNull String name) {
         Material material = ItemUtils.getMaterial(name, Material.AIR);
         return getRecipeChoiceFromMaterial(material);
@@ -94,6 +96,8 @@ public class RecipeUtil implements Listener {
         }
     }
 
+    // Suppress deprecation warning as no alternative API exists just yet.
+    @SuppressWarnings("deprecation")
     public static @Nullable RecipeChoice getRecipeChoiceFromMaterialNameNullable(@NotNull String name) {
         Material material = ItemUtils.getMaterial(name, Material.AIR);
         return getRecipeChoiceFromMaterialNullable(material);
