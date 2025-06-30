@@ -7,7 +7,7 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Paper API
-            library("paper-api", "io.papermc.paper:paper-api:1.21.6-R0.1-SNAPSHOT")
+            library("paper-api", "io.papermc.paper:paper-api:1.21.7-R0.1-SNAPSHOT")
 
             // compileOnly dependencies
             library("placeholderapi", "me.clip:placeholderapi:2.11.6")
