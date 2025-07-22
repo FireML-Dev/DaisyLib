@@ -17,7 +17,6 @@ repositories {
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.minebench.de/")
     maven("https://repo.codemc.io/repository/maven-snapshots/")
-    maven("https://repo.md5lukas.de/public")
 }
 
 dependencies {
@@ -31,7 +30,6 @@ dependencies {
     compileOnly(libs.miniplaceholders)
 
     implementation(libs.triumphgui)
-    implementation(libs.anvilgui)
     implementation(libs.commandapi)
     implementation(libs.vanishchecker)
     implementation(libs.boostedyaml)
