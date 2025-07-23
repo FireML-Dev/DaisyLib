@@ -1,7 +1,5 @@
 package uk.firedev.daisylib.api.recipe;
 
-import com.oheers.fish.FishUtils;
-import dev.dejvokep.boostedyaml.block.implementation.Section;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -19,6 +17,7 @@ public class ShapedRecipe extends AbstractRecipe<org.bukkit.inventory.ShapedReci
     private final ItemStack result;
 
     public ShapedRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull ConfigurationSection section) {
+        super(key);
         this.rawShape = section.getStringList("shape");
         this.ingredientsSection = section.getConfigurationSection("ingredients");
         if (this.rawShape.isEmpty() || this.ingredientsSection == null) {

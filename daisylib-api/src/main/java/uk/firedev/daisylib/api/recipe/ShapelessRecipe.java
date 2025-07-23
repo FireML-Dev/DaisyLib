@@ -15,6 +15,7 @@ public class ShapelessRecipe extends AbstractRecipe<org.bukkit.inventory.Shapele
     private final ItemStack result;
 
     public ShapelessRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull ConfigurationSection section) {
+        super(key);
         List<String> ingredients = section.getStringList("ingredients");
         if (ingredients.isEmpty()) {
             throw new RuntimeException("Shapeless recipe is missing ingredients.");

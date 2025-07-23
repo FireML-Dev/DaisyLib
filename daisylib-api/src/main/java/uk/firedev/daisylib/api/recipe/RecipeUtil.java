@@ -1,7 +1,5 @@
 package uk.firedev.daisylib.api.recipe;
 
-import com.oheers.fish.FishUtils;
-import dev.dejvokep.boostedyaml.block.implementation.Section;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -9,8 +7,6 @@ import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.utils.ItemUtils;
-
-import java.util.List;
 
 public class RecipeUtil {
 
