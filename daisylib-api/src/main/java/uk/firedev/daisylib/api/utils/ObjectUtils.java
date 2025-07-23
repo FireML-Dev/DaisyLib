@@ -241,4 +241,19 @@ public class ObjectUtils {
         return chance > ThreadLocalRandom.current().nextDouble(100);
     }
 
+    /**
+     * Gets the first Character from a given String
+     *
+     * @param string      The String to use.
+     * @param defaultChar The default character to use if an exception is thrown.
+     * @return The first Character from the String
+     */
+    public static char getCharFromString(@NotNull String string, char defaultChar) {
+        try {
+            return string.toCharArray()[0];
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            return defaultChar;
+        }
+    }
+
 }
