@@ -34,7 +34,7 @@ public abstract class AbstractRecipe<R extends Recipe> {
         if (!isRegistered()) {
             throw new RuntimeException("Attempted to unregister a recipe that is not registered.");
         }
-        Bukkit.removeRecipe(key);
+        Bukkit.removeRecipe(key, true);
         this.registered = false;
     }
 
