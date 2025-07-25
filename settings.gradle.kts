@@ -16,7 +16,7 @@ dependencyResolutionManagement {
 
             // implementation dependencies
             library("triumphgui", "dev.triumphteam:triumph-gui:3.1.11")
-            library("commandapi", "dev.jorel:commandapi-bukkit-shade-mojang-mapped:10.1.0")
+            library("commandapi", "dev.jorel:commandapi-bukkit-shade-mojang-mapped:10.1.2")
             library("vanishchecker", "uk.firedev:VanishChecker:1.0.5")
             library("boostedyaml", "dev.dejvokep:boosted-yaml:1.3.7")
             library("bstats", "org.bstats:bstats-bukkit:3.1.0")
