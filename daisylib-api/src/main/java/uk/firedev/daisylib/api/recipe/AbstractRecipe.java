@@ -2,17 +2,23 @@ package uk.firedev.daisylib.api.recipe;
 
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractRecipe<R extends Recipe> {
 
+    protected final ConfigurationSection section;
     protected final NamespacedKey key;
+    protected final ItemStack result;
     protected boolean registered = false;
     protected R recipe;
 
-    protected AbstractRecipe(@NotNull NamespacedKey key) {
+    protected AbstractRecipe(@NotNull NamespacedKey key, @NotNull ConfigurationSection section, @NotNull ItemStack result) {
         this.key = key;
+        this.section = section;
+        this.result = result;
     }
 
     public boolean isRegistered() {

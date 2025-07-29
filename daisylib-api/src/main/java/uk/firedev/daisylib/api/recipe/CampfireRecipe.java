@@ -5,7 +5,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.utils.ItemUtils;
 
 public class CampfireRecipe extends AbstractRecipe<org.bukkit.inventory.CampfireRecipe> {
 
@@ -16,7 +15,7 @@ public class CampfireRecipe extends AbstractRecipe<org.bukkit.inventory.Campfire
     private final int cookingTime;
 
     public CampfireRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull ConfigurationSection section) {
-        super(key);
+        super(key, section, result);
         this.input = RecipeUtil.getRecipeChoice(section.getString("input"));
         if (input == null) {
             throw new RuntimeException("Campfire recipe has a missing or invalid input ingredient.");

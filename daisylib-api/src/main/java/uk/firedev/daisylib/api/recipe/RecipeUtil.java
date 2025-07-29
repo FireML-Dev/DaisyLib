@@ -39,6 +39,11 @@ public class RecipeUtil {
                 result,
                 section
             );
+            case "stonecutting" -> new StonecuttingRecipe(
+                key,
+                result,
+                section
+            );
             default -> null; // Not a valid recipe type
         };
     }

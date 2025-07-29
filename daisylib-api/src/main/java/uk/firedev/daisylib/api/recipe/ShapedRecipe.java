@@ -14,17 +14,15 @@ public class ShapedRecipe extends AbstractRecipe<org.bukkit.inventory.ShapedReci
     private final List<String> rawShape;
     private final ConfigurationSection ingredientsSection;
     private final NamespacedKey key;
-    private final ItemStack result;
 
     public ShapedRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull ConfigurationSection section) {
-        super(key);
+        super(key, section, result);
         this.rawShape = section.getStringList("shape");
         this.ingredientsSection = section.getConfigurationSection("ingredients");
         if (this.rawShape.isEmpty() || this.ingredientsSection == null) {
             throw new RuntimeException("Shaped recipe is missing shape or ingredients.");
         }
         this.key = key;
-        this.result = result;
     }
 
     @Override
