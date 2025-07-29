@@ -18,7 +18,9 @@ public abstract class AbstractRecipe<R extends Recipe> {
     protected AbstractRecipe(@NotNull NamespacedKey key, @NotNull ConfigurationSection section, @NotNull ItemStack result) {
         this.key = key;
         this.section = section;
-        this.result = result;
+
+        int quantity = section.getInt("quantity", 1);
+        this.result = result.asQuantity(quantity);
     }
 
     public boolean isRegistered() {
