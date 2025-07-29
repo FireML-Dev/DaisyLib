@@ -19,7 +19,7 @@ public abstract class AbstractRecipe<R extends Recipe> {
         this.key = key;
         this.section = section;
 
-        int quantity = section.getInt("quantity", 1);
+        int quantity = section.getInt("output-quantity", 1);
         this.result = result.asQuantity(quantity);
     }
 
