@@ -5,7 +5,7 @@
 
 A collection of classes for easier use of Paper's API.
 
-https://ci.firedev.uk/job/DaisyLib/
+https://ci.codemc.io/job/FireML/job/DaisyLib/
 
 [![CodeFactor](https://www.codefactor.io/repository/github/fireml-dev/daisylib/badge)](https://www.codefactor.io/repository/github/fireml-dev/daisylib)
 
