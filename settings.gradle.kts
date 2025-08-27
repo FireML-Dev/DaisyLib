@@ -1,8 +1,5 @@
 rootProject.name = "DaisyLib"
 
-include(":daisylib-api")
-include(":daisylib-plugin")
-
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
@@ -21,6 +18,7 @@ dependencyResolutionManagement {
             library("boostedyaml", "dev.dejvokep:boosted-yaml:1.3.7")
             library("bstats", "org.bstats:bstats-bukkit:3.1.0")
             library("customblockdata", "com.jeff-media:custom-block-data:2.2.4")
+            library("messagelib", "uk.firedev:MessageLib:1.0-SNAPSHOT")
 
             // Loaded via Paper's library loader
             library("nashorn", "org.openjdk.nashorn:nashorn-core:15.6")
