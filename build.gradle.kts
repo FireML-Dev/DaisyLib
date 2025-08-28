@@ -34,7 +34,21 @@ dependencies {
     implementation(libs.boostedyaml)
     implementation(libs.bstats)
     implementation(libs.customblockdata)
-    implementation(libs.messagelib)
+
+    compileOnlyApi(libs.triumphgui)
+    paperLibrary(libs.triumphgui)
+
+    compileOnlyApi(libs.boostedyaml)
+    paperLibrary(libs.boostedyaml)
+
+    compileOnlyApi(libs.customblockdata)
+    paperLibrary(libs.customblockdata)
+
+    compileOnlyApi(libs.messagelib)
+    paperLibrary(libs.messagelib)
+
+    compileOnlyApi(libs.vanishchecker)
+    paperLibrary(libs.vanishchecker)
 
     paperLibrary(libs.nashorn)
 }
@@ -93,18 +107,12 @@ publishing {
             artifactId = rootProject.name
             version = project.version.toString()
 
-            from(components["shadow"])
+            from(components["java"])
         }
     }
 }
 
 tasks {
-    jar {
-        doLast {
-            val jarFile = archiveFile.get().asFile
-            jarFile.delete()
-        }
-    }
     build {
         dependsOn(shadowJar)
     }
@@ -114,16 +122,8 @@ tasks {
         archiveClassifier.set("")
 
         // Libs Package
-        relocate("dev.triumphteam.gui", "uk.firedev.daisylib.libs.triumphgui")
-        relocate("net.wesjd.anvilgui", "uk.firedev.daisylib.libs.wesjd.anvilgui")
         relocate("dev.jorel.commandapi", "uk.firedev.daisylib.libs.commandapi")
-        relocate("dev.dejvokep.boostedyaml", "uk.firedev.daisylib.libs.boostedyaml")
         relocate("org.bstats", "uk.firedev.daisylib.libs.bstats")
-        relocate("com.jeff_media.customblockdata", "uk.firedev.daisylib.libs.customblockdata")
-        relocate("uk.firedev.messagelib", "uk.firedev.daisylib.libs.messagelib")
-
-        // Utils Package
-        relocate("uk.firedev.vanishchecker", "uk.firedev.daisylib.utils.vanishchecker")
     }
     withType<JavaCompile> {
         options.encoding = "UTF-8"
