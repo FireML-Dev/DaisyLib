@@ -40,7 +40,7 @@ public class PaginatedConfigGui extends ConfigGui {
             title = ComponentMessage.componentMessage(Component.text("Gui"));
         }
 
-        ComponentSingleMessage singleMessage = ComponentSingleMessage.componentSingleMessage(title);
+        ComponentSingleMessage singleMessage = title.toSingleMessage();
 
         PaginatedGui gui = Gui.paginated()
             .disableAllInteractions()

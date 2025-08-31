@@ -90,7 +90,7 @@ public class ConfigGui {
             title = ComponentMessage.componentMessage(Component.text("Gui"));
         }
 
-        ComponentSingleMessage singleMessage = ComponentMessage.componentSingleMessage(title);
+        ComponentSingleMessage singleMessage = title.toSingleMessage();
 
         BaseGui gui = Gui.gui()
             .disableAllInteractions()
