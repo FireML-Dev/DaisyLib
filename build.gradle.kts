@@ -28,10 +28,7 @@ dependencies {
     }
     compileOnly(libs.miniplaceholders)
 
-    implementation(libs.triumphgui)
     implementation(libs.commandapi)
-    implementation(libs.vanishchecker)
-    implementation(libs.boostedyaml)
     implementation(libs.bstats)
     implementation(libs.customblockdata)
 
@@ -40,9 +37,6 @@ dependencies {
 
     compileOnlyApi(libs.boostedyaml)
     paperLibrary(libs.boostedyaml)
-
-    compileOnlyApi(libs.customblockdata)
-    paperLibrary(libs.customblockdata)
 
     compileOnlyApi(libs.messagelib)
     paperLibrary(libs.messagelib)
@@ -124,6 +118,7 @@ tasks {
         // Libs Package
         relocate("dev.jorel.commandapi", "uk.firedev.daisylib.libs.commandapi")
         relocate("org.bstats", "uk.firedev.daisylib.libs.bstats")
+        relocate("com.jeff_media.customblockdata", "uk.firedev.daisylib.libs.customblockdata")
     }
     withType<JavaCompile> {
         options.encoding = "UTF-8"
