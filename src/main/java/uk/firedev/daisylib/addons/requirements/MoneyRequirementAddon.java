@@ -1,6 +1,6 @@
 package uk.firedev.daisylib.addons.requirements;
 
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault2.economy.Economy;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
@@ -10,6 +10,7 @@ import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.addons.requirement.RequirementData;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class MoneyRequirementAddon extends RequirementAddon {
@@ -30,7 +31,7 @@ public class MoneyRequirementAddon extends RequirementAddon {
                 Loggers.warn(getClass(), value + " is not a valid double");
                 continue;
             }
-            if (economy.has(data.getPlayer(), amount)) {
+            if (economy.has(getOwningPlugin().getName(), data.getPlayer().getUniqueId(), BigDecimal.valueOf(amount))) {
                 return true;
             }
         }

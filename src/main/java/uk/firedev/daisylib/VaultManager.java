@@ -1,8 +1,8 @@
 package uk.firedev.daisylib;
 
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
+import net.milkbowl.vault2.chat.Chat;
+import net.milkbowl.vault2.economy.Economy;
+import net.milkbowl.vault2.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.jetbrains.annotations.NotNull;

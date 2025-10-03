@@ -8,11 +8,10 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
     gradlePluginPortal()
     maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://jitpack.io")
+    maven("https://repo.codemc.io/repository/creatorfromhell/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://repo.codemc.io/repository/FireML/")
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
@@ -23,9 +22,7 @@ repositories {
 dependencies {
     compileOnly(libs.paper.api)
     compileOnly(libs.placeholderapi)
-    compileOnly(libs.vault) {
-        exclude("*", "*")
-    }
+    compileOnly(libs.vault)
     compileOnly(libs.miniplaceholders)
 
     implementation(libs.commandapi)

@@ -8,7 +8,7 @@ dependencyResolutionManagement {
 
             // compileOnly dependencies
             library("placeholderapi", "me.clip:placeholderapi:2.11.6")
-            library("vault", "com.github.MilkBowl:VaultAPI:1.7.1")
+            library("vault", "net.milkbowl.vault:VaultUnlockedAPI:2.16")
             library("miniplaceholders", "io.github.miniplaceholders:miniplaceholders-api:2.2.3")
 
             // implementation dependencies
