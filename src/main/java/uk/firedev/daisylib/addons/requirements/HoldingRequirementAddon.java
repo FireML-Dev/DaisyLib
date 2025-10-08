@@ -2,6 +2,8 @@ package uk.firedev.daisylib.addons.requirements;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -21,23 +23,23 @@ public class HoldingRequirementAddon extends RequirementAddon {
             return false;
         }
         for (String value : values) {
-            // Suppress deprecation warning as no alternative API exists just yet.
-            @SuppressWarnings("deprecation")
-            Material material = ItemUtils.getMaterial(value);
-            if (material == null) {
-                Loggers.warn(getClass(), value + " is not a valid material");
+            ItemType type = ItemUtils.getItemType(value);
+            if (type == null) {
+                Loggers.warn(getClass(), value + " is not a valid ItemType");
                 continue;
             }
-            if (eitherHandHasMaterial(player, material)) {
+            if (eitherHandHasItemType(player, type)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean eitherHandHasMaterial(@NotNull Player player, @NotNull Material material) {
+    private boolean eitherHandHasItemType(@NotNull Player player, @NotNull ItemType type) {
         PlayerInventory inventory = player.getInventory();
-        return inventory.getItemInMainHand().getType().equals(material) || inventory.getItemInOffHand().getType().equals(material);
+        ItemStack handItem = inventory.getItemInMainHand();
+        ItemStack offHandItem = inventory.getItemInOffHand();
+        return type.equals(handItem.getType().asItemType()) || type.equals(offHandItem.getType().asItemType());
     }
 
     @Override
