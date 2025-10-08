@@ -34,25 +34,12 @@ public class ItemBuilder {
         this.item = itemType.createItemStack();
     }
 
-    @Deprecated
-    private ItemBuilder(@NotNull Material material) {
-        this.item = ItemStack.of(material);
-    }
-
     /**
      * Create an ItemBuilder from an ItemType.
      * @param itemType The {@link ItemType} to use.
      */
     public static ItemBuilder create(@NotNull ItemType itemType) {
         return new ItemBuilder(itemType);
-    }
-
-    /**
-     * @deprecated Use {@link #create(ItemType)} instead.
-     */
-    @Deprecated
-    public static ItemBuilder create(@NotNull Material material) {
-        return new ItemBuilder(material);
     }
 
     /**
@@ -65,28 +52,12 @@ public class ItemBuilder {
     }
 
     /**
-     * @deprecated Use {@link #create(ItemType, ItemType)} instead.
-     */
-    @Deprecated
-    public static ItemBuilder create(@Nullable Material material, @NotNull Material defaultMaterial) {
-        return material == null ? new ItemBuilder(defaultMaterial) : new ItemBuilder(material);
-    }
-
-    /**
      * Create an ItemBuilder from the ItemType's name.
      * @param itemName The ItemType's name.
      * @param defaultType The default ItemType, if the provided name is invalid.
      */
     public static ItemBuilder create(@Nullable String itemName, @NotNull ItemType defaultType) {
         return new ItemBuilder(ItemUtils.getItemType(itemName, defaultType));
-    }
-
-    /**
-     * @deprecated Use {@link #create(String, ItemType)} instead.
-     */
-    @Deprecated
-    public static ItemBuilder create(@Nullable String materialName, @NotNull Material defaultMaterial) {
-        return new ItemBuilder(ItemUtils.getMaterial(materialName, defaultMaterial));
     }
 
     /**
@@ -107,27 +78,8 @@ public class ItemBuilder {
         return this;
     }
 
-    /**
-     * @deprecated Use {@link #withItemType(ItemType)} instead.
-     */
-    @Deprecated
-    public ItemBuilder withMaterial(@NotNull Material material) {
-        ItemStack newItem = ItemStack.of(material);
-        newItem.setItemMeta(this.item.getItemMeta());
-        this.item = newItem;
-        return this;
-    }
-
     public ItemBuilder withItemType(@NotNull String itemName, @NotNull ItemType defaultType) {
         return withItemType(ItemUtils.getItemType(itemName, defaultType));
-    }
-
-    /**
-     * @deprecated Use {@link #withItemType(String, ItemType)} instead.
-     */
-    @Deprecated
-    public ItemBuilder withMaterial(@NotNull String materialName, @NotNull Material defaultMaterial) {
-        return withMaterial(ItemUtils.getMaterial(materialName, defaultMaterial));
     }
 
     public ItemBuilder withDisplay(@NotNull Object display, @Nullable Replacer replacer) {

@@ -4,7 +4,7 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Paper API
-            library("paper-api", "io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
+            library("paper-api", "io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
 
             // compileOnly dependencies
             library("placeholderapi", "me.clip:placeholderapi:2.11.6")
@@ -12,7 +12,7 @@ dependencyResolutionManagement {
             library("miniplaceholders", "io.github.miniplaceholders:miniplaceholders-api:2.2.3")
 
             // implementation dependencies
-            library("commandapi", "dev.jorel:commandapi-bukkit-shade-mojang-mapped:10.1.2")
+            library("commandapi", "dev.jorel:commandapi-paper-shade:11.0.0")
             library("bstats", "org.bstats:bstats-bukkit:3.1.0")
             library("customblockdata", "com.jeff-media:custom-block-data:2.2.4")
 

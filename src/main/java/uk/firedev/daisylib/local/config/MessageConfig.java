@@ -24,7 +24,7 @@ public class MessageConfig extends ConfigBase {
     }
 
     public Replacer getPrefixReplacer() {
-        return Replacer.replacer().addReplacement("prefix", getPrefix());
+        return Replacer.replacer().addReplacement("{prefix}", getPrefix());
     }
 
     // GENERAL MESSAGES
@@ -47,13 +47,13 @@ public class MessageConfig extends ConfigBase {
 
     public ComponentMessage getNoAddonsMessage(@NotNull Class<? extends Addon> clazz) {
         return getComponentMessage("main-command.list-addons.none", "{prefix}<#F0E68C>There are no registered {name}s.")
-            .replace("name", clazz.getSimpleName())
+            .replace("{name}", clazz.getSimpleName())
             .replace(getPrefixReplacer());
     }
 
     public ComponentMessage getListAddonsMessage(@NotNull Class<? extends Addon> clazz) {
         return getComponentMessage("main-command.list-addons.list", "{prefix}<#F0E68C>Registered {name}s:</color> <green>{list}</green>")
-            .replace("name", clazz.getSimpleName())
+            .replace("{name}", clazz.getSimpleName())
             .replace(getPrefixReplacer());
     }
 

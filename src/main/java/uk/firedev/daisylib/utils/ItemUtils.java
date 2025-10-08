@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.item.ItemAddon;
 import uk.firedev.messagelib.message.ComponentMessage;
 
@@ -56,38 +57,6 @@ public class ItemUtils {
 
     public static boolean isValidItemType(@Nullable String itemName) {
         return getItemType(itemName) != null;
-    }
-
-    /**
-     * @deprecated Use {@link #getItemType(String)} or {@link BlockUtils#getBlockType(String)} instead.
-     */
-    // Suppress deprecation warning as this is still used where alternative API does not exist just yet.
-    @SuppressWarnings("DeprecatedIsStillUsed")
-    @Deprecated
-    public static @Nullable Material getMaterial(@Nullable String materialName) {
-        if (materialName == null || materialName.isEmpty()) {
-            return null;
-        }
-        return ObjectUtils.getEnumValue(Material.class, materialName);
-    }
-
-    /**
-     * @deprecated Use {@link #getItemType(String, ItemType)} or {@link BlockUtils#getBlockType(String, org.bukkit.block.BlockType)} instead.
-     */
-    // Suppress deprecation warning as this is still used where alternative API does not exist just yet.
-    @SuppressWarnings("DeprecatedIsStillUsed")
-    @Deprecated
-    public static @NotNull Material getMaterial(@Nullable String materialName, @NotNull Material defaultMaterial) {
-        Material material = getMaterial(materialName);
-        return material == null ? defaultMaterial : material;
-    }
-
-    /**
-     * @deprecated Use {@link #isValidItemType(String)} or {@link BlockUtils#isValidBlockType(String)} instead.
-     */
-    @Deprecated
-    public static boolean isValidMaterial(@Nullable String materialName) {
-        return getMaterial(materialName) != null;
     }
 
     public static ItemStack setGlowing(@NotNull ItemStack item, boolean glowing) {
@@ -177,7 +146,7 @@ public class ItemUtils {
         if (key == null) {
             return null;
         }
-        Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
+        Registry<@NonNull Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
         return registry.get(key);
     }
 
