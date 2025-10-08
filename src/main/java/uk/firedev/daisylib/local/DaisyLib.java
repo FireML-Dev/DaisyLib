@@ -3,6 +3,7 @@ package uk.firedev.daisylib.local;
 import com.jeff_media.customblockdata.CustomBlockData;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
+import dev.jorel.commandapi.CommandAPIPaperConfig;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,10 +33,9 @@ public final class DaisyLib extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(this)
-                .shouldHookPaperReload(true)
+        CommandAPI.onLoad(new CommandAPIPaperConfig(this)
                 .missingExecutorImplementationMessage("You are not able to use this command!")
-                .beLenientForMinorVersions(true)
+                .fallbackToLatestNMS(true)
         );
     }
 
