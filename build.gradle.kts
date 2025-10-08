@@ -53,7 +53,7 @@ paper {
     name = rootProject.name
     version = project.version.toString()
     main = "uk.firedev.daisylib.local.DaisyLib"
-    apiVersion = "1.21.8"
+    apiVersion = "1.21.10"
     author = "FireML"
     description = project.description.toString()
 
