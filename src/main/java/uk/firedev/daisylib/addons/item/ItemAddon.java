@@ -7,6 +7,7 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.addons.Addon;
 import uk.firedev.daisylib.addons.InvalidAddonException;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -34,12 +35,12 @@ public abstract class ItemAddon extends Addon {
         if (string == null) {
             return null;
         }
-        String[] split = string.split("=");
+        String[] split = string.split(":");
         String name;
         String itemId;
         try {
             name = split[0];
-            itemId = split[1];
+            itemId = String.join(":", Arrays.copyOfRange(split, 1, split.length));
         } catch (ArrayIndexOutOfBoundsException exception) {
             Loggers.warn(ItemAddon.class, "Failed to process an ItemAddon String! \"" + string + "\" is not formatted correctly.", new InvalidItemException());
             return null;

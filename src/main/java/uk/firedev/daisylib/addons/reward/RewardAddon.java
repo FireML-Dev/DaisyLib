@@ -7,6 +7,7 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.addons.Addon;
 import uk.firedev.daisylib.addons.InvalidAddonException;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -34,12 +35,12 @@ public abstract class RewardAddon extends Addon {
         if (string == null || player == null) {
             return;
         }
-        String[] split = string.split("=");
+        String[] split = string.split(":");
         String name;
         String rewardInput;
         try {
             name = split[0];
-            rewardInput = split[1];
+            rewardInput = String.join(":", Arrays.copyOfRange(split, 1, split.length));
         } catch (ArrayIndexOutOfBoundsException exception) {
             Loggers.warn(RewardAddon.class, "Failed to process a RewardAddon String! \"" + string + "\" is not formatted correctly.", new InvalidRewardException());
             return;
