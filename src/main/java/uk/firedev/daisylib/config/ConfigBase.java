@@ -7,14 +7,19 @@ import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.messagelib.config.PaperConfigLoader;
 import uk.firedev.messagelib.message.ComponentMessage;
 
@@ -173,9 +178,37 @@ public class ConfigBase {
 
     // Config Getters
 
+    public @Nullable Float getFloat(@NotNull String path) {
+        return getConfig().getObject(path, Float.class);
+    }
+
+    public float getFloat(@NotNull String path, float def) {
+        Float value = getFloat(path);
+        return value == null ? def : value;
+    }
+
     public ComponentMessage getComponentMessage(@NotNull String path, @NotNull Object def) {
         ComponentMessage message = ComponentMessage.componentMessage(getMessageLoader(), path);
         return message == null ? ComponentMessage.componentMessage(def) : message;
+    }
+
+    public @Nullable Sound getSound(@NotNull String path) {
+        ConfigurationSection section = getConfig().getConfigurationSection(path);
+        if (section == null) {
+            return null;
+        }
+        String keyStr = section.getString("sound");
+        if (keyStr == null) {
+            return null;
+        }
+        Key key = NamespacedKey.fromString(keyStr);
+        if (key == null) {
+            return null;
+        }
+        Sound.Source source = ObjectUtils.getEnumValue(Sound.Source.class, section.getString("source"), Sound.Source.PLAYER);
+        float volume = getFloat("volume", 1.0F);
+        float pitch = getFloat("pitch", 1.0F);
+        return Sound.sound(key, source, volume, pitch);
     }
 
 }
