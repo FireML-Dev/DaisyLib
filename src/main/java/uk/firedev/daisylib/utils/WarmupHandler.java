@@ -9,6 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * @deprecated Use {@link uk.firedev.daisylib.utils.warmup.WarmupHandler} instead.
+ */
+@Deprecated(forRemoval = true)
 public class WarmupHandler extends BukkitRunnable {
 
     // Class things
