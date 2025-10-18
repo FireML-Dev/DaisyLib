@@ -88,9 +88,10 @@ public class WarmupHandler extends BukkitRunnable {
             stop();
             return;
         }
+        int remainingTime = (warmupSeconds - passed);
         passed++;
         if (waitAction != null) {
-            waitAction.accept(passed, player);
+            waitAction.accept(remainingTime, player);
         }
     }
 
