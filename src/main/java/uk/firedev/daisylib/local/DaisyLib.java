@@ -100,7 +100,7 @@ public final class DaisyLib extends JavaPlugin {
 
     public static @NotNull DaisyLib getInstance() {
         if (instance == null) {
-            throw new UnsupportedOperationException(ChatChannels.class.getSimpleName() + " has not been assigned!");
+            throw new UnsupportedOperationException(DaisyLib.class.getSimpleName() + " has not been assigned!");
         }
         return instance;
     }

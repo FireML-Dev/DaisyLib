@@ -13,21 +13,29 @@ import java.util.TreeMap;
 
 public abstract class ItemAddon extends Addon {
 
-    private static final TreeMap<String, ItemAddon> loadedAddons = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private static final TreeMap<String, ItemAddon> registry = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
+    /**
+     * @deprecated Use {@link #getRegistry()} instead.
+     */
+    @Deprecated(forRemoval = true)
     public static Map<String, ItemAddon> getLoadedAddons() {
-        return Map.copyOf(loadedAddons);
+        return getRegistry();
+    }
+
+    public static Map<String, ItemAddon> getRegistry() {
+        return Map.copyOf(registry);
     }
 
     public static @Nullable ItemAddon get(@NotNull String identifier) {
-        return loadedAddons.get(identifier);
+        return registry.get(identifier);
     }
 
     public static boolean unregister(@NotNull String identifier) {
-        if (!loadedAddons.containsKey(identifier)) {
+        if (!registry.containsKey(identifier)) {
             return false;
         }
-        loadedAddons.remove(identifier);
+        registry.remove(identifier);
         return true;
     }
 
@@ -58,10 +66,10 @@ public abstract class ItemAddon extends Addon {
     public abstract ItemStack getItem(@NotNull String id);
 
     public boolean register() {
-        if (loadedAddons.containsKey(getIdentifier())) {
+        if (registry.containsKey(getIdentifier())) {
             return false;
         }
-        loadedAddons.put(getIdentifier(), this);
+        registry.put(getIdentifier(), this);
         return true;
     }
 

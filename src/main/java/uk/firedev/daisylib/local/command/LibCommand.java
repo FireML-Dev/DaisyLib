@@ -52,7 +52,7 @@ public class LibCommand {
     private static Argument<String> getItemAddonsBranch() {
         return new LiteralArgument("itemAddons")
             .executes(info -> {
-                Collection<ItemAddon> registered = ItemAddon.getLoadedAddons().values();
+                Collection<ItemAddon> registered = ItemAddon.getRegistry().values();
                 if (registered.isEmpty()) {
                     MessageConfig.getInstance().getNoAddonsMessage(ItemAddon.class).send(info.sender());
                 } else {
@@ -66,7 +66,7 @@ public class LibCommand {
     private static Argument<String> getRewardAddonsBranch() {
         return new LiteralArgument("rewardAddons")
                 .executes(info -> {
-                    Collection<RewardAddon> registered = RewardAddon.getLoadedAddons().values();
+                    Collection<RewardAddon> registered = RewardAddon.getRegistry().values();
                     if (registered.isEmpty()) {
                         MessageConfig.getInstance().getNoAddonsMessage(RewardAddon.class).send(info.sender());
                     } else {
@@ -80,7 +80,7 @@ public class LibCommand {
     private static Argument<String> getRequirementAddonsBranch() {
         return new LiteralArgument("requirementAddons")
             .executes(info -> {
-                Collection<RequirementAddon> registered = RequirementAddon.getLoadedAddons().values();
+                Collection<RequirementAddon> registered = RequirementAddon.getRegistry().values();
                 if (registered.isEmpty()) {
                     MessageConfig.getInstance().getNoAddonsMessage(RequirementAddon.class).send(info.sender());
                 } else {

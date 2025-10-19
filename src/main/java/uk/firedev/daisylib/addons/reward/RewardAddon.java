@@ -13,21 +13,29 @@ import java.util.TreeMap;
 
 public abstract class RewardAddon extends Addon {
 
-    private static final TreeMap<String, RewardAddon> loadedAddons = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private static final TreeMap<String, RewardAddon> registry = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
+    /**
+     * @deprecated Use {@link #getRegistry()} instead.
+     */
+    @Deprecated(forRemoval = true)
     public static Map<String, RewardAddon> getLoadedAddons() {
-        return Map.copyOf(loadedAddons);
+        return getRegistry();
+    }
+
+    public static Map<String, RewardAddon> getRegistry() {
+        return Map.copyOf(registry);
     }
 
     public static @Nullable RewardAddon get(@NotNull String identifier) {
-        return loadedAddons.get(identifier);
+        return registry.get(identifier);
     }
 
     public static boolean unregister(@NotNull String identifier) {
-        if (!loadedAddons.containsKey(identifier)) {
+        if (!registry.containsKey(identifier)) {
             return false;
         }
-        loadedAddons.remove(identifier);
+        registry.remove(identifier);
         return true;
     }
 
@@ -58,10 +66,14 @@ public abstract class RewardAddon extends Addon {
     public abstract void doReward(@NotNull Player player, @NotNull String value);
 
     public boolean register() {
-        if (loadedAddons.containsKey(getIdentifier())) {
+        return register(false);
+    }
+
+    public boolean register(boolean force) {
+        if (!force && registry.containsKey(getIdentifier())) {
             return false;
         }
-        loadedAddons.put(getIdentifier(), this);
+        registry.put(getIdentifier(), this);
         return true;
     }
 
