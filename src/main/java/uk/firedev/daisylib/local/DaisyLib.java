@@ -7,12 +7,14 @@ import dev.jorel.commandapi.CommandAPIPaperConfig;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.addons.requirements.ExpRequirementAddon;
 import uk.firedev.daisylib.addons.requirements.HealthRequirementAddon;
 import uk.firedev.daisylib.addons.requirements.HoldingRequirementAddon;
 import uk.firedev.daisylib.addons.requirements.MoneyRequirementAddon;
 import uk.firedev.daisylib.addons.requirements.PermissionRequirementAddon;
+import uk.firedev.daisylib.addons.requirements.WorldRequirementAddon;
 import uk.firedev.daisylib.addons.rewards.CommandRewardAddon;
 import uk.firedev.daisylib.addons.rewards.ExpRewardAddon;
 import uk.firedev.daisylib.addons.rewards.HealthRewardAddon;
@@ -31,6 +33,13 @@ public final class DaisyLib extends JavaPlugin {
     private static DaisyLib instance;
     private Metrics metrics;
 
+    public DaisyLib() {
+        if (instance != null) {
+            throw new UnsupportedOperationException(getClass().getName() + " has already been assigned!");
+        }
+        instance = this;
+    }
+
     @Override
     public void onLoad() {
         CommandAPI.onLoad(new CommandAPIPaperConfig(this)
@@ -41,7 +50,6 @@ public final class DaisyLib extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        instance = this;
         CommandAPI.onEnable();
         CustomBlockData.registerListener(this);
         ExampleConfig.load();
@@ -87,8 +95,14 @@ public final class DaisyLib extends JavaPlugin {
         new HoldingRequirementAddon().register();
         new MoneyRequirementAddon().register();
         new PermissionRequirementAddon().register();
+        new WorldRequirementAddon().register();
     }
 
-    public static DaisyLib getInstance() { return instance; }
+    public static @NotNull DaisyLib getInstance() {
+        if (instance == null) {
+            throw new UnsupportedOperationException(ChatChannels.class.getSimpleName() + " has not been assigned!");
+        }
+        return instance;
+    }
 
 }
