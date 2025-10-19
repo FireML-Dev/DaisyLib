@@ -53,13 +53,15 @@ public class Requirement {
             return this;
         }
         section.getKeys(false).forEach(requirementString -> {
-            List<String> values = new ArrayList<>();
             if (section.isList(requirementString)) {
-                values.addAll(section.getStringList(requirementString));
+                processRequirement(requirementString, section.getStringList(requirementString));
             } else {
-                values.add(section.getString(requirementString));
+                String value = section.getString(requirementString);
+                if (value == null) {
+                    return;
+                }
+                processRequirement(requirementString, List.of(value));
             }
-            processRequirement(requirementString, values);
         });
         return this;
     }
