@@ -28,7 +28,7 @@ public class WorldRequirementAddon extends RequirementAddon {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "Permission";
+        return "World";
     }
 
     @Override
