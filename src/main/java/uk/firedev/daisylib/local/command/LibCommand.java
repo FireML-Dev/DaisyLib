@@ -112,7 +112,7 @@ public class LibCommand {
                 typeComponents
         );
 
-        return Replacer.replacer().addReplacement("list", joined);
+        return Replacer.replacer().addReplacement("{list}", joined);
     }
 
 }

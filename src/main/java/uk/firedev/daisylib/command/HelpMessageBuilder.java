@@ -62,8 +62,8 @@ public class HelpMessageBuilder {
         final ComponentMessage message = header.get();
         usages.forEach((key, value) -> {
             ComponentMessage usage = help.get();
-            usage.replace("command", constructCommand(key));
-            usage.replace("description", value.get());
+            usage.replace("{command}", constructCommand(key));
+            usage.replace("{description}", value.get());
             message.append(Component.newline());
             message.append(usage);
         });

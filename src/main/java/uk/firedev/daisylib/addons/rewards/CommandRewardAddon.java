@@ -18,10 +18,10 @@ public class CommandRewardAddon extends RewardAddon {
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
         Replacer replacer = Replacer.replacer().addReplacements(Map.of(
-                "player", player.getName(),
-                "x", player.getLocation().getX(),
-                "y", player.getLocation().getY(),
-                "z", player.getLocation().getZ()
+                "{player}", player.getName(),
+                "{x}", player.getLocation().getX(),
+                "{y}", player.getLocation().getY(),
+                "{z}", player.getLocation().getZ()
         ));
         Bukkit.dispatchCommand(
             Bukkit.getConsoleSender(),
