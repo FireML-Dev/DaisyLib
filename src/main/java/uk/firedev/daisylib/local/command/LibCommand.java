@@ -37,7 +37,7 @@ public class LibCommand extends CommandBase {
             .build();
     }
 
-    private static LiteralArgumentBuilder<CommandSourceStack> reload() {
+    private LiteralArgumentBuilder<CommandSourceStack> reload() {
         return Commands.literal("reload")
             .executes(ctx -> {
                 DaisyLib.getInstance().reload();
@@ -46,14 +46,14 @@ public class LibCommand extends CommandBase {
             });
     }
 
-    private static LiteralArgumentBuilder<CommandSourceStack> list() {
+    private LiteralArgumentBuilder<CommandSourceStack> list() {
         return Commands.literal("list")
             .then(listItemAddons())
             .then(listRewardAddons())
             .then(listRequirementAddons());
     }
 
-    private static LiteralArgumentBuilder<CommandSourceStack> listItemAddons() {
+    private LiteralArgumentBuilder<CommandSourceStack> listItemAddons() {
         return Commands.literal("itemAddons")
             .executes(ctx -> {
                 CommandSender sender = ctx.getSource().getSender();
@@ -69,7 +69,7 @@ public class LibCommand extends CommandBase {
             });
     }
 
-    private static LiteralArgumentBuilder<CommandSourceStack> listRewardAddons() {
+    private LiteralArgumentBuilder<CommandSourceStack> listRewardAddons() {
         return Commands.literal("rewardAddons")
             .executes(ctx -> {
                 CommandSender sender = ctx.getSource().getSender();
@@ -85,7 +85,7 @@ public class LibCommand extends CommandBase {
             });
     }
 
-    private static LiteralArgumentBuilder<CommandSourceStack> listRequirementAddons() {
+    private LiteralArgumentBuilder<CommandSourceStack> listRequirementAddons() {
         return Commands.literal("requirementAddons")
             .executes(ctx -> {
                 CommandSender sender = ctx.getSource().getSender();
@@ -101,7 +101,7 @@ public class LibCommand extends CommandBase {
             });
     }
 
-    private static Replacer getAddonListReplacer(Collection<? extends Addon> types) {
+    private Replacer getAddonListReplacer(Collection<? extends Addon> types) {
         // Gather all types in their intended format
         List<Component> typeComponents = types.stream()
                 .map(rewardType -> {
