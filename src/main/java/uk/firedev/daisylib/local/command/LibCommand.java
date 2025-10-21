@@ -44,12 +44,12 @@ public class LibCommand {
 
     private static Argument<String> getListBranch() {
         return new LiteralArgument("list")
-            .then(getItemAddonsBranch())
-            .then(getRequirementAddonsBranch())
-            .then(getRewardAddonsBranch());
+            .then(listItemAddons())
+            .then(listRequirementAddons())
+            .then(listRewardAddons());
     }
 
-    private static Argument<String> getItemAddonsBranch() {
+    private static Argument<String> listItemAddons() {
         return new LiteralArgument("itemAddons")
             .executes(info -> {
                 Collection<ItemAddon> registered = ItemAddon.getRegistry().values();
@@ -63,7 +63,7 @@ public class LibCommand {
             });
     }
 
-    private static Argument<String> getRewardAddonsBranch() {
+    private static Argument<String> listRewardAddons() {
         return new LiteralArgument("rewardAddons")
                 .executes(info -> {
                     Collection<RewardAddon> registered = RewardAddon.getRegistry().values();
@@ -77,7 +77,7 @@ public class LibCommand {
                 });
     }
 
-    private static Argument<String> getRequirementAddonsBranch() {
+    private static Argument<String> listRequirementAddons() {
         return new LiteralArgument("requirementAddons")
             .executes(info -> {
                 Collection<RequirementAddon> registered = RequirementAddon.getRegistry().values();
