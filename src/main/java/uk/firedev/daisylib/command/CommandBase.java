@@ -11,7 +11,7 @@ import uk.firedev.messagelib.message.ComponentSingleMessage;
 
 public abstract class CommandBase {
 
-    private static final ComponentSingleMessage NO_ACCESS = ComponentMessage.componentMessage(
+    protected static final ComponentSingleMessage NO_ACCESS = ComponentMessage.componentMessage(
         "<red>You are not able to use this command!"
     );
 
