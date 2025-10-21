@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.command.ArgumentBase;
-import uk.firedev.daisylib.utils.PlayerHelper;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -40,7 +39,10 @@ public class PlayerArgument extends ArgumentBase<Player, String> {
 
     @Override
     public List<String> getSuggestions() {
-        return Bukkit.getOnlinePlayers().stream().filter(this.predicate).map(Player::getName).toList();
+        return Bukkit.getOnlinePlayers().stream()
+            .filter(this.predicate)
+            .map(Player::getName)
+            .toList();
     }
 
     /**

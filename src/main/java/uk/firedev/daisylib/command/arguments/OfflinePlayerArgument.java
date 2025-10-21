@@ -48,7 +48,10 @@ public class OfflinePlayerArgument extends ArgumentBase<OfflinePlayer, String> {
 
     @Override
     public List<String> getSuggestions() {
-        return Bukkit.getOnlinePlayers().stream().filter(this.predicate).map(Player::getName).toList();
+        return Bukkit.getOnlinePlayers().stream()
+            .filter(this.predicate)
+            .map(Player::getName)
+            .toList();
     }
 
     /**
