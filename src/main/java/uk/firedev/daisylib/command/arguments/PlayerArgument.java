@@ -17,8 +17,7 @@ public class PlayerArgument {
     }
 
     public static Argument<Player> create(@NotNull String nodeName, @NotNull Predicate<Player> predicate) {
-        return new CustomArgument<>(
-            new StringArgument(nodeName), info -> {
+        return new CustomArgument<>(new StringArgument(nodeName), info -> {
             Player player = Bukkit.getPlayer(info.input());
             if (player == null) {
                 throw CustomArgument.CustomArgumentException.fromMessageBuilder(
@@ -31,8 +30,7 @@ public class PlayerArgument {
                 );
             }
             return player;
-        }
-        ).includeSuggestions(
+        }).includeSuggestions(
             ArgumentBuilder.getAsyncSuggestions(info ->
                 Bukkit.getOnlinePlayers().stream().map(Player::getName).toArray(String[]::new)
             )
