@@ -4,6 +4,7 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import dev.jorel.commandapi.CommandAPIPaperConfig;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -46,6 +47,7 @@ public final class DaisyLib extends JavaPlugin {
                 .missingExecutorImplementationMessage("You are not able to use this command!")
                 .fallbackToLatestNMS(true)
         );
+        new LibCommand().register(this);
     }
 
     @Override
@@ -54,7 +56,6 @@ public final class DaisyLib extends JavaPlugin {
         CustomBlockData.registerListener(this);
         ExampleConfig.load();
         reload();
-        LibCommand.getCommand().register();
         getServer().getPluginManager().registerEvents(new CustomEventListener(), this);
         loadManagers();
         loadAddons();

@@ -1,15 +1,19 @@
 package uk.firedev.daisylib.local.command;
 
-import dev.jorel.commandapi.CommandTree;
-import dev.jorel.commandapi.arguments.Argument;
-import dev.jorel.commandapi.arguments.LiteralArgument;
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.event.HoverEvent;
+import org.bukkit.command.CommandSender;
 import uk.firedev.daisylib.addons.Addon;
 import uk.firedev.daisylib.addons.item.ItemAddon;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
+import uk.firedev.daisylib.command.CommandBase;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.messagelib.message.ComponentMessage;
@@ -18,76 +22,82 @@ import uk.firedev.messagelib.replacer.Replacer;
 import java.util.Collection;
 import java.util.List;
 
-public class LibCommand {
+public class LibCommand extends CommandBase {
 
-    private LibCommand() {}
-
-    public static CommandTree getCommand() {
-        return new CommandTree("daisylib")
-            .withPermission("daisylib.command")
-            .withFullDescription("Manage the plugin")
-            .withShortDescription("Manage the plugin")
-            .executes(info -> {
-                MessageConfig.getInstance().getMainUsageMessage().send(info.sender());
+    @Override
+    public LiteralCommandNode<CommandSourceStack> getCommand() {
+        return Commands.literal("daisylib")
+            .requires(sender -> requirePermission("daisylib.command", sender))
+            .executes(ctx -> {
+                MessageConfig.getInstance().getMainUsageMessage().send(ctx.getSource().getSender());
+                return Command.SINGLE_SUCCESS;
             })
-            .then(getReloadBranch())
-            .then(getListBranch());
+            .then(reload())
+            .then(list())
+            .build();
     }
 
-    private static Argument<String> getReloadBranch() {
-        return new LiteralArgument("reload")
-                .executes(((sender, arguments) -> {
-                    DaisyLib.getInstance().reload();
-                    MessageConfig.getInstance().getReloadedMessage().send(sender);
-                }));
-    }
-
-    private static Argument<String> getListBranch() {
-        return new LiteralArgument("list")
-            .then(getItemAddonsBranch())
-            .then(getRequirementAddonsBranch())
-            .then(getRewardAddonsBranch());
-    }
-
-    private static Argument<String> getItemAddonsBranch() {
-        return new LiteralArgument("itemAddons")
-            .executes(info -> {
-                Collection<ItemAddon> registered = ItemAddon.getRegistry().values();
-                if (registered.isEmpty()) {
-                    MessageConfig.getInstance().getNoAddonsMessage(ItemAddon.class).send(info.sender());
-                } else {
-                    MessageConfig.getInstance().getListAddonsMessage(ItemAddon.class)
-                        .replace(getAddonListReplacer(registered))
-                        .send(info.sender());
-                }
+    private static LiteralArgumentBuilder<CommandSourceStack> reload() {
+        return Commands.literal("reload")
+            .executes(ctx -> {
+                DaisyLib.getInstance().reload();
+                MessageConfig.getInstance().getReloadedMessage().send(ctx.getSource().getSender());
+                return Command.SINGLE_SUCCESS;
             });
     }
 
-    private static Argument<String> getRewardAddonsBranch() {
-        return new LiteralArgument("rewardAddons")
-                .executes(info -> {
-                    Collection<RewardAddon> registered = RewardAddon.getRegistry().values();
-                    if (registered.isEmpty()) {
-                        MessageConfig.getInstance().getNoAddonsMessage(RewardAddon.class).send(info.sender());
-                    } else {
-                        MessageConfig.getInstance().getListAddonsMessage(RewardAddon.class)
-                            .replace(getAddonListReplacer(registered))
-                            .send(info.sender());
-                    }
-                });
+    private static LiteralArgumentBuilder<CommandSourceStack> list() {
+        return Commands.literal("list")
+            .then(listItemAddons())
+            .then(listRewardAddons())
+            .then(listRequirementAddons());
     }
 
-    private static Argument<String> getRequirementAddonsBranch() {
-        return new LiteralArgument("requirementAddons")
-            .executes(info -> {
+    private static LiteralArgumentBuilder<CommandSourceStack> listItemAddons() {
+        return Commands.literal("itemAddons")
+            .executes(ctx -> {
+                CommandSender sender = ctx.getSource().getSender();
+                Collection<ItemAddon> registered = ItemAddon.getRegistry().values();
+                if (registered.isEmpty()) {
+                    MessageConfig.getInstance().getNoAddonsMessage(ItemAddon.class).send(sender);
+                } else {
+                    MessageConfig.getInstance().getListAddonsMessage(ItemAddon.class)
+                        .replace(getAddonListReplacer(registered))
+                        .send(sender);
+                }
+                return Command.SINGLE_SUCCESS;
+            });
+    }
+
+    private static LiteralArgumentBuilder<CommandSourceStack> listRewardAddons() {
+        return Commands.literal("rewardAddons")
+            .executes(ctx -> {
+                CommandSender sender = ctx.getSource().getSender();
+                Collection<RewardAddon> registered = RewardAddon.getRegistry().values();
+                if (registered.isEmpty()) {
+                    MessageConfig.getInstance().getNoAddonsMessage(RewardAddon.class).send(sender);
+                } else {
+                    MessageConfig.getInstance().getListAddonsMessage(RewardAddon.class)
+                        .replace(getAddonListReplacer(registered))
+                        .send(sender);
+                }
+                return Command.SINGLE_SUCCESS;
+            });
+    }
+
+    private static LiteralArgumentBuilder<CommandSourceStack> listRequirementAddons() {
+        return Commands.literal("requirementAddons")
+            .executes(ctx -> {
+                CommandSender sender = ctx.getSource().getSender();
                 Collection<RequirementAddon> registered = RequirementAddon.getRegistry().values();
                 if (registered.isEmpty()) {
-                    MessageConfig.getInstance().getNoAddonsMessage(RequirementAddon.class).send(info.sender());
+                    MessageConfig.getInstance().getNoAddonsMessage(RequirementAddon.class).send(sender);
                 } else {
                     MessageConfig.getInstance().getListAddonsMessage(RequirementAddon.class)
                         .replace(getAddonListReplacer(registered))
-                        .send(info.sender());
+                        .send(sender);
                 }
+                return Command.SINGLE_SUCCESS;
             });
     }
 
