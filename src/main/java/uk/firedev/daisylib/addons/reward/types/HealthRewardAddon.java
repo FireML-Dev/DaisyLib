@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.addons.rewards;
+package uk.firedev.daisylib.addons.reward.types;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -37,7 +37,7 @@ public class HealthRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
+    public @NotNull String getKey() {
         return "Health";
     }
 
@@ -47,7 +47,7 @@ public class HealthRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull Plugin getOwningPlugin() {
+    public @NotNull Plugin getPlugin() {
         return DaisyLib.getInstance();
     }
 

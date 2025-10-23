@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.addons.rewards;
+package uk.firedev.daisylib.addons.reward.types;
 
 import net.milkbowl.vault2.economy.Economy;
 import org.bukkit.entity.Player;
@@ -29,11 +29,11 @@ public class MoneyRewardAddon extends RewardAddon {
         if (amount < 0) {
             amount = 0.0D;
         }
-        economy.deposit(getOwningPlugin().getName(), player.getUniqueId(), BigDecimal.valueOf(amount));
+        economy.deposit(getPlugin().getName(), player.getUniqueId(), BigDecimal.valueOf(amount));
     }
 
     @Override
-    public @NotNull String getIdentifier() {
+    public @NotNull String getKey() {
         return "Money";
     }
 
@@ -43,7 +43,7 @@ public class MoneyRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull Plugin getOwningPlugin() {
+    public @NotNull Plugin getPlugin() {
         return DaisyLib.getInstance();
     }
 

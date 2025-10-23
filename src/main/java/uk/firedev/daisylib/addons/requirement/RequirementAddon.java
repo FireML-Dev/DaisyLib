@@ -11,32 +11,6 @@ import java.util.TreeMap;
 
 public abstract class RequirementAddon extends Addon {
 
-    private static final TreeMap<String, RequirementAddon> registry = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-
-    /**
-     * @deprecated Use {@link #getRegistry()} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public static Map<String, RequirementAddon> getLoadedAddons() {
-        return getRegistry();
-    }
-
-    public static Map<String, RequirementAddon> getRegistry() {
-        return Map.copyOf(registry);
-    }
-
-    public static @Nullable RequirementAddon get(@NotNull String identifier) {
-        return registry.get(identifier);
-    }
-
-    public static boolean unregister(@NotNull String identifier) {
-        if (!registry.containsKey(identifier)) {
-            return false;
-        }
-        registry.remove(identifier);
-        return true;
-    }
-
     public RequirementAddon() {}
 
     /**
@@ -50,26 +24,22 @@ public abstract class RequirementAddon extends Addon {
      * The identifier for this Requirement
      * @return The identifier for this Requirement
      */
-    public abstract @NotNull String getIdentifier();
+    public abstract @NotNull String getKey();
 
     public abstract @NotNull String getAuthor();
 
-    public abstract @NotNull Plugin getOwningPlugin();
+    public abstract @NotNull Plugin getPlugin();
 
     public boolean register() {
         return register(false);
     }
     
     public boolean register(boolean force) {
-        if (!force && registry.containsKey(getIdentifier())) {
-            return false;
-        }
-        registry.put(getIdentifier(), this);
-        return true;
+        return RequirementAddonRegistry.get().register(this, force);
     }
 
     public boolean unregister() {
-        return unregister(getIdentifier());
+        return RequirementAddonRegistry.get().unregister(this);
     }
 
 }

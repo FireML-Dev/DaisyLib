@@ -81,7 +81,7 @@ public class Requirement {
                 plugin.getLogger().warning("Attempted to process an invalid Requirement. Please check for earlier warnings.");
                 continue;
             }
-            RequirementAddon requirementAddon = RequirementAddon.get(key);
+            RequirementAddon requirementAddon = RequirementAddonRegistry.get().get(key);
             if (requirementAddon == null) {
                 Loggers.warn(getComponentLogger(), "Invalid requirement. Possible typo?: " + key);
                 continue;

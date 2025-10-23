@@ -1,24 +1,25 @@
-package uk.firedev.daisylib.addons.requirements;
+package uk.firedev.daisylib.addons.requirement.types;
 
-import org.bukkit.entity.Player;
+import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
-import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.addons.requirement.RequirementData;
+import uk.firedev.daisylib.local.DaisyLib;
 
 import java.util.List;
 
-public class PermissionRequirementAddon extends RequirementAddon {
+public class WorldRequirementAddon extends RequirementAddon {
 
     @Override
     public boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> values) {
-        Player player = data.getPlayer();
-        if (player == null) {
+        World world = data.getWorld();
+        if (world == null) {
             return false;
         }
+        String worldName = world.getName();
         for (String value : values) {
-            if (player.hasPermission(value)) {
+            if (worldName.equalsIgnoreCase(value)) {
                 return true;
             }
         }
@@ -26,8 +27,8 @@ public class PermissionRequirementAddon extends RequirementAddon {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
-        return "Permission";
+    public @NotNull String getKey() {
+        return "World";
     }
 
     @Override
@@ -36,7 +37,7 @@ public class PermissionRequirementAddon extends RequirementAddon {
     }
 
     @Override
-    public @NotNull Plugin getOwningPlugin() {
+    public @NotNull Plugin getPlugin() {
         return DaisyLib.getInstance();
     }
 

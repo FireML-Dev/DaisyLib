@@ -13,68 +13,20 @@ import java.util.TreeMap;
 
 public abstract class ItemAddon extends Addon {
 
-    private static final TreeMap<String, ItemAddon> registry = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-
-    /**
-     * @deprecated Use {@link #getRegistry()} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public static Map<String, ItemAddon> getLoadedAddons() {
-        return getRegistry();
-    }
-
-    public static Map<String, ItemAddon> getRegistry() {
-        return Map.copyOf(registry);
-    }
-
-    public static @Nullable ItemAddon get(@NotNull String identifier) {
-        return registry.get(identifier);
-    }
-
-    public static boolean unregister(@NotNull String identifier) {
-        if (!registry.containsKey(identifier)) {
-            return false;
-        }
-        registry.remove(identifier);
-        return true;
-    }
-
-    public static @Nullable ItemStack processString(@Nullable String string) {
-        if (string == null) {
-            return null;
-        }
-        String[] split = string.split(":");
-        String name;
-        String itemId;
-        try {
-            name = split[0];
-            itemId = String.join(":", Arrays.copyOfRange(split, 1, split.length));
-        } catch (ArrayIndexOutOfBoundsException exception) {
-            Loggers.warn(ItemAddon.class, "Failed to process an ItemAddon String! \"" + string + "\" is not formatted correctly.", new InvalidItemException());
-            return null;
-        }
-        ItemAddon addon = get(name);
-        if (addon == null) {
-            Loggers.warn(ItemAddon.class, "Failed to process an ItemAddon String! \"" + name + "\" is not a valid ItemAddon.", new InvalidAddonException());
-            return null;
-        }
-        return addon.getItem(itemId);
-    }
-
     public ItemAddon() {}
 
     public abstract ItemStack getItem(@NotNull String id);
 
+    public boolean register(boolean force) {
+        return ItemAddonRegistry.get().register(this, force);
+    }
+
     public boolean register() {
-        if (registry.containsKey(getIdentifier())) {
-            return false;
-        }
-        registry.put(getIdentifier(), this);
-        return true;
+        return register(false);
     }
 
     public boolean unregister() {
-        return unregister(getIdentifier());
+        return ItemAddonRegistry.get().unregister(this);
     }
 
 }

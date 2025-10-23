@@ -13,32 +13,6 @@ import java.util.TreeMap;
 
 public abstract class RewardAddon extends Addon {
 
-    private static final TreeMap<String, RewardAddon> registry = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-
-    /**
-     * @deprecated Use {@link #getRegistry()} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public static Map<String, RewardAddon> getLoadedAddons() {
-        return getRegistry();
-    }
-
-    public static Map<String, RewardAddon> getRegistry() {
-        return Map.copyOf(registry);
-    }
-
-    public static @Nullable RewardAddon get(@NotNull String identifier) {
-        return registry.get(identifier);
-    }
-
-    public static boolean unregister(@NotNull String identifier) {
-        if (!registry.containsKey(identifier)) {
-            return false;
-        }
-        registry.remove(identifier);
-        return true;
-    }
-
     public static void processString(@Nullable String string, @Nullable Player player) {
         if (string == null || player == null) {
             return;
@@ -53,7 +27,7 @@ public abstract class RewardAddon extends Addon {
             Loggers.warn(RewardAddon.class, "Failed to process a RewardAddon String! \"" + string + "\" is not formatted correctly.", new InvalidRewardException());
             return;
         }
-        RewardAddon addon = get(name);
+        RewardAddon addon = RewardAddonRegistry.get().get(name);
         if (addon == null) {
             Loggers.warn(RewardAddon.class, "Failed to process a RewardAddon String! \"" + name + "\" is not a valid RewardAddon.", new InvalidAddonException());
             return;
@@ -70,15 +44,11 @@ public abstract class RewardAddon extends Addon {
     }
 
     public boolean register(boolean force) {
-        if (!force && registry.containsKey(getIdentifier())) {
-            return false;
-        }
-        registry.put(getIdentifier(), this);
-        return true;
+        return RewardAddonRegistry.get().register(this, force);
     }
 
     public boolean unregister() {
-        return unregister(getIdentifier());
+        return RewardAddonRegistry.get().unregister(this);
     }
 
 }

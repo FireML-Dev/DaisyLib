@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.addons.requirements;
+package uk.firedev.daisylib.addons.requirement.types;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -34,7 +34,7 @@ public class HealthRequirementAddon extends RequirementAddon {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
+    public @NotNull String getKey() {
         return "Health";
     }
 
@@ -44,7 +44,7 @@ public class HealthRequirementAddon extends RequirementAddon {
     }
 
     @Override
-    public @NotNull Plugin getOwningPlugin() {
+    public @NotNull Plugin getPlugin() {
         return DaisyLib.getInstance();
     }
 

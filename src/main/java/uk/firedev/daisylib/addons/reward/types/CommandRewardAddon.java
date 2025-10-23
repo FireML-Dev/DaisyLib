@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.addons.rewards;
+package uk.firedev.daisylib.addons.reward.types;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -31,7 +31,7 @@ public class CommandRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
+    public @NotNull String getKey() {
         return "Command";
     }
 
@@ -41,7 +41,7 @@ public class CommandRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull Plugin getOwningPlugin() {
+    public @NotNull Plugin getPlugin() {
         return DaisyLib.getInstance();
     }
 

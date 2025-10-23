@@ -8,8 +8,11 @@ import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.event.HoverEvent;
 import uk.firedev.daisylib.addons.Addon;
 import uk.firedev.daisylib.addons.item.ItemAddon;
+import uk.firedev.daisylib.addons.item.ItemAddonRegistry;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
+import uk.firedev.daisylib.addons.requirement.RequirementAddonRegistry;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
+import uk.firedev.daisylib.addons.reward.RewardAddonRegistry;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.messagelib.message.ComponentMessage;
@@ -52,7 +55,7 @@ public class LibCommand {
     private static Argument<String> listItemAddons() {
         return new LiteralArgument("itemAddons")
             .executes(info -> {
-                Collection<ItemAddon> registered = ItemAddon.getRegistry().values();
+                Collection<ItemAddon> registered = ItemAddonRegistry.get().getRegistry().values();
                 if (registered.isEmpty()) {
                     MessageConfig.getInstance().getNoAddonsMessage(ItemAddon.class).send(info.sender());
                 } else {
@@ -66,7 +69,7 @@ public class LibCommand {
     private static Argument<String> listRewardAddons() {
         return new LiteralArgument("rewardAddons")
                 .executes(info -> {
-                    Collection<RewardAddon> registered = RewardAddon.getRegistry().values();
+                    Collection<RewardAddon> registered = RewardAddonRegistry.get().getRegistry().values();
                     if (registered.isEmpty()) {
                         MessageConfig.getInstance().getNoAddonsMessage(RewardAddon.class).send(info.sender());
                     } else {
@@ -80,7 +83,7 @@ public class LibCommand {
     private static Argument<String> listRequirementAddons() {
         return new LiteralArgument("requirementAddons")
             .executes(info -> {
-                Collection<RequirementAddon> registered = RequirementAddon.getRegistry().values();
+                Collection<RequirementAddon> registered = RequirementAddonRegistry.get().getRegistry().values();
                 if (registered.isEmpty()) {
                     MessageConfig.getInstance().getNoAddonsMessage(RequirementAddon.class).send(info.sender());
                 } else {
@@ -95,11 +98,11 @@ public class LibCommand {
         // Gather all types in their intended format
         List<Component> typeComponents = types.stream()
                 .map(rewardType -> {
-                    Component identifier = ComponentMessage.componentMessage(rewardType.getIdentifier()).get();
+                    Component identifier = ComponentMessage.componentMessage(rewardType.getKey()).get();
                     identifier = identifier.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
                             ComponentMessage.componentMessage(
                                     "<white>Author: " + rewardType.getAuthor() + "\n" +
-                                    "<white>Registered Plugin: " + rewardType.getOwningPlugin().getName()
+                                    "<white>Registered Plugin: " + rewardType.getPlugin().getName()
                             ).get()
                     ));
                     return identifier;

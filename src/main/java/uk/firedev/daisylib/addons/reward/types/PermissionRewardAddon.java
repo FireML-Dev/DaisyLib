@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.addons.rewards;
+package uk.firedev.daisylib.addons.reward.types;
 
 import net.milkbowl.vault2.permission.Permission;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public class PermissionRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
+    public @NotNull String getKey() {
         return "Permission";
     }
 
@@ -32,7 +32,7 @@ public class PermissionRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull Plugin getOwningPlugin() {
+    public @NotNull Plugin getPlugin() {
         return DaisyLib.getInstance();
     }
 

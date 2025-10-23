@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.item.ItemAddon;
+import uk.firedev.daisylib.addons.item.ItemAddonRegistry;
 import uk.firedev.messagelib.message.ComponentMessage;
 
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class ItemUtils {
         if (itemType != null) {
             return itemType.createItemStack();
         }
-        return ItemAddon.processString(itemName);
+        return ItemAddonRegistry.get().processString(itemName);
     }
 
     public static @NotNull ItemStack getItem(@Nullable String itemName, @NotNull ItemStack defaultItem) {

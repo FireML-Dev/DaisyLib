@@ -3,12 +3,13 @@ package uk.firedev.daisylib.addons;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.item.ItemAddon;
+import uk.firedev.daisylib.registry.RegistryItem;
 
-public abstract class Addon {
+import java.util.UUID;
 
-    public abstract @NotNull String getIdentifier();
+public abstract class Addon implements RegistryItem {
 
-    public abstract @NotNull Plugin getOwningPlugin();
+    public abstract @NotNull Plugin getPlugin();
 
     public abstract @NotNull String getAuthor();
 
@@ -20,12 +21,12 @@ public abstract class Addon {
         if (!(obj instanceof ItemAddon addon)) {
             return false;
         }
-        return getIdentifier().equals(addon.getIdentifier());
+        return getKey().equals(addon.getKey());
     }
 
     @Override
     public int hashCode() {
-        return getIdentifier().hashCode();
+        return getKey().hashCode();
     }
 
 }

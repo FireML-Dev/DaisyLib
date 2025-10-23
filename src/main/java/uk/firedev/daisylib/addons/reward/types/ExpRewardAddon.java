@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.addons.rewards;
+package uk.firedev.daisylib.addons.reward.types;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -21,7 +21,7 @@ public class ExpRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
+    public @NotNull String getKey() {
         return "Exp";
     }
 
@@ -31,7 +31,7 @@ public class ExpRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull Plugin getOwningPlugin() {
+    public @NotNull Plugin getPlugin() {
         return DaisyLib.getInstance();
     }
 

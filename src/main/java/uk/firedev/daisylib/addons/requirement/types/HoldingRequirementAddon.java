@@ -1,6 +1,5 @@
-package uk.firedev.daisylib.addons.requirements;
+package uk.firedev.daisylib.addons.requirement.types;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
@@ -43,7 +42,7 @@ public class HoldingRequirementAddon extends RequirementAddon {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
+    public @NotNull String getKey() {
         return "Holding";
     }
 
@@ -53,7 +52,7 @@ public class HoldingRequirementAddon extends RequirementAddon {
     }
 
     @Override
-    public @NotNull Plugin getOwningPlugin() {
+    public @NotNull Plugin getPlugin() {
         return DaisyLib.getInstance();
     }
 

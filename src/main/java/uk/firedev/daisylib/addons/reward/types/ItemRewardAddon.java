@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.addons.rewards;
+package uk.firedev.daisylib.addons.reward.types;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -36,7 +36,7 @@ public class ItemRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
+    public @NotNull String getKey() {
         return "Item";
     }
 
@@ -46,7 +46,7 @@ public class ItemRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull Plugin getOwningPlugin() {
+    public @NotNull Plugin getPlugin() {
         return DaisyLib.getInstance();
     }
 

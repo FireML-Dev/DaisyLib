@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.addons.requirements;
+package uk.firedev.daisylib.addons.requirement.types;
 
 import net.milkbowl.vault2.economy.Economy;
 import org.bukkit.plugin.Plugin;
@@ -31,7 +31,7 @@ public class MoneyRequirementAddon extends RequirementAddon {
                 Loggers.warn(getClass(), value + " is not a valid double");
                 continue;
             }
-            if (economy.has(getOwningPlugin().getName(), data.getPlayer().getUniqueId(), BigDecimal.valueOf(amount))) {
+            if (economy.has(getPlugin().getName(), data.getPlayer().getUniqueId(), BigDecimal.valueOf(amount))) {
                 return true;
             }
         }
@@ -39,7 +39,7 @@ public class MoneyRequirementAddon extends RequirementAddon {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
+    public @NotNull String getKey() {
         return "Money";
     }
 
@@ -49,7 +49,7 @@ public class MoneyRequirementAddon extends RequirementAddon {
     }
 
     @Override
-    public @NotNull Plugin getOwningPlugin() {
+    public @NotNull Plugin getPlugin() {
         return DaisyLib.getInstance();
     }
 
