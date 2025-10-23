@@ -24,6 +24,7 @@ import uk.firedev.daisylib.local.command.LibCommandBrigadier;
 import uk.firedev.daisylib.local.config.ExampleConfig;
 import uk.firedev.daisylib.local.config.MainConfig;
 import uk.firedev.daisylib.local.config.MessageConfig;
+import uk.firedev.messagelib.Utils;
 
 public final class DaisyLib extends JavaPlugin {
 
@@ -44,6 +45,8 @@ public final class DaisyLib extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // We don't want legacy because it's old and disgusting.
+        Utils.allowLegacyMessages(false);
         CustomBlockData.registerListener(this);
         ExampleConfig.load();
         reload();
