@@ -17,6 +17,7 @@ repositories {
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.minebench.de/")
     maven("https://repo.codemc.io/repository/maven-snapshots/")
+    maven("https://eldonexus.de/repository/maven-public/")
 }
 
 dependencies {
@@ -40,6 +41,9 @@ dependencies {
     paperLibrary(libs.vanishchecker)
 
     paperLibrary(libs.nashorn)
+
+    compileOnly(libs.strokkcommands.annotations)
+    annotationProcessor(libs.strokkcommands.processor)
 }
 
 group = "uk.firedev"

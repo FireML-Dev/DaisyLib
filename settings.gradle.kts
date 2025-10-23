@@ -23,6 +23,10 @@ dependencyResolutionManagement {
             library("boostedyaml", "dev.dejvokep:boosted-yaml:1.3.7")
             library("triumphgui", "dev.triumphteam:triumph-gui:3.1.11")
 
+            // annotationProcessor dependencies
+            library("strokkcommands-annotations", "net.strokkur:commands-annotations:1.5.0")
+            library("strokkcommands-processor", "net.strokkur:commands-processor:1.5.0")
+
             // Gradle plugins
             plugin("shadow", "com.gradleup.shadow").version("9.0.0")
             plugin("plugin-yml", "de.eldoria.plugin-yml.paper").version("0.8.0")
