@@ -1,8 +1,7 @@
 package uk.firedev.daisylib.local;
 
 import com.jeff_media.customblockdata.CustomBlockData;
-import dev.jorel.commandapi.CommandAPI;
-import dev.jorel.commandapi.CommandAPIPaperConfig;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +20,7 @@ import uk.firedev.daisylib.addons.reward.types.MoneyRewardAddon;
 import uk.firedev.daisylib.addons.reward.types.PermissionRewardAddon;
 import uk.firedev.daisylib.events.CustomEventListener;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
-import uk.firedev.daisylib.local.command.LibCommand;
+import uk.firedev.daisylib.local.command.LibCommandBrigadier;
 import uk.firedev.daisylib.local.config.ExampleConfig;
 import uk.firedev.daisylib.local.config.MainConfig;
 import uk.firedev.daisylib.local.config.MessageConfig;
@@ -40,19 +39,14 @@ public final class DaisyLib extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        CommandAPI.onLoad(new CommandAPIPaperConfig(this)
-                .missingExecutorImplementationMessage("You are not able to use this command!")
-                .fallbackToLatestNMS(true)
-        );
+        registerCommands();
     }
 
     @Override
     public void onEnable() {
-        CommandAPI.onEnable();
         CustomBlockData.registerListener(this);
         ExampleConfig.load();
         reload();
-        LibCommand.getCommand().register();
         getServer().getPluginManager().registerEvents(new CustomEventListener(), this);
         loadManagers();
         loadAddons();
@@ -60,9 +54,7 @@ public final class DaisyLib extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {
-        CommandAPI.onDisable();
-    }
+    public void onDisable() {}
 
     public void reload() {
         MainConfig.getInstance().init();
@@ -101,6 +93,12 @@ public final class DaisyLib extends JavaPlugin {
             throw new UnsupportedOperationException(DaisyLib.class.getSimpleName() + " has not been assigned!");
         }
         return instance;
+    }
+
+    private void registerCommands() {
+        this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
+            LibCommandBrigadier.register(commands.registrar());
+        });
     }
 
 }

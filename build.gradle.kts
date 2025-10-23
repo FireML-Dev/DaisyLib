@@ -17,6 +17,7 @@ repositories {
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.minebench.de/")
     maven("https://repo.codemc.io/repository/maven-snapshots/")
+    maven("https://eldonexus.de/repository/maven-public/")
 }
 
 dependencies {
@@ -25,7 +26,6 @@ dependencies {
     compileOnly(libs.vault)
     compileOnly(libs.miniplaceholders)
 
-    implementation(libs.commandapi)
     implementation(libs.bstats)
     implementation(libs.customblockdata)
     implementation(libs.messagelib)
@@ -40,6 +40,9 @@ dependencies {
     paperLibrary(libs.vanishchecker)
 
     paperLibrary(libs.nashorn)
+
+    compileOnly(libs.strokkcommands.annotations)
+    annotationProcessor(libs.strokkcommands.processor)
 }
 
 group = "uk.firedev"
@@ -111,7 +114,6 @@ tasks {
         archiveClassifier.set("")
 
         // Libs Package
-        relocate("dev.jorel.commandapi", "uk.firedev.daisylib.libs.commandapi")
         relocate("org.bstats", "uk.firedev.daisylib.libs.bstats")
         relocate("com.jeff_media.customblockdata", "uk.firedev.daisylib.libs.customblockdata")
         relocate("uk.firedev.messagelib", "uk.firedev.daisylib.libs.messagelib")
