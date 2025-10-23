@@ -13,28 +13,6 @@ import java.util.TreeMap;
 
 public abstract class RewardAddon extends Addon {
 
-    public static void processString(@Nullable String string, @Nullable Player player) {
-        if (string == null || player == null) {
-            return;
-        }
-        String[] split = string.split(":");
-        String name;
-        String rewardInput;
-        try {
-            name = split[0];
-            rewardInput = String.join(":", Arrays.copyOfRange(split, 1, split.length));
-        } catch (ArrayIndexOutOfBoundsException exception) {
-            Loggers.warn(RewardAddon.class, "Failed to process a RewardAddon String! \"" + string + "\" is not formatted correctly.", new InvalidRewardException());
-            return;
-        }
-        RewardAddon addon = RewardAddonRegistry.get().get(name);
-        if (addon == null) {
-            Loggers.warn(RewardAddon.class, "Failed to process a RewardAddon String! \"" + name + "\" is not a valid RewardAddon.", new InvalidAddonException());
-            return;
-        }
-        addon.doReward(player, rewardInput);
-    }
-
     public RewardAddon() {}
 
     public abstract void doReward(@NotNull Player player, @NotNull String value);
