@@ -12,7 +12,6 @@ dependencyResolutionManagement {
             library("miniplaceholders", "io.github.miniplaceholders:miniplaceholders-api:2.2.3")
 
             // implementation dependencies
-            library("commandapi", "dev.jorel:commandapi-paper-shade:11.0.0")
             library("bstats", "org.bstats:bstats-bukkit:3.1.0")
             library("customblockdata", "com.jeff-media:custom-block-data:2.2.4")
             library("messagelib", "uk.firedev:MessageLib:1.0.3")

@@ -1,9 +1,6 @@
 package uk.firedev.daisylib.local;
 
 import com.jeff_media.customblockdata.CustomBlockData;
-import dev.jorel.commandapi.CommandAPI;
-import dev.jorel.commandapi.CommandAPIPaperConfig;
-import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -42,19 +39,14 @@ public final class DaisyLib extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        CommandAPI.onLoad(new CommandAPIPaperConfig(this)
-                .missingExecutorImplementationMessage("You are not able to use this command!")
-                .fallbackToLatestNMS(true)
-        );
+        registerCommands();
     }
 
     @Override
     public void onEnable() {
-        CommandAPI.onEnable();
         CustomBlockData.registerListener(this);
         ExampleConfig.load();
         reload();
-        registerCommands();
         getServer().getPluginManager().registerEvents(new CustomEventListener(), this);
         loadManagers();
         loadAddons();
@@ -62,9 +54,7 @@ public final class DaisyLib extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {
-        CommandAPI.onDisable();
-    }
+    public void onDisable() {}
 
     public void reload() {
         MainConfig.getInstance().init();

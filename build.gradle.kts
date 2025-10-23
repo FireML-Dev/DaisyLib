@@ -26,7 +26,6 @@ dependencies {
     compileOnly(libs.vault)
     compileOnly(libs.miniplaceholders)
 
-    implementation(libs.commandapi)
     implementation(libs.bstats)
     implementation(libs.customblockdata)
     implementation(libs.messagelib)
@@ -115,7 +114,6 @@ tasks {
         archiveClassifier.set("")
 
         // Libs Package
-        relocate("dev.jorel.commandapi", "uk.firedev.daisylib.libs.commandapi")
         relocate("org.bstats", "uk.firedev.daisylib.libs.bstats")
         relocate("com.jeff_media.customblockdata", "uk.firedev.daisylib.libs.customblockdata")
         relocate("uk.firedev.messagelib", "uk.firedev.daisylib.libs.messagelib")
