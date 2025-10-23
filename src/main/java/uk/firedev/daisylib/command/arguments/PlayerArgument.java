@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.MessageComponentSerializer;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -39,7 +40,7 @@ public class PlayerArgument implements ArgumentBase<Player, String> {
     }
 
     @Override
-    public List<String> getSuggestions(@NotNull CommandContext<?> context) {
+    public List<String> getSuggestions(@NotNull CommandContext<CommandSourceStack> context) {
         return Bukkit.getOnlinePlayers().stream()
             .filter(filter)
             .map(Player::getName)
