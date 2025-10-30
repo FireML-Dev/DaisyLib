@@ -95,7 +95,11 @@ public class DatabaseUtils {
         if (serialized.isEmpty()) {
             return null;
         }
-        return Location.deserialize(serialized);
+        try {
+            return Location.deserialize(serialized);
+        } catch (IllegalArgumentException exception) {
+            return null;
+        }
     }
 
     /**
