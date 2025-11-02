@@ -45,8 +45,6 @@ public final class DaisyLib extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // We don't want legacy because it's old and disgusting.
-        Utils.allowLegacyMessages(false);
         CustomBlockData.registerListener(this);
         ExampleConfig.load();
         reload();
