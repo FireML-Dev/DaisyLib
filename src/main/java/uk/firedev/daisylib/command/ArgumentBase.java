@@ -20,7 +20,6 @@ public interface ArgumentBase<T, N> extends CustomArgumentType.Converted<T, N> {
         try {
             return getSuggestions((CommandContext<CommandSourceStack>) context);
         } catch (ClassCastException exception) {
-            System.out.println("Exception go brr.");
             return List.of();
         }
     }

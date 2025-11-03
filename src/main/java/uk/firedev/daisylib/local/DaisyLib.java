@@ -24,7 +24,6 @@ import uk.firedev.daisylib.local.command.LibCommandBrigadier;
 import uk.firedev.daisylib.local.config.ExampleConfig;
 import uk.firedev.daisylib.local.config.MainConfig;
 import uk.firedev.daisylib.local.config.MessageConfig;
-import uk.firedev.messagelib.Utils;
 
 public final class DaisyLib extends JavaPlugin {
 

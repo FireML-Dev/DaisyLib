@@ -72,7 +72,6 @@ public class PAPIWrapper extends PlaceholderExpansion {
         if (lastUnderscore == -1) {
             return null;
         }
-        System.out.println(identifier);
         String dynamicIdentifier = identifier.substring(0, lastUnderscore);
         String dynamicValue = identifier.substring(lastUnderscore + 1);
 
