@@ -7,6 +7,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
 
+// TODO fishing plugins like EMF break this.
 public class FishActionAddon extends ActionAddon<PlayerFishEvent> implements Listener {
 
     @NotNull
