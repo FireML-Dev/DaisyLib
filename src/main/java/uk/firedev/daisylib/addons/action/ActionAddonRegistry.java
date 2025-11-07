@@ -73,10 +73,12 @@ public class ActionAddonRegistry implements Registry<ActionAddon<?>> {
         if (!force && registry.containsKey(value.getKey())) {
             return false;
         }
-        registry.put(value.getKey(), value);
-        if (value instanceof Listener listener) {
-            Bukkit.getPluginManager().registerEvents(listener, DaisyLib.getInstance());
+        if (!(value instanceof Listener listener)) {
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Action " + value.getClass().getSimpleName() + " is not a listener. Not registering.");
+            return false;
         }
+        registry.put(value.getKey(), value);
+        Bukkit.getPluginManager().registerEvents(listener, DaisyLib.getInstance());
         Loggers.info(DaisyLib.getInstance().getComponentLogger(), "Registered " + value.getKey() + " Action.");
         return true;
     }
