@@ -22,7 +22,7 @@ public class TradeActionAddon extends ActionAddon<PlayerTradeEvent> implements L
 
     @EventHandler(ignoreCancelled = true)
     public void onTrade(PlayerTradeEvent event) {
-        fireEvent(event, event.getTrade().getResult().getType().toString());
+        fireEvent(event, null);
     }
 
 }
