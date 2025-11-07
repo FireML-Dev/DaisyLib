@@ -93,7 +93,6 @@ public final class DaisyLib extends JavaPlugin {
         new ShearBlockActionAddon().register();
         new ShearEntityActionAddon().register();
         new SmeltActionAddon().register();
-        new StripActionAddon().register();
         new TameActionAddon().register();
         new TradeActionAddon().register();
     }
