@@ -17,7 +17,7 @@ public class ShearBlockActionAddon extends ActionAddon<PlayerShearBlockEvent> im
     @NotNull
     @Override
     public String getKey() {
-        return "shear-entity";
+        return "shear-block";
     }
 
     @EventHandler(ignoreCancelled = true)
