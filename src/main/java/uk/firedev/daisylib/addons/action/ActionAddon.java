@@ -6,6 +6,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.addons.Addon;
 import uk.firedev.daisylib.registry.RegistryItem;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public abstract class ActionAddon<T extends Event> implements RegistryItem {
+public abstract class ActionAddon<T extends Event> extends Addon implements RegistryItem {
 
     private final Map<Plugin, ArrayList<BiConsumer<T, String>>> hooks = new HashMap<>();
 

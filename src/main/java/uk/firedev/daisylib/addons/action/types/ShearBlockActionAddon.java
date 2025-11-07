@@ -3,8 +3,10 @@ package uk.firedev.daisylib.addons.action.types;
 import io.papermc.paper.event.block.PlayerShearBlockEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
+import uk.firedev.daisylib.local.DaisyLib;
 
 public class ShearBlockActionAddon extends ActionAddon<PlayerShearBlockEvent> implements Listener {
 
@@ -23,6 +25,18 @@ public class ShearBlockActionAddon extends ActionAddon<PlayerShearBlockEvent> im
     @EventHandler(ignoreCancelled = true)
     public void onShear(PlayerShearBlockEvent event) {
         fireEvent(event, event.getBlock().getType().toString());
+    }
+
+    @NotNull
+    @Override
+    public Plugin getPlugin() {
+        return DaisyLib.getInstance();
+    }
+
+    @NotNull
+    @Override
+    public String getAuthor() {
+        return "FireML";
     }
 
 }

@@ -10,6 +10,8 @@ import net.strokkur.commands.annotations.Permission;
 import net.strokkur.commands.annotations.Subcommand;
 import org.bukkit.command.CommandSender;
 import uk.firedev.daisylib.addons.Addon;
+import uk.firedev.daisylib.addons.action.ActionAddon;
+import uk.firedev.daisylib.addons.action.ActionAddonRegistry;
 import uk.firedev.daisylib.addons.item.ItemAddon;
 import uk.firedev.daisylib.addons.item.ItemAddonRegistry;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
@@ -79,15 +81,27 @@ public class LibCommand {
             }
         }
 
+        @Executes("actionAddons")
+        void actionAddons(CommandSender sender) {
+            Collection<ActionAddon<?>> registered = ActionAddonRegistry.get().getRegistry().values();
+            if (registered.isEmpty()) {
+                MessageConfig.getInstance().getNoAddonsMessage(ActionAddon.class).send(sender);
+            } else {
+                MessageConfig.getInstance().getListAddonsMessage(ActionAddon.class)
+                    .replace(getAddonListReplacer(registered))
+                    .send(sender);
+            }
+        }
+
         private Replacer getAddonListReplacer(Collection<? extends Addon> types) {
             // Gather all types in their intended format
             List<Component> typeComponents = types.stream()
-                .map(rewardType -> {
-                    Component identifier = ComponentMessage.componentMessage(rewardType.getKey()).get();
+                .map(addon -> {
+                    Component identifier = ComponentMessage.componentMessage(addon.getKey()).get();
                     identifier = identifier.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
                         ComponentMessage.componentMessage(
-                            "<white>Author: " + rewardType.getAuthor() + "\n" +
-                                "<white>Registered Plugin: " + rewardType.getPlugin().getName()
+                            "<white>Author: " + addon.getAuthor() + "\n" +
+                                "<white>Plugin: " + addon.getPlugin().getName()
                         ).get()
                     ));
                     return identifier;

@@ -4,8 +4,10 @@ import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
+import uk.firedev.daisylib.local.DaisyLib;
 
 // TODO fishing plugins like EMF break this.
 public class FishActionAddon extends ActionAddon<PlayerFishEvent> implements Listener {
@@ -31,6 +33,18 @@ public class FishActionAddon extends ActionAddon<PlayerFishEvent> implements Lis
             return;
         }
         fireEvent(event, item.getItemStack().getType().toString());
+    }
+
+    @NotNull
+    @Override
+    public Plugin getPlugin() {
+        return DaisyLib.getInstance();
+    }
+
+    @NotNull
+    @Override
+    public String getAuthor() {
+        return "FireML";
     }
 
 }

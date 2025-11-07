@@ -8,8 +8,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
+import uk.firedev.daisylib.local.DaisyLib;
 
 import java.util.List;
 
@@ -51,6 +53,18 @@ public class MilkActionAddon extends ActionAddon<PlayerInteractEntityEvent> impl
             // No.
             default -> false;
         };
+    }
+
+    @NotNull
+    @Override
+    public Plugin getPlugin() {
+        return DaisyLib.getInstance();
+    }
+
+    @NotNull
+    @Override
+    public String getAuthor() {
+        return "FireML";
     }
 
 }

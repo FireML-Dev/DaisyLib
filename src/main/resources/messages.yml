@@ -4,7 +4,7 @@ main-command:
   reloaded: "{prefix}<#F0E68C>Successfully reloaded the plugin."
   list-addons:
     none: "{prefix}<#F0E68C>There are no registered {name}s."
-    list: "{prefix}<#F0E68C>Registered {name}s:</color> <green>{list}</green>"
+    list: "{prefix}<#F0E68C>Registered {name}s: <green>{list}</green>"
 time-units:
   year:
     single: " year"

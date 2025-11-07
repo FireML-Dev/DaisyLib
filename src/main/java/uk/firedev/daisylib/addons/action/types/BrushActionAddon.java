@@ -5,8 +5,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
+import uk.firedev.daisylib.local.DaisyLib;
 
 import java.util.Map;
 
@@ -45,6 +47,18 @@ public class BrushActionAddon extends ActionAddon<EntityChangeBlockEvent> implem
     private boolean checkMaterial(@NotNull Material from, @NotNull Material to) {
         Material brushed = BRUSH_MAP.get(from);
         return to.equals(brushed);
+    }
+
+    @NotNull
+    @Override
+    public Plugin getPlugin() {
+        return DaisyLib.getInstance();
+    }
+
+    @NotNull
+    @Override
+    public String getAuthor() {
+        return "FireML";
     }
 
 }

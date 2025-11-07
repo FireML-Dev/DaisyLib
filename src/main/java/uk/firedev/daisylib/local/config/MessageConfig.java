@@ -52,7 +52,7 @@ public class MessageConfig extends ConfigBase {
     }
 
     public ComponentMessage getListAddonsMessage(@NotNull Class<? extends Addon> clazz) {
-        return getComponentMessage("main-command.list-addons.list", "{prefix}<#F0E68C>Registered {name}s:</color> <green>{list}</green>")
+        return getComponentMessage("main-command.list-addons.list", "{prefix}<#F0E68C>Registered {name}s: <green>{list}</green>")
             .replace("{name}", clazz.getSimpleName())
             .replace(getPrefixReplacer());
     }
