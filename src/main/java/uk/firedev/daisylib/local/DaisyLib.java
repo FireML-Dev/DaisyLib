@@ -82,7 +82,7 @@ public final class DaisyLib extends JavaPlugin {
         new BreakActionAddon().register();
         new BreedActionAddon().register();
         new BrushActionAddon().register();
-        new BucketActionAddon().register();
+        new BucketEntityActionAddon().register();
         new ConsumeActionAddon().register();
         new DyeActionAddon().register();
         new EnchantActionAddon().register();

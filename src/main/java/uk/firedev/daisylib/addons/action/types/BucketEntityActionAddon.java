@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerBucketEntityEvent;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
 
-public class BucketActionAddon extends ActionAddon<PlayerBucketEntityEvent> implements Listener {
+public class BucketEntityActionAddon extends ActionAddon<PlayerBucketEntityEvent> implements Listener {
 
     @NotNull
     @Override
@@ -17,7 +17,7 @@ public class BucketActionAddon extends ActionAddon<PlayerBucketEntityEvent> impl
     @NotNull
     @Override
     public String getKey() {
-        return "bucket";
+        return "bucket-entity";
     }
 
     @EventHandler(ignoreCancelled = true)
