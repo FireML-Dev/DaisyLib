@@ -102,11 +102,18 @@ public class VaultManager {
     public boolean isLoaded() { return loaded; }
 
     /**
-     * Loads Vault services if the Vault hook is enabled in the configuration.
+     * Loads Vault if the Vault hook is enabled in the configuration.
+     * <p>
+     * Only works with VaultUnlocked, so checks for their classes before loading.
      */
     public void load() {
         if (!Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Vault was not found.");
+            return;
+        }
+        try {
+            Class.forName("net.milkbowl.vault2.economy.Economy");
+        } catch (ClassNotFoundException e) {
+            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Vault detected, but not VaultUnlocked. Please install VaultUnlocked.");
             return;
         }
         if (MainConfig.getInstance().shouldHookVault()) {
