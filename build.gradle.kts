@@ -29,9 +29,7 @@ dependencies {
     implementation(libs.bstats)
     implementation(libs.customblockdata)
     implementation(libs.messagelib)
-
-    compileOnlyApi(libs.triumphgui)
-    paperLibrary(libs.triumphgui)
+    implementation(libs.triumphgui)
 
     compileOnlyApi(libs.boostedyaml)
     paperLibrary(libs.boostedyaml)
@@ -117,6 +115,7 @@ tasks {
         relocate("org.bstats", "uk.firedev.daisylib.libs.bstats")
         relocate("com.jeff_media.customblockdata", "uk.firedev.daisylib.libs.customblockdata")
         relocate("uk.firedev.messagelib", "uk.firedev.daisylib.libs.messagelib")
+        relocate("dev.triumphteam.gui", "uk.firedev.daisylib.libs.triumphgui")
     }
     withType<JavaCompile> {
         options.encoding = "UTF-8"
