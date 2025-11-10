@@ -44,6 +44,7 @@ public class ItemUtils {
         if (itemName == null || itemName.isEmpty()) {
             return null;
         }
+        itemName = itemName.toLowerCase();
         Key key = NamespacedKey.fromString(itemName);
         if (key == null) {
             return null;
