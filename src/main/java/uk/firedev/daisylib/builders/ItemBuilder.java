@@ -1,13 +1,13 @@
 package uk.firedev.daisylib.builders;
 
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.ItemEnchantments;
+import io.papermc.paper.datacomponent.item.ItemLore;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
@@ -15,20 +15,26 @@ import org.jetbrains.annotations.Nullable;
 
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.daisylib.utils.ReadOnlyPair;
 import uk.firedev.messagelib.message.ComponentListMessage;
 import uk.firedev.messagelib.message.ComponentMessage;
 import uk.firedev.messagelib.message.ComponentSingleMessage;
 import uk.firedev.messagelib.replacer.Replacer;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
+@SuppressWarnings("UnstableApiUsage")
 public class ItemBuilder {
 
     private @NotNull ItemStack item;
+
+    private ItemBuilder(@NotNull ItemStack item) {
+        this.item = item;
+    }
 
     private ItemBuilder(@NotNull ItemType itemType) {
         this.item = itemType.createItemStack();
@@ -60,17 +66,6 @@ public class ItemBuilder {
         return new ItemBuilder(ItemUtils.getItemType(itemName, defaultType));
     }
 
-    /**
-     * Creates an ItemBuilder with AIR, and loads the provided config.
-     * @param section The config to load
-     * @param displayReplacer A replacer for the item's display name
-     * @param loreReplacer A replacer for the item's lore
-     * @return A new ItemBuilder loaded from the provided config.
-     */
-    public static ItemBuilder createWithConfig(@Nullable ConfigurationSection section, @Nullable Replacer displayReplacer, @Nullable Replacer loreReplacer) {
-        return create(ItemType.AIR).loadConfig(section, displayReplacer, loreReplacer);
-    }
-
     public ItemBuilder withItemType(@NotNull ItemType itemType) {
         ItemStack newItem = itemType.createItemStack();
         newItem.setItemMeta(this.item.getItemMeta());
@@ -84,111 +79,108 @@ public class ItemBuilder {
 
     public ItemBuilder withDisplay(@NotNull Object display, @Nullable Replacer replacer) {
         ComponentSingleMessage message = ComponentMessage.componentMessage(display).replace(replacer);
-        this.item.editMeta(meta -> meta.displayName(message.get()));
+        this.item.setData(DataComponentTypes.CUSTOM_NAME, message.get());
         return this;
     }
 
     public ItemBuilder withLore(@NotNull List<?> lore, @Nullable Replacer replacer) {
         ComponentListMessage message = ComponentMessage.componentMessage(lore).replace(replacer);
-        this.item.editMeta(meta -> meta.lore(message.get()));
+        this.item.setData(DataComponentTypes.LORE, ItemLore.lore(message.get()));
         return this;
     }
 
     public ItemBuilder addLore(@NotNull Object line, @Nullable Replacer replacer) {
-        ComponentSingleMessage message = ComponentMessage.componentMessage(line).replace(replacer);
-        this.item.editMeta(meta -> {
-            List<Component> lore = Objects.requireNonNullElse(meta.lore(), new ArrayList<>());
-            lore.add(message.get());
-            meta.lore(lore);
-        });
-        return this;
+        return addLore(List.of(line), replacer);
     }
 
     public ItemBuilder addLore(@NotNull List<?> lines, @Nullable Replacer replacer) {
+        ItemLore lore = this.item.getData(DataComponentTypes.LORE);
+        if (lore == null) {
+            return withLore(lines, replacer);
+        }
         ComponentListMessage message = ComponentMessage.componentMessage(lines).replace(replacer);
-        this.item.editMeta(meta -> {
-            List<Component> lore = Objects.requireNonNullElse(meta.lore(), new ArrayList<>());
-            lore.addAll(message.get());
-            meta.lore(lore);
-        });
+        ItemLore newLore = ItemLore.lore().addLines(lore.lines()).addLines(message.get()).build();
+        this.item.setData(DataComponentTypes.LORE, newLore);
         return this;
     }
 
-    public ItemBuilder addAllFlags() {
-        this.item.editMeta(meta -> meta.addItemFlags(ItemFlag.values()));
-        return this;
-    }
+    /// Enchantments
 
-    public ItemBuilder removeAllFlags() {
-        this.item.editMeta(meta -> meta.removeItemFlags(ItemFlag.values()));
-        return this;
-    }
-
-    public ItemBuilder addFlag(@NotNull ItemFlag flag) {
-        this.item.editMeta(meta -> meta.addItemFlags(flag));
-        return this;
-    }
-
-    public ItemBuilder removeFlag(@NotNull ItemFlag flag) {
-        this.item.editMeta(meta -> meta.removeItemFlags(flag));
-        return this;
-    }
-
-    public ItemBuilder addFlags(@NotNull List<ItemFlag> flags) {
-        this.item.editMeta(meta -> meta.addItemFlags(flags.toArray(ItemFlag[]::new)));
-        return this;
-    }
-
-    public ItemBuilder removeFlags(@NotNull List<ItemFlag> flags) {
-        this.item.editMeta(meta -> meta.removeItemFlags(flags.toArray(ItemFlag[]::new)));
-        return this;
-    }
+    // Setting
 
     public ItemBuilder setEnchantments(@NotNull Map<Enchantment, Integer> enchantments) {
-        this.item.removeEnchantments();
-        this.item.addUnsafeEnchantments(enchantments);
+        this.item.setData(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments(enchantments));
         return this;
     }
 
-    public ItemBuilder removeAllEnchantments() {
-        this.item.removeEnchantments();
+    // Adding
+
+    public ItemBuilder addEnchantments(@NotNull Map<Enchantment, Integer> enchantments) {
+        ItemEnchantments data = this.item.getData(DataComponentTypes.ENCHANTMENTS);
+        if (data == null) {
+            return setEnchantments(enchantments);
+        }
+        ItemEnchantments newEnchantments = ItemEnchantments.itemEnchantments().addAll(data.enchantments()).addAll(enchantments).build();
+        this.item.setData(DataComponentTypes.ENCHANTMENTS, newEnchantments);
         return this;
     }
 
     public ItemBuilder addEnchantment(@NotNull Enchantment enchantment, int level) {
-        this.item.addUnsafeEnchantment(enchantment, level);
-        return this;
+        return addEnchantments(Map.of(enchantment, level));
     }
 
-    public ItemBuilder removeEnchantment(@NotNull Enchantment enchantment) {
-        this.item.removeEnchantment(enchantment);
-        return this;
-    }
+    // Removing
 
-    public ItemBuilder addEnchantments(@NotNull Map<Enchantment, Integer> enchantments) {
-        this.item.addUnsafeEnchantments(enchantments);
+    public ItemBuilder removeAllEnchantments() {
+        this.item.unsetData(DataComponentTypes.ENCHANTMENTS);
         return this;
     }
 
     public ItemBuilder removeEnchantments(@NotNull List<Enchantment> enchantments) {
-        enchantments.forEach(this.item::removeEnchantment);
+        ItemEnchantments data = this.item.getData(DataComponentTypes.ENCHANTMENTS);
+        if (data == null) {
+            return this;
+        }
+        Map<Enchantment, Integer> newEnchants = new HashMap<>(data.enchantments());
+        enchantments.forEach(newEnchants::remove);
+        if (newEnchants.isEmpty()) {
+            this.item.unsetData(DataComponentTypes.ENCHANTMENTS);
+        } else {
+            this.item.setData(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments(newEnchants));
+        }
         return this;
     }
+
+    public ItemBuilder removeEnchantment(@NotNull Enchantment enchantment) {
+        return removeEnchantments(List.of(enchantment));
+    }
+
+    /// Unbreakable
 
     public ItemBuilder setUnbreakable(boolean unbreakable) {
-        this.item.editMeta(meta -> meta.setUnbreakable(unbreakable));
+        if (unbreakable) {
+            this.item.setData(DataComponentTypes.UNBREAKABLE);
+        } else {
+            this.item.unsetData(DataComponentTypes.UNBREAKABLE);
+        }
         return this;
     }
 
+    /// Glowing
+
     public ItemBuilder setGlowing(boolean glowing) {
-        this.item.editMeta(meta -> meta.setEnchantmentGlintOverride(glowing));
+        this.item.setData(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, glowing);
         return this;
     }
+
+    /// Amount
 
     public ItemBuilder withAmount(int amount) {
         this.item.setAmount(Math.max(1, amount));
         return this;
     }
+
+    /// Utility
 
     /**
      * Allows more control over the item than what is provided in this class
@@ -202,63 +194,72 @@ public class ItemBuilder {
         return this.item.clone();
     }
 
-    private ItemBuilder loadConfig(@Nullable ConfigurationSection section, @Nullable Replacer displayReplacer, @Nullable Replacer loreReplacer) {
+    public boolean isEmpty() {
+        return this.item.isEmpty();
+    }
+
+    /// Config Factory
+
+    public static @NotNull ItemBuilder fromConfig(@Nullable ConfigurationSection section, @Nullable Replacer displayReplacer, @Nullable Replacer loreReplacer) {
         if (section == null) {
-            return this;
+            return new ItemBuilder(ItemType.AIR);
+        }
+        String itemStr = section.getString("material", section.getString("item-type"));
+        ItemStack item = ItemUtils.getItem(itemStr);
+        if (item == null) {
+            return new ItemBuilder(ItemType.AIR);
+        }
+        return fromConfigWithBaseItem(item, section, displayReplacer, loreReplacer);
+    }
+
+    public static @NotNull ItemBuilder fromConfigWithBaseItem(@NotNull ItemStack baseItem, @Nullable ConfigurationSection section, @Nullable Replacer displayReplacer, @Nullable Replacer loreReplacer) {
+        ItemBuilder builder = new ItemBuilder(baseItem);
+        if (section == null) {
+            return builder;
         }
 
-        ItemStack item = ItemUtils.getItem(section.getString("material"));
-        if (item != null) {
-            this.item = item;
-        }
+        Map<Enchantment, Integer> enchants = section.getStringList("enchantments").stream()
+            .map(ItemBuilder::parseEnchantment)
+            .filter(ReadOnlyPair::isNotEmpty)
+            .collect(Collectors.toMap(
+                ReadOnlyPair::left,
+                ReadOnlyPair::right,
+                (existing, replacement) -> existing
+            ));
 
         String display = section.getString("display");
         if (display != null) {
-            withDisplay(ComponentMessage.componentMessage(display).get(), displayReplacer);
+            builder = builder.withDisplay(display, displayReplacer);
         }
 
-        List<Component> lore = section.getStringList("lore").stream()
-            .map(ComponentMessage::componentMessage)
-            .map(ComponentSingleMessage::get)
-            .toList();
-        withLore(lore, loreReplacer);
+        return builder
+            .withLore(section.getStringList("lore"), loreReplacer)
+            .setEnchantments(enchants)
+            .setUnbreakable(section.getBoolean("unbreakable"))
+            .withAmount(section.getInt("amount", 1))
+            .setGlowing(section.getBoolean("glowing"));
+    }
 
-        List<ItemFlag> flags = section.getStringList("flags").stream()
-            .map(flagString -> ObjectUtils.getEnumValue(ItemFlag.class, flagString))
-            .filter(Objects::nonNull)
-            .toList();
-       addFlags(flags);
+    private static ReadOnlyPair<Enchantment, Integer> parseEnchantment(@NotNull String enchantStr) {
+        // Split namespace and level
+        String[] levelSplit = enchantStr.split(",");
 
-        List<String> stringEnchantments = section.getStringList("enchantments");
-        for (String stringEnchantment : stringEnchantments) {
-            // Split namespace and level
-            String[] namespaceSplit = stringEnchantment.split(":");
-            String namespace = (namespaceSplit.length > 1 ? namespaceSplit[0] : "minecraft").toLowerCase();
-            String[] levelSplit = namespaceSplit[namespaceSplit.length - 1].split(",");
+        // Get enchantment name and level
+        String enchantName = levelSplit[0].toLowerCase();
+        String levelString = (levelSplit.length > 1) ? levelSplit[1] : "1";
 
-            // Get enchantment name and level
-            String enchantName = levelSplit[0].toLowerCase();
-            String levelString = (levelSplit.length > 1) ? levelSplit[1] : "1";
-
-            // Create NamespacedKey and parse level
-            NamespacedKey enchantKey = new NamespacedKey(namespace, enchantName);
-            int level = Objects.requireNonNullElse(ObjectUtils.getInt(levelString), 1);
-
-            // Fetch the enchantment and put it into the map
-            Enchantment enchantment = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(enchantKey);
-            if (enchantment != null) {
-                addEnchantment(enchantment, level);
-            }
+        // Create NamespacedKey and parse level
+        NamespacedKey enchantKey = NamespacedKey.fromString(enchantName);
+        if (enchantKey == null) {
+            return ReadOnlyPair.empty();
+        }
+        Enchantment enchantment = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(enchantKey);
+        if (enchantment == null) {
+            return ReadOnlyPair.empty();
         }
 
-        setUnbreakable(section.getBoolean("unbreakable"));
-
-        int amount = section.getInt("amount", 1);
-        withAmount(Math.max(1, amount));
-
-        setGlowing(section.getBoolean("glowing"));
-
-        return this;
+        int level = ObjectUtils.getIntOrDefault(levelString, 1);
+        return new ReadOnlyPair<>(enchantment, level);
     }
 
 }

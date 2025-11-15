@@ -123,7 +123,7 @@ public class ConfigGui {
     }
 
     protected void addGuiItem(@NotNull BaseGui gui, @NotNull ConfigurationSection itemSection) {
-        ItemStack item = ItemBuilder.createWithConfig(itemSection, null, null).getItem();
+        ItemStack item = ItemBuilder.fromConfig(itemSection, null, null).getItem();
         if (item.isEmpty()) {
             return;
         }
