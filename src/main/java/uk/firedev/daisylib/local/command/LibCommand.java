@@ -1,6 +1,5 @@
 package uk.firedev.daisylib.local.command;
 
-import net.kyori.adventure.dialog.DialogLike;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -10,7 +9,6 @@ import net.strokkur.commands.annotations.Executes;
 import net.strokkur.commands.annotations.Permission;
 import net.strokkur.commands.annotations.Subcommand;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import uk.firedev.daisylib.addons.Addon;
 import uk.firedev.daisylib.addons.action.ActionAddon;
 import uk.firedev.daisylib.addons.action.ActionAddonRegistry;
@@ -20,7 +18,6 @@ import uk.firedev.daisylib.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.addons.requirement.RequirementAddonRegistry;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
 import uk.firedev.daisylib.addons.reward.RewardAddonRegistry;
-import uk.firedev.daisylib.builders.dialog.DialogBuilder;
 import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.local.config.MessageConfig;
 import uk.firedev.messagelib.message.ComponentMessage;
@@ -43,18 +40,6 @@ public class LibCommand {
     void reload(CommandSender sender) {
         DaisyLib.getInstance().reload();
         MessageConfig.getInstance().getReloadedMessage().send(sender);
-
-        // TESTING SHENANIGANS
-        if (!(sender instanceof Player player)) {
-            return;
-        }
-        DialogLike dialog = DialogBuilder.information()
-            .withTitle("Test Title")
-            .addContent("I am a nerd.")
-            .addContent("This is a variable: {e}")
-            .addReplacement("{e}", "nuh uh")
-            .build();
-        player.showDialog(dialog);
     }
 
     @Subcommand("list")
