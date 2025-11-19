@@ -38,17 +38,17 @@ public class Requirement {
         add(section);
     }
 
-    public Requirement add(@NotNull String identifier, @NotNull List<String> values) {
+    public @NotNull Requirement add(@NotNull String identifier, @NotNull List<String> values) {
         processRequirement(identifier, values);
         return this;
     }
 
-    public Requirement add(@NotNull Map<String, List<String>> requirements) {
+    public @NotNull Requirement add(@NotNull Map<String, List<String>> requirements) {
         requirements.forEach(this::processRequirement);
         return this;
     }
 
-    public Requirement add(@Nullable ConfigurationSection section) {
+    public @NotNull Requirement add(@Nullable ConfigurationSection section) {
         if (section == null) {
             return this;
         }
@@ -93,7 +93,7 @@ public class Requirement {
         return true;
     }
 
-    public ComponentLogger getComponentLogger() {
+    public @NotNull ComponentLogger getComponentLogger() {
         return logger;
     }
 

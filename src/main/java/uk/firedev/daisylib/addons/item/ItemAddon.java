@@ -15,7 +15,7 @@ public abstract class ItemAddon extends Addon {
 
     public ItemAddon() {}
 
-    public abstract ItemStack getItem(@NotNull String id);
+    public abstract @Nullable ItemStack getItem(@NotNull String id);
 
     public boolean register(boolean force) {
         return ItemAddonRegistry.get().register(this, force);
