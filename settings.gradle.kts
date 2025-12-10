@@ -19,7 +19,7 @@ dependencyResolutionManagement {
             library("vanishchecker", "uk.firedev:VanishChecker:1.0.5")
             library("boostedyaml", "dev.dejvokep:boosted-yaml:1.3.7")
             library("triumphgui", "dev.triumphteam:triumph-gui:3.1.11")
-            library("configlib", "uk.firedev:ConfigLib:1.0.1")
+            library("configlib", "uk.firedev:ConfigLib:1.0.2")
 
             // annotationProcessor dependencies
             library("strokkcommands-annotations", "net.strokkur:commands-annotations:1.5.0")

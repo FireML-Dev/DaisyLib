@@ -16,6 +16,7 @@ import java.io.File;
 
 public class ConfigBase extends ConfigFile {
 
+    private final @NotNull Plugin plugin;
     private final PaperConfigLoader messageLoader;
 
     public ConfigBase(@NotNull String fileName, @Nullable String resourceName, @NotNull Plugin plugin) {
@@ -32,6 +33,17 @@ public class ConfigBase extends ConfigFile {
             resourceName == null ? null : plugin.getResource(resourceName)
         );
         this.messageLoader = new PaperConfigLoader(getConfig());
+        this.plugin = plugin;
+    }
+
+    @Override
+    public @NotNull Plugin getPlugin() {
+        return this.plugin;
+    }
+
+    @Deprecated(forRemoval = true)
+    public void init() {
+        // This now has no function.
     }
 
     public @NotNull PaperConfigLoader getMessageLoader() {
