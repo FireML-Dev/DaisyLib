@@ -1,21 +1,19 @@
 package uk.firedev.daisylib.local.config;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.local.DaisyLib;
 
 public class MainConfig extends ConfigBase {
 
-    private static MainConfig instance = null;
+    private static final MainConfig instance = new MainConfig();
 
     private MainConfig() {
         super("config.yml", "config.yml", DaisyLib.getInstance());
-        withDefaultUpdaterSettings();
     }
 
-    public static MainConfig getInstance() {
-        if (instance == null) {
-            instance = new MainConfig();
-        }
+    public static @NotNull MainConfig getInstance() {
         return instance;
     }
 
@@ -23,8 +21,14 @@ public class MainConfig extends ConfigBase {
 
     public boolean doMoveChunkEvent() { return getConfig().getBoolean("custom-events.move-chunk", true); }
 
-    public boolean doPlaceBreak() { return getConfig().getBoolean("enablePlaceBreak", true); }
-
     public boolean shouldHookVault() { return getConfig().getBoolean("vault", true); }
+
+    @Override
+    public void performManualUpdates() {
+        YamlConfiguration config = getConfig();
+        if (config.contains("enablePlaceBreak")) {
+            config.set("enablePlaceBreak", null);
+        }
+    }
 
 }

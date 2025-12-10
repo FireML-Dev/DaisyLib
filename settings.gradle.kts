@@ -3,10 +3,8 @@ rootProject.name = "DaisyLib"
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            // Paper API
-            library("paper-api", "io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
-
             // compileOnly dependencies
+            library("paper-api", "io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
             library("placeholderapi", "me.clip:placeholderapi:2.11.6")
             library("vault", "net.milkbowl.vault:VaultUnlockedAPI:2.16")
             library("miniplaceholders", "io.github.miniplaceholders:miniplaceholders-api:3.1.0")
@@ -21,6 +19,7 @@ dependencyResolutionManagement {
             library("vanishchecker", "uk.firedev:VanishChecker:1.0.5")
             library("boostedyaml", "dev.dejvokep:boosted-yaml:1.3.7")
             library("triumphgui", "dev.triumphteam:triumph-gui:3.1.11")
+            library("configlib", "uk.firedev:ConfigLib:1.0.1")
 
             // annotationProcessor dependencies
             library("strokkcommands-annotations", "net.strokkur:commands-annotations:1.5.0")

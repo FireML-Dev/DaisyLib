@@ -9,17 +9,13 @@ import uk.firedev.messagelib.replacer.Replacer;
 
 public class MessageConfig extends ConfigBase {
 
-    private static MessageConfig instance = null;
+    private static final MessageConfig instance = new MessageConfig();
 
     private MessageConfig() {
         super("messages.yml", "messages.yml", DaisyLib.getInstance());
-        withDefaultUpdaterSettings();
     }
 
-    public static MessageConfig getInstance() {
-        if (instance == null) {
-            instance = new MessageConfig();
-        }
+    public static @NotNull MessageConfig getInstance() {
         return instance;
     }
 

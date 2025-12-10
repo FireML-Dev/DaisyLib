@@ -37,7 +37,8 @@ public final class DaisyLib extends JavaPlugin {
     public void onEnable() {
         CustomBlockData.registerListener(this);
         ExampleConfig.load();
-        reload();
+        MainConfig.getInstance().pullDefaults();
+        MessageConfig.getInstance().pullDefaults();
         getServer().getPluginManager().registerEvents(new CustomEventListener(), this);
         loadManagers();
         loadAddons();
@@ -48,8 +49,9 @@ public final class DaisyLib extends JavaPlugin {
     public void onDisable() {}
 
     public void reload() {
-        MainConfig.getInstance().init();
-        MessageConfig.getInstance().init();
+        ExampleConfig.load();
+        MainConfig.getInstance().reload();
+        MessageConfig.getInstance().reload();
         new DaisyLibReloadEvent().callEvent();
     }
 

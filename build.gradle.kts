@@ -39,6 +39,8 @@ dependencies {
 
     paperLibrary(libs.nashorn)
 
+    paperLibrary(libs.configlib)
+
     compileOnly(libs.strokkcommands.annotations)
     annotationProcessor(libs.strokkcommands.processor)
 }
