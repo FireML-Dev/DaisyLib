@@ -5,6 +5,8 @@ import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.datacomponent.item.ItemLore;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
@@ -13,6 +15,8 @@ import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.daisylib.utils.ReadOnlyPair;
@@ -67,14 +71,19 @@ public class ItemBuilder {
     }
 
     public ItemBuilder withItemType(@NotNull ItemType itemType) {
-        ItemStack newItem = itemType.createItemStack();
-        newItem.setItemMeta(this.item.getItemMeta());
-        this.item = newItem;
+        // No other way to do this until the ItemType API is properly implemented, so we're using the internal method.
+        @SuppressWarnings("deprecation") Material material = itemType.asMaterial();
+        if (material == null) {
+            Loggers.warn(DaisyLib.getInstance().getLogger(), "ItemType " + itemType.key().asString() + " cannot be a Material.");
+            return this;
+        }
+        this.item = this.item.withType(material);
         return this;
     }
 
     public ItemBuilder withItemType(@NotNull String itemName, @NotNull ItemType defaultType) {
-        return withItemType(ItemUtils.getItemType(itemName, defaultType));
+        ItemType type = ItemUtils.getItemType(itemName, defaultType);
+        return withItemType(type);
     }
 
     public ItemBuilder withDisplay(@NotNull Object display, @Nullable Replacer replacer) {
