@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.command;
 
+import com.mojang.brigadier.context.CommandContext;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -22,6 +23,13 @@ public class CommandUtils {
             return null;
         }
         return player;
+    }
+
+    public static @Nullable Player requirePlayer(@Nullable CommandContext<CommandSourceStack> context) {
+        if (context == null) {
+            return null;
+        }
+        return requirePlayer(context.getSource());
     }
 
     public static Predicate<CommandSourceStack> playerPredicate(@NotNull Predicate<Player> playerPredicate) {
