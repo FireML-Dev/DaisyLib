@@ -1,7 +1,6 @@
 package uk.firedev.daisylib.addons.action.types;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Cow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

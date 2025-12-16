@@ -17,7 +17,6 @@ repositories {
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.minebench.de/")
     maven("https://repo.codemc.io/repository/maven-snapshots/")
-    maven("https://eldonexus.de/repository/maven-public/")
 }
 
 dependencies {
@@ -40,9 +39,6 @@ dependencies {
     paperLibrary(libs.nashorn)
 
     paperLibrary(libs.configlib)
-
-    compileOnly(libs.strokkcommands.annotations)
-    annotationProcessor(libs.strokkcommands.processor)
 }
 
 group = "uk.firedev"
@@ -54,7 +50,7 @@ paper {
     name = rootProject.name
     version = project.version.toString()
     main = "uk.firedev.daisylib.local.DaisyLib"
-    apiVersion = "1.21.10"
+    apiVersion = "1.21.11"
     author = "FireML"
     description = project.description.toString()
 

@@ -8,9 +8,10 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
-import uk.firedev.daisylib.utils.ItemUtils;
-import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.addons.requirement.RequirementData;
+import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.utils.ItemUtils;
+
 import java.util.List;
 
 public class HoldingRequirementAddon extends RequirementAddon {

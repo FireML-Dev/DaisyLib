@@ -3,13 +3,7 @@ package uk.firedev.daisylib.addons.item;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.addons.Addon;
-import uk.firedev.daisylib.addons.InvalidAddonException;
-
-import java.util.Arrays;
-import java.util.Map;
-import java.util.TreeMap;
 
 public abstract class ItemAddon extends Addon {
 

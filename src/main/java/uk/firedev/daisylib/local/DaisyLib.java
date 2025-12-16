@@ -6,12 +6,37 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
-import uk.firedev.daisylib.addons.action.types.*;
-import uk.firedev.daisylib.addons.requirement.types.*;
-import uk.firedev.daisylib.addons.reward.types.*;
+import uk.firedev.daisylib.addons.action.types.BreakActionAddon;
+import uk.firedev.daisylib.addons.action.types.BreedActionAddon;
+import uk.firedev.daisylib.addons.action.types.BrushActionAddon;
+import uk.firedev.daisylib.addons.action.types.BucketEntityActionAddon;
+import uk.firedev.daisylib.addons.action.types.ConsumeActionAddon;
+import uk.firedev.daisylib.addons.action.types.DyeActionAddon;
+import uk.firedev.daisylib.addons.action.types.EnchantActionAddon;
+import uk.firedev.daisylib.addons.action.types.FishActionAddon;
+import uk.firedev.daisylib.addons.action.types.KillActionAddon;
+import uk.firedev.daisylib.addons.action.types.MilkActionAddon;
+import uk.firedev.daisylib.addons.action.types.PlaceActionAddon;
+import uk.firedev.daisylib.addons.action.types.ShearBlockActionAddon;
+import uk.firedev.daisylib.addons.action.types.ShearEntityActionAddon;
+import uk.firedev.daisylib.addons.action.types.SmeltActionAddon;
+import uk.firedev.daisylib.addons.action.types.TameActionAddon;
+import uk.firedev.daisylib.addons.action.types.TradeActionAddon;
+import uk.firedev.daisylib.addons.requirement.types.ExpRequirementAddon;
+import uk.firedev.daisylib.addons.requirement.types.HealthRequirementAddon;
+import uk.firedev.daisylib.addons.requirement.types.HoldingRequirementAddon;
+import uk.firedev.daisylib.addons.requirement.types.MoneyRequirementAddon;
+import uk.firedev.daisylib.addons.requirement.types.PermissionRequirementAddon;
+import uk.firedev.daisylib.addons.requirement.types.WorldRequirementAddon;
+import uk.firedev.daisylib.addons.reward.types.CommandRewardAddon;
+import uk.firedev.daisylib.addons.reward.types.ExpRewardAddon;
+import uk.firedev.daisylib.addons.reward.types.HealthRewardAddon;
+import uk.firedev.daisylib.addons.reward.types.ItemRewardAddon;
+import uk.firedev.daisylib.addons.reward.types.MoneyRewardAddon;
+import uk.firedev.daisylib.addons.reward.types.PermissionRewardAddon;
 import uk.firedev.daisylib.events.CustomEventListener;
 import uk.firedev.daisylib.events.DaisyLibReloadEvent;
-import uk.firedev.daisylib.local.command.LibCommandBrigadier;
+import uk.firedev.daisylib.local.command.MainCommand;
 import uk.firedev.daisylib.local.config.ExampleConfig;
 import uk.firedev.daisylib.local.config.MainConfig;
 import uk.firedev.daisylib.local.config.MessageConfig;
@@ -107,9 +132,9 @@ public final class DaisyLib extends JavaPlugin {
     }
 
     private void registerCommands() {
-        this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
-            LibCommandBrigadier.register(commands.registrar());
-        });
+        this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands ->
+            commands.registrar().register(MainCommand.get())
+        );
     }
 
 }

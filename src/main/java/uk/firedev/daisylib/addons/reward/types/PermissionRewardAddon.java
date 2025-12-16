@@ -4,10 +4,10 @@ import net.milkbowl.vault2.permission.Permission;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
+import uk.firedev.daisylib.local.DaisyLib;
 
 public class PermissionRewardAddon extends RewardAddon {
 
