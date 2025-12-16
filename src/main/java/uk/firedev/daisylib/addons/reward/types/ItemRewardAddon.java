@@ -5,10 +5,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.addons.reward.RewardAddon;
+import uk.firedev.daisylib.local.DaisyLib;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
-import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.addons.reward.RewardAddon;
 
 public class ItemRewardAddon extends RewardAddon {
 

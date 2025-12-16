@@ -5,8 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.item.ItemAddon;
 import uk.firedev.daisylib.registry.RegistryItem;
 
-import java.util.UUID;
-
 public abstract class Addon implements RegistryItem {
 
     public abstract @NotNull Plugin getPlugin();
