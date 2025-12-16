@@ -29,9 +29,8 @@ public class ItemRewardAddon extends RewardAddon {
             }
             quantity = Math.max(amount, 1);
         }
-        item.setAmount(quantity);
         for (int i = 0; i < quantity; ++i) {
-            ItemUtils.giveItem(item, player);
+            player.give(item);
         }
     }
 
