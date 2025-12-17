@@ -21,9 +21,9 @@ public class ConfigBase extends ConfigFile {
 
     public ConfigBase(@NotNull String fileName, @Nullable String resourceName, @NotNull Plugin plugin) {
         this(
-                new File(plugin.getDataFolder(), fileName),
-                resourceName,
-                plugin
+            new File(plugin.getDataFolder(), fileName),
+            resourceName,
+            plugin
         );
     }
 
@@ -59,7 +59,7 @@ public class ConfigBase extends ConfigFile {
         return value == null ? def : value;
     }
 
-    public ComponentMessage getComponentMessage(@NotNull String path, @NotNull Object def) {
+    public @NotNull ComponentMessage getComponentMessage(@NotNull String path, @NotNull Object def) {
         ComponentMessage message = ComponentMessage.componentMessage(getMessageLoader(), path);
         return message == null ? ComponentMessage.componentMessage(def) : message;
     }
