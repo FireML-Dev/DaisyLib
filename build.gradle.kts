@@ -38,6 +38,7 @@ dependencies {
 
     paperLibrary(libs.nashorn)
 
+    compileOnlyApi(libs.configlib)
     paperLibrary(libs.configlib)
 }
 
