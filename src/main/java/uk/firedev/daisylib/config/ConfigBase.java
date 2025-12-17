@@ -41,9 +41,16 @@ public class ConfigBase extends ConfigFile {
         return this.plugin;
     }
 
+    /**
+     * @deprecated Use {@link #load()} instead.
+     */
     @Deprecated(forRemoval = true)
     public void init() {
-        // This now has no function.
+        load();
+    }
+
+    public void load() {
+        performManualUpdates();
     }
 
     public @NotNull PaperConfigLoader getMessageLoader() {
