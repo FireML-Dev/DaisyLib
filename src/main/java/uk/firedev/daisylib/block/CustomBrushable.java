@@ -2,13 +2,10 @@ package uk.firedev.daisylib.block;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BrushableBlock;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Consumer;
-
-public class CustomBrushable {
+public class CustomBrushable implements CustomBlockState<BrushableBlock> {
 
     private final BrushableBlock state;
 
@@ -27,20 +24,14 @@ public class CustomBrushable {
         return null;
     }
 
+    @Override
     public @NotNull BrushableBlock getState() {
         return this.state;
     }
 
+    @Override
     public @NotNull Block getBlock() {
         return this.state.getBlock();
-    }
-
-    public void editPersistentDataContainer(@NotNull Consumer<PersistentDataContainer> consumer) {
-        consumer.accept(state.getPersistentDataContainer());
-    }
-
-    public void save() {
-        getBlock().setBlockData(this.state.getBlockData());
     }
 
 }
