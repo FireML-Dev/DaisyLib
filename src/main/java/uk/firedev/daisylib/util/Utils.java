@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.addons.item.ItemAddonRegistry;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -279,8 +280,7 @@ public class Utils {
         if (itemType != null) {
             return itemType.createItemStack();
         }
-        // TODO item addons yippee
-        return null; // ItemAddonRegistry.get().processString(itemName);
+        return ItemAddonRegistry.get().processString(itemName);
     }
 
     public static @NotNull ItemStack getItem(@Nullable String itemName, @NotNull ItemStack defaultItem) {
