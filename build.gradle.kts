@@ -50,12 +50,12 @@ java.sourceCompatibility = JavaVersion.VERSION_21
 paper {
     name = rootProject.name
     version = project.version.toString()
-    main = "uk.firedev.daisylib.local.DaisyLib"
+    main = "uk.firedev.daisylib.internal.DaisyLib"
     apiVersion = "1.21.11"
     author = "FireML"
     description = project.description.toString()
 
-    loader = "uk.firedev.daisylib.local.LibraryLoader"
+    loader = "uk.firedev.daisylib.internal.LibraryLoader"
     generateLibrariesJson = true
 
     serverDependencies {
