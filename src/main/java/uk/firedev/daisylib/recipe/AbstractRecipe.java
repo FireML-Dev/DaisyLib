@@ -14,7 +14,6 @@ public abstract class AbstractRecipe<R extends Recipe> {
     protected final NamespacedKey key;
     protected final ItemStack result;
     protected boolean registered = false;
-    protected final R recipe = prepareRecipe();
 
     protected AbstractRecipe(@NotNull NamespacedKey key, @NotNull ConfigurationSection section, @NotNull ItemStack result) {
         this.key = key;
@@ -32,6 +31,7 @@ public abstract class AbstractRecipe<R extends Recipe> {
         if (isRegistered()) {
             throw new RuntimeException("Attempted to register a recipe that is already registered.");
         }
+        org.bukkit.inventory.Recipe recipe = prepareRecipe();
         Bukkit.addRecipe(recipe, true);
         RecipeListener.addRecipe(key, recipe);
         this.registered = true;
