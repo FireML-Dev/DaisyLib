@@ -50,7 +50,7 @@ java.sourceCompatibility = JavaVersion.VERSION_21
 paper {
     name = rootProject.name
     version = project.version.toString()
-    main = "uk.firedev.daisylib.internal.DaisyLib"
+    main = "uk.firedev.daisylib.internal.DaisyLibPlugin"
     apiVersion = "1.21.11"
     author = "FireML"
     description = project.description.toString()
