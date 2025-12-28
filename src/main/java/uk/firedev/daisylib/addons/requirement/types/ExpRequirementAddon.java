@@ -3,11 +3,11 @@ package uk.firedev.daisylib.addons.requirement.types;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.addons.requirement.RequirementData;
-import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
+import uk.firedev.daisylib.util.Loggers;
+import uk.firedev.daisylib.util.Utils;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class ExpRequirementAddon extends RequirementAddon {
         }
         int experiencePoints = player.calculateTotalExperiencePoints();
         for (String value : values) {
-            Integer amount = ObjectUtils.getInt(value);
+            Integer amount = Utils.getInt(value);
             if (amount == null) {
                 Loggers.warn(getClass(), value + " is not a valid integer");
                 continue;
@@ -45,7 +45,7 @@ public class ExpRequirementAddon extends RequirementAddon {
 
     @Override
     public @NotNull Plugin getPlugin() {
-        return DaisyLib.getInstance();
+        return DaisyLibPlugin.getInstance();
     }
 
 }

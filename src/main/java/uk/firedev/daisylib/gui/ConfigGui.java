@@ -14,11 +14,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.builders.ItemBuilder;
-import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.utils.ItemUtils;
-import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
+import uk.firedev.daisylib.util.Loggers;
+import uk.firedev.daisylib.util.Utils;
 import uk.firedev.messagelib.config.PaperConfigLoader;
 import uk.firedev.messagelib.message.ComponentMessage;
 import uk.firedev.messagelib.message.ComponentSingleMessage;
@@ -76,7 +75,7 @@ public class ConfigGui {
     // Loading Things
 
     protected BaseGui createGui() {
-        GuiType type = ObjectUtils.getEnumValue(
+        GuiType type = Utils.getEnumValue(
             GuiType.class,
             config.getString("type", "CHEST")
         );
@@ -150,10 +149,10 @@ public class ConfigGui {
         // Put the item in all of its configured locations
         itemSection.getStringList("locations").forEach(location -> {
             String[] splitLocation = location.split(",", 2);
-            String columnStr = ObjectUtils.getOrDefault(splitLocation, 0, null);
-            String rowStr = ObjectUtils.getOrDefault(splitLocation, 1, null);
-            int column = ObjectUtils.getIntOrDefault(columnStr, -1);
-            int row = ObjectUtils.getIntOrDefault(rowStr, -1);
+            String columnStr = Utils.getOrDefault(splitLocation, 0, null);
+            String rowStr = Utils.getOrDefault(splitLocation, 1, null);
+            int column = Utils.getIntOrDefault(columnStr, -1);
+            int row = Utils.getIntOrDefault(rowStr, -1);
             gui.setItem(row, column, guiItem);
         });
     }
@@ -165,7 +164,7 @@ public class ConfigGui {
         }
 
         // Prepare Enum
-        FillerType fillerType = ObjectUtils.getEnumValue(
+        FillerType fillerType = Utils.getEnumValue(
             FillerType.class,
             fillerSection.getString("type")
         );
@@ -174,7 +173,7 @@ public class ConfigGui {
         }
 
         // Prepare the filler item
-        ItemType itemType = ItemUtils.getItemType(
+        ItemType itemType = Utils.getItemType(
             fillerSection.getString("material")
         );
         if (itemType == null || itemType == ItemType.AIR) {
@@ -193,14 +192,14 @@ public class ConfigGui {
         switch (fillerType) {
             case ALL -> {
                 if (gui instanceof PaginatedGui) {
-                    Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Paginated GUIs cannot use FillerType.ALL");
+                    Loggers.warn(DaisyLibPlugin.getInstance().getComponentLogger(), "Paginated GUIs cannot use FillerType.ALL");
                     return;
                 }
                 filler.fill(item);
             }
             case BORDER -> filler.fillBorder(item);
             case SIDE -> {
-                GuiFiller.Side side = ObjectUtils.getEnumValue(
+                GuiFiller.Side side = Utils.getEnumValue(
                     GuiFiller.Side.class,
                     fillerSection.getString("side")
                 );

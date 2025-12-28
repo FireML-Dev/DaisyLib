@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
-import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
 import uk.firedev.messagelib.message.ComponentMessage;
 import uk.firedev.messagelib.replacer.Replacer;
 
@@ -41,7 +41,7 @@ public class CommandRewardAddon extends RewardAddon {
 
     @Override
     public @NotNull Plugin getPlugin() {
-        return DaisyLib.getInstance();
+        return DaisyLibPlugin.getInstance();
     }
 
 }

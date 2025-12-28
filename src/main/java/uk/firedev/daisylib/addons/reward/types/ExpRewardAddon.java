@@ -3,16 +3,17 @@ package uk.firedev.daisylib.addons.reward.types;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
-import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
+import uk.firedev.daisylib.util.Loggers;
+import uk.firedev.daisylib.util.Utils;
+
 
 public class ExpRewardAddon extends RewardAddon {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
-        Integer amount = ObjectUtils.getInt(value);
+        Integer amount = Utils.getInt(value);
         if (amount == null) {
             Loggers.info(getClass(), "Invalid number specified: " + value);
             return;
@@ -32,7 +33,7 @@ public class ExpRewardAddon extends RewardAddon {
 
     @Override
     public @NotNull Plugin getPlugin() {
-        return DaisyLib.getInstance();
+        return DaisyLibPlugin.getInstance();
     }
 
 }

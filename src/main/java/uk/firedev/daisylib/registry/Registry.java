@@ -60,4 +60,15 @@ public interface Registry<T extends RegistryItem> {
         return register(value, false);
     }
 
+    /**
+     * Checks if this registry is empty.
+     * @return Whether this registry is empty.
+     */
+    boolean isEmpty();
+
+    /**
+     * Removes all items from this registry.
+     */
+    void clear();
+
 }

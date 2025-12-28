@@ -50,5 +50,23 @@ public class RequirementAddonRegistry implements Registry<RequirementAddon> {
         registry.put(value.getKey(), value);
         return true;
     }
-    
+
+    /**
+     * Checks if this registry is empty.
+     *
+     * @return Whether this registry is empty.
+     */
+    @Override
+    public boolean isEmpty() {
+        return registry.isEmpty();
+    }
+
+    /**
+     * Removes all items from this registry.
+     */
+    @Override
+    public void clear() {
+        registry.clear();
+    }
+
 }

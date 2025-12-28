@@ -3,11 +3,11 @@ package uk.firedev.daisylib.addons.requirement.types;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.addons.requirement.RequirementData;
-import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
+import uk.firedev.daisylib.util.Loggers;
+import uk.firedev.daisylib.util.Utils;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class HealthRequirementAddon extends RequirementAddon {
         }
         double currentHealth = player.getHealth();
         for (String value : values) {
-            Double amount = ObjectUtils.getDouble(value);
+            Double amount = Utils.getDouble(value);
             if (amount == null) {
                 Loggers.warn(getClass(), value + " is not a valid double");
                 continue;
@@ -45,7 +45,7 @@ public class HealthRequirementAddon extends RequirementAddon {
 
     @Override
     public @NotNull Plugin getPlugin() {
-        return DaisyLib.getInstance();
+        return DaisyLibPlugin.getInstance();
     }
 
 }

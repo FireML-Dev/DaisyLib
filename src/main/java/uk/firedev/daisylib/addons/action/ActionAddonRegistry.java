@@ -6,9 +6,9 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
 import uk.firedev.daisylib.registry.Registry;
+import uk.firedev.daisylib.util.Loggers;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -64,7 +64,7 @@ public class ActionAddonRegistry implements Registry<ActionAddon<?>> {
         if (addon instanceof Listener listener) {
             HandlerList.unregisterAll(listener);
         }
-        Loggers.info(DaisyLib.getInstance().getComponentLogger(), "Unregistered " + addon.getKey() + " Action.");
+        Loggers.info(DaisyLibPlugin.getInstance().getComponentLogger(), "Unregistered " + addon.getKey() + " Action.");
         return true;
     }
 
@@ -74,13 +74,31 @@ public class ActionAddonRegistry implements Registry<ActionAddon<?>> {
             return false;
         }
         if (!(value instanceof Listener listener)) {
-            Loggers.warn(DaisyLib.getInstance().getComponentLogger(), "Action " + value.getClass().getSimpleName() + " is not a listener. Not registering.");
+            Loggers.warn(DaisyLibPlugin.getInstance().getComponentLogger(), "Action " + value.getClass().getSimpleName() + " is not a listener. Not registering.");
             return false;
         }
         registry.put(value.getKey(), value);
-        Bukkit.getPluginManager().registerEvents(listener, DaisyLib.getInstance());
-        Loggers.info(DaisyLib.getInstance().getComponentLogger(), "Registered " + value.getKey() + " Action.");
+        Bukkit.getPluginManager().registerEvents(listener, DaisyLibPlugin.getInstance());
+        Loggers.info(DaisyLibPlugin.getInstance().getComponentLogger(), "Registered " + value.getKey() + " Action.");
         return true;
+    }
+
+    /**
+     * Checks if this registry is empty.
+     *
+     * @return Whether this registry is empty.
+     */
+    @Override
+    public boolean isEmpty() {
+        return registry.isEmpty();
+    }
+
+    /**
+     * Removes all items from this registry.
+     */
+    @Override
+    public void clear() {
+        registry.clear();
     }
     
 }

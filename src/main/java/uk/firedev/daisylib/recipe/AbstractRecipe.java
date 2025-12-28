@@ -6,6 +6,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.recipe.listener.RecipeListener;
 
 public abstract class AbstractRecipe<R extends Recipe> {
 
@@ -13,7 +14,7 @@ public abstract class AbstractRecipe<R extends Recipe> {
     protected final NamespacedKey key;
     protected final ItemStack result;
     protected boolean registered = false;
-    protected R recipe;
+    protected final R recipe = prepareRecipe();
 
     protected AbstractRecipe(@NotNull NamespacedKey key, @NotNull ConfigurationSection section, @NotNull ItemStack result) {
         this.key = key;
@@ -31,10 +32,8 @@ public abstract class AbstractRecipe<R extends Recipe> {
         if (isRegistered()) {
             throw new RuntimeException("Attempted to register a recipe that is already registered.");
         }
-        if (recipe == null) {
-            this.recipe = prepareRecipe();
-        }
-        Bukkit.addRecipe(recipe);
+        Bukkit.addRecipe(recipe, true);
+        RecipeListener.addRecipe(key, recipe);
         this.registered = true;
     }
 
@@ -43,6 +42,7 @@ public abstract class AbstractRecipe<R extends Recipe> {
             throw new RuntimeException("Attempted to unregister a recipe that is not registered.");
         }
         Bukkit.removeRecipe(key, true);
+        RecipeListener.removeRecipe(key);
         this.registered = false;
     }
 

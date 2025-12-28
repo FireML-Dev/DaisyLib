@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
-import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
 // TODO fishing plugins like EMF break this.
 public class FishActionAddon extends ActionAddon<PlayerFishEvent> implements Listener {
@@ -38,7 +38,7 @@ public class FishActionAddon extends ActionAddon<PlayerFishEvent> implements Lis
     @NotNull
     @Override
     public Plugin getPlugin() {
-        return DaisyLib.getInstance();
+        return DaisyLibPlugin.getInstance();
     }
 
     @NotNull

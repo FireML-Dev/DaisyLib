@@ -6,14 +6,21 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.utils.ItemUtils;
+import uk.firedev.daisylib.recipe.types.CampfireRecipe;
+import uk.firedev.daisylib.recipe.types.ShapedRecipe;
+import uk.firedev.daisylib.recipe.types.ShapelessRecipe;
+import uk.firedev.daisylib.recipe.types.StonecuttingRecipe;
+import uk.firedev.daisylib.util.Utils;
 
 public class RecipeUtil {
 
     public static @Nullable RecipeChoice getRecipeChoice(String materialStr) {
-        ItemStack item = ItemUtils.getItem(materialStr);
-        if (item == null || item.isEmpty()) {
+        ItemStack item = Utils.getItem(materialStr);
+        if (item == null) {
             return null;
+        }
+        if (item.isEmpty()) {
+            return RecipeChoice.empty();
         }
         return new RecipeChoice.ExactChoice(item);
     }

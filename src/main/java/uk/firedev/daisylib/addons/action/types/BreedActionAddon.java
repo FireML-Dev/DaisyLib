@@ -7,7 +7,7 @@ import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
-import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
 public class BreedActionAddon extends ActionAddon<EntityBreedEvent> implements Listener {
 
@@ -34,7 +34,7 @@ public class BreedActionAddon extends ActionAddon<EntityBreedEvent> implements L
     @NotNull
     @Override
     public Plugin getPlugin() {
-        return DaisyLib.getInstance();
+        return DaisyLibPlugin.getInstance();
     }
 
     @NotNull

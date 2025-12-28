@@ -13,11 +13,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.utils.ItemUtils;
-import uk.firedev.daisylib.utils.ObjectUtils;
-import uk.firedev.daisylib.utils.ReadOnlyPair;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
+import uk.firedev.daisylib.util.Loggers;
+import uk.firedev.daisylib.util.ReadOnlyPair;
+import uk.firedev.daisylib.util.Utils;
 import uk.firedev.messagelib.message.ComponentListMessage;
 import uk.firedev.messagelib.message.ComponentMessage;
 import uk.firedev.messagelib.message.ComponentSingleMessage;
@@ -65,14 +64,14 @@ public class ItemBuilder {
      * @param defaultType The default ItemType, if the provided name is invalid.
      */
     public static ItemBuilder create(@Nullable String itemName, @NotNull ItemType defaultType) {
-        return new ItemBuilder(ItemUtils.getItemType(itemName, defaultType));
+        return new ItemBuilder(Utils.getItemType(itemName, defaultType));
     }
 
     public ItemBuilder withItemType(@NotNull ItemType itemType) {
         // No other way to do this until the ItemType API is properly implemented, so we're using the internal method.
         @SuppressWarnings("deprecation") Material material = itemType.asMaterial();
         if (material == null) {
-            Loggers.warn(DaisyLib.getInstance().getLogger(), "ItemType " + itemType.key().asString() + " cannot be a Material.");
+            Loggers.warn(DaisyLibPlugin.getInstance().getLogger(), "ItemType " + itemType.key().asString() + " cannot be a Material.");
             return this;
         }
         this.item = this.item.withType(material);
@@ -80,7 +79,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder withItemType(@NotNull String itemName, @NotNull ItemType defaultType) {
-        ItemType type = ItemUtils.getItemType(itemName, defaultType);
+        ItemType type = Utils.getItemType(itemName, defaultType);
         return withItemType(type);
     }
 
@@ -212,7 +211,7 @@ public class ItemBuilder {
             return new ItemBuilder(ItemType.AIR);
         }
         String itemStr = section.getString("material", section.getString("item-type"));
-        ItemStack item = ItemUtils.getItem(itemStr);
+        ItemStack item = Utils.getItem(itemStr);
         if (item == null) {
             return new ItemBuilder(ItemType.AIR);
         }
@@ -265,7 +264,7 @@ public class ItemBuilder {
             return ReadOnlyPair.empty();
         }
 
-        int level = ObjectUtils.getIntOrDefault(levelString, 1);
+        int level = Utils.getIntOrDefault(levelString, 1);
         return new ReadOnlyPair<>(enchantment, level);
     }
 

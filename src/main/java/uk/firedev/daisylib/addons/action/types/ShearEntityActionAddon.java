@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
-import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
 public class ShearEntityActionAddon extends ActionAddon<PlayerShearEntityEvent> implements Listener {
 
@@ -30,7 +30,7 @@ public class ShearEntityActionAddon extends ActionAddon<PlayerShearEntityEvent> 
     @NotNull
     @Override
     public Plugin getPlugin() {
-        return DaisyLib.getInstance();
+        return DaisyLibPlugin.getInstance();
     }
 
     @NotNull

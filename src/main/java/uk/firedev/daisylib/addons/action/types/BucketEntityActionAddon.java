@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerBucketEntityEvent;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
-import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
 public class BucketEntityActionAddon extends ActionAddon<PlayerBucketEntityEvent> implements Listener {
 
@@ -29,7 +29,7 @@ public class BucketEntityActionAddon extends ActionAddon<PlayerBucketEntityEvent
     @NotNull
     @Override
     public Plugin getPlugin() {
-        return DaisyLib.getInstance();
+        return DaisyLibPlugin.getInstance();
     }
 
     @NotNull

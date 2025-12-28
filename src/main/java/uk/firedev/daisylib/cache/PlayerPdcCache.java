@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.utils.PlayerHelper;
+import uk.firedev.daisylib.util.PlayerHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,11 +28,11 @@ public class PlayerPdcCache {
         this.player = player;
     }
 
-    public static @NotNull PlayerPdcCache fromUuid(@NotNull UUID player) {
+    public static @NotNull PlayerPdcCache playerPdcCache(@NotNull UUID player) {
         return new PlayerPdcCache(player);
     }
 
-    public static @NotNull PlayerPdcCache fromPlayer(@NotNull OfflinePlayer player) {
+    public static @NotNull PlayerPdcCache playerPdcCache(@NotNull OfflinePlayer player) {
         return new PlayerPdcCache(player.getUniqueId());
     }
 
@@ -65,8 +65,8 @@ public class PlayerPdcCache {
         // If the type matches, we can safely cast
         if (cachedValue.type().equals(type)) {
             return type.getComplexType().cast(cachedValue.value());
-        // If the type does not match, the key is now invalid.
         } else {
+            // If the type does not match, the key is now invalid.
             cache.remove(key);
             return null;
         }

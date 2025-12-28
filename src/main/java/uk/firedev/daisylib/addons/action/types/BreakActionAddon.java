@@ -6,7 +6,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
-import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
 public class BreakActionAddon extends ActionAddon<BlockBreakEvent> implements Listener {
 
@@ -30,7 +30,7 @@ public class BreakActionAddon extends ActionAddon<BlockBreakEvent> implements Li
     @NotNull
     @Override
     public Plugin getPlugin() {
-        return DaisyLib.getInstance();
+        return DaisyLibPlugin.getInstance();
     }
 
     @NotNull

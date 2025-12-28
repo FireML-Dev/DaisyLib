@@ -5,8 +5,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.database.exceptions.DatabaseLoadException;
+import uk.firedev.daisylib.util.Loggers;
 
 import java.sql.Connection;
 import java.sql.SQLException;

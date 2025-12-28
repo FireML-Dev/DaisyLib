@@ -3,9 +3,9 @@ package uk.firedev.daisylib.addons.reward;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.addons.InvalidAddonException;
 import uk.firedev.daisylib.registry.Registry;
+import uk.firedev.daisylib.util.Loggers;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -75,6 +75,24 @@ public class RewardAddonRegistry implements Registry<RewardAddon> {
             return;
         }
         addon.doReward(player, rewardInput);
+    }
+
+    /**
+     * Checks if this registry is empty.
+     *
+     * @return Whether this registry is empty.
+     */
+    @Override
+    public boolean isEmpty() {
+        return registry.isEmpty();
+    }
+
+    /**
+     * Removes all items from this registry.
+     */
+    @Override
+    public void clear() {
+        registry.clear();
     }
     
 }

@@ -6,7 +6,7 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
-import uk.firedev.daisylib.local.DaisyLib;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
 public class EnchantActionAddon extends ActionAddon<EnchantItemEvent> implements Listener {
 
@@ -30,7 +30,7 @@ public class EnchantActionAddon extends ActionAddon<EnchantItemEvent> implements
     @NotNull
     @Override
     public Plugin getPlugin() {
-        return DaisyLib.getInstance();
+        return DaisyLibPlugin.getInstance();
     }
 
     @NotNull

@@ -2,7 +2,7 @@
 # Having this disabled may disable some features in other plugins.
 vault: true
 
-# Configure whether custom events are fired
+# Configure whether custom event are fired
 custom-events:
   # PlayerMoveChunkEvent
   move-chunk: true

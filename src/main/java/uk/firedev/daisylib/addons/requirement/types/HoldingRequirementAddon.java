@@ -6,11 +6,11 @@ import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.addons.requirement.RequirementData;
-import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.utils.ItemUtils;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
+import uk.firedev.daisylib.util.Loggers;
+import uk.firedev.daisylib.util.Utils;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class HoldingRequirementAddon extends RequirementAddon {
             return false;
         }
         for (String value : values) {
-            ItemType type = ItemUtils.getItemType(value);
+            ItemType type = Utils.getItemType(value);
             if (type == null) {
                 Loggers.warn(getClass(), value + " is not a valid ItemType");
                 continue;
@@ -54,7 +54,7 @@ public class HoldingRequirementAddon extends RequirementAddon {
 
     @Override
     public @NotNull Plugin getPlugin() {
-        return DaisyLib.getInstance();
+        return DaisyLibPlugin.getInstance();
     }
 
 }

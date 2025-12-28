@@ -1,0 +1,53 @@
+package uk.firedev.daisylib.util;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+/**
+ * An easy way to manage cooldowns.
+ */
+public class CooldownHelper {
+
+    private final Map<UUID, Instant> cooldownMap = new HashMap<>();
+
+    private CooldownHelper() {}
+
+    public static CooldownHelper cooldownHelper() { return new CooldownHelper(); }
+
+    public void apply(@NotNull UUID uuid, @NotNull Duration duration) {
+        cooldownMap.put(uuid, Instant.now().plus(duration));
+    }
+
+    public boolean has(@NotNull UUID uuid) {
+        Instant cooldown = cooldownMap.get(uuid);
+        if (cooldown == null) {
+            return false;
+        }
+        if (Instant.now().isBefore(cooldown)) {
+            return true;
+        }
+        remove(uuid);
+        return false;
+    }
+
+    public @Nullable Instant remove(@NotNull UUID uuid) {
+        return cooldownMap.remove(uuid);
+    }
+
+    public Duration getRemaining(@NotNull UUID uuid) {
+        Instant cooldown = cooldownMap.get(uuid);
+        Instant now = Instant.now();
+        if (cooldown != null && now.isBefore(cooldown)) {
+            return Duration.between(now, cooldown);
+        } else {
+            return Duration.ZERO;
+        }
+    }
+
+}

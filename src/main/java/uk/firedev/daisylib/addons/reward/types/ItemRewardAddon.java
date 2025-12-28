@@ -4,25 +4,25 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
-import uk.firedev.daisylib.local.DaisyLib;
-import uk.firedev.daisylib.utils.ItemUtils;
-import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
+import uk.firedev.daisylib.util.Loggers;
+import uk.firedev.daisylib.util.Utils;
+
 
 public class ItemRewardAddon extends RewardAddon {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
         String[] splitValue = value.split(",");
-        ItemStack item = ItemUtils.getItem(splitValue[0]);
+        ItemStack item = Utils.getItem(splitValue[0]);
         if (item == null) {
             Loggers.info(getClass(), "Invalid item specified: " + splitValue[0]);
             return;
         }
         int quantity = 1;
         if (splitValue.length >= 2) {
-            Integer amount = ObjectUtils.getInt(splitValue[1]);
+            Integer amount = Utils.getInt(splitValue[1]);
             if (amount == null) {
                 Loggers.info(getClass(), "Invalid number specified: " + splitValue[1]);
                 return;
@@ -46,7 +46,7 @@ public class ItemRewardAddon extends RewardAddon {
 
     @Override
     public @NotNull Plugin getPlugin() {
-        return DaisyLib.getInstance();
+        return DaisyLibPlugin.getInstance();
     }
 
 }
