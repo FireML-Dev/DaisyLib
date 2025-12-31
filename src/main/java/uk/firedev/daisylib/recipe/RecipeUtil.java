@@ -12,6 +12,8 @@ import uk.firedev.daisylib.recipe.types.ShapelessRecipe;
 import uk.firedev.daisylib.recipe.types.StonecuttingRecipe;
 import uk.firedev.daisylib.util.Utils;
 
+import java.util.Map;
+
 public class RecipeUtil {
 
     public static @Nullable RecipeChoice getRecipeChoice(String materialStr) {
@@ -25,6 +27,9 @@ public class RecipeUtil {
         return new RecipeChoice.ExactChoice(item);
     }
 
+    /**
+     * Resolves a recipe from the provided {@link ConfigurationSection} with the provided {@link NamespacedKey}.
+     */
     public static @Nullable AbstractRecipe<?> getRecipe(@NotNull ConfigurationSection section, @NotNull NamespacedKey key, @NotNull ItemStack result) {
         String type = section.getString("type");
         if (type == null) {
@@ -53,6 +58,21 @@ public class RecipeUtil {
             );
             default -> null; // Not a valid recipe type
         };
+    }
+
+    /**
+     * Resolves a recipe and its key from the provided {@link ConfigurationSection}.
+     */
+    public static @Nullable AbstractRecipe<?> getRecipe(@NotNull ConfigurationSection section, @NotNull ItemStack result) {
+        String keyStr = section.getString("key");
+        if (keyStr == null) {
+            return null;
+        }
+        NamespacedKey key = NamespacedKey.fromString(keyStr);
+        if (key == null) {
+            return null;
+        }
+        return getRecipe(section, key, result);
     }
 
 }
