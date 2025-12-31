@@ -46,6 +46,10 @@ public abstract class AbstractRecipe<R extends Recipe> {
         this.registered = false;
     }
 
+    public @NotNull NamespacedKey getKey() {
+        return this.key;
+    }
+
     protected abstract @NotNull R prepareRecipe();
 
 }
