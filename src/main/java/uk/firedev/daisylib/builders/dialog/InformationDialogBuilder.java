@@ -22,7 +22,7 @@ public class InformationDialogBuilder {
     private @NotNull Component title = Component.text("Information");
     private final @NotNull List<Object> content = new ArrayList<>();
 
-    protected InformationDialogBuilder() {}
+    public InformationDialogBuilder() {}
 
     // Class Things
 
