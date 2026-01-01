@@ -34,6 +34,7 @@ import uk.firedev.daisylib.addons.reward.types.HealthRewardAddon;
 import uk.firedev.daisylib.addons.reward.types.ItemRewardAddon;
 import uk.firedev.daisylib.addons.reward.types.MoneyRewardAddon;
 import uk.firedev.daisylib.addons.reward.types.PermissionRewardAddon;
+import uk.firedev.daisylib.event.CustomEventListener;
 import uk.firedev.daisylib.event.DaisyLibReloadEvent;
 import uk.firedev.daisylib.internal.command.MainCommand;
 import uk.firedev.daisylib.internal.config.MainConfig;
@@ -71,13 +72,18 @@ public class DaisyLibPlugin extends JavaPlugin {
         CustomBlockData.registerListener(this);
         loadConfigs();
         loadAddons();
-        getServer().getPluginManager().registerEvents(new RecipeListener(), this);
+        registerListeners();
         this.metrics = new Metrics(this, 24173);
     }
 
     public void reload() {
         reloadConfigs();
         new DaisyLibReloadEvent().callEvent();
+    }
+
+    private void registerListeners() {
+        getServer().getPluginManager().registerEvents(new RecipeListener(), this);
+        getServer().getPluginManager().registerEvents(new CustomEventListener(), this);
     }
 
     private void loadConfigs() {
