@@ -5,6 +5,7 @@ import io.papermc.paper.registry.data.dialog.ActionButton;
 import io.papermc.paper.registry.data.dialog.DialogBase;
 import io.papermc.paper.registry.data.dialog.body.DialogBody;
 import io.papermc.paper.registry.data.dialog.type.DialogType;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.dialog.DialogLike;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -76,6 +77,10 @@ public class InformationDialogBuilder {
                 ActionButton.builder(Component.text("Exit")).build()
             ))
         );
+    }
+
+    public void open(@NotNull Audience audience) {
+        audience.showDialog(build());
     }
 
     private List<? extends DialogBody> getBodies() {
