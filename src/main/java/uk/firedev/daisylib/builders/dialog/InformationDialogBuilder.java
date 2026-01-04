@@ -50,7 +50,7 @@ public class InformationDialogBuilder {
         return this;
     }
 
-    public InformationDialogBuilder withContent(@NotNull List<Object> content) {
+    public InformationDialogBuilder withContent(@NotNull List<?> content) {
         this.content.clear();
         this.content.addAll(content);
         return this;
