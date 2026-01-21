@@ -40,6 +40,7 @@ import uk.firedev.daisylib.internal.command.MainCommand;
 import uk.firedev.daisylib.internal.config.MainConfig;
 import uk.firedev.daisylib.internal.config.MessageConfig;
 import uk.firedev.daisylib.recipe.listener.RecipeListener;
+import uk.firedev.daisylib.util.VaultManager;
 
 @ApiStatus.Internal
 public class DaisyLibPlugin extends JavaPlugin {
@@ -70,6 +71,7 @@ public class DaisyLibPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         CustomBlockData.registerListener(this);
+        VaultManager.getInstance().load();
         loadConfigs();
         loadAddons();
         registerListeners();

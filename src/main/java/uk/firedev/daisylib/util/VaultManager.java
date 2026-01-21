@@ -100,7 +100,7 @@ public class VaultManager {
     public boolean isLoaded() { return loaded; }
 
     /**
-     * Loads Vault if the Vault hook is enabled in the configuration.
+     * Loads Vault hooks.
      * <p>
      * Only works with VaultUnlocked, so checks for their classes before loading.
      */
