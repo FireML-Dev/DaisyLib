@@ -22,7 +22,7 @@ public class RecipeUtil {
             return null;
         }
         if (item.isEmpty()) {
-            return RecipeChoice.empty();
+            return null;
         }
         return new RecipeChoice.ExactChoice(item);
     }
