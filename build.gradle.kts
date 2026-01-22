@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.bstats)
     implementation(libs.customblockdata)
     implementation(libs.messagelib)
+    implementation(libs.configlib)
     implementation(libs.triumphgui)
 
     compileOnlyApi(libs.boostedyaml)
@@ -37,9 +38,6 @@ dependencies {
     paperLibrary(libs.vanishchecker)
 
     paperLibrary(libs.nashorn)
-
-    compileOnlyApi(libs.configlib)
-    paperLibrary(libs.configlib)
 }
 
 group = "uk.firedev"
@@ -114,6 +112,7 @@ tasks {
         relocate("org.bstats", "uk.firedev.daisylib.libs.bstats")
         relocate("com.jeff_media.customblockdata", "uk.firedev.daisylib.libs.customblockdata")
         relocate("uk.firedev.messagelib", "uk.firedev.daisylib.libs.messagelib")
+        relocate("uk.firedev.configlib", "uk.firedev.daisylib.libs.configlib")
         relocate("dev.triumphteam.gui", "uk.firedev.daisylib.libs.triumphgui")
     }
     withType<JavaCompile> {

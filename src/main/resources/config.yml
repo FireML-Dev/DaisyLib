@@ -8,6 +8,3 @@ custom-events:
   move-chunk: true
   # PlayerMoveBlockEvent
   move-block: true
-
-# DO NOT TOUCH THIS VALUE!!!
-config-version: 1

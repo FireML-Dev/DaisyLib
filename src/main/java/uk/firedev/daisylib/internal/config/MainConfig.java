@@ -8,14 +8,8 @@ import uk.firedev.daisylib.internal.DaisyLibPlugin;
 @ApiStatus.Internal
 public class MainConfig extends ConfigBase {
 
-    public static final MainConfig instance = new MainConfig();
-
-    private MainConfig() {
+    public MainConfig() {
         super("config.yml", "config.yml", DaisyLibPlugin.getInstance());
-    }
-
-    public static @NotNull MainConfig getInstance() {
-        return instance;
     }
 
 }

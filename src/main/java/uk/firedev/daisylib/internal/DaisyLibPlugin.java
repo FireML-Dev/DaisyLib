@@ -47,6 +47,9 @@ public class DaisyLibPlugin extends JavaPlugin {
 
     private static DaisyLibPlugin INSTANCE;
 
+    private final MainConfig mainConfig;
+    private final MessageConfig messageConfig;
+
     private Metrics metrics;
 
     public DaisyLibPlugin() {
@@ -54,6 +57,8 @@ public class DaisyLibPlugin extends JavaPlugin {
             throw new UnsupportedOperationException(getClass().getName() + " has already been assigned!");
         }
         INSTANCE = this;
+        this.mainConfig = new MainConfig();
+        this.messageConfig = new MessageConfig();
     }
 
     public static @NotNull DaisyLibPlugin getInstance() {
@@ -72,7 +77,6 @@ public class DaisyLibPlugin extends JavaPlugin {
     public void onEnable() {
         CustomBlockData.registerListener(this);
         VaultManager.getInstance().load();
-        loadConfigs();
         loadAddons();
         registerListeners();
         this.metrics = new Metrics(this, 24173);
@@ -88,14 +92,9 @@ public class DaisyLibPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CustomEventListener(), this);
     }
 
-    private void loadConfigs() {
-        MainConfig.getInstance().init();
-        MessageConfig.getInstance().init();
-    }
-
     private void reloadConfigs() {
-        MainConfig.getInstance().reload();
-        MessageConfig.getInstance().reload();
+        mainConfig.reload();
+        messageConfig.reload();
     }
 
     private void loadAddons() {
@@ -138,6 +137,14 @@ public class DaisyLibPlugin extends JavaPlugin {
         this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands ->
             commands.registrar().register(MainCommand.get())
         );
+    }
+
+    public @NotNull MainConfig getMainConfig() {
+        return this.mainConfig;
+    }
+
+    public @NotNull MessageConfig getMessageConfig() {
+        return this.messageConfig;
     }
 
 }

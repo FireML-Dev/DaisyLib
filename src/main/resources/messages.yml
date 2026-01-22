@@ -24,6 +24,3 @@ time-units:
   second:
     single: " second"
     multiple: " seconds"
-
-# DO NOT TOUCH THIS VALUE!!!
-config-version: 4
