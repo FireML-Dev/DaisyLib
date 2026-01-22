@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 import uk.firedev.daisylib.registry.Registry;
 import uk.firedev.daisylib.util.Loggers;
@@ -21,11 +21,11 @@ public class ActionAddonRegistry implements Registry<ActionAddon<?>> {
 
     private ActionAddonRegistry() {}
 
-    public static @NotNull ActionAddonRegistry get() {
+    public static @NonNull ActionAddonRegistry get() {
         return instance;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Map<String, ActionAddon<?>> getRegistry() {
         return Map.copyOf(registry);
@@ -33,13 +33,13 @@ public class ActionAddonRegistry implements Registry<ActionAddon<?>> {
 
     @Nullable
     @Override
-    public ActionAddon<?> get(@NotNull String key) {
+    public ActionAddon<?> get(@NonNull String key) {
         return registry.get(key);
     }
 
     @Nullable
     @SuppressWarnings("unchecked")
-    public <T extends Event> ActionAddon<T> getWithType(@NotNull String key, @NotNull Class<T> eventType) {
+    public <T extends Event> ActionAddon<T> getWithType(@NonNull String key, @NonNull Class<T> eventType) {
         ActionAddon<?> addon = get(key);
         if (addon == null || !addon.getEventType().equals(eventType)) {
             return null;
@@ -48,14 +48,14 @@ public class ActionAddonRegistry implements Registry<ActionAddon<?>> {
         return (ActionAddon<T>) addon;
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public ActionAddon<?> getOrDefault(@NotNull String key, @NotNull ActionAddon<?> defaultValue) {
+    public ActionAddon<?> getOrDefault(@NonNull String key, @NonNull ActionAddon<?> defaultValue) {
         return registry.getOrDefault(key, defaultValue);
     }
 
     @Override
-    public boolean unregister(@NotNull String key) {
+    public boolean unregister(@NonNull String key) {
         ActionAddon<?> addon = registry.remove(key);
         if (addon == null) {
             return false;
@@ -69,7 +69,7 @@ public class ActionAddonRegistry implements Registry<ActionAddon<?>> {
     }
 
     @Override
-    public boolean register(@NotNull ActionAddon<?> value, boolean force) {
+    public boolean register(@NonNull ActionAddon<?> value, boolean force) {
         if (!force && registry.containsKey(value.getKey())) {
             return false;
         }

@@ -1,6 +1,6 @@
 package uk.firedev.daisylib.util.math;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import uk.firedev.daisylib.util.Utils;
 
@@ -25,7 +25,7 @@ public class FormulaCalculator {
      * @return The value of this formula
      * @throws FormulaException If the provided formula is invalid or an error occurs
      */
-    public static double calculate(@NotNull String formula) throws FormulaException {
+    public static double calculate(@NonNull String formula) throws FormulaException {
         try {
             Object obj = getScriptEngine().eval(formula);
             Double value = Utils.getDouble(obj.toString());

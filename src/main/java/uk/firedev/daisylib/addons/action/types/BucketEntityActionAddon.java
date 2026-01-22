@@ -4,19 +4,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBucketEntityEvent;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
 public class BucketEntityActionAddon extends ActionAddon<PlayerBucketEntityEvent> implements Listener {
 
-    @NotNull
+    @NonNull
     @Override
     public Class<PlayerBucketEntityEvent> getEventType() {
         return PlayerBucketEntityEvent.class;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getKey() {
         return "bucket-entity";
@@ -26,13 +26,13 @@ public class BucketEntityActionAddon extends ActionAddon<PlayerBucketEntityEvent
     public void onBucket(PlayerBucketEntityEvent event) {
         fireEvent(event, event.getEntity().getType().toString());
     }
-    @NotNull
+    @NonNull
     @Override
     public Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getAuthor() {
         return "FireML";

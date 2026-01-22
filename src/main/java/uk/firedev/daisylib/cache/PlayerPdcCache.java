@@ -5,8 +5,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.util.PlayerHelper;
 
 import java.util.HashMap;
@@ -24,19 +24,19 @@ public class PlayerPdcCache {
 
     private final Map<NamespacedKey, CachedValue<?>> cache = new HashMap<>();
 
-    private PlayerPdcCache(@NotNull UUID player) {
+    private PlayerPdcCache(@NonNull UUID player) {
         this.player = player;
     }
 
-    public static @NotNull PlayerPdcCache playerPdcCache(@NotNull UUID player) {
+    public static @NonNull PlayerPdcCache playerPdcCache(@NonNull UUID player) {
         return new PlayerPdcCache(player);
     }
 
-    public static @NotNull PlayerPdcCache playerPdcCache(@NotNull OfflinePlayer player) {
+    public static @NonNull PlayerPdcCache playerPdcCache(@NonNull OfflinePlayer player) {
         return new PlayerPdcCache(player.getUniqueId());
     }
 
-    public <T> @Nullable T get(@NotNull NamespacedKey key, @NotNull PersistentDataType<?, T> type) {
+    public <T> @Nullable T get(@NonNull NamespacedKey key, @NonNull PersistentDataType<?, T> type) {
         Player online = Bukkit.getPlayer(player);
         if (online != null) {
             // Remove cached data as the player is online.
@@ -46,12 +46,12 @@ public class PlayerPdcCache {
         return checkCache(key, type);
     }
 
-    public <T> @Nullable T getOrDefault(@NotNull NamespacedKey key, @NotNull PersistentDataType<?, T> type, @NotNull T def) {
+    public <T> @Nullable T getOrDefault(@NonNull NamespacedKey key, @NonNull PersistentDataType<?, T> type, @NonNull T def) {
         T val = get(key, type);
         return val == null ? def : val;
     }
 
-    private <T> @Nullable T checkCache(@NotNull NamespacedKey key, @NotNull PersistentDataType<?, T> type) {
+    private <T> @Nullable T checkCache(@NonNull NamespacedKey key, @NonNull PersistentDataType<?, T> type) {
         CachedValue<?> cachedValue = cache.get(key);
         if (cachedValue == null) {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player);

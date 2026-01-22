@@ -4,19 +4,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
 public class ConsumeActionAddon extends ActionAddon<PlayerItemConsumeEvent> implements Listener {
 
-    @NotNull
+    @NonNull
     @Override
     public Class<PlayerItemConsumeEvent> getEventType() {
         return PlayerItemConsumeEvent.class;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getKey() {
         return "consume";
@@ -27,13 +27,13 @@ public class ConsumeActionAddon extends ActionAddon<PlayerItemConsumeEvent> impl
         fireEvent(event, event.getItem().getType().toString());
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getAuthor() {
         return "FireML";

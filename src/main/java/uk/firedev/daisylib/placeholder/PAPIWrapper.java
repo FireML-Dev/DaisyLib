@@ -6,7 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -22,7 +22,7 @@ public class PAPIWrapper extends PlaceholderExpansion {
     private final Map<String, Function<Audience, Component>> audienceMap;
     private final Map<String, BiFunction<Audience, String, Component>> audienceDynamicMap;
 
-    protected PAPIWrapper(@NotNull Plugin plugin, @NotNull Map<String, Supplier<Component>> globalMap, @NotNull Map<String, Function<String, Component>> globalDynamicMap, @NotNull Map<String, Function<Audience, Component>> audienceMap, Map<String, BiFunction<Audience, String, Component>> audienceDynamicMap) {
+    protected PAPIWrapper(@NonNull Plugin plugin, @NonNull Map<String, Supplier<Component>> globalMap, @NonNull Map<String, Function<String, Component>> globalDynamicMap, @NonNull Map<String, Function<Audience, Component>> audienceMap, Map<String, BiFunction<Audience, String, Component>> audienceDynamicMap) {
         this.plugin = plugin;
         this.globalMap = globalMap;
         this.globalDynamicMap = globalDynamicMap;
@@ -30,19 +30,19 @@ public class PAPIWrapper extends PlaceholderExpansion {
         this.audienceDynamicMap = audienceDynamicMap;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getIdentifier() {
         return plugin.getPluginMeta().getName();
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getAuthor() {
         return String.join(", ", plugin.getPluginMeta().getAuthors());
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getVersion() {
         return plugin.getPluginMeta().getVersion();
@@ -55,7 +55,7 @@ public class PAPIWrapper extends PlaceholderExpansion {
     public boolean canRegister() { return true; }
 
     @Override
-    public String onPlaceholderRequest(final Player player, @NotNull final String identifier) {
+    public String onPlaceholderRequest(final Player player, @NonNull final String identifier) {
         Supplier<Component> globalSupplier = globalMap.get(identifier);
         if (globalSupplier != null) {
             return legacyComponentSerializer.serialize(globalSupplier.get());

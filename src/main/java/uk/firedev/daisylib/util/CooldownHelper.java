@@ -1,7 +1,7 @@
 package uk.firedev.daisylib.util;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -20,11 +20,11 @@ public class CooldownHelper {
 
     public static CooldownHelper cooldownHelper() { return new CooldownHelper(); }
 
-    public void apply(@NotNull UUID uuid, @NotNull Duration duration) {
+    public void apply(@NonNull UUID uuid, @NonNull Duration duration) {
         cooldownMap.put(uuid, Instant.now().plus(duration));
     }
 
-    public boolean has(@NotNull UUID uuid) {
+    public boolean has(@NonNull UUID uuid) {
         Instant cooldown = cooldownMap.get(uuid);
         if (cooldown == null) {
             return false;
@@ -36,11 +36,11 @@ public class CooldownHelper {
         return false;
     }
 
-    public @Nullable Instant remove(@NotNull UUID uuid) {
+    public @Nullable Instant remove(@NonNull UUID uuid) {
         return cooldownMap.remove(uuid);
     }
 
-    public Duration getRemaining(@NotNull UUID uuid) {
+    public Duration getRemaining(@NonNull UUID uuid) {
         Instant cooldown = cooldownMap.get(uuid);
         Instant now = Instant.now();
         if (cooldown != null && now.isBefore(cooldown)) {

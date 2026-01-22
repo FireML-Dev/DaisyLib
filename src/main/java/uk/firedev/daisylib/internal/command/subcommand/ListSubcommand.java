@@ -8,7 +8,7 @@ import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.Addon;
 import uk.firedev.daisylib.addons.action.ActionAddon;
 import uk.firedev.daisylib.addons.action.ActionAddonRegistry;
@@ -52,7 +52,7 @@ public class ListSubcommand {
         return buildListCommand("actionAddons", ActionAddon.class, ActionAddonRegistry.get().getRegistry().values());
     }
 
-    private static <T extends Addon> LiteralArgumentBuilder<CommandSourceStack> buildListCommand(@NotNull String name, @NotNull Class<T> clazz, @NotNull Collection<? extends T> values) {
+    private static <T extends Addon> LiteralArgumentBuilder<CommandSourceStack> buildListCommand(@NonNull String name, @NonNull Class<T> clazz, @NonNull Collection<? extends T> values) {
         return Commands.literal(name)
             .executes(ctx -> {
                 CommandSender sender = ctx.getSource().getSender();

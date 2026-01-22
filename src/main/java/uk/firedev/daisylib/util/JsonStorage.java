@@ -7,8 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -22,7 +22,7 @@ public class JsonStorage {
      * Turns a list into a JSON String
      * @param list The list to turn into a JSON String
      */
-    public static @NotNull String prepareList(@NotNull List<?> list) {
+    public static @NonNull String prepareList(@NonNull List<?> list) {
         return gson.toJson(list);
     }
 
@@ -32,7 +32,7 @@ public class JsonStorage {
      * @param clazz The class of the list
      * @return The parsed list, or an empty list if the JSON is invalid
      */
-    public static @NotNull <T> List<T> parseList(@NotNull String json, @NotNull Class<T> clazz) {
+    public static @NonNull <T> List<T> parseList(@NonNull String json, @NonNull Class<T> clazz) {
         if (json.isEmpty()) {
             return List.of();
         }
@@ -49,7 +49,7 @@ public class JsonStorage {
      * Turns a map into a JSON String
      * @param map The map to turn into a JSON String
      */
-    public static @NotNull String prepareMap(@NotNull Map<?, ?> map) {
+    public static @NonNull String prepareMap(@NonNull Map<?, ?> map) {
         return gson.toJson(map);
     }
 
@@ -60,7 +60,7 @@ public class JsonStorage {
      * @param valueClazz The class of the map's value
      * @return The parsed map, or an empty map if the JSON is invalid
      */
-    public static @NotNull <K, V> Map<K, V> parseMap(@NotNull String json, @NotNull Class<K> keyClazz, @NotNull Class<V> valueClazz) {
+    public static @NonNull <K, V> Map<K, V> parseMap(@NonNull String json, @NonNull Class<K> keyClazz, @NonNull Class<V> valueClazz) {
         if (json.isEmpty()) {
             return Map.of();
         }
@@ -77,7 +77,7 @@ public class JsonStorage {
      * Turns a location into a JSON String
      * @param location The location to turn into a JSON String
      */
-    public static @NotNull String prepareLocation(@NotNull Location location) {
+    public static @NonNull String prepareLocation(@NonNull Location location) {
         return prepareMap(location.serialize());
     }
 
@@ -86,7 +86,7 @@ public class JsonStorage {
      * @param json The JSON String to parse
      * @return The parsed location, or null if the JSON is invalid
      */
-    public static @Nullable Location parseLocation(@NotNull String json) {
+    public static @Nullable Location parseLocation(@NonNull String json) {
         Map<String, Object> serialized = parseMap(json, String.class, Object.class);
         if (serialized.isEmpty()) {
             return null;
@@ -102,7 +102,7 @@ public class JsonStorage {
      * Turns a chunk into a JSON String
      * @param chunk The chunk to turn into a JSON String
      */
-    public static @NotNull String prepareChunk(@NotNull Chunk chunk) {
+    public static @NonNull String prepareChunk(@NonNull Chunk chunk) {
         Map<String, String> serialized = Map.of(
             "world", chunk.getWorld().getName(),
             "x", Integer.toString(chunk.getX()),
@@ -116,7 +116,7 @@ public class JsonStorage {
      * @param json The JSON String to parse
      * @return The parsed chunk, or null if the JSON, World, or coordinates are invalid
      */
-    public static @Nullable Chunk parseChunk(@NotNull String json) {
+    public static @Nullable Chunk parseChunk(@NonNull String json) {
         Map<String, String> serialized = parseMap(json, String.class, String.class);
         if (serialized.isEmpty()) {
             return null;

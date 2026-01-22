@@ -1,14 +1,14 @@
 package uk.firedev.daisylib.addons.reward;
 
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.Addon;
 
 public abstract class RewardAddon extends Addon {
 
     public RewardAddon() {}
 
-    public abstract void doReward(@NotNull Player player, @NotNull String value);
+    public abstract void doReward(@NonNull Player player, @NonNull String value);
 
     public boolean register() {
         return register(false);

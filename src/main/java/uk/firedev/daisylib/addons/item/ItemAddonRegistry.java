@@ -1,8 +1,8 @@
 package uk.firedev.daisylib.addons.item;
 
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.addons.InvalidAddonException;
 import uk.firedev.daisylib.registry.Registry;
 import uk.firedev.daisylib.util.Loggers;
@@ -19,11 +19,11 @@ public class ItemAddonRegistry implements Registry<ItemAddon> {
 
     private ItemAddonRegistry() {}
 
-    public static @NotNull ItemAddonRegistry get() {
+    public static @NonNull ItemAddonRegistry get() {
         return instance;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Map<String, ItemAddon> getRegistry() {
         return Map.copyOf(registry);
@@ -31,23 +31,23 @@ public class ItemAddonRegistry implements Registry<ItemAddon> {
 
     @Nullable
     @Override
-    public ItemAddon get(@NotNull String key) {
+    public ItemAddon get(@NonNull String key) {
         return registry.get(key);
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public ItemAddon getOrDefault(@NotNull String key, @NotNull ItemAddon defaultValue) {
+    public ItemAddon getOrDefault(@NonNull String key, @NonNull ItemAddon defaultValue) {
         return registry.getOrDefault(key, defaultValue);
     }
 
     @Override
-    public boolean unregister(@NotNull String key) {
+    public boolean unregister(@NonNull String key) {
         return registry.remove(key) != null;
     }
 
     @Override
-    public boolean register(@NotNull ItemAddon value, boolean force) {
+    public boolean register(@NonNull ItemAddon value, boolean force) {
         if (!force && registry.containsKey(value.getKey())) {
             return false;
         }

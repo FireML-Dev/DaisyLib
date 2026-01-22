@@ -1,7 +1,7 @@
 package uk.firedev.daisylib.database;
 
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.database.exceptions.DatabaseLoadException;
 import uk.firedev.daisylib.util.FileUtil;
 import uk.firedev.daisylib.util.Loggers;
@@ -23,7 +23,7 @@ public abstract class SQLiteDatabase extends Database {
      * @param plugin The plugin this database belongs to.
      * @param fileName The database's file name.
      */
-    public SQLiteDatabase(@NotNull Plugin plugin, @NotNull String fileName) {
+    public SQLiteDatabase(@NonNull Plugin plugin, @NonNull String fileName) {
         super(plugin);
         this.fileName = fileName;
     }
@@ -32,13 +32,13 @@ public abstract class SQLiteDatabase extends Database {
      * Creates a new SQLiteDatabase instance.
      * @param plugin The plugin this database belongs to.
      */
-    public SQLiteDatabase(@NotNull Plugin plugin) {
+    public SQLiteDatabase(@NonNull Plugin plugin) {
         super(plugin);
         this.fileName = "data.db";
     }
 
     @Override
-    public boolean addTable(@NotNull String table, @NotNull Map<String, String> columns) throws SQLException {
+    public boolean addTable(@NonNull String table, @NonNull Map<String, String> columns) throws SQLException {
         StringBuilder builder = new StringBuilder("CREATE TABLE IF NOT EXISTS " + table + " (");
         columns.forEach((column, type) -> builder.append(column).append(" ").append(type).append(", "));
         // To remove the trailing comma and space
@@ -51,7 +51,7 @@ public abstract class SQLiteDatabase extends Database {
     }
 
     @Override
-    public boolean addColumn(@NotNull String table, @NotNull String column, @NotNull String type) throws SQLException {
+    public boolean addColumn(@NonNull String table, @NonNull String column, @NonNull String type) throws SQLException {
         try (Statement statement = getConnection().createStatement()) {
             statement.execute("ALTER TABLE " + table + " ADD COLUMN " + column + " " + type);
             return true;

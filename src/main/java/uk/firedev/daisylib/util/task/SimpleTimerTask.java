@@ -1,6 +1,6 @@
 package uk.firedev.daisylib.util.task;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -15,7 +15,7 @@ public abstract class SimpleTimerTask extends TimerTask {
     private final TimeUnit unit;
     private final long interval;
 
-    public SimpleTimerTask(@NotNull TimeUnit unit, long interval) {
+    public SimpleTimerTask(@NonNull TimeUnit unit, long interval) {
         this.unit = unit;
         this.interval = interval;
     }

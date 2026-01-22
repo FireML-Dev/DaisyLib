@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -28,14 +28,14 @@ public class WarmupHandler extends BukkitRunnable {
     private BukkitTask task = null;
     private int passed = 0;
 
-    protected WarmupHandler(int warmupSeconds, @NotNull Player player, @NotNull Plugin plugin) {
+    protected WarmupHandler(int warmupSeconds, @NonNull Player player, @NonNull Plugin plugin) {
         this.plugin = plugin;
         this.warmupSeconds = warmupSeconds;
         this.player = player;
         this.initialLocation = processLocation(player.getLocation());
     }
 
-    public static WarmupHandler warmupHandler(int warmupSeconds, @NotNull Player player, @NotNull Plugin plugin) {
+    public static WarmupHandler warmupHandler(int warmupSeconds, @NonNull Player player, @NonNull Plugin plugin) {
         return new WarmupHandler(warmupSeconds, player, plugin);
     }
 
@@ -52,7 +52,7 @@ public class WarmupHandler extends BukkitRunnable {
     /**
      * Fired when the warmup is complete
      */
-    public WarmupHandler withCompletionAction(@NotNull Consumer<Player> completionAction) {
+    public WarmupHandler withCompletionAction(@NonNull Consumer<Player> completionAction) {
         this.completionAction = completionAction;
         return this;
     }
@@ -60,7 +60,7 @@ public class WarmupHandler extends BukkitRunnable {
     /**
      * Fired for every second of waiting
      */
-    public WarmupHandler withWaitAction(@NotNull BiConsumer<Integer, Player> waitAction) {
+    public WarmupHandler withWaitAction(@NonNull BiConsumer<Integer, Player> waitAction) {
         this.waitAction = waitAction;
         return this;
     }
@@ -68,7 +68,7 @@ public class WarmupHandler extends BukkitRunnable {
     /**
      * Fired if {@link WarmupHandler#allowMovement} is false, and the player has moved.
      */
-    public WarmupHandler withMovementAction(@NotNull Consumer<Player> movementAction) {
+    public WarmupHandler withMovementAction(@NonNull Consumer<Player> movementAction) {
         this.movementAction = movementAction;
         return this;
     }
@@ -76,7 +76,7 @@ public class WarmupHandler extends BukkitRunnable {
     /**
      * The permission to bypass the warmup
      */
-    public WarmupHandler withBypassPermission(@NotNull String bypassPermission) {
+    public WarmupHandler withBypassPermission(@NonNull String bypassPermission) {
         this.bypassPermission = bypassPermission;
         return this;
     }
@@ -144,7 +144,7 @@ public class WarmupHandler extends BukkitRunnable {
      * <p>
      * Centers the location and removes rotation.
      */
-    private @NotNull Location processLocation(@NotNull Location location) {
+    private @NonNull Location processLocation(@NonNull Location location) {
         return location.toCenterLocation().setRotation(0, 0);
     }
 

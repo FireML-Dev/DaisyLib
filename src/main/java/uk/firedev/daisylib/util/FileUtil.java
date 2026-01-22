@@ -1,7 +1,7 @@
 package uk.firedev.daisylib.util;
 
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class FileUtil {
 
-    public static File loadFile(@NotNull File directory, @NotNull String fileName, @NotNull String resourceName, @NotNull Plugin plugin) {
+    public static File loadFile(@NonNull File directory, @NonNull String fileName, @NonNull String resourceName, @NonNull Plugin plugin) {
         createDirectory(directory);
         File configFile = new File(directory, fileName);
         if (!configFile.exists()) {
@@ -36,7 +36,7 @@ public class FileUtil {
         return configFile;
     }
 
-    public static boolean createFile(@NotNull File file) {
+    public static boolean createFile(@NonNull File file) {
         try {
             if (!file.exists()) {
                 if (file.isDirectory()) {
@@ -51,7 +51,7 @@ public class FileUtil {
         }
     }
 
-    public static boolean createDirectory(@NotNull File directory) {
+    public static boolean createDirectory(@NonNull File directory) {
         if (!directory.exists()) {
             return directory.mkdirs();
         }
@@ -66,7 +66,7 @@ public class FileUtil {
      * @param recursive Should this also search subdirectories?
      * @return A list of files in the directory. Returns an empty list if none.
      */
-    public static List<File> getFilesInDirectory(@NotNull File directory, boolean ignoreUnderscoreFiles, boolean recursive) {
+    public static List<File> getFilesInDirectory(@NonNull File directory, boolean ignoreUnderscoreFiles, boolean recursive) {
         List<File> finalList = new ArrayList<>();
         if (!directory.exists() || !directory.isDirectory()) {
             return finalList;
@@ -96,7 +96,7 @@ public class FileUtil {
         return finalList;
     }
 
-    public static boolean doesDirectoryContainFile(@NotNull File directory, @NotNull String fileName, boolean recursive) {
+    public static boolean doesDirectoryContainFile(@NonNull File directory, @NonNull String fileName, boolean recursive) {
         for (File file : getFilesInDirectory(directory, false, recursive)) {
             if (file.getName().equals(fileName)) {
                 return true;

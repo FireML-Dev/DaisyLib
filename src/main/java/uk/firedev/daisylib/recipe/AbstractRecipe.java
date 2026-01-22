@@ -5,7 +5,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.recipe.listener.RecipeListener;
 
 public abstract class AbstractRecipe<R extends Recipe> {
@@ -15,7 +15,7 @@ public abstract class AbstractRecipe<R extends Recipe> {
     protected final ItemStack result;
     protected boolean registered = false;
 
-    protected AbstractRecipe(@NotNull NamespacedKey key, @NotNull ConfigurationSection section, @NotNull ItemStack result) {
+    protected AbstractRecipe(@NonNull NamespacedKey key, @NonNull ConfigurationSection section, @NonNull ItemStack result) {
         this.key = key;
         this.section = section;
 
@@ -46,10 +46,10 @@ public abstract class AbstractRecipe<R extends Recipe> {
         this.registered = false;
     }
 
-    public @NotNull NamespacedKey getKey() {
+    public @NonNull NamespacedKey getKey() {
         return this.key;
     }
 
-    protected abstract @NotNull R prepareRecipe();
+    protected abstract @NonNull R prepareRecipe();
 
 }

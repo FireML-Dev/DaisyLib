@@ -3,7 +3,7 @@ package uk.firedev.daisylib.addons.reward.types;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 import uk.firedev.daisylib.util.Loggers;
@@ -13,7 +13,7 @@ import uk.firedev.daisylib.util.Utils;
 public class ItemRewardAddon extends RewardAddon {
 
     @Override
-    public void doReward(@NotNull Player player, @NotNull String value) {
+    public void doReward(@NonNull Player player, @NonNull String value) {
         String[] splitValue = value.split(",");
         ItemStack item = Utils.getItem(splitValue[0]);
         if (item == null) {
@@ -35,17 +35,17 @@ public class ItemRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull String getKey() {
+    public @NonNull String getKey() {
         return "Item";
     }
 
     @Override
-    public @NotNull String getAuthor() {
+    public @NonNull String getAuthor() {
         return "FireML";
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NonNull Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 

@@ -5,7 +5,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
 
@@ -16,13 +16,13 @@ public interface CustomBlockState<T extends BlockState> {
      * Gets the block state.
      * @return The block state.
      */
-    @NotNull T getState();
+    @NonNull T getState();
 
     /**
      * Gets the block this blockstate is for.
      * @return The block.
      */
-    @NotNull Block getBlock();
+    @NonNull Block getBlock();
 
     /**
      * Saves the block state to the block.
@@ -35,7 +35,7 @@ public interface CustomBlockState<T extends BlockState> {
      * Saves the block state to the given block.
      * @param block The block to save to.
      */
-    default void saveToBlock(@NotNull Block block) {
+    default void saveToBlock(@NonNull Block block) {
         block.setBlockData(getState().getBlockData());
     }
 
@@ -43,7 +43,7 @@ public interface CustomBlockState<T extends BlockState> {
      * Edits the persistent data container if the block state is a PersistentDataHolder (e.g. TileState).
      * @param consumer The consumer to edit the persistent data container.
      */
-    default void editPersistentDataContainer(@NotNull Consumer<PersistentDataContainer> consumer) {
+    default void editPersistentDataContainer(@NonNull Consumer<PersistentDataContainer> consumer) {
         if (getState() instanceof PersistentDataHolder holder) {
             consumer.accept(holder.getPersistentDataContainer());
         }

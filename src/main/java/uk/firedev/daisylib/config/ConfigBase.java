@@ -5,8 +5,8 @@ import net.kyori.adventure.sound.Sound;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.configlib.ConfigFile;
 import uk.firedev.daisylib.util.Utils;
 import uk.firedev.messagelib.config.PaperConfigLoader;
@@ -19,27 +19,27 @@ public class ConfigBase extends ConfigFile {
 
     private final PaperConfigLoader loader;
 
-    public ConfigBase(@NotNull String filePath, @NotNull String resourcePath, @NotNull Plugin plugin) {
+    public ConfigBase(@NonNull String filePath, @NonNull String resourcePath, @NonNull Plugin plugin) {
         super(filePath, resourcePath, plugin);
         this.loader = new PaperConfigLoader(config);
     }
 
-    public ConfigBase(@NotNull String filePath, @NotNull Plugin plugin) {
+    public ConfigBase(@NonNull String filePath, @NonNull Plugin plugin) {
         super(filePath, plugin);
         this.loader = new PaperConfigLoader(config);
     }
 
-    public ConfigBase(@NotNull File file) {
+    public ConfigBase(@NonNull File file) {
         super(file);
         this.loader = new PaperConfigLoader(config);
     }
 
-    public ConfigBase(@NotNull File file, @Nullable InputStream resource) {
+    public ConfigBase(@NonNull File file, @Nullable InputStream resource) {
         super(file, resource);
         this.loader = new PaperConfigLoader(config);
     }
 
-    public ConfigBase(@NotNull File file, @NotNull String resourcePath, @NotNull Plugin plugin) {
+    public ConfigBase(@NonNull File file, @NonNull String resourcePath, @NonNull Plugin plugin) {
         super(file, resourcePath, plugin);
         this.loader = new PaperConfigLoader(config);
     }
@@ -50,25 +50,25 @@ public class ConfigBase extends ConfigFile {
     @Deprecated(forRemoval = true)
     public void init() {}
 
-    public @NotNull PaperConfigLoader getMessageLoader() {
+    public @NonNull PaperConfigLoader getMessageLoader() {
         return this.loader;
     }
 
-    public @Nullable Float getFloat(@NotNull String path) {
+    public @Nullable Float getFloat(@NonNull String path) {
         return getConfig().getObject(path, Float.class);
     }
 
-    public float getFloat(@NotNull String path, float def) {
+    public float getFloat(@NonNull String path, float def) {
         Float value = getFloat(path);
         return value == null ? def : value;
     }
 
-    public ComponentMessage getComponentMessage(@NotNull String path, @NotNull Object def) {
+    public ComponentMessage getComponentMessage(@NonNull String path, @NonNull Object def) {
         ComponentMessage message = ComponentMessage.componentMessage(getMessageLoader(), path);
         return message == null ? ComponentMessage.componentMessage(def) : message;
     }
 
-    public @Nullable Sound getSound(@NotNull String path) {
+    public @Nullable Sound getSound(@NonNull String path) {
         ConfigurationSection section = getConfig().getConfigurationSection(path);
         if (section == null) {
             return null;

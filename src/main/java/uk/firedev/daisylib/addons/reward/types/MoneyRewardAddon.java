@@ -3,7 +3,7 @@ package uk.firedev.daisylib.addons.reward.types;
 import net.milkbowl.vault2.economy.Economy;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 import uk.firedev.daisylib.util.Loggers;
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class MoneyRewardAddon extends RewardAddon {
 
     @Override
-    public void doReward(@NotNull Player player, @NotNull String value) {
+    public void doReward(@NonNull Player player, @NonNull String value) {
         Economy economy = VaultManager.getInstance().getEconomy();
         if (economy == null) {
             Loggers.warn(getClass(), "Vault Economy not found! Enable to use this RewardAddon.");
@@ -33,17 +33,17 @@ public class MoneyRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull String getKey() {
+    public @NonNull String getKey() {
         return "Money";
     }
 
     @Override
-    public @NotNull String getAuthor() {
+    public @NonNull String getAuthor() {
         return "FireML";
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NonNull Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 

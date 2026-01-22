@@ -1,7 +1,7 @@
 package uk.firedev.daisylib.addons.requirement;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.registry.Registry;
 
 import java.util.Map;
@@ -15,11 +15,11 @@ public class RequirementAddonRegistry implements Registry<RequirementAddon> {
 
     private RequirementAddonRegistry() {}
 
-    public static @NotNull RequirementAddonRegistry get() {
+    public static @NonNull RequirementAddonRegistry get() {
         return instance;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Map<String, RequirementAddon> getRegistry() {
         return Map.copyOf(registry);
@@ -27,23 +27,23 @@ public class RequirementAddonRegistry implements Registry<RequirementAddon> {
 
     @Nullable
     @Override
-    public RequirementAddon get(@NotNull String key) {
+    public RequirementAddon get(@NonNull String key) {
         return registry.get(key);
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public RequirementAddon getOrDefault(@NotNull String key, @NotNull RequirementAddon defaultValue) {
+    public RequirementAddon getOrDefault(@NonNull String key, @NonNull RequirementAddon defaultValue) {
         return registry.getOrDefault(key, defaultValue);
     }
 
     @Override
-    public boolean unregister(@NotNull String key) {
+    public boolean unregister(@NonNull String key) {
         return registry.remove(key) != null;
     }
 
     @Override
-    public boolean register(@NotNull RequirementAddon value, boolean force) {
+    public boolean register(@NonNull RequirementAddon value, boolean force) {
         if (!force && registry.containsKey(value.getKey())) {
             return false;
         }

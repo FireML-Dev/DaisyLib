@@ -1,14 +1,14 @@
 package uk.firedev.daisylib.database.exceptions;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class DatabaseLoadException extends Exception {
 
-    public DatabaseLoadException(@NotNull String message) {
+    public DatabaseLoadException(@NonNull String message) {
         super(message);
     }
 
-    public DatabaseLoadException(@NotNull Throwable throwable) {
+    public DatabaseLoadException(@NonNull Throwable throwable) {
         super(throwable);
     }
 

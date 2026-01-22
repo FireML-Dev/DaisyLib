@@ -13,8 +13,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.addons.item.ItemAddonRegistry;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class Utils {
      * @param str The String to check.
      * @return Is the String an Integer?
      */
-    public static boolean isInt(@NotNull String str) {
+    public static boolean isInt(@NonNull String str) {
         try {
             Integer.parseInt(str);
             return true;
@@ -45,7 +45,7 @@ public class Utils {
      * @param str The string to use.
      * @return The Integer, or null if it isn't an Integer.
      */
-    public static @Nullable Integer getInt(@NotNull String str) {
+    public static @Nullable Integer getInt(@NonNull String str) {
         try {
             return Integer.parseInt(str);
         } catch (NumberFormatException exception) {
@@ -74,7 +74,7 @@ public class Utils {
      * @param str The String to check.
      * @return Is the String a Long?
      */
-    public static boolean isLong(@NotNull String str) {
+    public static boolean isLong(@NonNull String str) {
         try {
             Long.parseLong(str);
             return true;
@@ -88,7 +88,7 @@ public class Utils {
      * @param str The string to use.
      * @return The Long, or null if it isn't a Long.
      */
-    public static @Nullable Long getLong(@NotNull String str) {
+    public static @Nullable Long getLong(@NonNull String str) {
         try {
             return Long.parseLong(str);
         } catch (NumberFormatException exception) {
@@ -117,7 +117,7 @@ public class Utils {
      * @param str The String to check.
      * @return Is the String a Double?
      */
-    public static boolean isDouble(@NotNull String str) {
+    public static boolean isDouble(@NonNull String str) {
         try {
             Double.parseDouble(str);
             return true;
@@ -131,7 +131,7 @@ public class Utils {
      * @param str The string to use.
      * @return The Double, or null if it isn't a Double.
      */
-    public static @Nullable Double getDouble(@NotNull String str) {
+    public static @Nullable Double getDouble(@NonNull String str) {
         try {
             return Double.parseDouble(str);
         } catch (NumberFormatException exception) {
@@ -160,7 +160,7 @@ public class Utils {
      * @param str The String to check.
      * @return Is the String a Float?
      */
-    public static boolean isFloat(@NotNull String str) {
+    public static boolean isFloat(@NonNull String str) {
         try {
             Float.parseFloat(str);
             return true;
@@ -174,7 +174,7 @@ public class Utils {
      * @param str The string to use.
      * @return The Float, or null if it isn't a Float.
      */
-    public static @Nullable Float getFloat(@NotNull String str) {
+    public static @Nullable Float getFloat(@NonNull String str) {
         try {
             return Float.parseFloat(str);
         } catch (NumberFormatException exception) {
@@ -205,7 +205,7 @@ public class Utils {
      * @param def The default value.
      * @return The provided index, or the default value.
      */
-    public static <T> T getOrDefault(@NotNull T[] array, int index, T def) {
+    public static <T> T getOrDefault(@NonNull T[] array, int index, T def) {
         try {
             return array[index];
         } catch (ArrayIndexOutOfBoundsException ex) {
@@ -220,7 +220,7 @@ public class Utils {
      * @param def The default value.
      * @return The provided index, or the default value.
      */
-    public static <T> T getOrDefault(@NotNull List<T> list, int index, T def) {
+    public static <T> T getOrDefault(@NonNull List<T> list, int index, T def) {
         try {
             return list.get(index);
         } catch (IndexOutOfBoundsException ex) {
@@ -228,7 +228,7 @@ public class Utils {
         }
     }
 
-    public static @NotNull <E extends Enum<E>> E getEnumValue(@NotNull Class<E> enumClass, @Nullable String value, @NotNull E def) {
+    public static @NonNull <E extends Enum<E>> E getEnumValue(@NonNull Class<E> enumClass, @Nullable String value, @NonNull E def) {
         E enumValue = getEnumValue(enumClass, value);
         if (enumValue == null) {
             return def;
@@ -236,7 +236,7 @@ public class Utils {
         return enumValue;
     }
 
-    public static @Nullable <E extends Enum<E>> E getEnumValue(@NotNull Class<E> enumClass, @Nullable String value) {
+    public static @Nullable <E extends Enum<E>> E getEnumValue(@NonNull Class<E> enumClass, @Nullable String value) {
         if (value == null) {
             return null;
         }
@@ -267,7 +267,7 @@ public class Utils {
      * @param defaultChar The default character to use if an exception is thrown.
      * @return The first Character from the String
      */
-    public static char getCharFromString(@NotNull String string, char defaultChar) {
+    public static char getCharFromString(@NonNull String string, char defaultChar) {
         try {
             return string.toCharArray()[0];
         } catch (ArrayIndexOutOfBoundsException ex) {
@@ -283,7 +283,7 @@ public class Utils {
         return ItemAddonRegistry.get().processString(itemName);
     }
 
-    public static @NotNull ItemStack getItem(@Nullable String itemName, @NotNull ItemStack defaultItem) {
+    public static @NonNull ItemStack getItem(@Nullable String itemName, @NonNull ItemStack defaultItem) {
         ItemStack item = getItem(itemName);
         return item == null ? defaultItem : item;
     }
@@ -295,7 +295,7 @@ public class Utils {
         );
     }
 
-    public static @NotNull ItemType getItemType(@Nullable String itemName, @NotNull ItemType defaultType) {
+    public static @NonNull ItemType getItemType(@Nullable String itemName, @NonNull ItemType defaultType) {
         ItemType type = getItemType(itemName);
         return type == null ? defaultType : type;
     }
@@ -307,7 +307,7 @@ public class Utils {
         );
     }
 
-    public static <T extends Keyed> @Nullable T getFromRegistry(@Nullable String name, @NotNull Registry<T> registry) {
+    public static <T extends Keyed> @Nullable T getFromRegistry(@Nullable String name, @NonNull Registry<T> registry) {
         if (name == null || name.isEmpty()) {
             return null;
         }
@@ -318,7 +318,7 @@ public class Utils {
         return registry.get(key);
     }
 
-    public static <E extends Entity> void modifyEntity(@NotNull Entity entity, @NotNull Class<E> classCheck, @NotNull Consumer<? super E> consumer) {
+    public static <E extends Entity> void modifyEntity(@NonNull Entity entity, @NonNull Class<E> classCheck, @NonNull Consumer<? super E> consumer) {
         if (classCheck.isInstance(entity)) {
             E checked = classCheck.cast(entity);
             consumer.accept(checked);
@@ -332,7 +332,7 @@ public class Utils {
         );
     }
 
-    public static @NotNull BlockType getBlockType(@Nullable String blockName, @NotNull BlockType defaultType) {
+    public static @NonNull BlockType getBlockType(@Nullable String blockName, @NonNull BlockType defaultType) {
         BlockType type = getBlockType(blockName);
         return type == null ? defaultType : type;
     }
@@ -342,7 +342,7 @@ public class Utils {
      * @param location The location to check
      * @return Whether the location is spawnable
      */
-    public static boolean isSpawnable(@NotNull Location location) {
+    public static boolean isSpawnable(@NonNull Location location) {
         return location.getBlock().isPassable() && getAbove(location).isPassable() && getBelow(location).getType().isSolid();
     }
 
@@ -351,7 +351,7 @@ public class Utils {
      * @param block The block to use.
      * @return The block below the provided block.
      */
-    public static Block getBelow(@NotNull Block block) {
+    public static Block getBelow(@NonNull Block block) {
         return block.getRelative(0, -1, 0);
     }
 
@@ -360,7 +360,7 @@ public class Utils {
      * @param location The location to use.
      * @return The block below the provided location.
      */
-    public static Block getBelow(@NotNull Location location) {
+    public static Block getBelow(@NonNull Location location) {
         return getBelow(location.getBlock());
     }
 
@@ -369,7 +369,7 @@ public class Utils {
      * @param block The block to use.
      * @return The block above the provided block.
      */
-    public static Block getAbove(@NotNull Block block) {
+    public static Block getAbove(@NonNull Block block) {
         return block.getRelative(0, 1, 0);
     }
 
@@ -378,7 +378,7 @@ public class Utils {
      * @param location The location to use.
      * @return The block above the provided location.
      */
-    public static Block getAbove(@NotNull Location location) {
+    public static Block getAbove(@NonNull Location location) {
         return getAbove(location.getBlock());
     }
 
@@ -389,7 +389,7 @@ public class Utils {
      * @param path The path to set the location at.
      * @param location The location to add.
      */
-    public static void addLocationToConfig(@NotNull YamlConfiguration config, @NotNull String path, @NotNull Location location) {
+    public static void addLocationToConfig(@NonNull YamlConfiguration config, @NonNull String path, @NonNull Location location) {
         config.set(path, location);
     }
 
@@ -399,7 +399,7 @@ public class Utils {
      * @param path The path to get the values from.
      * @return The location, or null if it is invalid.
      */
-    public static @Nullable Location getLocationFromConfig(@NotNull YamlConfiguration config, @NotNull String path) {
+    public static @Nullable Location getLocationFromConfig(@NonNull YamlConfiguration config, @NonNull String path) {
         return config.getLocation(path);
     }
 

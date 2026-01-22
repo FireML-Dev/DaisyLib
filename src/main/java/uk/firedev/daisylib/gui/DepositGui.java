@@ -5,7 +5,7 @@ import dev.triumphteam.gui.guis.StorageGui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +17,7 @@ public class DepositGui {
     private final Player player;
     private final StorageGui gui;
 
-    public DepositGui(@NotNull Player player, @NotNull Component title, @NotNull Consumer<List<ItemStack>> consumer) {
+    public DepositGui(@NonNull Player player, @NonNull Component title, @NonNull Consumer<List<ItemStack>> consumer) {
         this.player = player;
 
         gui = Gui.storage()

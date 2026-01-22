@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
@@ -19,13 +19,13 @@ public class BrushActionAddon extends ActionAddon<EntityChangeBlockEvent> implem
         Material.SUSPICIOUS_SAND, Material.SAND
     );
 
-    @NotNull
+    @NonNull
     @Override
     public Class<EntityChangeBlockEvent> getEventType() {
         return EntityChangeBlockEvent.class;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getKey() {
         return "brush";
@@ -44,18 +44,18 @@ public class BrushActionAddon extends ActionAddon<EntityChangeBlockEvent> implem
         fireEvent(event, from.toString());
     }
 
-    private boolean checkMaterial(@NotNull Material from, @NotNull Material to) {
+    private boolean checkMaterial(@NonNull Material from, @NonNull Material to) {
         Material brushed = BRUSH_MAP.get(from);
         return to.equals(brushed);
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getAuthor() {
         return "FireML";

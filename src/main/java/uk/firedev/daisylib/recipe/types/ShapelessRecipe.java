@@ -4,7 +4,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.recipe.AbstractRecipe;
 import uk.firedev.daisylib.recipe.RecipeUtil;
 
@@ -15,7 +15,7 @@ public class ShapelessRecipe extends AbstractRecipe<org.bukkit.inventory.Shapele
     private final List<String> ingredients;
     private final NamespacedKey key;
 
-    public ShapelessRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull ConfigurationSection section) {
+    public ShapelessRecipe(@NonNull NamespacedKey key, @NonNull ItemStack result, @NonNull ConfigurationSection section) {
         super(key, section, result);
         List<String> ingredients = section.getStringList("ingredients");
         if (ingredients.isEmpty()) {
@@ -26,7 +26,7 @@ public class ShapelessRecipe extends AbstractRecipe<org.bukkit.inventory.Shapele
     }
 
     @Override
-    protected @NotNull org.bukkit.inventory.ShapelessRecipe prepareRecipe() {
+    protected org.bukkit.inventory.@NonNull ShapelessRecipe prepareRecipe() {
         org.bukkit.inventory.ShapelessRecipe recipe = new org.bukkit.inventory.ShapelessRecipe(key, result);
         this.ingredients.forEach(ingredient -> {
             RecipeChoice choice = RecipeUtil.getRecipeChoice(ingredient);

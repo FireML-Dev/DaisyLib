@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 import uk.firedev.daisylib.util.Loggers;
@@ -35,7 +35,7 @@ public class ConfigGui {
 
     protected BaseGui gui;
 
-    public ConfigGui(@Nullable ConfigurationSection config, @NotNull Player player) {
+    public ConfigGui(@Nullable ConfigurationSection config, @NonNull Player player) {
         actions.put("close", event -> event.getWhoClicked().closeInventory());
 
         this.config = config;
@@ -64,11 +64,11 @@ public class ConfigGui {
         getGui().open(this.player);
     }
 
-    public void addActions(@NotNull Map<String, Consumer<InventoryClickEvent>> actions) {
+    public void addActions(@NonNull Map<String, Consumer<InventoryClickEvent>> actions) {
         actions.forEach(this::addAction);
     }
 
-    public void addAction(@NotNull String name, @NotNull Consumer<InventoryClickEvent> action) {
+    public void addAction(@NonNull String name, @NonNull Consumer<InventoryClickEvent> action) {
         this.actions.putIfAbsent(name, action);
     }
 
@@ -107,7 +107,7 @@ public class ConfigGui {
         return gui;
     }
 
-    protected void loadItems(@NotNull BaseGui gui) {
+    protected void loadItems(@NonNull BaseGui gui) {
         ConfigurationSection itemSection = this.config.getConfigurationSection("items");
         if (itemSection == null) {
             return;
@@ -121,7 +121,7 @@ public class ConfigGui {
         });
     }
 
-    protected void addGuiItem(@NotNull BaseGui gui, @NotNull ConfigurationSection itemSection) {
+    protected void addGuiItem(@NonNull BaseGui gui, @NonNull ConfigurationSection itemSection) {
         ItemStack item = ItemBuilder.fromConfig(itemSection, null, null).getItem();
         if (item.isEmpty()) {
             return;
@@ -157,7 +157,7 @@ public class ConfigGui {
         });
     }
 
-    protected void loadFiller(@NotNull BaseGui gui) {
+    protected void loadFiller(@NonNull BaseGui gui) {
         ConfigurationSection fillerSection = this.config.getConfigurationSection("filler");
         if (fillerSection == null) {
             return;

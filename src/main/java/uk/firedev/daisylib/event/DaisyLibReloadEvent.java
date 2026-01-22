@@ -2,13 +2,13 @@ package uk.firedev.daisylib.event;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class DaisyLibReloadEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
-    public @NotNull HandlerList getHandlers() {
+    public @NonNull HandlerList getHandlers() {
         return handlers;
     }
 

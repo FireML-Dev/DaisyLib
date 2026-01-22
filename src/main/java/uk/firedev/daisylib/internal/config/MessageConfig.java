@@ -1,7 +1,7 @@
 package uk.firedev.daisylib.internal.config;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 

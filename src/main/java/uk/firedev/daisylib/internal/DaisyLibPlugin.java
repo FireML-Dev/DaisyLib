@@ -5,7 +5,7 @@ import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.action.types.BreakActionAddon;
 import uk.firedev.daisylib.addons.action.types.BreedActionAddon;
 import uk.firedev.daisylib.addons.action.types.BrushActionAddon;
@@ -63,7 +63,7 @@ public class DaisyLibPlugin extends JavaPlugin {
         ExampleConfig.load(this);
     }
 
-    public static @NotNull DaisyLibPlugin getInstance() {
+    public static @NonNull DaisyLibPlugin getInstance() {
         if (INSTANCE == null) {
             throw new IllegalStateException(DaisyLibPlugin.class.getSimpleName() + " has not been assigned!");
         }
@@ -141,11 +141,11 @@ public class DaisyLibPlugin extends JavaPlugin {
         );
     }
 
-    public @NotNull MainConfig getMainConfig() {
+    public @NonNull MainConfig getMainConfig() {
         return this.mainConfig;
     }
 
-    public @NotNull MessageConfig getMessageConfig() {
+    public @NonNull MessageConfig getMessageConfig() {
         return this.messageConfig;
     }
 

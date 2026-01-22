@@ -5,19 +5,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
 public class KillActionAddon extends ActionAddon<EntityDeathEvent> implements Listener {
 
-    @NotNull
+    @NonNull
     @Override
     public Class<EntityDeathEvent> getEventType() {
         return EntityDeathEvent.class;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getKey() {
         return "kill";
@@ -31,13 +31,13 @@ public class KillActionAddon extends ActionAddon<EntityDeathEvent> implements Li
         fireEvent(event, event.getEntity().getType().toString());
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getAuthor() {
         return "FireML";

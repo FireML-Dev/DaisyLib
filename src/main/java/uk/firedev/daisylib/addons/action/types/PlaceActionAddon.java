@@ -4,19 +4,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
 public class PlaceActionAddon extends ActionAddon<BlockPlaceEvent> implements Listener {
 
-    @NotNull
+    @NonNull
     @Override
     public Class<BlockPlaceEvent> getEventType() {
         return BlockPlaceEvent.class;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getKey() {
         return "place";
@@ -27,13 +27,13 @@ public class PlaceActionAddon extends ActionAddon<BlockPlaceEvent> implements Li
         fireEvent(event, event.getBlockPlaced().getType().toString());
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getAuthor() {
         return "FireML";

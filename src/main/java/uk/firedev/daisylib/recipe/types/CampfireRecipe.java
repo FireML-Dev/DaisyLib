@@ -4,7 +4,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.recipe.AbstractRecipe;
 import uk.firedev.daisylib.recipe.RecipeUtil;
 
@@ -16,7 +16,7 @@ public class CampfireRecipe extends AbstractRecipe<org.bukkit.inventory.Campfire
     private final float experience;
     private final int cookingTime;
 
-    public CampfireRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull ConfigurationSection section) {
+    public CampfireRecipe(@NonNull NamespacedKey key, @NonNull ItemStack result, @NonNull ConfigurationSection section) {
         super(key, section, result);
         this.input = RecipeUtil.getRecipeChoice(section.getString("input"));
         if (input == null) {
@@ -29,7 +29,7 @@ public class CampfireRecipe extends AbstractRecipe<org.bukkit.inventory.Campfire
     }
 
     @Override
-    protected @NotNull org.bukkit.inventory.CampfireRecipe prepareRecipe() {
+    protected org.bukkit.inventory.@NonNull CampfireRecipe prepareRecipe() {
         return new org.bukkit.inventory.CampfireRecipe(
             key,
             result,

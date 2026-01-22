@@ -7,7 +7,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.blockstate.CustomBrushable;
 
 public class BlockPreBrushEvent extends PlayerEvent implements Cancellable {
@@ -18,16 +18,16 @@ public class BlockPreBrushEvent extends PlayerEvent implements Cancellable {
 
     private boolean cancelled = false;
 
-    public BlockPreBrushEvent(@NotNull Player player, @NotNull BrushableBlock brushable) {
+    public BlockPreBrushEvent(@NonNull Player player, @NonNull BrushableBlock brushable) {
         super(player);
         this.customBrushable = CustomBrushable.customBrushable(brushable);
     }
 
-    public @NotNull BrushableBlock getState() {
+    public @NonNull BrushableBlock getState() {
         return customBrushable.getState();
     }
 
-    public @NotNull Block getBlock() {
+    public @NonNull Block getBlock() {
         return customBrushable.getBlock();
     }
 
@@ -42,7 +42,7 @@ public class BlockPreBrushEvent extends PlayerEvent implements Cancellable {
     }
 
     @Override
-    public @NotNull HandlerList getHandlers() {
+    public @NonNull HandlerList getHandlers() {
         return handlers;
     }
 

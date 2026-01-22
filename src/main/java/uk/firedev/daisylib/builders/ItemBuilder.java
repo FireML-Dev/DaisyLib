@@ -11,8 +11,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.daisylib.util.ReadOnlyPair;
@@ -31,13 +31,13 @@ import java.util.stream.Collectors;
 @SuppressWarnings("UnstableApiUsage")
 public class ItemBuilder {
 
-    private @NotNull ItemStack item;
+    private @NonNull ItemStack item;
 
-    private ItemBuilder(@NotNull ItemStack item) {
+    private ItemBuilder(@NonNull ItemStack item) {
         this.item = item;
     }
 
-    private ItemBuilder(@NotNull ItemType itemType) {
+    private ItemBuilder(@NonNull ItemType itemType) {
         this.item = itemType.createItemStack();
     }
 
@@ -45,7 +45,7 @@ public class ItemBuilder {
      * Create an ItemBuilder from an ItemType.
      * @param itemType The {@link ItemType} to use.
      */
-    public static ItemBuilder create(@NotNull ItemType itemType) {
+    public static ItemBuilder create(@NonNull ItemType itemType) {
         return new ItemBuilder(itemType);
     }
 
@@ -54,7 +54,7 @@ public class ItemBuilder {
      * @param itemType The {@link ItemType} to use.
      * @param defaultItemType The default ItemType, if the provided ItemType is invalid.
      */
-    public static ItemBuilder create(@Nullable ItemType itemType, @NotNull ItemType defaultItemType) {
+    public static ItemBuilder create(@Nullable ItemType itemType, @NonNull ItemType defaultItemType) {
         return itemType == null ? new ItemBuilder(defaultItemType) : new ItemBuilder(itemType);
     }
 
@@ -63,11 +63,11 @@ public class ItemBuilder {
      * @param itemName The ItemType's name.
      * @param defaultType The default ItemType, if the provided name is invalid.
      */
-    public static ItemBuilder create(@Nullable String itemName, @NotNull ItemType defaultType) {
+    public static ItemBuilder create(@Nullable String itemName, @NonNull ItemType defaultType) {
         return new ItemBuilder(Utils.getItemType(itemName, defaultType));
     }
 
-    public ItemBuilder withItemType(@NotNull ItemType itemType) {
+    public ItemBuilder withItemType(@NonNull ItemType itemType) {
         // No other way to do this until the ItemType API is properly implemented, so we're using the internal method.
         @SuppressWarnings("deprecation") Material material = itemType.asMaterial();
         if (material == null) {
@@ -78,28 +78,28 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder withItemType(@NotNull String itemName, @NotNull ItemType defaultType) {
+    public ItemBuilder withItemType(@NonNull String itemName, @NonNull ItemType defaultType) {
         ItemType type = Utils.getItemType(itemName, defaultType);
         return withItemType(type);
     }
 
-    public ItemBuilder withDisplay(@NotNull Object display, @Nullable Replacer replacer) {
+    public ItemBuilder withDisplay(@NonNull Object display, @Nullable Replacer replacer) {
         ComponentSingleMessage message = ComponentMessage.componentMessage(display).replace(replacer);
         this.item.setData(DataComponentTypes.CUSTOM_NAME, message.get());
         return this;
     }
 
-    public ItemBuilder withLore(@NotNull List<?> lore, @Nullable Replacer replacer) {
+    public ItemBuilder withLore(@NonNull List<?> lore, @Nullable Replacer replacer) {
         ComponentListMessage message = ComponentMessage.componentMessage(lore).replace(replacer);
         this.item.setData(DataComponentTypes.LORE, ItemLore.lore(message.get()));
         return this;
     }
 
-    public ItemBuilder addLore(@NotNull Object line, @Nullable Replacer replacer) {
+    public ItemBuilder addLore(@NonNull Object line, @Nullable Replacer replacer) {
         return addLore(List.of(line), replacer);
     }
 
-    public ItemBuilder addLore(@NotNull List<?> lines, @Nullable Replacer replacer) {
+    public ItemBuilder addLore(@NonNull List<?> lines, @Nullable Replacer replacer) {
         ItemLore lore = this.item.getData(DataComponentTypes.LORE);
         if (lore == null) {
             return withLore(lines, replacer);
@@ -114,14 +114,14 @@ public class ItemBuilder {
 
     // Setting
 
-    public ItemBuilder setEnchantments(@NotNull Map<Enchantment, Integer> enchantments) {
+    public ItemBuilder setEnchantments(@NonNull Map<Enchantment, Integer> enchantments) {
         this.item.setData(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments(enchantments));
         return this;
     }
 
     // Adding
 
-    public ItemBuilder addEnchantments(@NotNull Map<Enchantment, Integer> enchantments) {
+    public ItemBuilder addEnchantments(@NonNull Map<Enchantment, Integer> enchantments) {
         ItemEnchantments data = this.item.getData(DataComponentTypes.ENCHANTMENTS);
         if (data == null) {
             return setEnchantments(enchantments);
@@ -131,7 +131,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder addEnchantment(@NotNull Enchantment enchantment, int level) {
+    public ItemBuilder addEnchantment(@NonNull Enchantment enchantment, int level) {
         return addEnchantments(Map.of(enchantment, level));
     }
 
@@ -142,7 +142,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder removeEnchantments(@NotNull List<Enchantment> enchantments) {
+    public ItemBuilder removeEnchantments(@NonNull List<Enchantment> enchantments) {
         ItemEnchantments data = this.item.getData(DataComponentTypes.ENCHANTMENTS);
         if (data == null) {
             return this;
@@ -157,7 +157,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder removeEnchantment(@NotNull Enchantment enchantment) {
+    public ItemBuilder removeEnchantment(@NonNull Enchantment enchantment) {
         return removeEnchantments(List.of(enchantment));
     }
 
@@ -191,12 +191,12 @@ public class ItemBuilder {
     /**
      * Allows more control over the item than what is provided in this class
      */
-    public ItemBuilder editItem(@NotNull Function<ItemStack, ItemStack> function) {
+    public ItemBuilder editItem(@NonNull Function<ItemStack, ItemStack> function) {
         this.item = function.apply(this.item);
         return this;
     }
 
-    public @NotNull ItemStack getItem() {
+    public @NonNull ItemStack getItem() {
         return this.item.clone();
     }
 
@@ -206,7 +206,7 @@ public class ItemBuilder {
 
     /// Config Factory
 
-    public static @NotNull ItemBuilder fromConfig(@Nullable ConfigurationSection section, @Nullable Replacer displayReplacer, @Nullable Replacer loreReplacer) {
+    public static @NonNull ItemBuilder fromConfig(@Nullable ConfigurationSection section, @Nullable Replacer displayReplacer, @Nullable Replacer loreReplacer) {
         if (section == null) {
             return new ItemBuilder(ItemType.AIR);
         }
@@ -218,7 +218,7 @@ public class ItemBuilder {
         return fromConfigWithBaseItem(item, section, displayReplacer, loreReplacer);
     }
 
-    public static @NotNull ItemBuilder fromConfigWithBaseItem(@NotNull ItemStack baseItem, @Nullable ConfigurationSection section, @Nullable Replacer displayReplacer, @Nullable Replacer loreReplacer) {
+    public static @NonNull ItemBuilder fromConfigWithBaseItem(@NonNull ItemStack baseItem, @Nullable ConfigurationSection section, @Nullable Replacer displayReplacer, @Nullable Replacer loreReplacer) {
         ItemBuilder builder = new ItemBuilder(baseItem);
         if (section == null) {
             return builder;
@@ -246,7 +246,7 @@ public class ItemBuilder {
             .setGlowing(section.getBoolean("glowing"));
     }
 
-    private static ReadOnlyPair<Enchantment, Integer> parseEnchantment(@NotNull String enchantStr) {
+    private static ReadOnlyPair<Enchantment, Integer> parseEnchantment(@NonNull String enchantStr) {
         // Split namespace and level
         String[] levelSplit = enchantStr.split(",");
 

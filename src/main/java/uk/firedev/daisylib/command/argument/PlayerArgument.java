@@ -11,7 +11,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -24,7 +24,7 @@ public class PlayerArgument implements ArgumentBase<Player, String> {
 
     private final Predicate<Player> filter;
 
-    private PlayerArgument(@NotNull Predicate<Player> filter) {
+    private PlayerArgument(@NonNull Predicate<Player> filter) {
         this.filter = filter;
     }
 
@@ -32,12 +32,12 @@ public class PlayerArgument implements ArgumentBase<Player, String> {
         return new PlayerArgument(player -> true);
     }
 
-    public static PlayerArgument create(@NotNull Predicate<Player> filter) {
+    public static PlayerArgument create(@NonNull Predicate<Player> filter) {
         return new PlayerArgument(filter);
     }
 
     @Override
-    public List<String> getSuggestions(@NotNull CommandContext<CommandSourceStack> context) {
+    public List<String> getSuggestions(@NonNull CommandContext<CommandSourceStack> context) {
         return Bukkit.getOnlinePlayers().stream()
             .filter(filter)
             .map(Player::getName)
@@ -67,7 +67,7 @@ public class PlayerArgument implements ArgumentBase<Player, String> {
      *
      * @return native argument type
      */
-    @NotNull
+    @NonNull
     @Override
     public ArgumentType<String> getNativeType() {
         return StringArgumentType.string();

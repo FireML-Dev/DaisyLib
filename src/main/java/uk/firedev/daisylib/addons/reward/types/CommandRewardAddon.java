@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 import uk.firedev.messagelib.message.ComponentMessage;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class CommandRewardAddon extends RewardAddon {
 
     @Override
-    public void doReward(@NotNull Player player, @NotNull String value) {
+    public void doReward(@NonNull Player player, @NonNull String value) {
         Replacer replacer = Replacer.replacer().addReplacements(Map.of(
                 "{player}", player.getName(),
                 "{x}", player.getLocation().getX(),
@@ -30,17 +30,17 @@ public class CommandRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull String getKey() {
+    public @NonNull String getKey() {
         return "Command";
     }
 
     @Override
-    public @NotNull String getAuthor() {
+    public @NonNull String getAuthor() {
         return "FireML";
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NonNull Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 

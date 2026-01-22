@@ -8,7 +8,7 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.MessageComponentSerializer;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,12 +25,12 @@ public class EnumArgument<E extends Enum<E>> implements ArgumentBase<E, String> 
         this.theEnum = theEnum;
     }
 
-    public static <E extends Enum<E>> EnumArgument<E> create(@NotNull Class<E> theEnum) {
+    public static <E extends Enum<E>> EnumArgument<E> create(@NonNull Class<E> theEnum) {
         return new EnumArgument<>(theEnum);
     }
 
     @Override
-    public List<String> getSuggestions(@NotNull CommandContext<CommandSourceStack> commandContext) {
+    public List<String> getSuggestions(@NonNull CommandContext<CommandSourceStack> commandContext) {
         E[] constants = theEnum.getEnumConstants();
         if (constants == null) {
             return List.of();
@@ -63,7 +63,7 @@ public class EnumArgument<E extends Enum<E>> implements ArgumentBase<E, String> 
      *
      * @return native argument type
      */
-    @NotNull
+    @NonNull
     @Override
     public ArgumentType<String> getNativeType() {
         return StringArgumentType.string();

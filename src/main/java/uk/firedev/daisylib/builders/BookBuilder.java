@@ -4,8 +4,8 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.inventory.Book;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.messagelib.message.ComponentListMessage;
 import uk.firedev.messagelib.message.ComponentMessage;
 import uk.firedev.messagelib.message.ComponentSingleMessage;
@@ -25,27 +25,27 @@ public class BookBuilder {
         return new BookBuilder();
     }
 
-    public BookBuilder withTitle(@NotNull Object title, @Nullable Replacer replacer) {
+    public BookBuilder withTitle(@NonNull Object title, @Nullable Replacer replacer) {
         this.title = ComponentMessage.componentMessage(title).replace(replacer);
         return this;
     }
 
-    public BookBuilder withAuthor(@NotNull Object author) {
+    public BookBuilder withAuthor(@NonNull Object author) {
         this.author = ComponentMessage.componentMessage(author);
         return this;
     }
 
-    public BookBuilder withPages(@NotNull List<?> pages, @Nullable Replacer replacer) {
+    public BookBuilder withPages(@NonNull List<?> pages, @Nullable Replacer replacer) {
         this.pages = ComponentMessage.componentMessage(pages).replace(replacer);
         return this;
     }
 
-    public BookBuilder addPage(@NotNull Object page, @Nullable Replacer replacer) {
+    public BookBuilder addPage(@NonNull Object page, @Nullable Replacer replacer) {
         this.pages.append(ComponentMessage.componentMessage(page).replace(replacer));
         return this;
     }
 
-    public BookBuilder addPages(@NotNull List<?> pages, @Nullable Replacer replacer) {
+    public BookBuilder addPages(@NonNull List<?> pages, @Nullable Replacer replacer) {
         this.pages.append(ComponentMessage.componentMessage(pages).replace(replacer));
         return this;
     }

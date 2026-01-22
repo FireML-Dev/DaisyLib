@@ -4,7 +4,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 import uk.firedev.daisylib.util.Loggers;
@@ -14,7 +14,7 @@ import uk.firedev.daisylib.util.Utils;
 public class HealthRewardAddon extends RewardAddon {
 
     @Override
-    public void doReward(@NotNull Player player, @NotNull String value) {
+    public void doReward(@NonNull Player player, @NonNull String value) {
         Double amount = Utils.getDouble(value);
         if (amount == null) {
             Loggers.info(getClass(), "Invalid number specified: " + value);
@@ -38,17 +38,17 @@ public class HealthRewardAddon extends RewardAddon {
     }
 
     @Override
-    public @NotNull String getKey() {
+    public @NonNull String getKey() {
         return "Health";
     }
 
     @Override
-    public @NotNull String getAuthor() {
+    public @NonNull String getAuthor() {
         return "FireML";
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NonNull Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 

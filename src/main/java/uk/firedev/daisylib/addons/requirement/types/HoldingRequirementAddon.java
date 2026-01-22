@@ -5,7 +5,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.addons.requirement.RequirementData;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
@@ -17,7 +17,7 @@ import java.util.List;
 public class HoldingRequirementAddon extends RequirementAddon {
 
     @Override
-    public boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> values) {
+    public boolean checkRequirement(@NonNull RequirementData data, @NonNull List<String> values) {
         Player player = data.getPlayer();
         if (player == null) {
             return false;
@@ -35,7 +35,7 @@ public class HoldingRequirementAddon extends RequirementAddon {
         return false;
     }
 
-    private boolean eitherHandHasItemType(@NotNull Player player, @NotNull ItemType type) {
+    private boolean eitherHandHasItemType(@NonNull Player player, @NonNull ItemType type) {
         PlayerInventory inventory = player.getInventory();
         ItemStack handItem = inventory.getItemInMainHand();
         ItemStack offHandItem = inventory.getItemInOffHand();
@@ -43,17 +43,17 @@ public class HoldingRequirementAddon extends RequirementAddon {
     }
 
     @Override
-    public @NotNull String getKey() {
+    public @NonNull String getKey() {
         return "Holding";
     }
 
     @Override
-    public @NotNull String getAuthor() {
+    public @NonNull String getAuthor() {
         return "FireML";
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NonNull Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 

@@ -5,8 +5,8 @@ import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.messagelib.message.ComponentMessage;
 import uk.firedev.messagelib.message.ComponentSingleMessage;
 import uk.firedev.messagelib.replacer.Replacer;
@@ -28,11 +28,11 @@ public class BossBarBuilder {
         return new BossBarBuilder();
     }
 
-    public BossBarBuilder withTitle(@NotNull Object title, @Nullable Replacer replacer) {
+    public BossBarBuilder withTitle(@NonNull Object title, @Nullable Replacer replacer) {
         this.title = ComponentMessage.componentMessage(title).replace(replacer);
         return this;
     }
-    public BossBarBuilder withOverlay(@NotNull BossBar.Overlay overlay) {
+    public BossBarBuilder withOverlay(BossBar.@NonNull Overlay overlay) {
         this.overlay = overlay;
         return this;
     }
@@ -50,7 +50,7 @@ public class BossBarBuilder {
         return this;
     }
 
-    public BossBarBuilder withColor(@NotNull BossBar.Color color) {
+    public BossBarBuilder withColor(BossBar.@NonNull Color color) {
         this.color = color;
         return this;
     }
@@ -60,17 +60,17 @@ public class BossBarBuilder {
         return this;
     }
 
-    public BossBarBuilder withFlags(@NotNull Set<BossBar.Flag> flags) {
+    public BossBarBuilder withFlags(@NonNull Set<BossBar.Flag> flags) {
         this.flags = flags;
         return this;
     }
 
-    public BossBarBuilder addFlag(@NotNull BossBar.Flag flag) {
+    public BossBarBuilder addFlag(BossBar.@NonNull Flag flag) {
         this.flags.add(flag);
         return this;
     }
 
-    public BossBarBuilder removeFlag(@NotNull BossBar.Flag flag) {
+    public BossBarBuilder removeFlag(BossBar.@NonNull Flag flag) {
         this.flags.remove(flag);
         return this;
     }

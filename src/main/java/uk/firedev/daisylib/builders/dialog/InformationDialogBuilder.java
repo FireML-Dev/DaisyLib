@@ -8,7 +8,7 @@ import io.papermc.paper.registry.data.dialog.type.DialogType;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.dialog.DialogLike;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.messagelib.message.ComponentMessage;
 import uk.firedev.messagelib.replacer.Replacer;
 
@@ -20,44 +20,44 @@ import java.util.Map;
 public class InformationDialogBuilder {
 
     private final Replacer replacer = Replacer.replacer();
-    private @NotNull Component title = Component.text("Information");
-    private final @NotNull List<Object> content = new ArrayList<>();
+    private @NonNull Component title = Component.text("Information");
+    private final @NonNull List<Object> content = new ArrayList<>();
 
     protected InformationDialogBuilder() {}
 
     // Class Things
 
-    public InformationDialogBuilder addReplacer(@NotNull Replacer replacer) {
+    public InformationDialogBuilder addReplacer(@NonNull Replacer replacer) {
         this.replacer.merge(replacer);
         return this;
     }
 
-    public InformationDialogBuilder addReplacement(@NotNull String variable, @NotNull Object replacement) {
+    public InformationDialogBuilder addReplacement(@NonNull String variable, @NonNull Object replacement) {
         this.replacer.addReplacement(variable, replacement);
         return this;
     }
 
-    public InformationDialogBuilder addReplacements(@NotNull Map<String, Object> replacements) {
+    public InformationDialogBuilder addReplacements(@NonNull Map<String, Object> replacements) {
         this.replacer.addReplacements(replacements);
         return this;
     }
 
-    public @NotNull Replacer getReplacer() {
+    public @NonNull Replacer getReplacer() {
         return this.replacer;
     }
 
-    public InformationDialogBuilder withTitle(@NotNull Object title) {
+    public InformationDialogBuilder withTitle(@NonNull Object title) {
         this.title = ComponentMessage.componentMessage(title).get();
         return this;
     }
 
-    public InformationDialogBuilder withContent(@NotNull List<?> content) {
+    public InformationDialogBuilder withContent(@NonNull List<?> content) {
         this.content.clear();
         this.content.addAll(content);
         return this;
     }
 
-    public InformationDialogBuilder addContent(@NotNull Object content) {
+    public InformationDialogBuilder addContent(@NonNull Object content) {
         this.content.add(content);
         return this;
     }
@@ -79,7 +79,7 @@ public class InformationDialogBuilder {
         );
     }
 
-    public void open(@NotNull Audience audience) {
+    public void open(@NonNull Audience audience) {
         audience.showDialog(build());
     }
 

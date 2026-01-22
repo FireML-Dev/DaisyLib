@@ -1,15 +1,15 @@
 package uk.firedev.daisylib.addons;
 
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.item.ItemAddon;
 import uk.firedev.daisylib.registry.RegistryItem;
 
 public abstract class Addon implements RegistryItem {
 
-    public abstract @NotNull Plugin getPlugin();
+    public abstract @NonNull Plugin getPlugin();
 
-    public abstract @NotNull String getAuthor();
+    public abstract @NonNull String getAuthor();
 
     @Override
     public boolean equals(Object obj) {

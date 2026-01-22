@@ -2,22 +2,22 @@ package uk.firedev.daisylib.blockstate;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BrushableBlock;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class CustomBrushable implements CustomBlockState<BrushableBlock> {
 
     private final BrushableBlock state;
 
-    private CustomBrushable(@NotNull BrushableBlock state) {
+    private CustomBrushable(@NonNull BrushableBlock state) {
         this.state = state;
     }
 
-    public static @NotNull CustomBrushable customBrushable(@NotNull BrushableBlock state) {
+    public static @NonNull CustomBrushable customBrushable(@NonNull BrushableBlock state) {
         return new CustomBrushable(state);
     }
 
-    public static @Nullable CustomBrushable customBrushable(@NotNull Block block) {
+    public static @Nullable CustomBrushable customBrushable(@NonNull Block block) {
         if (block.getState() instanceof BrushableBlock state) {
             return new CustomBrushable(state);
         }
@@ -25,12 +25,12 @@ public class CustomBrushable implements CustomBlockState<BrushableBlock> {
     }
 
     @Override
-    public @NotNull BrushableBlock getState() {
+    public @NonNull BrushableBlock getState() {
         return this.state;
     }
 
     @Override
-    public @NotNull Block getBlock() {
+    public @NonNull Block getBlock() {
         return this.state.getBlock();
     }
 

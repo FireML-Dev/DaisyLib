@@ -3,8 +3,8 @@ package uk.firedev.daisylib.addons.requirement;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.util.Loggers;
 
 import java.util.HashMap;
@@ -17,36 +17,36 @@ public class Requirement {
     private final Map<String, List<String>> checkMap = new HashMap<>();
     private final Plugin plugin;
 
-    public Requirement(@NotNull Plugin plugin) {
+    public Requirement(@NonNull Plugin plugin) {
         this.plugin = plugin;
     }
 
-    public Requirement(@NotNull String identifier, @NotNull List<String> values, @NotNull Plugin plugin) {
+    public Requirement(@NonNull String identifier, @NonNull List<String> values, @NonNull Plugin plugin) {
         this(plugin);
         add(identifier, values);
     }
 
-    public Requirement(@NotNull Map<String, List<String>> requirements, @NotNull Plugin plugin) {
+    public Requirement(@NonNull Map<String, List<String>> requirements, @NonNull Plugin plugin) {
         this(plugin);
         add(requirements);
     }
 
-    public Requirement(@Nullable ConfigurationSection section, @NotNull Plugin plugin) {
+    public Requirement(@Nullable ConfigurationSection section, @NonNull Plugin plugin) {
         this(plugin);
         add(section);
     }
 
-    public @NotNull Requirement add(@NotNull String identifier, @NotNull List<String> values) {
+    public @NonNull Requirement add(@NonNull String identifier, @NonNull List<String> values) {
         processRequirement(identifier, values);
         return this;
     }
 
-    public @NotNull Requirement add(@NotNull Map<String, List<String>> requirements) {
+    public @NonNull Requirement add(@NonNull Map<String, List<String>> requirements) {
         requirements.forEach(this::processRequirement);
         return this;
     }
 
-    public @NotNull Requirement add(@Nullable ConfigurationSection section) {
+    public @NonNull Requirement add(@Nullable ConfigurationSection section) {
         if (section == null) {
             return this;
         }
@@ -64,11 +64,11 @@ public class Requirement {
         return this;
     }
 
-    private void processRequirement(@NotNull String identifier, @NotNull List<String> values) {
+    private void processRequirement(@NonNull String identifier, @NonNull List<String> values) {
         this.checkMap.put(identifier, values);
     }
 
-    public boolean meetsRequirements(@NotNull RequirementData data) {
+    public boolean meetsRequirements(@NonNull RequirementData data) {
         if (checkMap.isEmpty()) {
             return true;
         }
@@ -91,7 +91,7 @@ public class Requirement {
         return true;
     }
 
-    public @NotNull ComponentLogger getComponentLogger() {
+    public @NonNull ComponentLogger getComponentLogger() {
         return logger;
     }
 

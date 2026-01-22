@@ -6,15 +6,15 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.messagelib.config.PaperConfigLoader;
 import uk.firedev.messagelib.message.ComponentMessage;
 import uk.firedev.messagelib.message.ComponentSingleMessage;
 
 public class PaginatedConfigGui extends ConfigGui {
 
-    public PaginatedConfigGui(@Nullable ConfigurationSection config, @NotNull Player player) {
+    public PaginatedConfigGui(@Nullable ConfigurationSection config, @NonNull Player player) {
         super(config, player);
         super.actions.put("next-page", event -> {
             if (getGui() instanceof PaginatedGui pages) {

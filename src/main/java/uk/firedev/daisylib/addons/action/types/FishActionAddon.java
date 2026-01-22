@@ -5,20 +5,20 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
 // TODO fishing plugins like EMF break this.
 public class FishActionAddon extends ActionAddon<PlayerFishEvent> implements Listener {
 
-    @NotNull
+    @NonNull
     @Override
     public String getKey() {
         return "fish";
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Class<PlayerFishEvent> getEventType() {
         return PlayerFishEvent.class;
@@ -35,13 +35,13 @@ public class FishActionAddon extends ActionAddon<PlayerFishEvent> implements Lis
         fireEvent(event, item.getItemStack().getType().toString());
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getAuthor() {
         return "FireML";

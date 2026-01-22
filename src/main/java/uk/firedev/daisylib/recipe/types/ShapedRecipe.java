@@ -4,7 +4,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.recipe.AbstractRecipe;
 import uk.firedev.daisylib.recipe.RecipeUtil;
 import uk.firedev.daisylib.util.Utils;
@@ -17,7 +17,7 @@ public class ShapedRecipe extends AbstractRecipe<org.bukkit.inventory.ShapedReci
     private final ConfigurationSection ingredientsSection;
     private final NamespacedKey key;
 
-    public ShapedRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull ConfigurationSection section) {
+    public ShapedRecipe(@NonNull NamespacedKey key, @NonNull ItemStack result, @NonNull ConfigurationSection section) {
         super(key, section, result);
         this.rawShape = section.getStringList("shape");
         this.ingredientsSection = section.getConfigurationSection("ingredients");
@@ -28,7 +28,7 @@ public class ShapedRecipe extends AbstractRecipe<org.bukkit.inventory.ShapedReci
     }
 
     @Override
-    protected @NotNull org.bukkit.inventory.ShapedRecipe prepareRecipe() {
+    protected org.bukkit.inventory.@NonNull ShapedRecipe prepareRecipe() {
         org.bukkit.inventory.ShapedRecipe recipe = new org.bukkit.inventory.ShapedRecipe(key, result);
 
         String[] shape = rawShape.stream().limit(3).toArray(String[]::new);

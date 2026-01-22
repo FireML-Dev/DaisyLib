@@ -8,8 +8,8 @@ import io.papermc.paper.command.brigadier.MessageComponentSerializer;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.function.Predicate;
 
@@ -19,7 +19,7 @@ public class CommandUtils {
         MessageComponentSerializer.message().serialize(Component.text("Only players can use this command."))
     );
 
-    public static @NotNull Player requirePlayer(@Nullable CommandSourceStack source) throws CommandSyntaxException {
+    public static @NonNull Player requirePlayer(@Nullable CommandSourceStack source) throws CommandSyntaxException {
         if (source == null) {
             throw PLAYER_REQUIRED.create();
         }
@@ -30,14 +30,14 @@ public class CommandUtils {
         return player;
     }
 
-    public static @NotNull Player requirePlayer(@Nullable CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+    public static @NonNull Player requirePlayer(@Nullable CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         if (context == null) {
             throw PLAYER_REQUIRED.create();
         }
         return requirePlayer(context.getSource());
     }
 
-    public static Predicate<CommandSourceStack> playerPredicate(@NotNull Predicate<Player> playerPredicate) {
+    public static Predicate<CommandSourceStack> playerPredicate(@NonNull Predicate<Player> playerPredicate) {
         return sender -> {
             if (!(sender.getSender() instanceof Player player)) {
                 return false;

@@ -2,7 +2,7 @@ package uk.firedev.daisylib.addons.requirement.types;
 
 import net.milkbowl.vault2.economy.Economy;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.addons.requirement.RequirementData;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
@@ -16,7 +16,7 @@ import java.util.List;
 public class MoneyRequirementAddon extends RequirementAddon {
 
     @Override
-    public boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> values) {
+    public boolean checkRequirement(@NonNull RequirementData data, @NonNull List<String> values) {
         if (data.getPlayer() == null) {
             return false;
         }
@@ -39,17 +39,17 @@ public class MoneyRequirementAddon extends RequirementAddon {
     }
 
     @Override
-    public @NotNull String getKey() {
+    public @NonNull String getKey() {
         return "Money";
     }
 
     @Override
-    public @NotNull String getAuthor() {
+    public @NonNull String getAuthor() {
         return "FireML";
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NonNull Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 

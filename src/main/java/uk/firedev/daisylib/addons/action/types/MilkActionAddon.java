@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
@@ -22,13 +22,13 @@ public class MilkActionAddon extends ActionAddon<PlayerInteractEntityEvent> impl
         EntityType.GOAT
     );
 
-    @NotNull
+    @NonNull
     @Override
     public Class<PlayerInteractEntityEvent> getEventType() {
         return PlayerInteractEntityEvent.class;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getKey() {
         return "milk";
@@ -45,7 +45,7 @@ public class MilkActionAddon extends ActionAddon<PlayerInteractEntityEvent> impl
         fireEvent(event, event.getRightClicked().getType().toString());
     }
 
-    private boolean holdingBucket(@NotNull PlayerInventory inv, @NotNull EquipmentSlot hand) {
+    private boolean holdingBucket(@NonNull PlayerInventory inv, @NonNull EquipmentSlot hand) {
         return switch (hand) {
             case HAND -> inv.getItemInMainHand().getType().equals(Material.BUCKET);
             case OFF_HAND -> inv.getItemInOffHand().getType().equals(Material.BUCKET);
@@ -54,13 +54,13 @@ public class MilkActionAddon extends ActionAddon<PlayerInteractEntityEvent> impl
         };
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getAuthor() {
         return "FireML";

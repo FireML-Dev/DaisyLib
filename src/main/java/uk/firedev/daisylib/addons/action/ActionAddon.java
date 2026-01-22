@@ -2,8 +2,8 @@ package uk.firedev.daisylib.addons.action;
 
 import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.addons.Addon;
 import uk.firedev.daisylib.registry.RegistryItem;
 
@@ -19,14 +19,14 @@ public abstract class ActionAddon<T extends Event> extends Addon implements Regi
 
     public ActionAddon() {}
 
-    public abstract @NotNull Class<T> getEventType();
+    public abstract @NonNull Class<T> getEventType();
 
     /**
      * Adds a new hook into this action.
      * @param plugin The plugin that owns this hook.
      * @param consumer The event consumer to run when this action fires.
      */
-    public void addHook(@NotNull Plugin plugin, @NotNull BiConsumer<T, String> consumer) {
+    public void addHook(@NonNull Plugin plugin, @NonNull BiConsumer<T, String> consumer) {
         List<BiConsumer<T, String>> actionList = hooks.computeIfAbsent(plugin, k -> new ArrayList<>());
         actionList.add(consumer);
     }
@@ -42,11 +42,11 @@ public abstract class ActionAddon<T extends Event> extends Addon implements Regi
      * Removes all hooks registered by the specified plugin.
      * @param plugin The plugin whose hooks should be removed.
      */
-    public void removeHooks(@NotNull Plugin plugin) {
+    public void removeHooks(@NonNull Plugin plugin) {
         this.hooks.remove(plugin);
     }
 
-    public void fireEvent(@NotNull T event, @Nullable String data) {
+    public void fireEvent(@NonNull T event, @Nullable String data) {
         this.hooks.values().forEach(consumers ->
             consumers.forEach(consumer -> consumer.accept(event, data))
         );

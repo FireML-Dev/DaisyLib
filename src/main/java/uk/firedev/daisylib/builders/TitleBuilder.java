@@ -5,8 +5,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.messagelib.message.ComponentMessage;
 import uk.firedev.messagelib.message.ComponentSingleMessage;
 import uk.firedev.messagelib.replacer.Replacer;
@@ -77,12 +77,12 @@ public class TitleBuilder {
         return this;
     }
 
-    public TitleBuilder withTitle(@NotNull Object title, @Nullable Replacer replacer) {
+    public TitleBuilder withTitle(@NonNull Object title, @Nullable Replacer replacer) {
         this.title = ComponentMessage.componentMessage(title).replace(replacer);
         return this;
     }
 
-    public TitleBuilder withSubtitle(@NotNull Object subtitle, @Nullable Replacer replacer) {
+    public TitleBuilder withSubtitle(@NonNull Object subtitle, @Nullable Replacer replacer) {
         this.subtitle = ComponentMessage.componentMessage(subtitle).replace(replacer);
         return this;
     }

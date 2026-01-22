@@ -1,6 +1,6 @@
 package uk.firedev.daisylib.database;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public interface DatabaseModule {
 
@@ -8,7 +8,7 @@ public interface DatabaseModule {
 
     void save();
 
-    default void register(@NotNull SQLiteDatabase database) {
+    default void register(@NonNull SQLiteDatabase database) {
         database.registerModule(this);
     }
 

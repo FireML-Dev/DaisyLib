@@ -8,7 +8,7 @@ import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.repository.RemoteRepository;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +31,7 @@ public class LibraryLoader implements PluginLoader {
         classpathBuilder.addLibrary(resolver);
     }
 
-    private @NotNull PluginLibraries load() {
+    private @NonNull PluginLibraries load() {
         try (InputStream in = getClass().getResourceAsStream("/paper-libraries.json")) {
             if (in == null) {
                 throw new IllegalStateException("Could not find paper-libraries.json");

@@ -5,7 +5,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.argument.CustomArgumentType;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.Locale;
@@ -13,10 +13,10 @@ import java.util.concurrent.CompletableFuture;
 
 public interface ArgumentBase<T, N> extends CustomArgumentType.Converted<T, N> {
 
-    List<String> getSuggestions(@NotNull CommandContext<CommandSourceStack> context);
+    List<String> getSuggestions(@NonNull CommandContext<CommandSourceStack> context);
 
     @SuppressWarnings("unchecked")
-    default List<String> getSuggestionsRaw(@NotNull CommandContext<?> context) {
+    default List<String> getSuggestionsRaw(@NonNull CommandContext<?> context) {
         try {
             return getSuggestions((CommandContext<CommandSourceStack>) context);
         } catch (ClassCastException exception) {
@@ -31,9 +31,9 @@ public interface ArgumentBase<T, N> extends CustomArgumentType.Converted<T, N> {
      * @param builder suggestion builder
      * @return suggestions
      */
-    @NotNull
+    @NonNull
     @Override
-    default <S> CompletableFuture<Suggestions> listSuggestions(@NotNull CommandContext<S> context, @NotNull SuggestionsBuilder builder) {
+    default <S> CompletableFuture<Suggestions> listSuggestions(@NonNull CommandContext<S> context, @NonNull SuggestionsBuilder builder) {
         String remaining = builder.getRemainingLowerCase();
         getSuggestionsRaw(context).stream()
             .filter(name -> name.toLowerCase(Locale.ROOT).startsWith(remaining))

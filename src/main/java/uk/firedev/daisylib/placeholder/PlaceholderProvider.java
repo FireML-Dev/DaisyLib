@@ -5,7 +5,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class PlaceholderProvider {
     private final Map<String, Function<Audience, Component>> audienceMap = new HashMap<>();
     private final Map<String, BiFunction<Audience, String, Component>> audienceDynamicMap = new HashMap<>();
 
-    public PlaceholderProvider(@NotNull Plugin plugin) {
+    public PlaceholderProvider(@NonNull Plugin plugin) {
         this.plugin = plugin;
     }
 
@@ -30,7 +30,7 @@ public class PlaceholderProvider {
      * @param placeholder The placeholder itself.
      * @param supplier A supplier for the placeholder's replacement
      */
-    public PlaceholderProvider addGlobalPlaceholder(@NotNull String placeholder, @NotNull Supplier<Component> supplier) {
+    public PlaceholderProvider addGlobalPlaceholder(@NonNull String placeholder, @NonNull Supplier<Component> supplier) {
         this.globalMap.putIfAbsent(placeholder.toLowerCase(), supplier);
         return this;
     }
@@ -40,7 +40,7 @@ public class PlaceholderProvider {
      * @param placeholder The placeholder itself, before the dynamic part.
      * @param function A function that uses the dynamic value to get the placeholder's replacement.
      */
-    public PlaceholderProvider addGlobalDynamicPlaceholder(@NotNull String placeholder, @NotNull Function<String, Component> function) {
+    public PlaceholderProvider addGlobalDynamicPlaceholder(@NonNull String placeholder, @NonNull Function<String, Component> function) {
         this.globalDynamicMap.putIfAbsent(placeholder, function);
         return this;
     }
@@ -50,7 +50,7 @@ public class PlaceholderProvider {
      * @param placeholder The placeholder itself.
      * @param function A function that uses the found audience to get the placeholder's replacement.
      */
-    public PlaceholderProvider addAudiencePlaceholder(@NotNull String placeholder, @NotNull Function<Audience, Component> function) {
+    public PlaceholderProvider addAudiencePlaceholder(@NonNull String placeholder, @NonNull Function<Audience, Component> function) {
         this.audienceMap.putIfAbsent(placeholder.toLowerCase(), function);
         return this;
     }
@@ -60,7 +60,7 @@ public class PlaceholderProvider {
      * @param placeholder The placeholder itself, before the dynamic part.
      * @param function A function that uses the found audience and the dynamic value to get the placeholder's replacement.
      */
-    public PlaceholderProvider addAudienceDynamicPlaceholder(@NotNull String placeholder, @NotNull BiFunction<Audience, String, Component> function) {
+    public PlaceholderProvider addAudienceDynamicPlaceholder(@NonNull String placeholder, @NonNull BiFunction<Audience, String, Component> function) {
         this.audienceDynamicMap.putIfAbsent(placeholder.toLowerCase(), function);
         return this;
     }

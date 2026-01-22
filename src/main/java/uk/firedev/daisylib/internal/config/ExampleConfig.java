@@ -1,6 +1,6 @@
 package uk.firedev.daisylib.internal.config;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.configlib.ConfigFile;
 import uk.firedev.configlib.loading.Loader;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
@@ -15,7 +15,7 @@ public class ExampleConfig {
 
     private ExampleConfig() {}
 
-    public static void load(@NotNull DaisyLibPlugin plugin) {
+    public static void load(@NonNull DaisyLibPlugin plugin) {
         String name = "examples.yml";
         File file = new File(plugin.getDataFolder(), name);
         file.delete();

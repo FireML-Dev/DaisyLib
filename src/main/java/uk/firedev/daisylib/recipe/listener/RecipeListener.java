@@ -6,7 +6,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Recipe;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 import uk.firedev.daisylib.util.Loggers;
 
@@ -17,7 +17,7 @@ public class RecipeListener implements Listener {
 
     private static final Map<NamespacedKey, Recipe> RECIPES = new HashMap<>();
 
-    public static boolean addRecipe(@NotNull NamespacedKey key, @NotNull Recipe recipe) {
+    public static boolean addRecipe(@NonNull NamespacedKey key, @NonNull Recipe recipe) {
         if (RECIPES.containsKey(key)) {
             return false;
         }
@@ -25,7 +25,7 @@ public class RecipeListener implements Listener {
         return true;
     }
 
-    public static boolean removeRecipe(@NotNull NamespacedKey key) {
+    public static boolean removeRecipe(@NonNull NamespacedKey key) {
         return RECIPES.remove(key) != null;
     }
 

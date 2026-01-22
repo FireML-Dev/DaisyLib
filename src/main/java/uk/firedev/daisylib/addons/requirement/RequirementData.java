@@ -3,7 +3,7 @@ package uk.firedev.daisylib.addons.requirement;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class RequirementData {
 

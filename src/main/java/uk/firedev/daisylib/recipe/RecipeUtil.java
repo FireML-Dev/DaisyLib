@@ -4,8 +4,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.recipe.types.CampfireRecipe;
 import uk.firedev.daisylib.recipe.types.ShapedRecipe;
 import uk.firedev.daisylib.recipe.types.ShapelessRecipe;
@@ -30,7 +30,7 @@ public class RecipeUtil {
     /**
      * Resolves a recipe from the provided {@link ConfigurationSection} with the provided {@link NamespacedKey}.
      */
-    public static @Nullable AbstractRecipe<?> getRecipe(@NotNull ConfigurationSection section, @NotNull NamespacedKey key, @NotNull ItemStack result) {
+    public static @Nullable AbstractRecipe<?> getRecipe(@NonNull ConfigurationSection section, @NonNull NamespacedKey key, @NonNull ItemStack result) {
         String type = section.getString("type");
         if (type == null) {
             return null;
@@ -63,7 +63,7 @@ public class RecipeUtil {
     /**
      * Resolves a recipe and its key from the provided {@link ConfigurationSection}.
      */
-    public static @Nullable AbstractRecipe<?> getRecipe(@NotNull ConfigurationSection section, @NotNull ItemStack result) {
+    public static @Nullable AbstractRecipe<?> getRecipe(@NonNull ConfigurationSection section, @NonNull ItemStack result) {
         String keyStr = section.getString("key");
         if (keyStr == null) {
             return null;

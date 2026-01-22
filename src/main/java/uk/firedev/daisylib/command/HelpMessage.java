@@ -1,7 +1,7 @@
 package uk.firedev.daisylib.command;
 
 import net.kyori.adventure.audience.Audience;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.messagelib.message.ComponentListMessage;
 import uk.firedev.messagelib.message.ComponentMessage;
 import uk.firedev.messagelib.message.ComponentSingleMessage;
@@ -19,7 +19,7 @@ public class HelpMessage {
     private final Supplier<ComponentSingleMessage> header;
     private final Supplier<ComponentSingleMessage> help;
 
-    private HelpMessage(@NotNull String commandName, @NotNull HashMap<String, Supplier<ComponentSingleMessage>> usages, @NotNull Supplier<ComponentSingleMessage> header, @NotNull Supplier<ComponentSingleMessage> help) {
+    private HelpMessage(@NonNull String commandName, @NonNull HashMap<String, Supplier<ComponentSingleMessage>> usages, @NonNull Supplier<ComponentSingleMessage> header, @NonNull Supplier<ComponentSingleMessage> help) {
         this.commandName = commandName;
         this.usages = usages;
         this.header = header;
@@ -29,14 +29,14 @@ public class HelpMessage {
     /**
      * Creates a HelpMessageBuilder instance
      */
-    public static HelpMessage helpMessage(@NotNull String commandName, @NotNull Supplier<ComponentSingleMessage> header, @NotNull Supplier<ComponentSingleMessage> help) {
+    public static HelpMessage helpMessage(@NonNull String commandName, @NonNull Supplier<ComponentSingleMessage> header, @NonNull Supplier<ComponentSingleMessage> help) {
         return new HelpMessage(commandName, new HashMap<>(), header, help);
     }
 
     /**
      * Adds a usage to this builder
      */
-    public HelpMessage addUsage(@NotNull String name, @NotNull Supplier<ComponentSingleMessage> helpMessage) {
+    public HelpMessage addUsage(@NonNull String name, @NonNull Supplier<ComponentSingleMessage> helpMessage) {
         this.usages.putIfAbsent(name, helpMessage);
         return this;
     }
@@ -44,7 +44,7 @@ public class HelpMessage {
     /**
      * Adds multiple usages to this builder
      */
-    public HelpMessage addUsages(@NotNull Map<String, Supplier<ComponentSingleMessage>> usages) {
+    public HelpMessage addUsages(@NonNull Map<String, Supplier<ComponentSingleMessage>> usages) {
         usages.forEach(this.usages::putIfAbsent);
         return this;
     }
@@ -68,7 +68,7 @@ public class HelpMessage {
     /**
      * Adds "/[commandName] " to the start of the provided usage.
      */
-    private String constructCommand(@NotNull String key) {
+    private String constructCommand(@NonNull String key) {
         return "/" + commandName + " " + key;
     }
 
@@ -76,7 +76,7 @@ public class HelpMessage {
      * Sends the final message to the provided audience.
      * @param audience The audience to send the message to.
      */
-    public void sendMessage(@NotNull Audience audience) {
+    public void sendMessage(@NonNull Audience audience) {
         build().send(audience);
     }
 

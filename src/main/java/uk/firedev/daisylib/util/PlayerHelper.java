@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -17,7 +17,7 @@ public class PlayerHelper {
      * @param uuid The OfflinePlayer to get.
      * @return The OfflinePlayer, or null if they haven't played before
      */
-    public static @Nullable OfflinePlayer getOfflinePlayer(@NotNull UUID uuid) {
+    public static @Nullable OfflinePlayer getOfflinePlayer(@NonNull UUID uuid) {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
         return hasPlayerBeenOnServer(offlinePlayer) ? offlinePlayer : null;
     }
@@ -28,7 +28,7 @@ public class PlayerHelper {
      * @param name The OfflinePlayer to get.
      * @return The OfflinePlayer, or null if they haven't played before
      */
-    public static @Nullable OfflinePlayer getOfflinePlayer(@NotNull String name) {
+    public static @Nullable OfflinePlayer getOfflinePlayer(@NonNull String name) {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(name);
         return hasPlayerBeenOnServer(offlinePlayer) ? offlinePlayer : null;
     }
@@ -50,7 +50,7 @@ public class PlayerHelper {
      * @param player The player to check.
      * @return The block this player is standing on.
      */
-    public static @NotNull Block getPlayerStandingOn(@NotNull Player player) {
+    public static @NonNull Block getPlayerStandingOn(@NonNull Player player) {
         return player.getLocation().clone().subtract(0, 0.05, 0).getBlock();
     }
 

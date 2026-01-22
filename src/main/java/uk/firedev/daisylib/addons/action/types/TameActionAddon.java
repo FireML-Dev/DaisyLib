@@ -5,19 +5,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTameEvent;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.action.ActionAddon;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
 public class TameActionAddon extends ActionAddon<EntityTameEvent> implements Listener {
 
-    @NotNull
+    @NonNull
     @Override
     public Class<EntityTameEvent> getEventType() {
         return EntityTameEvent.class;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getKey() {
         return "tame";
@@ -31,13 +31,13 @@ public class TameActionAddon extends ActionAddon<EntityTameEvent> implements Lis
         fireEvent(event, event.getEntityType().toString());
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Plugin getPlugin() {
         return DaisyLibPlugin.getInstance();
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getAuthor() {
         return "FireML";
