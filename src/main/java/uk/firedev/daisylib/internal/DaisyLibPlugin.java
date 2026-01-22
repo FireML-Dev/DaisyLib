@@ -37,6 +37,7 @@ import uk.firedev.daisylib.addons.reward.types.PermissionRewardAddon;
 import uk.firedev.daisylib.event.CustomEventListener;
 import uk.firedev.daisylib.event.DaisyLibReloadEvent;
 import uk.firedev.daisylib.internal.command.MainCommand;
+import uk.firedev.daisylib.internal.config.ExampleConfig;
 import uk.firedev.daisylib.internal.config.MainConfig;
 import uk.firedev.daisylib.internal.config.MessageConfig;
 import uk.firedev.daisylib.recipe.listener.RecipeListener;
@@ -59,6 +60,7 @@ public class DaisyLibPlugin extends JavaPlugin {
         INSTANCE = this;
         this.mainConfig = new MainConfig();
         this.messageConfig = new MessageConfig();
+        ExampleConfig.load(this);
     }
 
     public static @NotNull DaisyLibPlugin getInstance() {
