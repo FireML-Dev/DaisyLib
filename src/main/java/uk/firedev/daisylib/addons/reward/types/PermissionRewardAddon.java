@@ -1,6 +1,6 @@
 package uk.firedev.daisylib.addons.reward.types;
 
-import net.milkbowl.vault2.permission.Permission;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;

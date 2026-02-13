@@ -11,7 +11,7 @@ repositories {
     mavenCentral()
     gradlePluginPortal()
     maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://repo.codemc.io/repository/creatorfromhell/")
+    maven("https://jitpack.io")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://repo.codemc.io/repository/FireML/")
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")

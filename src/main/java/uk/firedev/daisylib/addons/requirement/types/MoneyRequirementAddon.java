@@ -1,6 +1,6 @@
 package uk.firedev.daisylib.addons.requirement.types;
 
-import net.milkbowl.vault2.economy.Economy;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
@@ -31,7 +31,7 @@ public class MoneyRequirementAddon extends RequirementAddon {
                 Loggers.warn(getClass(), value + " is not a valid double");
                 continue;
             }
-            if (economy.has(getPlugin().getName(), data.getPlayer().getUniqueId(), BigDecimal.valueOf(amount))) {
+            if (economy.has(data.getPlayer(), amount)) {
                 return true;
             }
         }

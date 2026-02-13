@@ -1,6 +1,6 @@
 package uk.firedev.daisylib.addons.reward.types;
 
-import net.milkbowl.vault2.economy.Economy;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
@@ -29,7 +29,7 @@ public class MoneyRewardAddon extends RewardAddon {
         if (amount < 0) {
             amount = 0.0D;
         }
-        economy.deposit(getPlugin().getName(), player.getUniqueId(), BigDecimal.valueOf(amount));
+        economy.depositPlayer(player, amount);
     }
 
     @Override
