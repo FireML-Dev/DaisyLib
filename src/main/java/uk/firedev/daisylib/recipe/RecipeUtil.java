@@ -3,25 +3,26 @@ package uk.firedev.daisylib.recipe;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.RecipeChoice;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.addons.item.ItemAddonRegistry;
 import uk.firedev.daisylib.recipe.types.CampfireRecipe;
 import uk.firedev.daisylib.recipe.types.ShapedRecipe;
 import uk.firedev.daisylib.recipe.types.ShapelessRecipe;
 import uk.firedev.daisylib.recipe.types.StonecuttingRecipe;
 import uk.firedev.daisylib.util.Utils;
 
-import java.util.Map;
-
 public class RecipeUtil {
 
     public static @Nullable RecipeChoice getRecipeChoice(String materialStr) {
-        ItemStack item = Utils.getItem(materialStr);
-        if (item == null) {
-            return null;
+        ItemType type = Utils.getItemType(materialStr);
+        if (type != null) {
+            return RecipeChoice.itemType(type);
         }
-        if (item.isEmpty()) {
+        ItemStack item = ItemAddonRegistry.get().processString(materialStr);
+        if (item == null || item.isEmpty()) {
             return null;
         }
         return new RecipeChoice.ExactChoice(item);
