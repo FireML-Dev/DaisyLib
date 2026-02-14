@@ -43,7 +43,13 @@ dependencies {
 group = "uk.firedev"
 version = properties["project-version"] as String
 description = "A collection of classes for easier use of Paper's API"
-java.sourceCompatibility = JavaVersion.VERSION_21
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    withSourcesJar()
+    withJavadocJar()
+}
 
 paper {
     name = rootProject.name
@@ -120,5 +126,13 @@ tasks {
     }
     generatePaperPluginDescription {
         useGoogleMavenCentralProxy()
+    }
+    javadoc {
+        // Don't fail when missing Javadoc comments
+        isFailOnError = false
+        // Disable warnings about missing Javadoc comments
+        (options as CoreJavadocOptions).apply {
+            addBooleanOption("Xdoclint:none", true)
+        }
     }
 }
