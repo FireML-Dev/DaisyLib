@@ -19,7 +19,7 @@ public class RecipeUtil {
     public static @Nullable RecipeChoice getRecipeChoice(String materialStr) {
         ItemType type = Utils.getItemType(materialStr);
         if (type != null) {
-            return RecipeChoice.itemType(type);
+            return type == ItemType.AIR ? null : RecipeChoice.itemType(type);
         }
         ItemStack item = ItemAddonRegistry.get().processString(materialStr);
         if (item == null || item.isEmpty()) {
