@@ -4,6 +4,7 @@ import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.Keyed;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.block.Block;
@@ -11,13 +12,19 @@ import org.bukkit.block.BlockType;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.addons.item.ItemAddonRegistry;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
@@ -401,6 +408,38 @@ public class Utils {
      */
     public static @Nullable Location getLocationFromConfig(@NonNull YamlConfiguration config, @NonNull String path) {
         return config.getLocation(path);
+    }
+
+    /**
+     * Removes a specific amount of an ItemType from an inventory, without removing anything if it fails.
+     * Does not work across stacks, and only counts unchanged vanilla items.
+     * @return Whether the items were removed.
+     */
+    public static boolean removeFromInventory(@NonNull Inventory inventory, @NonNull ItemType type, int quantity) {
+        return removeFromInventory(
+            inventory,
+            type.createItemStack(quantity)
+        );
+    }
+
+    /**
+     * Removes a specific ItemStack from an inventory, without removing anything if it fails.
+     * @return Whether the item was removed.
+     */
+    public static boolean removeFromInventory(@NonNull Inventory inventory, @NonNull ItemStack item) {
+        if (!inventory.contains(item)) {
+            return false;
+        }
+
+        boolean success = inventory.removeItem(item).isEmpty();
+        if (!success) {
+            Loggers.error(
+                DaisyLibPlugin.getInstance().getComponentLogger(),
+                "ItemStack " + item + " was not fully removed from inventory despite #contains returning true.",
+                new RuntimeException()
+            );
+        }
+        return success;
     }
 
 }
