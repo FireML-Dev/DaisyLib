@@ -12,7 +12,7 @@ dependencyResolutionManagement {
             // implementation dependencies
             library("bstats", "org.bstats:bstats-bukkit:3.1.0")
             library("customblockdata", "com.jeff-media:custom-block-data:2.2.4")
-            library("messagelib", "uk.firedev:MessageLib:1.0.6")
+            library("messagelib", "uk.firedev:MessageLib:1.0.8")
             library("configlib", "uk.firedev:ConfigLib:1.0.3")
 
             // Loaded via Paper's library loader
