@@ -23,7 +23,7 @@ dependencyResolutionManagement {
 
             // Gradle plugins
             plugin("shadow", "com.gradleup.shadow").version("9.0.0")
-            plugin("plugin-yml", "de.eldoria.plugin-yml.paper").version("0.8.0")
+            plugin("plugin-yml", "de.eldoria.plugin-yml.paper").version("0.9.0")
         }
     }
 }
