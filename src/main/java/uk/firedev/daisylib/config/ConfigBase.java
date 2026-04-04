@@ -44,12 +44,6 @@ public class ConfigBase extends ConfigFile {
         this.loader = new PaperConfigLoader(config);
     }
 
-    /**
-     * @deprecated No longer needed.
-     */
-    @Deprecated(forRemoval = true)
-    public void init() {}
-
     public @NonNull PaperConfigLoader getMessageLoader() {
         return this.loader;
     }
