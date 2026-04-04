@@ -29,7 +29,9 @@ dependencies {
     implementation(libs.customblockdata)
     implementation(libs.messagelib)
     implementation(libs.configlib)
-    implementation(libs.triumphgui)
+    implementation(libs.triumphgui) {
+        exclude("net.kyori", "*")
+    }
 
     compileOnlyApi(libs.boostedyaml)
     paperLibrary(libs.boostedyaml)
