@@ -110,7 +110,7 @@ public class ItemBuilder {
         return this;
     }
 
-    /// Enchantments
+    // Enchantments
 
     // Setting
 
@@ -161,7 +161,7 @@ public class ItemBuilder {
         return removeEnchantments(List.of(enchantment));
     }
 
-    /// Unbreakable
+    // Unbreakable
 
     public ItemBuilder setUnbreakable(boolean unbreakable) {
         if (unbreakable) {
@@ -172,21 +172,21 @@ public class ItemBuilder {
         return this;
     }
 
-    /// Glowing
+    // Glowing
 
     public ItemBuilder setGlowing(boolean glowing) {
         this.item.setData(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, glowing);
         return this;
     }
 
-    /// Amount
+    // Amount
 
     public ItemBuilder withAmount(int amount) {
         this.item.setAmount(Math.max(1, amount));
         return this;
     }
 
-    /// Utility
+    // Utility
 
     /**
      * Allows more control over the item than what is provided in this class
@@ -204,7 +204,7 @@ public class ItemBuilder {
         return this.item.isEmpty();
     }
 
-    /// Config Factory
+    // Config Factory
 
     public static @NonNull ItemBuilder fromConfig(@Nullable ConfigurationSection section, @Nullable Replacer displayReplacer, @Nullable Replacer loreReplacer) {
         if (section == null) {
