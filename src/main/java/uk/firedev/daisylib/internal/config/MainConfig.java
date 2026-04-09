@@ -11,4 +11,8 @@ public class MainConfig extends ConfigBase {
         super("config.yml", "config.yml", DaisyLibPlugin.getInstance());
     }
 
+    public boolean enableTestingEconomy() {
+        return getConfig().getBoolean("enable-testing-economy", false);
+    }
+
 }

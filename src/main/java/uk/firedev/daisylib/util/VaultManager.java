@@ -1,13 +1,20 @@
 package uk.firedev.daisylib.util;
 
 import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.ServicePriority;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
+import uk.firedev.daisylib.internal.config.MainConfig;
+
+import java.util.List;
 
 public class VaultManager {
 
@@ -108,22 +115,23 @@ public class VaultManager {
         if (!Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             return;
         }
-        try {
-            Class.forName("net.milkbowl.vault2.economy.Economy");
-        } catch (ClassNotFoundException e) {
-            Loggers.warn(DaisyLibPlugin.getInstance().getComponentLogger(), "Vault detected, but not VaultUnlocked. Please install VaultUnlocked.");
-            return;
+        DaisyLibPlugin plugin = DaisyLibPlugin.getInstance();
+        Loggers.info(plugin.getComponentLogger(), "Loading VaultManager!");
+
+        if (plugin.getMainConfig().enableTestingEconomy()) {
+            Bukkit.getServicesManager().register(Economy.class, new TestingEconomy(), plugin, ServicePriority.Highest);
+            Loggers.warn(plugin.getComponentLogger(), "Registered TestingEconomy.");
         }
-        Loggers.info(DaisyLibPlugin.getInstance().getComponentLogger(), "Loading VaultManager!");
         if (!setupEconomy()) {
-            Loggers.warn(DaisyLibPlugin.getInstance().getComponentLogger(), "Vault Economy not found.");
+            Loggers.warn(plugin.getComponentLogger(), "Vault Economy not found.");
         }
         if (!setupPermissions()) {
-            Loggers.warn(DaisyLibPlugin.getInstance().getComponentLogger(), "Vault Permissions not found.");
+            Loggers.warn(plugin.getComponentLogger(), "Vault Permissions not found.");
         }
         if (!setupChat()) {
-            Loggers.warn(DaisyLibPlugin.getInstance().getComponentLogger(), "Vault Chat not found.");
+            Loggers.warn(plugin.getComponentLogger(), "Vault Chat not found.");
         }
+
         // Only set loaded if the vault hook is enabled.
         loaded = true;
     }
@@ -162,6 +170,319 @@ public class VaultManager {
         }
         chat = rsp.getProvider();
         return true;
+    }
+
+    static class TestingEconomy extends AbstractEconomy {
+
+        /**
+         * Checks if economy method is enabled.
+         *
+         * @return Success or Failure
+         */
+        @Override
+        public boolean isEnabled() {
+            return true;
+        }
+
+        /**
+         * Gets name of economy method
+         *
+         * @return Name of Economy Method
+         */
+        @Override
+        public String getName() {
+            return "DaisyLib Testing Economy";
+        }
+
+        /**
+         * Returns true if the given implementation supports banks.
+         *
+         * @return true if the implementation supports banks
+         */
+        @Override
+        public boolean hasBankSupport() {
+            return false;
+        }
+
+        /**
+         * Some economy plugins round off after a certain number of digits.
+         * This function returns the number of digits the plugin keeps
+         * or -1 if no rounding occurs.
+         *
+         * @return number of digits after the decimal point kept
+         */
+        @Override
+        public int fractionalDigits() {
+            return 1;
+        }
+
+        /**
+         * Format amount into a human readable String This provides translation into
+         * economy specific formatting to improve consistency between plugins.
+         *
+         * @param amount to format
+         * @return Human readable string describing amount
+         */
+        @Override
+        public String format(double amount) {
+            return "$" + amount;
+        }
+
+        /**
+         * Returns the name of the currency in plural form.
+         * If the economy being used does not support currency names then an empty string will be returned.
+         *
+         * @return name of the currency (plural)
+         */
+        @Override
+        public String currencyNamePlural() {
+            return "Dollars";
+        }
+
+        /**
+         * Returns the name of the currency in singular form.
+         * If the economy being used does not support currency names then an empty string will be returned.
+         *
+         * @return name of the currency (singular)
+         */
+        @Override
+        public String currencyNameSingular() {
+            return "Dollar";
+        }
+
+        /**
+         *
+         * @param playerName
+         * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer)} instead.
+         */
+        @Deprecated
+        @Override
+        public boolean hasAccount(String playerName) {
+            return true;
+        }
+
+        /**
+         * @param playerName
+         * @param worldName
+         * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer, String)} instead.
+         */
+        @Override
+        @Deprecated
+        public boolean hasAccount(String playerName, String worldName) {
+            return true;
+        }
+
+        /**
+         * @param playerName
+         * @deprecated As of VaultAPI 1.4 use {@link #getBalance(OfflinePlayer)} instead.
+         */
+        @Deprecated
+        @Override
+        public double getBalance(String playerName) {
+            return Double.MAX_VALUE;
+        }
+
+        /**
+         * @param playerName
+         * @param world
+         * @deprecated As of VaultAPI 1.4 use {@link #getBalance(OfflinePlayer, String)} instead.
+         */
+        @Deprecated
+        @Override
+        public double getBalance(String playerName, String world) {
+            return Double.MAX_VALUE;
+        }
+
+        /**
+         * @param playerName
+         * @param amount
+         * @deprecated As of VaultAPI 1.4 use {@link #has(OfflinePlayer, double)} instead.
+         */
+        @Deprecated
+        @Override
+        public boolean has(String playerName, double amount) {
+            return true;
+        }
+
+        /**
+         * @param playerName
+         * @param worldName
+         * @param amount
+         * @deprecated As of VaultAPI 1.4 use @{link {@link #has(OfflinePlayer, String, double)} instead.
+         */
+        @Deprecated
+        @Override
+        public boolean has(String playerName, String worldName, double amount) {
+            return true;
+        }
+
+        /**
+         * @param playerName
+         * @param amount
+         * @deprecated As of VaultAPI 1.4 use {@link #withdrawPlayer(OfflinePlayer, double)} instead.
+         */
+        @Deprecated
+        @Override
+        public EconomyResponse withdrawPlayer(String playerName, double amount) {
+            return new EconomyResponse(amount, Double.MAX_VALUE, EconomyResponse.ResponseType.SUCCESS, null);
+        }
+
+        /**
+         * @param playerName
+         * @param worldName
+         * @param amount
+         * @deprecated As of VaultAPI 1.4 use {@link #withdrawPlayer(OfflinePlayer, String, double)} instead.
+         */
+        @Deprecated
+        @Override
+        public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
+            return new EconomyResponse(amount, Double.MAX_VALUE, EconomyResponse.ResponseType.SUCCESS, null);
+        }
+
+        /**
+         * @param playerName
+         * @param amount
+         * @deprecated As of VaultAPI 1.4 use {@link #depositPlayer(OfflinePlayer, double)} instead.
+         */
+        @Deprecated
+        @Override
+        public EconomyResponse depositPlayer(String playerName, double amount) {
+            return new EconomyResponse(amount, Double.MAX_VALUE, EconomyResponse.ResponseType.SUCCESS, null);
+        }
+
+        /**
+         * @param playerName
+         * @param worldName
+         * @param amount
+         * @deprecated As of VaultAPI 1.4 use {@link #depositPlayer(OfflinePlayer, String, double)} instead.
+         */
+        @Deprecated
+        @Override
+        public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
+            return new EconomyResponse(amount, Double.MAX_VALUE, EconomyResponse.ResponseType.SUCCESS, null);
+        }
+
+        /**
+         * @param name
+         * @param player
+         * @deprecated As of VaultAPI 1.4 use {{@link #createBank(String, OfflinePlayer)} instead.
+         */
+        @Deprecated
+        @Override
+        public EconomyResponse createBank(String name, String player) {
+            return new EconomyResponse(Double.MAX_VALUE, Double.MAX_VALUE, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
+        }
+
+        /**
+         * Deletes a bank account with the specified name.
+         *
+         * @param name of the back to delete
+         * @return if the operation completed successfully
+         */
+        @Override
+        public EconomyResponse deleteBank(String name) {
+            return new EconomyResponse(Double.MAX_VALUE, Double.MAX_VALUE, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
+        }
+
+        /**
+         * Returns the amount the bank has
+         *
+         * @param name of the account
+         * @return EconomyResponse Object
+         */
+        @Override
+        public EconomyResponse bankBalance(String name) {
+            return new EconomyResponse(Double.MAX_VALUE, Double.MAX_VALUE, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
+        }
+
+        /**
+         * Returns true or false whether the bank has the amount specified - DO NOT USE NEGATIVE AMOUNTS
+         *
+         * @param name   of the account
+         * @param amount to check for
+         * @return EconomyResponse Object
+         */
+        @Override
+        public EconomyResponse bankHas(String name, double amount) {
+            return new EconomyResponse(Double.MAX_VALUE, Double.MAX_VALUE, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
+        }
+
+        /**
+         * Withdraw an amount from a bank account - DO NOT USE NEGATIVE AMOUNTS
+         *
+         * @param name   of the account
+         * @param amount to withdraw
+         * @return EconomyResponse Object
+         */
+        @Override
+        public EconomyResponse bankWithdraw(String name, double amount) {
+            return new EconomyResponse(Double.MAX_VALUE, Double.MAX_VALUE, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
+        }
+
+        /**
+         * Deposit an amount into a bank account - DO NOT USE NEGATIVE AMOUNTS
+         *
+         * @param name   of the account
+         * @param amount to deposit
+         * @return EconomyResponse Object
+         */
+        @Override
+        public EconomyResponse bankDeposit(String name, double amount) {
+            return new EconomyResponse(Double.MAX_VALUE, Double.MAX_VALUE, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
+        }
+
+        /**
+         * @param name
+         * @param playerName
+         * @deprecated As of VaultAPI 1.4 use {{@link #isBankOwner(String, OfflinePlayer)} instead.
+         */
+        @Deprecated
+        @Override
+        public EconomyResponse isBankOwner(String name, String playerName) {
+            return new EconomyResponse(Double.MAX_VALUE, Double.MAX_VALUE, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
+        }
+
+        /**
+         * @param name
+         * @param playerName
+         * @deprecated As of VaultAPI 1.4 use {{@link #isBankMember(String, OfflinePlayer)} instead.
+         */
+        @Deprecated
+        @Override
+        public EconomyResponse isBankMember(String name, String playerName) {
+            return new EconomyResponse(Double.MAX_VALUE, Double.MAX_VALUE, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
+        }
+
+        /**
+         * Gets the list of banks
+         *
+         * @return the List of Banks
+         */
+        @Override
+        public List<String> getBanks() {
+            return List.of();
+        }
+
+        /**
+         * @param playerName
+         * @deprecated As of VaultAPI 1.4 use {{@link #createPlayerAccount(OfflinePlayer)} instead.
+         */
+        @Deprecated
+        @Override
+        public boolean createPlayerAccount(String playerName) {
+            return true;
+        }
+
+        /**
+         * @param playerName
+         * @param worldName
+         * @deprecated As of VaultAPI 1.4 use {{@link #createPlayerAccount(OfflinePlayer, String)} instead.
+         */
+        @Deprecated
+        @Override
+        public boolean createPlayerAccount(String playerName, String worldName) {
+            return true;
+        }
     }
 
 }
