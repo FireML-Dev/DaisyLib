@@ -18,7 +18,7 @@ import uk.firedev.daisylib.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.addons.requirement.RequirementAddonRegistry;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
 import uk.firedev.daisylib.addons.reward.RewardAddonRegistry;
-import uk.firedev.daisylib.internal.config.MessageConfig;
+import uk.firedev.daisylib.internal.DaisyLibPlugin;
 import uk.firedev.messagelib.message.ComponentMessage;
 import uk.firedev.messagelib.replacer.Replacer;
 
@@ -56,13 +56,10 @@ public class ListSubcommand {
         return Commands.literal(name)
             .executes(ctx -> {
                 CommandSender sender = ctx.getSource().getSender();
-                // TODO send messages
                 if (values.isEmpty()) {
-                    sender.sendPlainMessage("No addons :(");
-                    //MessageConfig.getInstance().getNoAddonsMessage(clazz).send(sender);
+                    DaisyLibPlugin.getInstance().getMessageConfig().getNoAddons(clazz).send(sender);
                 } else {
-                    ComponentMessage.componentMessage("<#F0E68C>Registered {name}s: <green>{list}</green>")
-                        .replace("{name}", clazz.getSimpleName())
+                    DaisyLibPlugin.getInstance().getMessageConfig().getListAddons(clazz)
                         .replace(getAddonListReplacer(values))
                         .send(sender);
                 }
