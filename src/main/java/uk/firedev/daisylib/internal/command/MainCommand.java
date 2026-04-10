@@ -24,7 +24,7 @@ public class MainCommand {
         return Commands.literal("reload")
             .executes(ctx -> {
                 DaisyLibPlugin.getInstance().reload();
-                // TODO send reloaded message to sender.
+                DaisyLibPlugin.getInstance().getMessageConfig().getReloaded().send(ctx.getSource().getSender());
                 return 1;
             });
     }
