@@ -1,14 +1,18 @@
 package uk.firedev.daisylib.builders;
 
+import com.destroystokyo.paper.profile.ProfileProperty;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.datacomponent.item.ItemLore;
+import io.papermc.paper.datacomponent.item.ResolvableProfile;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.jspecify.annotations.NonNull;
@@ -25,6 +29,7 @@ import uk.firedev.messagelib.replacer.Replacer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -65,6 +70,18 @@ public class ItemBuilder {
      */
     public static ItemBuilder create(@Nullable String itemName, @NonNull ItemType defaultType) {
         return new ItemBuilder(Utils.getItemType(itemName, defaultType));
+    }
+
+    public static ItemBuilder skull(@NonNull UUID uuid) {
+        return new ItemBuilder(ItemType.PLAYER_HEAD).withSkin(uuid);
+    }
+
+    public static ItemBuilder skull(@NonNull Player player) {
+        return new ItemBuilder(ItemType.PLAYER_HEAD).withSkin(player);
+    }
+
+    public static ItemBuilder skull(@NonNull String base64) {
+        return new ItemBuilder(ItemType.PLAYER_HEAD).withSkin(base64);
     }
 
     public ItemBuilder withItemType(@NonNull ItemType itemType) {
@@ -183,6 +200,33 @@ public class ItemBuilder {
 
     public ItemBuilder withAmount(int amount) {
         this.item.setAmount(Math.max(1, amount));
+        return this;
+    }
+
+    // Skull Skin
+
+    public ItemBuilder withSkin(@NonNull UUID uuid) {
+        this.item.setData(
+            DataComponentTypes.PROFILE,
+            ResolvableProfile.resolvableProfile().uuid(uuid).build()
+        );
+        return this;
+    }
+
+    public ItemBuilder withSkin(@NonNull String base64) {
+        ProfileProperty property = new ProfileProperty("textures", base64);
+        this.item.setData(
+            DataComponentTypes.PROFILE,
+            ResolvableProfile.resolvableProfile().addProperty(property).build()
+        );
+        return this;
+    }
+
+    public ItemBuilder withSkin(@NonNull Player player) {
+        this.item.setData(
+            DataComponentTypes.PROFILE,
+            ResolvableProfile.resolvableProfile(player.getPlayerProfile())
+        );
         return this;
     }
 
