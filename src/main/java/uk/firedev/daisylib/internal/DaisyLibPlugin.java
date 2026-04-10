@@ -6,22 +6,6 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.daisylib.addons.action.types.BreakActionAddon;
-import uk.firedev.daisylib.addons.action.types.BreedActionAddon;
-import uk.firedev.daisylib.addons.action.types.BrushActionAddon;
-import uk.firedev.daisylib.addons.action.types.BucketEntityActionAddon;
-import uk.firedev.daisylib.addons.action.types.ConsumeActionAddon;
-import uk.firedev.daisylib.addons.action.types.DyeActionAddon;
-import uk.firedev.daisylib.addons.action.types.EnchantActionAddon;
-import uk.firedev.daisylib.addons.action.types.FishActionAddon;
-import uk.firedev.daisylib.addons.action.types.KillActionAddon;
-import uk.firedev.daisylib.addons.action.types.MilkActionAddon;
-import uk.firedev.daisylib.addons.action.types.PlaceActionAddon;
-import uk.firedev.daisylib.addons.action.types.ShearBlockActionAddon;
-import uk.firedev.daisylib.addons.action.types.ShearEntityActionAddon;
-import uk.firedev.daisylib.addons.action.types.SmeltActionAddon;
-import uk.firedev.daisylib.addons.action.types.TameActionAddon;
-import uk.firedev.daisylib.addons.action.types.TradeActionAddon;
 import uk.firedev.daisylib.addons.requirement.types.ExpRequirementAddon;
 import uk.firedev.daisylib.addons.requirement.types.HealthRequirementAddon;
 import uk.firedev.daisylib.addons.requirement.types.HoldingRequirementAddon;
@@ -115,24 +99,6 @@ public class DaisyLibPlugin extends JavaPlugin {
         new MoneyRequirementAddon().register();
         new PermissionRequirementAddon().register();
         new WorldRequirementAddon().register();
-
-        // ActionAddons
-        new BreakActionAddon().register();
-        new BreedActionAddon().register();
-        new BrushActionAddon().register();
-        new BucketEntityActionAddon().register();
-        new ConsumeActionAddon().register();
-        new DyeActionAddon().register();
-        new EnchantActionAddon().register();
-        new FishActionAddon().register();
-        new KillActionAddon().register();
-        new MilkActionAddon().register();
-        new PlaceActionAddon().register();
-        new ShearBlockActionAddon().register();
-        new ShearEntityActionAddon().register();
-        new SmeltActionAddon().register();
-        new TameActionAddon().register();
-        new TradeActionAddon().register();
     }
 
     private void registerCommands() {

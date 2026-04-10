@@ -10,8 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.Addon;
-import uk.firedev.daisylib.addons.action.ActionAddon;
-import uk.firedev.daisylib.addons.action.ActionAddonRegistry;
 import uk.firedev.daisylib.addons.item.ItemAddon;
 import uk.firedev.daisylib.addons.item.ItemAddonRegistry;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
@@ -32,8 +30,7 @@ public class ListSubcommand {
         return Commands.literal("list")
             .then(itemAddons())
             .then(rewardAddons())
-            .then(requirementAddons())
-            .then(actionAddons());
+            .then(requirementAddons());
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> itemAddons() {
@@ -46,10 +43,6 @@ public class ListSubcommand {
 
     private static LiteralArgumentBuilder<CommandSourceStack> requirementAddons() {
         return buildListCommand("requirementAddons", RequirementAddon.class, RequirementAddonRegistry.get().getRegistry().values());
-    }
-
-    private static LiteralArgumentBuilder<CommandSourceStack> actionAddons() {
-        return buildListCommand("actionAddons", ActionAddon.class, ActionAddonRegistry.get().getRegistry().values());
     }
 
     private static <T extends Addon> LiteralArgumentBuilder<CommandSourceStack> buildListCommand(@NonNull String name, @NonNull Class<T> clazz, @NonNull Collection<? extends T> values) {
