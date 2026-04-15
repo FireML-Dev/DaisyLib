@@ -119,7 +119,7 @@ public class VaultManager {
         Loggers.info(plugin.getComponentLogger(), "Loading VaultManager!");
 
         if (plugin.getMainConfig().enableTestingEconomy()) {
-            Bukkit.getServicesManager().register(Economy.class, new TestingEconomy(), plugin, ServicePriority.Highest);
+            Bukkit.getServicesManager().register(Economy.class, new TestingEconomy(), plugin, ServicePriority.Lowest);
             Loggers.warn(plugin.getComponentLogger(), "Registered TestingEconomy.");
         }
         if (!setupEconomy()) {
