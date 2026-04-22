@@ -5,6 +5,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.datacomponent.item.ItemLore;
 import io.papermc.paper.datacomponent.item.ResolvableProfile;
+import io.papermc.paper.datacomponent.item.TooltipDisplay;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.Material;
@@ -228,6 +229,10 @@ public class ItemBuilder {
             DataComponentTypes.PROFILE,
             ResolvableProfile.resolvableProfile().uuid(uuid).build()
         );
+        this.item.setData(
+            DataComponentTypes.TOOLTIP_DISPLAY,
+            TooltipDisplay.tooltipDisplay().addHiddenComponents(DataComponentTypes.PROFILE).build()
+        );
         return this;
     }
 
@@ -241,11 +246,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder withSkin(@NonNull Player player) {
-        this.item.setData(
-            DataComponentTypes.PROFILE,
-            ResolvableProfile.resolvableProfile(player.getPlayerProfile())
-        );
-        return this;
+        return withSkin(player.getUniqueId());
     }
 
     // Utility
