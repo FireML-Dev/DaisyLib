@@ -15,6 +15,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -106,14 +108,26 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder withDisplay(@NonNull Object display) {
+        return withDisplay(display, null);
+    }
+
     public ItemBuilder withLore(@NonNull List<?> lore, @Nullable Replacer replacer) {
         ComponentListMessage message = ComponentMessage.componentMessage(lore).replace(replacer);
         this.item.setData(DataComponentTypes.LORE, ItemLore.lore(message.get()));
         return this;
     }
 
+    public ItemBuilder withLore(@NonNull List<?> lore) {
+        return withLore(lore, null);
+    }
+
     public ItemBuilder addLore(@NonNull Object line, @Nullable Replacer replacer) {
         return addLore(List.of(line), replacer);
+    }
+
+    public ItemBuilder addLore(@NonNull Object line) {
+        return addLore(line, null);
     }
 
     public ItemBuilder addLore(@NonNull List<?> lines, @Nullable Replacer replacer) {
@@ -125,6 +139,10 @@ public class ItemBuilder {
         ItemLore newLore = ItemLore.lore().addLines(lore.lines()).addLines(message.get()).build();
         this.item.setData(DataComponentTypes.LORE, newLore);
         return this;
+    }
+
+    public ItemBuilder addLore(@NonNull List<?> lines) {
+        return addLore(lines, null);
     }
 
     // Enchantments
@@ -237,6 +255,14 @@ public class ItemBuilder {
      */
     public ItemBuilder editItem(@NonNull Function<ItemStack, ItemStack> function) {
         this.item = function.apply(this.item);
+        return this;
+    }
+
+    /**
+     * Edits the {@link PersistentDataContainer} of the item.
+     */
+    public ItemBuilder editPdc(@NonNull Consumer<PersistentDataContainer> consumer) {
+        this.item.editPersistentDataContainer(consumer);
         return this;
     }
 
