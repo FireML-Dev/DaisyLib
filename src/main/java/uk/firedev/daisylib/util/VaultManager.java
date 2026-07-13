@@ -14,6 +14,8 @@ import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.internal.DaisyLibPlugin;
 import uk.firedev.daisylib.internal.config.MainConfig;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class VaultManager {
@@ -225,7 +227,10 @@ public class VaultManager {
          */
         @Override
         public String format(double amount) {
-            return "$" + amount;
+            double amountFormatted = new BigDecimal(amount)
+                .setScale(1, RoundingMode.HALF_UP)
+                .doubleValue();
+            return "$" + amountFormatted;
         }
 
         /**
