@@ -1,8 +1,6 @@
 package uk.firedev.daisylib.common.events;
 
-import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.block.BrushableBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
