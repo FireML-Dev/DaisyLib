@@ -3,6 +3,7 @@ package uk.firedev.daisylib.common.logging;
 import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.firedev.daisylib.common.Settings;
 
 public interface Logging {
 
@@ -51,6 +52,28 @@ public interface Logging {
         for (String line : message) {
             error(line);
         }
+    }
+
+    default void debug(@NonNull String message) {
+        if (Settings.ENABLE_DEBUG.get()) {
+            info(formatDebug(message));
+        }
+    }
+
+    default void debug(@NonNull String message, @NonNull Throwable throwable) {
+        if (Settings.ENABLE_DEBUG.get()) {
+            info(formatDebug(message), throwable);
+        }
+    }
+
+    default void debug(@NonNull String @NonNull ... message) {
+        for (String line : message) {
+            debug(line);
+        }
+    }
+
+    default @NonNull String formatDebug(@NonNull String message) {
+        return "[DEBUG] " + message;
     }
 
 }

@@ -10,9 +10,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.common.DaisyLib;
+import uk.firedev.daisylib.common.utils.MessageUtils;
 import uk.firedev.daisylib.messages.MessageSettings;
 import uk.firedev.daisylib.messages.ObjectProcessor;
-import uk.firedev.daisylib.messages.Utils;
 import uk.firedev.daisylib.messages.replacer.Replacer;
 
 import java.util.Arrays;
@@ -110,7 +111,7 @@ public class ComponentSingleMessage extends ComponentMessage {
     @Override
     public ComponentSingleMessage append(@NotNull Object append) {
         if (!MessageSettings.get().isAllowEmptyAppend() && isEmpty()) {
-            Utils.debug("Cannot append to empty ComponentSingleMessage");
+            DaisyLib.get().getLogging().debug("Cannot append to empty ComponentSingleMessage");
             return this;
         }
         return new ComponentSingleMessage(
@@ -125,11 +126,11 @@ public class ComponentSingleMessage extends ComponentMessage {
     @Override
     public ComponentSingleMessage prepend(@NotNull Object prepend) {
         if (!MessageSettings.get().isAllowEmptyPrepend() && isEmpty()) {
-            Utils.debug("Cannot prepend to empty ComponentSingleMessage");
+            DaisyLib.get().getLogging().debug("Cannot prepend to empty ComponentSingleMessage");
             return this;
         }
         Component processed = Component.join(JoinConfiguration.newlines(),ObjectProcessor.process(prepend));
-        if (Utils.isEmpty(processed)) {
+        if (MessageUtils.isEmpty(processed)) {
             return this;
         }
         return new ComponentSingleMessage(processed, messageType)
@@ -170,11 +171,11 @@ public class ComponentSingleMessage extends ComponentMessage {
      */
     @Override
     public ComponentSingleMessage parsePlaceholderAPI(@Nullable OfflinePlayer player) {
-        if (!Utils.PAPI_AVAILABLE) {
+        if (!MessageUtils.PAPI_AVAILABLE) {
             return this;
         }
         return new ComponentSingleMessage(
-            Utils.parsePlaceholderAPI(message, player),
+            MessageUtils.parsePlaceholderAPI(message, player),
             messageType
         );
     }

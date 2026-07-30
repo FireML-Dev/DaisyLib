@@ -11,9 +11,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.common.DaisyLib;
+import uk.firedev.daisylib.common.utils.MessageUtils;
 import uk.firedev.daisylib.messages.MessageSettings;
 import uk.firedev.daisylib.messages.ObjectProcessor;
-import uk.firedev.daisylib.messages.Utils;
 import uk.firedev.daisylib.messages.replacer.Replacer;
 
 import java.util.ArrayList;
@@ -129,7 +130,7 @@ public class ComponentListMessage extends ComponentMessage {
     @Override
     public ComponentListMessage append(@NotNull Object append) {
         if (!MessageSettings.get().isAllowEmptyAppend() && isEmpty()) {
-            Utils.debug("Cannot append to empty ComponentListMessage");
+            DaisyLib.get().getLogging().debug("Cannot append to empty ComponentListMessage");
             return this;
         }
         List<Component> newMessage = new ArrayList<>(message);
@@ -149,7 +150,7 @@ public class ComponentListMessage extends ComponentMessage {
      */
     public ComponentListMessage appendEachLine(@NotNull Object append) {
         if (!MessageSettings.get().isAllowEmptyAppend() && isEmpty()) {
-            Utils.debug("Cannot append to empty ComponentListMessage");
+            DaisyLib.get().getLogging().debug("Cannot append to empty ComponentListMessage");
             return this;
         }
         Component resolved = Component.join(JoinConfiguration.newlines(), ObjectProcessor.process(append));
@@ -165,7 +166,7 @@ public class ComponentListMessage extends ComponentMessage {
     @Override
     public ComponentListMessage prepend(@NotNull Object prepend) {
         if (!MessageSettings.get().isAllowEmptyPrepend() && isEmpty()) {
-            Utils.debug("Cannot prepend to empty ComponentListMessage");
+            DaisyLib.get().getLogging().debug("Cannot prepend to empty ComponentListMessage");
             return this;
         }
         List<Component> newMessage = new ArrayList<>(
@@ -185,7 +186,7 @@ public class ComponentListMessage extends ComponentMessage {
      */
     public ComponentListMessage prependEachLine(@NotNull Object prepend) {
         if (!MessageSettings.get().isAllowEmptyPrepend() && isEmpty()) {
-            Utils.debug("Cannot prepend to empty ComponentListMessage");
+            DaisyLib.get().getLogging().debug("Cannot prepend to empty ComponentListMessage");
             return this;
         }
         Component resolved = Component.join(JoinConfiguration.newlines(), ObjectProcessor.process(prepend));
@@ -268,13 +269,13 @@ public class ComponentListMessage extends ComponentMessage {
      */
     @Override
     public ComponentListMessage parsePlaceholderAPI(@Nullable OfflinePlayer player) {
-        if (!Utils.PAPI_AVAILABLE) {
+        if (!MessageUtils.PAPI_AVAILABLE) {
             return this;
         }
 
         return new ComponentListMessage(
             message.stream()
-                .map(component -> Utils.parsePlaceholderAPI(component, player))
+                .map(component -> MessageUtils.parsePlaceholderAPI(component, player))
                 .toList(),
             messageType
         );

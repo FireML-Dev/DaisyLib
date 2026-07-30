@@ -9,8 +9,8 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.common.utils.MessageUtils;
 import uk.firedev.daisylib.messages.ObjectProcessor;
-import uk.firedev.daisylib.messages.Utils;
 import uk.firedev.daisylib.messages.config.ConfigReader;
 import uk.firedev.daisylib.messages.replacer.Replacer;
 
@@ -31,15 +31,12 @@ public abstract class ComponentMessage {
 
     // Single Messages
 
-    public static @NotNull ComponentSingleMessage componentMessage(@NotNull Component message, @NotNull MessageType messageType) {
-        return new ComponentSingleMessage(message, messageType);
-    }
-
-    public static @NotNull ComponentSingleMessage componentMessage(@NotNull Component message) {
-        return componentMessage(message, MessageType.CHAT);
-    }
-
     public static @NotNull ComponentSingleMessage componentMessage(@NotNull Object object, @NotNull MessageType messageType) {
+        if (object instanceof String string) {
+            return componentMessage(MessageUtils.parseString(string), messageType);
+        } else if (object instanceof Component component) {
+            return new ComponentSingleMessage(component, messageType);
+        }
         return componentMessage(
             Component.join(JoinConfiguration.newlines(), ObjectProcessor.process(object)),
             messageType
@@ -48,17 +45,6 @@ public abstract class ComponentMessage {
 
     public static @NotNull ComponentSingleMessage componentMessage(@NotNull Object object) {
         return componentMessage(object, MessageType.CHAT);
-    }
-
-    public static @NotNull ComponentSingleMessage componentMessage(@NotNull String message, @NotNull MessageType messageType) {
-        return componentMessage(
-            Utils.processString(message),
-            messageType
-        );
-    }
-
-    public static @NotNull ComponentSingleMessage componentMessage(@NotNull String message) {
-        return componentMessage(message, MessageType.CHAT);
     }
 
     // List Messages
@@ -79,16 +65,16 @@ public abstract class ComponentMessage {
     // Ambiguous Messages - Could be single or list.
 
     public static @Nullable ComponentMessage componentMessage(@NotNull ConfigReader<?> loader, @NotNull String path) {
-        return Utils.getFromConfig(loader, path);
+        return getFromConfig(loader, path);
     }
 
     public static @NotNull ComponentMessage componentMessage(@NotNull ConfigReader<?> loader, @NotNull String path, @NotNull String def) {
-        ComponentMessage message = Utils.getFromConfig(loader, path);
+        ComponentMessage message = getFromConfig(loader, path);
         return message == null ? componentMessage(def) : message;
     }
 
     public static @NotNull ComponentMessage componentMessage(@NotNull ConfigReader<?> loader, @NotNull String path, @NotNull Component def) {
-        ComponentMessage message = Utils.getFromConfig(loader, path);
+        ComponentMessage message = getFromConfig(loader, path);
         return message == null ? componentMessage(def) : message;
     }
 
@@ -232,5 +218,29 @@ public abstract class ComponentMessage {
      * Broadcasts the message to all players on the server.
      */
     public abstract void broadcast();
+
+    // Constructor Utils
+
+    private static @Nullable ComponentMessage getFromConfig(@NotNull ConfigReader<?> loader, @NotNull String path) {
+        ConfigReader<?> section = loader.getSection(path);
+        if (section == null) {
+            return fromObject(loader.getObject(path));
+        }
+        String messageType = section.getString("type");
+        MessageType type = MessageType.getFromString(messageType);
+
+        ComponentMessage finalMessage = fromObject(section.getObject("message"));
+        return finalMessage != null ? finalMessage.messageType(type) : null;
+    }
+
+    private static @Nullable ComponentMessage fromObject(@Nullable Object object) {
+        if (object == null) {
+            return null;
+        }
+        if (object instanceof List<?> list) {
+            return ComponentMessage.componentMessage(list);
+        }
+        return ComponentMessage.componentMessage(object.toString());
+    }
 
 }

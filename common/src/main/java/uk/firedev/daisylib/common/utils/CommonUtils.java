@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.common;
+package uk.firedev.daisylib.common.utils;
 
 import org.jspecify.annotations.NonNull;
 

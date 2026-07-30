@@ -3,6 +3,7 @@ package uk.firedev.daisylib.messages;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.common.utils.MessageUtils;
 import uk.firedev.daisylib.messages.message.ComponentListMessage;
 import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 
@@ -60,7 +61,7 @@ public class ObjectProcessor {
         }
 
         // If no processor matches, #toString the object.
-        return List.of(Utils.processString(object.toString()));
+        return List.of(MessageUtils.parseString(object.toString()));
     }
 
     /**

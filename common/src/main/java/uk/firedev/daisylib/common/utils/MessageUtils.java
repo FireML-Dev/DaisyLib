@@ -1,24 +1,22 @@
-package uk.firedev.daisylib.messages;
+package uk.firedev.daisylib.common.utils;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import uk.firedev.daisylib.common.DaisyLib;
-import uk.firedev.daisylib.messages.config.ConfigReader;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
-import uk.firedev.daisylib.messages.message.MessageType;
-import uk.firedev.daisylib.messages.placeholders.PAPITagResolver;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.Tag;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.common.CommonUtils;
+import uk.firedev.daisylib.common.DaisyLib;
+import uk.firedev.daisylib.common.Settings;
 
-import java.util.List;
 import java.util.regex.Matcher;
 
-public class Utils {
+public class MessageUtils {
 
     private static final char SECTION = '§';
     public static final LegacyComponentSerializer LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
@@ -31,14 +29,15 @@ public class Utils {
         .hexColors()
         .useUnusualXRepeatedCharacterHexFormat()
         .build();
-
     public static final boolean PAPI_AVAILABLE = CommonUtils.classExists("me.clip.placeholderapi.PlaceholderAPI");
 
-    public static boolean isLegacy(@NotNull String message) {
+    private MessageUtils() {}
+
+    public static boolean containsLegacy(@NotNull String message) {
         if (message.isEmpty()) {
             return false;
         }
-        if (!MessageSettings.get().isEnableLegacy()) {
+        if (!Settings.ALLOW_LEGACY_MESSAGES.get()) {
             return false;
         }
         // If the message contains a section sign, it's definitely legacy.
@@ -54,46 +53,38 @@ public class Utils {
      * @param message The message to process.
      * @return The processed Component.
      */
-    public static @NotNull Component processString(@NotNull String message) {
+    public static @NotNull Component parseString(@NotNull String message) {
+        return parseString(message, MiniMessage.miniMessage());
+    }
+
+    /**
+     * Processes a String into a Component, detecting whether it's Legacy or MiniMessage format. A custom MiniMessage instance can be passed.
+     * @param message The message to process.
+     * @param miniMessage The MiniMessage instance to use.
+     * @return The processed Component.
+     */
+    public static @NotNull Component parseString(@NotNull String message, @NonNull MiniMessage miniMessage) {
         if (message.isEmpty()) {
             return Component.empty();
         }
-        if (isLegacy(message)) {
+        if (containsLegacy(message)) {
             // Choose the correct serializer
             LegacyComponentSerializer serializer = message.contains(Character.toString(SECTION))
                 ? LEGACY_COMPONENT_SERIALIZER_SECTION
                 : LEGACY_COMPONENT_SERIALIZER;
             return serializer.deserialize(message);
         } else {
-            return MessageSettings.get().getMiniMessage().deserialize(message);
+            return miniMessage.deserialize(message);
         }
     }
 
-    public static @Nullable ComponentMessage getFromConfig(@NotNull ConfigReader<?> loader, @NotNull String path) {
-        ConfigReader<?> section = loader.getSection(path);
-        if (section == null) {
-            return fromObject(loader.getObject(path));
-        }
-        String messageType = section.getString("type");
-        MessageType type = MessageType.getFromString(messageType);
-
-        ComponentMessage finalMessage = fromObject(section.getObject("message"));
-        return finalMessage != null ? finalMessage.messageType(type) : null;
-    }
-
-    private static @Nullable ComponentMessage fromObject(@Nullable Object object) {
-        if (object == null) {
-            return null;
-        }
-        if (object instanceof List<?> list) {
-            return ComponentMessage.componentMessage(list);
-        }
-        return ComponentMessage.componentMessage(object.toString());
+    public static boolean isEmpty(@NotNull Component component) {
+        return PlainTextComponentSerializer.plainText().serialize(component).isEmpty();
     }
 
     public static Component parsePlaceholderAPI(@NotNull Component component, @Nullable OfflinePlayer player) {
         if (!PAPI_AVAILABLE) {
-            debug("PlaceholderAPI not found. It's either not installed or not a dependency.");
+            DaisyLib.get().getLogging().debug("PlaceholderAPI not found. It's either not installed or not a dependency.");
             return component;
         }
         MiniMessage mm = MiniMessage.miniMessage();
@@ -106,23 +97,23 @@ public class Utils {
         Matcher matcher = PlaceholderAPI.getPlaceholderPattern().matcher(input);
         String result = matcher.replaceAll("<papi:$1>");
 
-        return mm.deserialize(result, PAPITagResolver.get(player));
+        return mm.deserialize(result, getPapiResolver(player));
     }
 
-    public static boolean isEmpty(@NotNull Component component) {
-        return PlainTextComponentSerializer.plainText().serialize(component).isEmpty();
-    }
+    private static @NonNull TagResolver getPapiResolver(@Nullable OfflinePlayer player) {
+        return TagResolver.resolver("papi", (argumentQueue, context) -> {
+            // Get the string placeholder that they want to use.
+            final String papiPlaceholder = argumentQueue.popOr("papi tag requires an argument").value();
 
-    /**
-     * Logs a throwable to console with your provided message.
-     * @param message The message to show alongside the throwable.
-     */
-    public static void debug(@NotNull String message) {
-        if (!MessageSettings.get().isAllowDebug()) {
-            return;
-        }
-        final String errorMessage = "[DEBUG] " + message;
-        DaisyLib.get().getLogging().error(errorMessage, new Throwable());
+            // Then get PAPI to parse the placeholder for the given player.
+            final String parsedPlaceholder = PlaceholderAPI.setPlaceholders(player, '%' + papiPlaceholder + '%');
+
+            // We need to turn this ugly legacy string into a nice component.
+            final Component componentPlaceholder = MessageUtils.LEGACY_COMPONENT_SERIALIZER_SECTION.deserialize(parsedPlaceholder);
+
+            // Finally, return the tag instance to insert the placeholder!
+            return Tag.selfClosingInserting(componentPlaceholder);
+        });
     }
 
 }
