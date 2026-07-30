@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.messages;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import uk.firedev.daisylib.common.DaisyLib;
 import uk.firedev.daisylib.messages.config.ConfigReader;
 import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.daisylib.messages.message.MessageType;
@@ -12,8 +13,6 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.firedev.daisylib.common.CommonUtils;
 
 import java.util.List;
@@ -21,7 +20,6 @@ import java.util.regex.Matcher;
 
 public class Utils {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger("MessageLib");
     private static final char SECTION = '§';
     public static final LegacyComponentSerializer LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
         .character('&')
@@ -124,7 +122,7 @@ public class Utils {
             return;
         }
         final String errorMessage = "[DEBUG] " + message;
-        LOGGER.error(errorMessage, new Throwable());
+        DaisyLib.get().getLogging().error(errorMessage, new Throwable());
     }
 
 }
