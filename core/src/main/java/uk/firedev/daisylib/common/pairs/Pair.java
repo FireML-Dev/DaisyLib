@@ -35,4 +35,12 @@ public final class Pair<L, R> {
         this.right = right;
     }
 
+    public boolean isNotEmpty() {
+        return !isEmpty();
+    }
+
+    public boolean isEmpty() {
+        return left == null && right == null;
+    }
+
 }

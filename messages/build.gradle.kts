@@ -1,5 +1,5 @@
 dependencies {
-    compileOnly(project(":common"))
+    compileOnly(project(":core"))
 
     compileOnly(libs.paper.api)
     compileOnly(libs.placeholderapi)
