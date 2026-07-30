@@ -5,10 +5,14 @@ import org.jspecify.annotations.Nullable;
 /**
  * Contains a pair of elements.
  */
-public class Pair<L, R> {
+public final class Pair<L, R> {
 
     private L left;
     private R right;
+
+    public static <L, R> Pair<L, R> empty() {
+        return new Pair<>(null, null);
+    }
 
     public Pair(@Nullable L left, @Nullable R right) {
         this.left = left;
