@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.minecraft.cache;
+package uk.firedev.daisylib.common.cache;
 
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;

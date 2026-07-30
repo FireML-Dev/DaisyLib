@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.minecraft.command.arguments;
+package uk.firedev.daisylib.common.command.arguments;
 
 import com.mojang.brigadier.LiteralMessage;
 import com.mojang.brigadier.arguments.ArgumentType;

@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.minecraft.blockstate;
+package uk.firedev.daisylib.common.blockstate;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BrushableBlock;

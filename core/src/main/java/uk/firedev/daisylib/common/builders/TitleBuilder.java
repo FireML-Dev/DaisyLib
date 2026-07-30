@@ -1,16 +1,13 @@
-package uk.firedev.daisylib.minecraft.builders;
+package uk.firedev.daisylib.common.builders;
 
-import me.clip.placeholderapi.replacer.Replacer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 
 import java.time.Duration;
 import java.util.Collection;
-import java.util.List;
 
 public class TitleBuilder {
 

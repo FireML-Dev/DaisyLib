@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.minecraft.command;
+package uk.firedev.daisylib.common.command;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.mojang.brigadier.LiteralMessage;

@@ -20,5 +20,4 @@ dependencyResolutionManagement {
 
 // Modules
 include("core")
-include("minecraft")
 include("messages")

@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.minecraft.command;
+package uk.firedev.daisylib.common.command;
 
 import com.oheers.fish.config.MainConfig;
 import com.oheers.fish.messages.ConfigMessage;

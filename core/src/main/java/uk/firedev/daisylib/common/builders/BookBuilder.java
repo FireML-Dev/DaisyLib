@@ -1,11 +1,9 @@
-package uk.firedev.daisylib.minecraft.builders;
+package uk.firedev.daisylib.common.builders;
 
-import me.clip.placeholderapi.replacer.Replacer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 
 import java.util.Collection;

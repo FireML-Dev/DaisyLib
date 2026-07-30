@@ -1,7 +1,9 @@
 package uk.firedev.daisylib.common;
 
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
+import uk.firedev.daisylib.common.events.CustomEventListener;
 import uk.firedev.daisylib.common.logging.Logging;
 
 public class DaisyLib {
@@ -37,5 +39,11 @@ public class DaisyLib {
         return this.logging;
     }
 
+    private void registerListeners() {
+        JavaPlugin plugin = getPlugin();
+        PluginManager pm = plugin.getServer().getPluginManager();
+
+        pm.registerEvents(new CustomEventListener(), plugin);
+    }
 
 }
