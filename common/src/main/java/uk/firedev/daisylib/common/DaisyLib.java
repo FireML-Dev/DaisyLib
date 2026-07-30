@@ -1,12 +1,8 @@
 package uk.firedev.daisylib.common;
 
-import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.firedev.daisylib.common.logging.Logging;
-import uk.firedev.daisylib.common.logging.SLF4JLogging;
 
 public class DaisyLib {
 

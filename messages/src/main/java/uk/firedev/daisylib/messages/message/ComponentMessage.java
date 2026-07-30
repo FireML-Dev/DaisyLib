@@ -17,7 +17,7 @@ import uk.firedev.daisylib.messages.replacer.Replacer;
 import java.util.List;
 import java.util.Map;
 
-public abstract class ComponentMessage {
+public abstract class ComponentMessage<C, S> {
 
     public static final Component ROOT = Component.empty()
         .applyFallbackStyle(
@@ -64,17 +64,17 @@ public abstract class ComponentMessage {
 
     // Ambiguous Messages - Could be single or list.
 
-    public static @Nullable ComponentMessage componentMessage(@NotNull ConfigReader<?> loader, @NotNull String path) {
+    public static @Nullable ComponentMessage<?, ?> componentMessage(@NotNull ConfigReader<?> loader, @NotNull String path) {
         return getFromConfig(loader, path);
     }
 
-    public static @NotNull ComponentMessage componentMessage(@NotNull ConfigReader<?> loader, @NotNull String path, @NotNull String def) {
-        ComponentMessage message = getFromConfig(loader, path);
+    public static @NotNull ComponentMessage<?, ?> componentMessage(@NotNull ConfigReader<?> loader, @NotNull String path, @NotNull String def) {
+        ComponentMessage<?, ?> message = getFromConfig(loader, path);
         return message == null ? componentMessage(def) : message;
     }
 
-    public static @NotNull ComponentMessage componentMessage(@NotNull ConfigReader<?> loader, @NotNull String path, @NotNull Component def) {
-        ComponentMessage message = getFromConfig(loader, path);
+    public static @NotNull ComponentMessage<?, ?> componentMessage(@NotNull ConfigReader<?> loader, @NotNull String path, @NotNull Component def) {
+        ComponentMessage<?, ?> message = getFromConfig(loader, path);
         return message == null ? componentMessage(def) : message;
     }
 
@@ -113,11 +113,46 @@ public abstract class ComponentMessage {
     }
 
     /**
+     * Gets the underlying message.
+     *
+     * @return The underlying message.
+     */
+    public abstract @NotNull C get();
+
+    /**
+     * Gets the underlying message as plain text.
+     *
+     * @return The underlying message as plain text.
+     */
+    public abstract @NotNull S getPlainText();
+
+    /**
+     * Gets the underlying message as JSON.
+     *
+     * @return The underlying message as JSON.
+     */
+    public abstract @NotNull S getJson();
+
+    /**
+     * Gets the underlying message as Legacy text.
+     *
+     * @return The underlying message as Legacy text.
+     */
+    public abstract @NotNull S getLegacy();
+
+    /**
+     * Gets the underlying message as MiniMessage text.
+     *
+     * @return The underlying message as MiniMessage text.
+     */
+    public abstract @NotNull S getMiniMessage();
+
+    /**
      * Creates a copy of this ComponentMessage.
      *
      * @return A new ComponentMessage that is a copy of this one.
      */
-    public abstract ComponentMessage createCopy();
+    public abstract ComponentMessage<?, ?> createCopy();
 
     /**
      * Gets the MessageType of this message.
@@ -132,7 +167,7 @@ public abstract class ComponentMessage {
      * @param messageType The MessageType to set.
      * @return A new ComponentMessage with the updated MessageType.
      */
-    public abstract ComponentMessage messageType(@NotNull MessageType messageType);
+    public abstract ComponentMessage<?, ?> messageType(@NotNull MessageType messageType);
 
     /**
      * Appends to the current message.
@@ -140,7 +175,7 @@ public abstract class ComponentMessage {
      * @param append The object to append. Explicitly supports {@link Component} and {@link ComponentMessage}. Anything else will be converted to a String and processed.
      * @return A new ComponentMessage with the appended content.
      */
-    public abstract ComponentMessage append(@NotNull Object append);
+    public abstract ComponentMessage<?, ?> append(@NotNull Object append);
 
     /**
      * Prepends to the current message.
@@ -148,7 +183,7 @@ public abstract class ComponentMessage {
      * @param prepend The object to prepend. Explicitly supports {@link Component} and {@link ComponentMessage}. Anything else will be converted to a String and processed.
      * @return A new ComponentMessage with the prepended content.
      */
-    public abstract ComponentMessage prepend(@NotNull Object prepend);
+    public abstract ComponentMessage<?, ?> prepend(@NotNull Object prepend);
 
     /**
      * Replaces all instances of the specified placeholder with the specified replacement.
@@ -156,21 +191,21 @@ public abstract class ComponentMessage {
      * @param replacement The replacement object. Explicitly supports {@link Component} and {@link ComponentMessage}. Anything else will be converted to a String and processed.
      * @return A new ComponentMessage with the replacements made.
      */
-    public abstract ComponentMessage replace(@NotNull String placeholder, @Nullable Object replacement);
+    public abstract ComponentMessage<?, ?> replace(@NotNull String placeholder, @Nullable Object replacement);
 
     /**
      * Replaces all instances of the specified placeholders with the specified replacements.
      * @param replacements A map of placeholders to replacements. Explicitly supports {@link Component} and {@link ComponentSingleMessage} as values. Anything else will be converted to a String and processed.
      * @return A new ComponentMessage with the replacements made.
      */
-    public abstract ComponentMessage replace(@NotNull Map<String, ?> replacements);
+    public abstract ComponentMessage<?, ?> replace(@NotNull Map<String, ?> replacements);
 
     /**
      * Applies the specified Replacer to the message.
      * @param replacer The Replacer to apply.
      * @return A new ComponentMessage with the replacements made.
      */
-    public abstract ComponentMessage replace(@Nullable Replacer replacer);
+    public abstract ComponentMessage<?, ?> replace(@Nullable Replacer replacer);
 
     /**
      * Parses PlaceholderAPI placeholders in the message for the specified player.
@@ -179,7 +214,7 @@ public abstract class ComponentMessage {
      * @param player The player to parse placeholders for. Can be null for non-player specific placeholders.
      * @return A new ComponentMessage with the parsed placeholders.
      */
-    public abstract ComponentMessage parsePlaceholderAPI(@Nullable OfflinePlayer player);
+    public abstract ComponentMessage<?, ?> parsePlaceholderAPI(@Nullable OfflinePlayer player);
 
     /**
      * Checks if the underlying plain text is empty.
@@ -221,7 +256,7 @@ public abstract class ComponentMessage {
 
     // Constructor Utils
 
-    private static @Nullable ComponentMessage getFromConfig(@NotNull ConfigReader<?> loader, @NotNull String path) {
+    private static @Nullable ComponentMessage<?, ?> getFromConfig(@NotNull ConfigReader<?> loader, @NotNull String path) {
         ConfigReader<?> section = loader.getSection(path);
         if (section == null) {
             return fromObject(loader.getObject(path));
@@ -229,11 +264,11 @@ public abstract class ComponentMessage {
         String messageType = section.getString("type");
         MessageType type = MessageType.getFromString(messageType);
 
-        ComponentMessage finalMessage = fromObject(section.getObject("message"));
+        ComponentMessage<?, ?> finalMessage = fromObject(section.getObject("message"));
         return finalMessage != null ? finalMessage.messageType(type) : null;
     }
 
-    private static @Nullable ComponentMessage fromObject(@Nullable Object object) {
+    private static @Nullable ComponentMessage<?, ?> fromObject(@Nullable Object object) {
         if (object == null) {
             return null;
         }

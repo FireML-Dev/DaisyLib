@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 // NEEDS TO BE IMMUTABLE - any change makes a new instance.
-public class ComponentSingleMessage extends ComponentMessage {
+public class ComponentSingleMessage extends ComponentMessage<Component, String> {
 
     private final Component message;
     private final MessageType messageType;
@@ -35,47 +35,42 @@ public class ComponentSingleMessage extends ComponentMessage {
     // Message Getters
 
     /**
-     * Gets the underlying message.
-     *
-     * @return The underlying message.
+     * {@inheritDoc}
      */
+    @Override
     public @NotNull Component get() {
         return message;
     }
 
     /**
-     * Gets the underlying message as plain text.
-     *
-     * @return The underlying message as plain text.
+     * {@inheritDoc}
      */
-    public @NotNull String getAsPlainText() {
+    @Override
+    public @NotNull String getPlainText() {
         return PlainTextComponentSerializer.plainText().serialize(message);
     }
 
     /**
-     * Gets the underlying message as JSON.
-     *
-     * @return The underlying message as JSON.
+     * {@inheritDoc}
      */
-    public @NotNull String getAsJson() {
+    @Override
+    public @NotNull String getJson() {
         return GsonComponentSerializer.gson().serialize(message);
     }
 
     /**
-     * Gets the underlying message as Legacy text.
-     *
-     * @return The underlying message as Legacy text.
+     * {@inheritDoc}
      */
-    public @NotNull String getAsLegacy() {
+    @Override
+    public @NotNull String getLegacy() {
         return LegacyComponentSerializer.legacySection().serialize(message);
     }
 
     /**
-     * Gets the underlying message as MiniMessage text.
-     *
-     * @return The underlying message as MiniMessage text.
+     * {@inheritDoc}
      */
-    public @NotNull String getAsMiniMessage() {
+    @Override
+    public @NotNull String getMiniMessage() {
         return MessageSettings.get().getMiniMessage().serialize(message);
     }
 
@@ -186,7 +181,7 @@ public class ComponentSingleMessage extends ComponentMessage {
      * @return True if the underlying plain text matches the specified string, false otherwise.
      */
     public boolean matches(@NotNull String string) {
-        return getAsPlainText().equals(string);
+        return getPlainText().equals(string);
     }
 
     /**
@@ -195,7 +190,7 @@ public class ComponentSingleMessage extends ComponentMessage {
      * @return True if the underlying plain text contains the specified string, false otherwise.
      */
     public boolean contains(@NotNull String @NotNull... string) {
-        String plainText = getAsPlainText();
+        String plainText = getPlainText();
         return Arrays.stream(string).allMatch(plainText::contains);
     }
 
@@ -204,7 +199,7 @@ public class ComponentSingleMessage extends ComponentMessage {
      */
     @Override
     public boolean isEmpty() {
-        return getAsPlainText().isEmpty();
+        return getPlainText().isEmpty();
     }
 
     /**
@@ -212,7 +207,7 @@ public class ComponentSingleMessage extends ComponentMessage {
      */
     @Override
     public int getLength() {
-        return getAsPlainText().length();
+        return getPlainText().length();
     }
 
     /**

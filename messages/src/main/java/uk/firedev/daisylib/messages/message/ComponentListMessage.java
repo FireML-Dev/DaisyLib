@@ -24,7 +24,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 // NEEDS TO BE IMMUTABLE - any change makes a new instance.
-public class ComponentListMessage extends ComponentMessage {
+public class ComponentListMessage extends ComponentMessage<List<Component>, List<String>> {
 
     private final List<Component> message = new ArrayList<>();
     private final MessageType messageType;
@@ -42,53 +42,48 @@ public class ComponentListMessage extends ComponentMessage {
     // Message Getters
 
     /**
-     * Gets the underlying message.
-     *
-     * @return The underlying message.
+     * {@inheritDoc}
      */
+    @Override
     public @NotNull List<Component> get() {
         return new ArrayList<>(message);
     }
 
     /**
-     * Gets the underlying message as plain text.
-     *
-     * @return The underlying message as plain text.
+     * {@inheritDoc}
      */
-    public @NotNull List<String> getAsPlainText() {
+    @Override
+    public @NotNull List<String> getPlainText() {
         return message.stream()
             .map(component -> PlainTextComponentSerializer.plainText().serialize(component))
             .toList();
     }
 
     /**
-     * Gets the underlying message as JSON.
-     *
-     * @return The underlying message as JSON.
+     * {@inheritDoc}
      */
-    public @NotNull List<String> getAsJson() {
+    @Override
+    public @NotNull List<String> getJson() {
         return message.stream()
             .map(component -> GsonComponentSerializer.gson().serialize(component))
             .toList();
     }
 
     /**
-     * Gets the underlying message as Legacy text.
-     *
-     * @return The underlying message as Legacy text.
+     * {@inheritDoc}
      */
-    public @NotNull List<String> getAsLegacy() {
+    @Override
+    public @NotNull List<String> getLegacy() {
         return message.stream()
             .map(component -> LegacyComponentSerializer.legacySection().serialize(component))
             .toList();
     }
 
     /**
-     * Gets the underlying message as MiniMessage text.
-     *
-     * @return The underlying message as MiniMessage text.
+     * {@inheritDoc}
      */
-    public @NotNull List<String> getAsMiniMessage() {
+    @Override
+    public @NotNull List<String> getMiniMessage() {
         MiniMessage mm = MessageSettings.get().getMiniMessage();
         return message.stream()
             .map(mm::serialize)
