@@ -16,6 +16,9 @@ dependencyResolutionManagement {
             plugin("plugin-yml", "de.eldoria.plugin-yml.paper").version("0.9.0")
         }
     }
-}}
+}
 
+// Modules
+include("common")
+include("minecraft")
 include("messages")
