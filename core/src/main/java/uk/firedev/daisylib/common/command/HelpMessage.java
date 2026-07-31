@@ -66,7 +66,7 @@ public class HelpMessage {
      * Adds a usage to this builder
      */
     public HelpMessage addEntry(@NonNull String name, @NonNull Supplier<Component> description) {
-        this.entries.add(new HelpMessageEntry(name, description, defaultRequirement));
+        this.entries.add(new HelpMessageEntry(name, description, null));
         return this;
     }
 
@@ -115,7 +115,8 @@ public class HelpMessage {
         }
         // All help entries
         entries.forEach(entry -> {
-            if (!entry.requirement().test(sender)) {
+            Predicate<CommandSender> predicate = entry.requirement() == null ? defaultRequirement : entry.requirement();
+            if (!predicate.test(sender)) {
                 return;
             }
             Component description = entry.description().get();
@@ -136,7 +137,7 @@ public class HelpMessage {
     record HelpMessageEntry(
         @NonNull String name,
         @NonNull Supplier<Component> description,
-        @NonNull Predicate<CommandSender> requirement
+        @Nullable Predicate<CommandSender> requirement
     ) {}
 
     record EntryFormatter(
