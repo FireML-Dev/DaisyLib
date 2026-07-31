@@ -8,7 +8,7 @@ import org.bukkit.OfflinePlayer;
 /**
  * A wrapper around the default Vault Economy class to make things more simple.
  * <p>
- * All deprecated methods are forwarded to their alternatives.
+ * All deprecated methods are forwarded to their alternatives, and {@link OfflinePlayer} objects are fetched using {@link Bukkit#getOfflinePlayer(String)}.
  */
 public abstract class SimpleEconomy extends AbstractEconomy {
 

@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.common.DaisyLib;
-import uk.firedev.daisylib.common.Settings;
 
 import java.util.regex.Matcher;
 
@@ -37,7 +36,7 @@ public class MessageUtils {
         if (message.isEmpty()) {
             return false;
         }
-        if (!Settings.ALLOW_LEGACY_MESSAGES.get()) {
+        if (!DaisyLib.Settings.ALLOW_LEGACY_MESSAGES.get()) {
             return false;
         }
         // If the message contains a section sign, it's definitely legacy.
