@@ -1,16 +1,36 @@
 package uk.firedev.daisylib.common.external.vault;
 
 import net.milkbowl.vault.economy.AbstractEconomy;
+import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.ServicePriority;
+import org.jspecify.annotations.NonNull;
 
 /**
  * A wrapper around the default Vault Economy class to make things more simple.
  * <p>
  * All deprecated methods are forwarded to their alternatives, and {@link OfflinePlayer} objects are fetched using {@link Bukkit#getOfflinePlayer(String)}.
+ * <p>
+ * Also provides {@link #register(Plugin, ServicePriority)} for easy registration.
  */
 public abstract class SimpleEconomy extends AbstractEconomy {
+
+    /**
+     * Registers this economy provider with the {@link org.bukkit.plugin.ServicesManager}.
+     * @param plugin The plugin this provider belongs to.
+     * @param priority The priority of this provider.
+     */
+    public void register(@NonNull Plugin plugin, @NonNull ServicePriority priority) {
+        Bukkit.getServicesManager().register(
+            Economy.class,
+            this,
+            plugin,
+            priority
+        );
+    }
 
     private OfflinePlayer fetchPlayer(String name) {
         return Bukkit.getOfflinePlayer(name);
