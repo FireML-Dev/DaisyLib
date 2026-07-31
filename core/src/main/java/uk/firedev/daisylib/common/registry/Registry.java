@@ -12,14 +12,14 @@ public interface Registry<T extends RegistryItem> {
      * @return An immutable copy of the current registry.
      */
     @NonNull
-    Map<NamespacedKey, T> getRegistry();
+    Map<String, T> getRegistry();
 
     /**
      * Get a value from the registry.
      * @param key The key to look for.
      * @return The value, or null if not found.
      */
-    @Nullable T get(@NonNull NamespacedKey key);
+    @Nullable T get(@NonNull String key);
 
     /**
      * Get a value from the registry, or a default value if not found.
@@ -27,14 +27,14 @@ public interface Registry<T extends RegistryItem> {
      * @param defaultValue The default value to return if not found.
      * @return The value, or the default value if not found.
      */
-    @NonNull T getOrDefault(@NonNull NamespacedKey key, @NonNull T defaultValue);
+    @NonNull T getOrDefault(@NonNull String key, @NonNull T defaultValue);
 
     /**
      * Unregister a key from the registry.
      * @param key The key to unregister.
      * @return True if the key was unregistered, false if not found.
      */
-    boolean unregister(@NonNull NamespacedKey key);
+    boolean unregister(@NonNull String key);
 
     /**
      * Unregister a value from the registry.

@@ -5,6 +5,6 @@ import org.jspecify.annotations.NonNull;
 
 public interface RegistryItem {
 
-    @NonNull NamespacedKey getKey();
+    @NonNull String getKey();
 
 }
