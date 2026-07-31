@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
@@ -21,8 +22,11 @@ import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.common.addons.item.ItemAddonRegistry;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -451,6 +455,31 @@ public class CommonUtils {
         }
         removalSlots.forEach(slot -> inventory.setItem(slot, null));
         return true;
+    }
+
+    public static void giveItems(@NonNull List<@Nullable ItemStack> items, @NonNull Player player) {
+        if (items.isEmpty()) {
+            return;
+        }
+        List<ItemStack> filteredItems = items.stream()
+            .filter(Objects::nonNull)
+            .toList();
+        if (filteredItems.isEmpty()) {
+            return;
+        }
+
+        player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_ITEM_PICKUP, 0.5f, 1.5f);
+        Map<Integer, ItemStack> leftoverItems = player.getInventory().addItem(filteredItems.toArray(ItemStack[]::new));
+        leftoverItems.values().forEach(item -> player.getWorld().dropItem(player.getLocation(), item));
+    }
+
+
+    public static void giveItems(@Nullable ItemStack @NonNull [] items, @NonNull Player player) {
+        giveItems(Arrays.asList(items), player);
+    }
+
+    public static void giveItem(@NonNull ItemStack item, @NonNull Player player) {
+        giveItems(List.of(item), player);
     }
 
 }

@@ -3,7 +3,18 @@ package uk.firedev.daisylib.common;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
+import uk.firedev.daisylib.common.addons.requirement.defaults.ExpRequirementAddon;
+import uk.firedev.daisylib.common.addons.requirement.defaults.HealthRequirementAddon;
+import uk.firedev.daisylib.common.addons.requirement.defaults.HoldingRequirementAddon;
+import uk.firedev.daisylib.common.addons.requirement.defaults.MoneyRequirementAddon;
+import uk.firedev.daisylib.common.addons.requirement.defaults.PermissionRequirementAddon;
+import uk.firedev.daisylib.common.addons.requirement.defaults.WorldRequirementAddon;
+import uk.firedev.daisylib.common.addons.reward.defaults.CommandRewardAddon;
+import uk.firedev.daisylib.common.addons.reward.defaults.HealthRewardAddon;
+import uk.firedev.daisylib.common.addons.reward.defaults.ItemRewardAddon;
+import uk.firedev.daisylib.common.addons.reward.defaults.MoneyRewardAddon;
 import uk.firedev.daisylib.common.events.CustomEventListener;
+import uk.firedev.daisylib.common.external.vault.VaultWrapper;
 import uk.firedev.daisylib.common.logging.Logging;
 import uk.firedev.daisylib.common.utils.CommonUtils;
 
@@ -29,6 +40,8 @@ public class DaisyLib {
         }
         this.plugin = plugin;
         this.logging = Logging.logging("DaisyLib via " + plugin.getName());
+
+        VaultWrapper.get().load();
         registerListeners();
     }
 
@@ -52,7 +65,21 @@ public class DaisyLib {
     }
 
     public void loadDefaultAddons() {
-
+        // Item
+        // Requirement
+        new ExpRequirementAddon().register();
+        new HealthRequirementAddon().register();
+        new HoldingRequirementAddon().register();
+        new MoneyRequirementAddon().register();
+        new PermissionRequirementAddon().register();
+        new WorldRequirementAddon().register();
+        // Reward
+        new CommandRewardAddon().register();
+        new ExpRequirementAddon().register();
+        new HealthRewardAddon().register();
+        new ItemRewardAddon().register();
+        new MoneyRewardAddon().register();
+        new PermissionRequirementAddon().register();
     }
 
     public static class Settings {

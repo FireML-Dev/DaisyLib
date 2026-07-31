@@ -13,7 +13,7 @@ public class Reward {
 
     private final @NonNull String key;
     private final @NonNull String value;
-    private RewardAddon rewardAddon = null;
+    private final RewardAddon rewardAddon;
 
     public Reward(@NonNull String identifier) {
         String[] split = identifier.split(":");
@@ -36,22 +36,19 @@ public class Reward {
 
     public @NonNull String getValue() { return this.value; }
 
-    public void give(@NonNull Player player, Location hookLocation) {
-        getRewardAddon().doReward(player, getKey(), getValue(), hookLocation);
+    public void give(@NonNull Player player, @Nullable Location location) {
+        getRewardAddon().give(player, getValue(), location);
     }
 
-    public void give(@NonNull OfflinePlayer player, @Nullable Location hookLocation) {
+    public void give(@NonNull OfflinePlayer player, @Nullable Location location) {
         if (getRewardAddon() == null) {
             DaisyLib.get().getLogging().warn("No reward found for key: " + getKey());
             return;
         }
         Player online = player.getPlayer();
         if (online != null) {
-            give(online, hookLocation);
-            return;
+            give(online, location);
         }
     }
-
-    record RewardData(@NonNull Reward reward, @Nullable Location location) {}
 
 }

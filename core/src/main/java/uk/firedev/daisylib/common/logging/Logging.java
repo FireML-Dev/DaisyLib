@@ -24,6 +24,11 @@ public interface Logging {
         return new ComponentLogging(logger);
     }
 
+    static SLF4JLogging logging(@NonNull Class<?> clazz) {
+        Logger logger = LoggerFactory.getLogger(clazz);
+        return new SLF4JLogging(logger);
+    }
+
     void info(@NonNull String message);
 
     void info(@NonNull String message, @NonNull Throwable throwable);
