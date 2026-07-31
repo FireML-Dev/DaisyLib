@@ -23,7 +23,7 @@ public interface Logging {
     static ComponentLogging logging(net.kyori.adventure.text.logger.slf4j.@NonNull ComponentLogger logger) {
         return new ComponentLogging(logger);
     }
-
+    
     static SLF4JLogging logging(@NonNull Class<?> clazz) {
         Logger logger = LoggerFactory.getLogger(clazz);
         return new SLF4JLogging(logger);

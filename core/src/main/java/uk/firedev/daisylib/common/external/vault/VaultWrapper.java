@@ -24,6 +24,9 @@ public class VaultWrapper {
         return INSTANCE;
     }
 
+    /**
+     * Loads VaultWrapper. Can be called as many times as needed.
+     */
     public void load() {
         vaultAvailable = CommonUtils.classExists("net.milkbowl.vault.economy.Economy");
         setupEconomy();

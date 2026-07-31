@@ -34,15 +34,21 @@ public class DaisyLib {
         return INSTANCE;
     }
 
+    /**
+     * Initializes DaisyLib. If another plugin has called this method, nothing will happen.
+     * @param plugin Your plugin instance.
+     */
     public void init(@NonNull JavaPlugin plugin) {
         if (this.plugin != null) {
-            throw new UnsupportedOperationException("DaisyLib is already initialized!");
+            getLogging().info("Skipping initialization attempt from " + plugin.getName());
+            return;
         }
         this.plugin = plugin;
         this.logging = Logging.logging("DaisyLib via " + plugin.getName());
 
         VaultWrapper.get().load();
         registerListeners();
+        this.logging.info("DaisyLib initialized successfully.");
     }
 
     public @NonNull JavaPlugin getPlugin() {
