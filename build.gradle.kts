@@ -3,9 +3,10 @@ plugins {
 }
 
 tasks.jar {
-    from(project(":core").sourceSets.main.get().allSource)
-    from(project(":messages").sourceSets.main.get().allSource)
-    from(project(":database").sourceSets.main.get().allSource)
+    duplicatesStrategy = DuplicatesStrategy.WARN
+    from(project(":core").sourceSets.main.get().output)
+    from(project(":messages").sourceSets.main.get().output)
+    from(project(":database").sourceSets.main.get().output)
 }
 
 allprojects {
@@ -63,7 +64,7 @@ allprojects {
                 artifactId = id
                 version = project.version.toString()
 
-                from(components["java"])
+                artifact(tasks.named("jar"))
             }
         }
     }
