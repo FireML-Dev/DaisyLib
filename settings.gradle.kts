@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 // Modules
 include("core")
 include("messages")
+include("database")
