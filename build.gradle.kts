@@ -1,8 +1,18 @@
+plugins {
+    `java-library`
+}
+
+tasks.jar {
+    from(project(":core").sourceSets.main.get().allSource)
+    from(project(":messages").sourceSets.main.get().allSource)
+    from(project(":database").sourceSets.main.get().allSource)
+}
+
 allprojects {
     plugins.apply("java-library")
     plugins.apply("maven-publish")
 
-    group = "uk.firedev"
+    group = "uk.firedev.daisylib"
     version = project.property("project-version") as String
 
     repositories {
@@ -22,5 +32,39 @@ allprojects {
     extensions.configure<JavaPluginExtension> {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
+    }
+
+    extensions.configure<PublishingExtension> {
+        repositories {
+            maven {
+                url = uri("https://repo.codemc.io/repository/FireML/")
+
+                val mavenUsername = System.getenv("JENKINS_USERNAME")
+                val mavenPassword = System.getenv("JENKINS_PASSWORD")
+
+                if (mavenUsername != null && mavenPassword != null) {
+                    credentials {
+                        username = mavenUsername
+                        password = mavenPassword
+                    }
+                }
+            }
+        }
+        publications {
+            create<MavenPublication>("maven") {
+                val root = rootProject.name
+                val id = if (project.name == "DaisyLib") {
+                    root
+                } else {
+                    root + "-" + project.name
+                }
+
+                groupId = project.group.toString()
+                artifactId = id
+                version = project.version.toString()
+
+                from(components["java"])
+            }
+        }
     }
 }
