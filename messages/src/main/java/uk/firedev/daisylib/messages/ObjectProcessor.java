@@ -37,6 +37,7 @@ public class ObjectProcessor {
 
     /**
      * Processes an object into a Component list using registered processors.
+     *
      * @param object The object to process.
      * @return The processed object.
      */
@@ -66,7 +67,8 @@ public class ObjectProcessor {
 
     /**
      * Registers a processor for the provided class.
-     * @param clazz The class to process.
+     *
+     * @param clazz     The class to process.
      * @param processor The component provider.
      */
     public static <T> void registerProcessor(@NonNull Class<T> clazz, @NonNull Function<T, List<Component>> processor) {
@@ -75,15 +77,7 @@ public class ObjectProcessor {
         );
     }
 
-    private static class Processor<T> {
-
-        private final Class<T> clazz;
-        private final Function<T, List<Component>> processor;
-
-        public Processor(@NonNull Class<T> clazz, @NonNull Function<T, List<Component>> processor) {
-            this.clazz = clazz;
-            this.processor = processor;
-        }
+    private record Processor<T>(@NonNull Class<T> clazz, @NonNull Function<T, List<Component>> processor) {
 
         public @Nullable List<Component> process(@NonNull Object object) {
             if (clazz.isInstance(object)) {
