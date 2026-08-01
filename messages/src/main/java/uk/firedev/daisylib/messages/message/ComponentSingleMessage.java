@@ -71,7 +71,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      */
     @Override
     public @NonNull String getMiniMessage() {
-        return MessageSettings.get().getMiniMessage().serialize(message);
+        return MessageSettings.getMiniMessage().serialize(message);
     }
 
     // Class Methods
@@ -105,7 +105,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      */
     @Override
     public ComponentSingleMessage append(@NonNull Object append) {
-        if (!MessageSettings.get().isAllowEmptyAppend() && isEmpty()) {
+        if (!MessageSettings.isAllowEmptyAppend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot append to empty ComponentSingleMessage");
             return this;
         }
@@ -120,7 +120,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      */
     @Override
     public ComponentSingleMessage prepend(@NonNull Object prepend) {
-        if (!MessageSettings.get().isAllowEmptyPrepend() && isEmpty()) {
+        if (!MessageSettings.isAllowEmptyPrepend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot prepend to empty ComponentSingleMessage");
             return this;
         }

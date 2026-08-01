@@ -34,11 +34,6 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
         this.messageType = messageType;
     }
 
-    protected ComponentListMessage(@NonNull Component message, @NonNull MessageType messageType) {
-        this.message.add(ComponentMessage.ROOT.append(message).compact());
-        this.messageType = messageType;
-    }
-
     // Message Getters
 
     /**
@@ -84,7 +79,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      */
     @Override
     public @NonNull List<String> getMiniMessage() {
-        MiniMessage mm = MessageSettings.get().getMiniMessage();
+        MiniMessage mm = MessageSettings.getMiniMessage();
         return message.stream()
             .map(mm::serialize)
             .toList();
@@ -124,7 +119,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      */
     @Override
     public ComponentListMessage append(@NonNull Object append) {
-        if (!MessageSettings.get().isAllowEmptyAppend() && isEmpty()) {
+        if (!MessageSettings.isAllowEmptyAppend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot append to empty ComponentListMessage");
             return this;
         }
@@ -144,7 +139,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * @return A new ComponentMessage with the content appended to each line.
      */
     public ComponentListMessage appendEachLine(@NonNull Object append) {
-        if (!MessageSettings.get().isAllowEmptyAppend() && isEmpty()) {
+        if (!MessageSettings.isAllowEmptyAppend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot append to empty ComponentListMessage");
             return this;
         }
@@ -160,7 +155,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      */
     @Override
     public ComponentListMessage prepend(@NonNull Object prepend) {
-        if (!MessageSettings.get().isAllowEmptyPrepend() && isEmpty()) {
+        if (!MessageSettings.isAllowEmptyPrepend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot prepend to empty ComponentListMessage");
             return this;
         }
@@ -180,7 +175,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * @return A new ComponentMessage with the content prepended to each line.
      */
     public ComponentListMessage prependEachLine(@NonNull Object prepend) {
-        if (!MessageSettings.get().isAllowEmptyPrepend() && isEmpty()) {
+        if (!MessageSettings.isAllowEmptyPrepend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot prepend to empty ComponentListMessage");
             return this;
         }

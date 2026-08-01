@@ -7,61 +7,54 @@ import java.util.function.Function;
 
 public class MessageSettings {
 
-    private static final MessageSettings instance = new MessageSettings();
-
-    private MiniMessage.@NonNull Builder miniMessageBuilder = MiniMessage.builder()
-        .postProcessor(component -> component);
-    private @NonNull MiniMessage miniMessage = miniMessageBuilder.build();
-    private boolean enableLegacy = false;
-    private boolean allowEmptyAppend = false;
-    private boolean allowEmptyPrepend = false;
-    private boolean allowDebug = false;
+    private static MiniMessage.@NonNull Builder miniMessageBuilder = MiniMessage.builder().postProcessor(component -> component);
+    private static @NonNull MiniMessage miniMessage = miniMessageBuilder.build();
+    private static boolean enableLegacy = false;
+    private static boolean allowEmptyAppend = false;
+    private static boolean allowEmptyPrepend = false;
+    private static boolean allowDebug = false;
 
     private MessageSettings() {}
 
-    public static @NonNull MessageSettings get() {
-        return instance;
+    public static boolean isEnableLegacy() {
+        return enableLegacy;
     }
 
-    public boolean isEnableLegacy() {
-        return this.enableLegacy;
+    public static void setEnableLegacy(boolean allow) {
+        enableLegacy = allow;
     }
 
-    public void setEnableLegacy(boolean allow) {
-        this.enableLegacy = allow;
+    public static boolean isAllowEmptyAppend() {
+        return allowEmptyAppend;
     }
 
-    public boolean isAllowEmptyAppend() {
-        return this.allowEmptyAppend;
+    public static void setAllowEmptyAppend(boolean allow) {
+        allowEmptyAppend = allow;
     }
 
-    public void setAllowEmptyAppend(boolean allowEmptyAppend) {
-        this.allowEmptyAppend = allowEmptyAppend;
+    public static boolean isAllowEmptyPrepend() {
+        return allowEmptyPrepend;
     }
 
-    public boolean isAllowEmptyPrepend() {
-        return this.allowEmptyPrepend;
+    public static void setAllowEmptyPrepend(boolean allow) {
+        allowEmptyPrepend = allow;
     }
 
-    public void setAllowEmptyPrepend(boolean allowEmptyPrepend) {
-        this.allowEmptyPrepend = allowEmptyPrepend;
+    public static boolean isAllowDebug() {
+        return allowDebug;
     }
 
-    public boolean isAllowDebug() {
-        return this.allowDebug;
+    public static void setAllowDebug(boolean allow) {
+        allowDebug = allow;
     }
 
-    public void setAllowDebug(boolean allowDebug) {
-        this.allowDebug = allowDebug;
+    public static @NonNull MiniMessage getMiniMessage() {
+        return miniMessage;
     }
 
-    public @NonNull MiniMessage getMiniMessage() {
-        return this.miniMessage;
-    }
-
-    public void editMiniMessage(@NonNull Function<MiniMessage.@NonNull Builder, MiniMessage.@NonNull Builder> editor) {
-        this.miniMessageBuilder = editor.apply(this.miniMessageBuilder);
-        this.miniMessage = this.miniMessageBuilder.build();
+    public static void editMiniMessage(@NonNull Function<MiniMessage.@NonNull Builder, MiniMessage.@NonNull Builder> editor) {
+        miniMessageBuilder = editor.apply(miniMessageBuilder);
+        miniMessage = miniMessageBuilder.build();
     }
 
 }
