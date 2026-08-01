@@ -1,7 +1,7 @@
 package uk.firedev.daisylib.messages.config;
 
 import org.bukkit.configuration.ConfigurationSection;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
@@ -10,7 +10,7 @@ public class PaperConfigReader implements ConfigReader<ConfigurationSection> {
 
     private final ConfigurationSection config;
 
-    public PaperConfigReader(@NotNull ConfigurationSection section) {
+    public PaperConfigReader(@NonNull ConfigurationSection section) {
         this.config = section;
     }
 
@@ -25,17 +25,17 @@ public class PaperConfigReader implements ConfigReader<ConfigurationSection> {
     }
 
     @Override
-    public @NotNull List<String> getStringList(String path) {
+    public @NonNull List<String> getStringList(String path) {
         return config.getStringList(path);
     }
 
     @Override
-    public @NotNull ConfigurationSection getConfig() {
+    public @NonNull ConfigurationSection getConfig() {
         return config;
     }
 
     @Override
-    public @Nullable ConfigReader<ConfigurationSection> getSection(@NotNull String path) {
+    public @Nullable ConfigReader<ConfigurationSection> getSection(@NonNull String path) {
         ConfigurationSection section = config.getConfigurationSection(path);
         if (section == null) {
             return null;

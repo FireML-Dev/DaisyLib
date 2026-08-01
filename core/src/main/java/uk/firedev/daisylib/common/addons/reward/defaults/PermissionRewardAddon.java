@@ -1,6 +1,5 @@
 package uk.firedev.daisylib.common.addons.reward.defaults;
 
-import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

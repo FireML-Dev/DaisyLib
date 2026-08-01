@@ -3,7 +3,7 @@ package uk.firedev.daisylib.messages.message;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.function.BiConsumer;
@@ -22,11 +22,11 @@ public enum MessageType {
 
     private final BiConsumer<Audience, Component> consumer;
 
-    MessageType(@NotNull BiConsumer<Audience, Component> consumer) {
+    MessageType(@NonNull BiConsumer<Audience, Component> consumer) {
         this.consumer = consumer;
     }
 
-    public void send(@Nullable Audience audience, @NotNull Component message) {
+    public void send(@Nullable Audience audience, @NonNull Component message) {
         if (audience == null) {
             return;
         }
@@ -38,7 +38,7 @@ public enum MessageType {
      * @param type The string to convert to a MessageType.
      * @return The MessageType, or CHAT if the string is null or invalid.
      */
-    public static @NotNull MessageType getFromString(@Nullable String type) {
+    public static @NonNull MessageType getFromString(@Nullable String type) {
         if (type == null) {
             return CHAT;
         }

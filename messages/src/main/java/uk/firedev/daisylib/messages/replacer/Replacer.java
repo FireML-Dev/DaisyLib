@@ -2,7 +2,7 @@ package uk.firedev.daisylib.messages.replacer;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.messages.ObjectProcessor;
 import uk.firedev.daisylib.messages.message.ComponentMessage;
@@ -33,7 +33,7 @@ public class Replacer {
      * @param replacement The replacement object. Explicitly supports {@link Component} and {@link ComponentSingleMessage}. Anything else will be converted to a String and processed.
      * @return The modified Replacer.
      */
-    public Replacer addReplacement(@NotNull String string, @Nullable Object replacement) {
+    public Replacer addReplacement(@NonNull String string, @Nullable Object replacement) {
         this.replacements.put(string, replacement);
         return this;
     }
@@ -43,7 +43,7 @@ public class Replacer {
      * @param replacements The replacements to add. Explicitly supports {@link Component} and {@link ComponentSingleMessage} as values. Anything else will be converted to a String and processed.
      * @return The modified Replacer
      */
-    public Replacer addReplacements(@NotNull Map<String, ?> replacements) {
+    public Replacer addReplacements(@NonNull Map<String, ?> replacements) {
         this.replacements.putAll(replacements);
         return this;
     }
@@ -53,7 +53,7 @@ public class Replacer {
      * @param others The other Replacers to merge.
      * @return The modified Replacer.
      */
-    public Replacer merge(@NotNull Replacer... others) {
+    public Replacer merge(@NonNull Replacer... others) {
         for (Replacer other : others) {
             if (other == this) {
                 continue;
@@ -77,7 +77,7 @@ public class Replacer {
      * @param component The component to apply the replacements to.
      * @return The modified component.
      */
-    public Component apply(@NotNull Component component) {
+    public Component apply(@NonNull Component component) {
         for (Map.Entry<String, Object> entry : replacements.entrySet()) {
             Component replacement = Component.join(JoinConfiguration.newlines(), ObjectProcessor.process(entry.getValue()));
             component = component.replaceText(
@@ -92,7 +92,7 @@ public class Replacer {
      * @param components The list of components to apply the replacements to.
      * @return The modified list of components.
      */
-    public List<Component> apply(@NotNull List<Component> components) {
+    public List<Component> apply(@NonNull List<Component> components) {
         return components.stream().map(this::apply).toList();
     }
 
@@ -104,7 +104,7 @@ public class Replacer {
      * @return The modified list of components.
      */
     // TODO potentially clean up at some point?
-    public List<Component> applyWithListInsertion(@NotNull List<Component> components) {
+    public List<Component> applyWithListInsertion(@NonNull List<Component> components) {
         List<Component> newList = new ArrayList<>();
         for (Component component : components) {
             boolean replaced = false;

@@ -1,7 +1,7 @@
 package uk.firedev.daisylib.messages;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.function.Function;
 
@@ -9,9 +9,9 @@ public class MessageSettings {
 
     private static final MessageSettings instance = new MessageSettings();
 
-    private @NotNull MiniMessage.Builder miniMessageBuilder = MiniMessage.builder()
+    private MiniMessage.@NonNull Builder miniMessageBuilder = MiniMessage.builder()
         .postProcessor(component -> component);
-    private @NotNull MiniMessage miniMessage = miniMessageBuilder.build();
+    private @NonNull MiniMessage miniMessage = miniMessageBuilder.build();
     private boolean enableLegacy = false;
     private boolean allowEmptyAppend = false;
     private boolean allowEmptyPrepend = false;
@@ -19,7 +19,7 @@ public class MessageSettings {
 
     private MessageSettings() {}
 
-    public static @NotNull MessageSettings get() {
+    public static @NonNull MessageSettings get() {
         return instance;
     }
 
@@ -55,11 +55,11 @@ public class MessageSettings {
         this.allowDebug = allowDebug;
     }
 
-    public @NotNull MiniMessage getMiniMessage() {
+    public @NonNull MiniMessage getMiniMessage() {
         return this.miniMessage;
     }
 
-    public void editMiniMessage(@NotNull Function<MiniMessage.@NotNull Builder, MiniMessage.@NotNull Builder> editor) {
+    public void editMiniMessage(@NonNull Function<MiniMessage.@NonNull Builder, MiniMessage.@NonNull Builder> editor) {
         this.miniMessageBuilder = editor.apply(this.miniMessageBuilder);
         this.miniMessage = this.miniMessageBuilder.build();
     }

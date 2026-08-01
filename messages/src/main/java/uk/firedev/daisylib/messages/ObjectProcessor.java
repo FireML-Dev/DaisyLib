@@ -1,7 +1,7 @@
 package uk.firedev.daisylib.messages;
 
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.common.utils.MessageUtils;
 import uk.firedev.daisylib.messages.message.ComponentListMessage;
@@ -40,7 +40,7 @@ public class ObjectProcessor {
      * @param object The object to process.
      * @return The processed object.
      */
-    public static @NotNull List<Component> process(@Nullable Object object) {
+    public static @NonNull List<Component> process(@Nullable Object object) {
         if (object == null) {
             return List.of();
         }
@@ -69,7 +69,7 @@ public class ObjectProcessor {
      * @param clazz The class to process.
      * @param processor The component provider.
      */
-    public static <T> void registerProcessor(@NotNull Class<T> clazz, @NotNull Function<T, List<Component>> processor) {
+    public static <T> void registerProcessor(@NonNull Class<T> clazz, @NonNull Function<T, List<Component>> processor) {
         PROCESSORS.add(
             new Processor<>(clazz, processor)
         );
@@ -80,12 +80,12 @@ public class ObjectProcessor {
         private final Class<T> clazz;
         private final Function<T, List<Component>> processor;
 
-        public Processor(@NotNull Class<T> clazz, @NotNull Function<T, List<Component>> processor) {
+        public Processor(@NonNull Class<T> clazz, @NonNull Function<T, List<Component>> processor) {
             this.clazz = clazz;
             this.processor = processor;
         }
 
-        public @Nullable List<Component> process(@NotNull Object object) {
+        public @Nullable List<Component> process(@NonNull Object object) {
             if (clazz.isInstance(object)) {
                 return processor.apply(clazz.cast(object));
             }

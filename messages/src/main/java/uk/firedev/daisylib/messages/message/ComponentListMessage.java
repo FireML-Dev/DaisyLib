@@ -9,7 +9,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.common.DaisyLib;
 import uk.firedev.daisylib.common.utils.MessageUtils;
@@ -29,12 +29,12 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
     private final List<Component> message = new ArrayList<>();
     private final MessageType messageType;
 
-    protected ComponentListMessage(@NotNull List<Component> message, @NotNull MessageType messageType) {
+    protected ComponentListMessage(@NonNull List<Component> message, @NonNull MessageType messageType) {
         message.forEach(component -> this.message.add(ROOT.append(component).compact()));
         this.messageType = messageType;
     }
 
-    protected ComponentListMessage(@NotNull Component message, @NotNull MessageType messageType) {
+    protected ComponentListMessage(@NonNull Component message, @NonNull MessageType messageType) {
         this.message.add(ComponentMessage.ROOT.append(message).compact());
         this.messageType = messageType;
     }
@@ -45,7 +45,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public @NotNull List<Component> get() {
+    public @NonNull List<Component> get() {
         return new ArrayList<>(message);
     }
 
@@ -53,7 +53,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public @NotNull List<String> getPlainText() {
+    public @NonNull List<String> getPlainText() {
         return message.stream()
             .map(component -> PlainTextComponentSerializer.plainText().serialize(component))
             .toList();
@@ -63,7 +63,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public @NotNull List<String> getJson() {
+    public @NonNull List<String> getJson() {
         return message.stream()
             .map(component -> GsonComponentSerializer.gson().serialize(component))
             .toList();
@@ -73,7 +73,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public @NotNull List<String> getLegacy() {
+    public @NonNull List<String> getLegacy() {
         return message.stream()
             .map(component -> LegacyComponentSerializer.legacySection().serialize(component))
             .toList();
@@ -83,7 +83,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public @NotNull List<String> getMiniMessage() {
+    public @NonNull List<String> getMiniMessage() {
         MiniMessage mm = MessageSettings.get().getMiniMessage();
         return message.stream()
             .map(mm::serialize)
@@ -107,7 +107,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public @NotNull MessageType messageType() {
+    public @NonNull MessageType messageType() {
         return messageType;
     }
 
@@ -115,7 +115,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage messageType(@NotNull MessageType messageType) {
+    public ComponentListMessage messageType(@NonNull MessageType messageType) {
         return new ComponentListMessage(message, messageType);
     }
 
@@ -123,7 +123,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage append(@NotNull Object append) {
+    public ComponentListMessage append(@NonNull Object append) {
         if (!MessageSettings.get().isAllowEmptyAppend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot append to empty ComponentListMessage");
             return this;
@@ -143,7 +143,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * @param append The object to append. Explicitly supports {@link Component} and {@link ComponentMessage}. Anything else will be converted to a String and processed.
      * @return A new ComponentMessage with the content appended to each line.
      */
-    public ComponentListMessage appendEachLine(@NotNull Object append) {
+    public ComponentListMessage appendEachLine(@NonNull Object append) {
         if (!MessageSettings.get().isAllowEmptyAppend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot append to empty ComponentListMessage");
             return this;
@@ -159,7 +159,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage prepend(@NotNull Object prepend) {
+    public ComponentListMessage prepend(@NonNull Object prepend) {
         if (!MessageSettings.get().isAllowEmptyPrepend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot prepend to empty ComponentListMessage");
             return this;
@@ -179,7 +179,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * @param prepend The object to prepend. Explicitly supports {@link Component} and {@link ComponentMessage}. Anything else will be converted to a String and processed.
      * @return A new ComponentMessage with the content prepended to each line.
      */
-    public ComponentListMessage prependEachLine(@NotNull Object prepend) {
+    public ComponentListMessage prependEachLine(@NonNull Object prepend) {
         if (!MessageSettings.get().isAllowEmptyPrepend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot prepend to empty ComponentListMessage");
             return this;
@@ -195,7 +195,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage replace(@NotNull String placeholder, @Nullable Object replacement) {
+    public ComponentListMessage replace(@NonNull String placeholder, @Nullable Object replacement) {
         Replacer replacer = Replacer.replacer().addReplacement(placeholder, replacement);
         return new ComponentListMessage(replacer.apply(message), messageType);
     }
@@ -208,7 +208,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * @param replacement The replacement object. Explicitly supports {@link Component} and {@link ComponentMessage}. Anything else will be converted to a String and processed.
      * @return A new ComponentMessage with the replacements made.
      */
-    public ComponentListMessage replaceWithListInsertion(@NotNull String placeholder, @Nullable Object replacement) {
+    public ComponentListMessage replaceWithListInsertion(@NonNull String placeholder, @Nullable Object replacement) {
         Replacer replacer = Replacer.replacer().addReplacement(placeholder, replacement);
         return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType);
     }
@@ -217,7 +217,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage replace(@NotNull Map<String, ?> replacements) {
+    public ComponentListMessage replace(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.replacer().addReplacements(replacements);
         return new ComponentListMessage(replacer.apply(message), messageType);
     }
@@ -229,7 +229,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * @param replacements A map of placeholders to replacements. Explicitly supports {@link Component} and {@link ComponentSingleMessage} as values. Anything else will be converted to a String and processed.
      * @return A new ComponentMessage with the replacements made.
      */
-    public ComponentListMessage replaceWithListInsertion(@NotNull Map<String, ?> replacements) {
+    public ComponentListMessage replaceWithListInsertion(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.replacer().addReplacements(replacements);
         return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType);
     }
@@ -309,7 +309,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * @param editor A function that takes a List of Components and returns a modified List of Components.
      * @return A new ComponentListMessage with the edited message.
      */
-    public ComponentListMessage edit(@NotNull Function<List<Component>, List<Component>> editor) {
+    public ComponentListMessage edit(@NonNull Function<List<Component>, List<Component>> editor) {
         List<Component> newMessage = editor.apply(new ArrayList<>(this.message));
         return new ComponentListMessage(newMessage, this.messageType);
     }
@@ -320,7 +320,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * @param editor A function that takes a ComponentSingleMessage and returns a modified ComponentSingleMessage.
      * @return A new ComponentListMessage with each line edited.
      */
-    public ComponentListMessage editAllLines(@NotNull Function<ComponentSingleMessage, ComponentSingleMessage> editor) {
+    public ComponentListMessage editAllLines(@NonNull Function<ComponentSingleMessage, ComponentSingleMessage> editor) {
         List<Component> newMessage = message.stream()
             .map(line -> editor.apply(new ComponentSingleMessage(line, this.messageType)))
             .filter(Objects::nonNull)
@@ -346,7 +346,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public void send(@NotNull List<? extends Audience> audienceList) {
+    public void send(@NonNull List<? extends Audience> audienceList) {
         if (isEmpty()) {
             return;
         }

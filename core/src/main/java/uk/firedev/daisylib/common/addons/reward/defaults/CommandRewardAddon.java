@@ -1,7 +1,5 @@
 package uk.firedev.daisylib.common.addons.reward.defaults;
 
-import me.clip.placeholderapi.replacer.Replacer;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -10,8 +8,6 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.common.DaisyLib;
 import uk.firedev.daisylib.common.addons.reward.RewardAddon;
-
-import java.util.Map;
 
 public class CommandRewardAddon extends RewardAddon {
 

@@ -1,7 +1,8 @@
 package uk.firedev.daisylib.common;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.common.addons.requirement.defaults.ExpRequirementAddon;
 import uk.firedev.daisylib.common.addons.requirement.defaults.HealthRequirementAddon;
@@ -17,6 +18,7 @@ import uk.firedev.daisylib.common.events.CustomEventListener;
 import uk.firedev.daisylib.common.external.vault.VaultWrapper;
 import uk.firedev.daisylib.common.logging.Logging;
 import uk.firedev.daisylib.common.utils.CommonUtils;
+import uk.firedev.daisylib.common.utils.VersionChecker;
 
 import java.util.function.Supplier;
 
@@ -25,10 +27,14 @@ public class DaisyLib {
     private static final DaisyLib INSTANCE = new DaisyLib();
     public static final boolean IS_FOLIA = CommonUtils.classExists("io.papermc.paper.threadedregions.RegionizedServer");
 
-    private JavaPlugin plugin;
+    private Plugin plugin;
     private Logging logging = Logging.logging("DaisyLib");
 
-    private DaisyLib() {}
+    private DaisyLib() {
+        if (VersionChecker.isOlderThan(Bukkit.getMinecraftVersion(), "1.21.1")) {
+            throw new UnsupportedOperationException("Unsupported Minecraft version. Only 1.21.1 and above are supported.");
+        }
+    }
 
     public static @NonNull DaisyLib get() {
         return INSTANCE;
@@ -38,7 +44,7 @@ public class DaisyLib {
      * Initializes DaisyLib. If another plugin has called this method, nothing will happen.
      * @param plugin Your plugin instance.
      */
-    public void init(@NonNull JavaPlugin plugin) {
+    public void init(@NonNull Plugin plugin) {
         if (this.plugin != null) {
             getLogging().info("Skipping initialization attempt from " + plugin.getName());
             return;
@@ -47,13 +53,13 @@ public class DaisyLib {
         this.logging = Logging.logging("DaisyLib via " + plugin.getName());
 
         VaultWrapper.get().load();
-        registerListeners();
+        registerListeners(plugin);
         this.logging.info("DaisyLib initialized successfully.");
     }
 
-    public @NonNull JavaPlugin getPlugin() {
+    public @NonNull Plugin getPlugin() {
         if (this.plugin == null) {
-            logging.error("DaisyLib has not been initialized. You must call DaisyLib#init(JavaPlugin).");
+            logging.error("DaisyLib has not been initialized. You must call DaisyLib#init(Plugin).");
             throw new IllegalStateException();
         }
         return this.plugin;
@@ -63,8 +69,7 @@ public class DaisyLib {
         return this.logging;
     }
 
-    private void registerListeners() {
-        JavaPlugin plugin = getPlugin();
+    private void registerListeners(@NonNull Plugin plugin) {
         PluginManager pm = plugin.getServer().getPluginManager();
 
         pm.registerEvents(new CustomEventListener(), plugin);

@@ -8,7 +8,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.common.DaisyLib;
 import uk.firedev.daisylib.common.utils.MessageUtils;
@@ -27,7 +27,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
     private final Component message;
     private final MessageType messageType;
 
-    protected ComponentSingleMessage(@NotNull Component message, @NotNull MessageType messageType) {
+    protected ComponentSingleMessage(@NonNull Component message, @NonNull MessageType messageType) {
         this.message = ComponentMessage.ROOT.append(message).compact();
         this.messageType = messageType;
     }
@@ -38,7 +38,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public @NotNull Component get() {
+    public @NonNull Component get() {
         return message;
     }
 
@@ -46,7 +46,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public @NotNull String getPlainText() {
+    public @NonNull String getPlainText() {
         return PlainTextComponentSerializer.plainText().serialize(message);
     }
 
@@ -54,7 +54,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public @NotNull String getJson() {
+    public @NonNull String getJson() {
         return GsonComponentSerializer.gson().serialize(message);
     }
 
@@ -62,7 +62,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public @NotNull String getLegacy() {
+    public @NonNull String getLegacy() {
         return LegacyComponentSerializer.legacySection().serialize(message);
     }
 
@@ -70,7 +70,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public @NotNull String getMiniMessage() {
+    public @NonNull String getMiniMessage() {
         return MessageSettings.get().getMiniMessage().serialize(message);
     }
 
@@ -88,7 +88,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public @NotNull MessageType messageType() {
+    public @NonNull MessageType messageType() {
         return messageType;
     }
 
@@ -96,7 +96,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage messageType(@NotNull MessageType messageType) {
+    public ComponentSingleMessage messageType(@NonNull MessageType messageType) {
         return new ComponentSingleMessage(message, messageType);
     }
 
@@ -104,7 +104,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage append(@NotNull Object append) {
+    public ComponentSingleMessage append(@NonNull Object append) {
         if (!MessageSettings.get().isAllowEmptyAppend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot append to empty ComponentSingleMessage");
             return this;
@@ -119,7 +119,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage prepend(@NotNull Object prepend) {
+    public ComponentSingleMessage prepend(@NonNull Object prepend) {
         if (!MessageSettings.get().isAllowEmptyPrepend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot prepend to empty ComponentSingleMessage");
             return this;
@@ -136,7 +136,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage replace(@NotNull String placeholder, @Nullable Object replacement) {
+    public ComponentSingleMessage replace(@NonNull String placeholder, @Nullable Object replacement) {
         Replacer replacer = Replacer.replacer().addReplacement(placeholder, replacement);
         return new ComponentSingleMessage(replacer.apply(message), messageType);
     }
@@ -145,7 +145,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage replace(@NotNull Map<String, ?> replacements) {
+    public ComponentSingleMessage replace(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.replacer().addReplacements(replacements);
         return new ComponentSingleMessage(replacer.apply(message), messageType);
     }
@@ -180,7 +180,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * @param string The string to check against.
      * @return True if the underlying plain text matches the specified string, false otherwise.
      */
-    public boolean matches(@NotNull String string) {
+    public boolean matches(@NonNull String string) {
         return getPlainText().equals(string);
     }
 
@@ -189,7 +189,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * @param string The strings to check for.
      * @return True if the underlying plain text contains the specified string, false otherwise.
      */
-    public boolean contains(@NotNull String @NotNull... string) {
+    public boolean contains(@NonNull String @NonNull... string) {
         String plainText = getPlainText();
         return Arrays.stream(string).allMatch(plainText::contains);
     }
@@ -217,7 +217,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * @param editor A function that modifies the current component.
      * @return A new ComponentSingleMessage with the edited component.
      */
-    public ComponentSingleMessage edit(@NotNull Function<Component, Component> editor) {
+    public ComponentSingleMessage edit(@NonNull Function<Component, Component> editor) {
         return new ComponentSingleMessage(editor.apply(this.message), this.messageType);
     }
 
@@ -238,7 +238,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public void send(@NotNull List<? extends Audience> audienceList) {
+    public void send(@NonNull List<? extends Audience> audienceList) {
         if (isEmpty()) {
             return;
         }

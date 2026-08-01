@@ -8,7 +8,6 @@ import uk.firedev.daisylib.common.addons.InvalidAddonException;
 import uk.firedev.daisylib.common.registry.Registry;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 

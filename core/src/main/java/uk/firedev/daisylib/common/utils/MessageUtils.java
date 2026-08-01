@@ -8,7 +8,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.OfflinePlayer;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.common.DaisyLib;
@@ -32,7 +32,7 @@ public class MessageUtils {
 
     private MessageUtils() {}
 
-    public static boolean containsLegacy(@NotNull String message) {
+    public static boolean containsLegacy(@NonNull String message) {
         if (message.isEmpty()) {
             return false;
         }
@@ -52,7 +52,7 @@ public class MessageUtils {
      * @param message The message to process.
      * @return The processed Component.
      */
-    public static @NotNull Component parseString(@NotNull String message) {
+    public static @NonNull Component parseString(@NonNull String message) {
         return parseString(message, MiniMessage.miniMessage());
     }
 
@@ -62,7 +62,7 @@ public class MessageUtils {
      * @param miniMessage The MiniMessage instance to use.
      * @return The processed Component.
      */
-    public static @NotNull Component parseString(@NotNull String message, @NonNull MiniMessage miniMessage) {
+    public static @NonNull Component parseString(@NonNull String message, @NonNull MiniMessage miniMessage) {
         if (message.isEmpty()) {
             return Component.empty();
         }
@@ -77,11 +77,11 @@ public class MessageUtils {
         }
     }
 
-    public static boolean isEmpty(@NotNull Component component) {
+    public static boolean isEmpty(@NonNull Component component) {
         return PlainTextComponentSerializer.plainText().serialize(component).isEmpty();
     }
 
-    public static Component parsePlaceholderAPI(@NotNull Component component, @Nullable OfflinePlayer player) {
+    public static Component parsePlaceholderAPI(@NonNull Component component, @Nullable OfflinePlayer player) {
         if (!PAPI_AVAILABLE) {
             DaisyLib.get().getLogging().debug("PlaceholderAPI not found. It's either not installed or not a dependency.");
             return component;
