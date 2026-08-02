@@ -22,7 +22,7 @@ public abstract class ConfigBase {
     private final String resourceName;
     private final Plugin plugin;
 
-    private YamlConfiguration config = new YamlConfiguration();
+    private final YamlConfiguration config = new YamlConfiguration();
     private File file = null;
 
     public ConfigBase(@NonNull File file, @Nullable String resourceName, @NonNull Plugin plugin) {
@@ -101,9 +101,6 @@ public abstract class ConfigBase {
     }
 
     public final @NonNull YamlConfiguration getConfig() {
-        if (this.config == null) {
-            throw new IllegalStateException("Config is not loaded.");
-        }
         return this.config;
     }
 
