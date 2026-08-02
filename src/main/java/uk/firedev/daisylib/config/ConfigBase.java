@@ -1,13 +1,11 @@
 package uk.firedev.daisylib.config;
 
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.DaisyLib;
-import uk.firedev.daisylib.config.settings.UpdateSettings;
 import uk.firedev.daisylib.logging.Logging;
 import uk.firedev.daisylib.messages.config.PaperConfigReader;
 import uk.firedev.daisylib.messages.message.ComponentMessage;
@@ -20,15 +18,15 @@ import java.nio.file.Files;
 
 public abstract class ConfigBase {
 
-    private final PaperConfigReader reader;
+    protected final PaperConfigReader reader;
 
-    private final Logging logging;
-    private final boolean preventIO;
-    private final String resourceName;
-    private final Plugin plugin;
+    protected final Logging logging;
+    protected final boolean preventIO;
+    protected final String resourceName;
+    protected final Plugin plugin;
+    protected final YamlConfiguration config = new YamlConfiguration();
 
-    private final YamlConfiguration config = new YamlConfiguration();
-    private File file = null;
+    protected File file = null;
 
     public ConfigBase(@NonNull File file, @Nullable String resourceName, @NonNull Plugin plugin) {
         this.config.options().copyDefaults(copyDefaults());
@@ -129,49 +127,14 @@ public abstract class ConfigBase {
     }
 
     /**
-     * Attempts to update this config using the default values and any custom logic.
+     * Custom update logic.
      */
-    public final void update() {
-        if (preventIO || this.file == null) {
-            return;
-        }
-        UpdateSettings settings = getUpdateSettings();
-        if (settings == null || !settings.allowUpdate()) {
-            return;
-        }
-        Configuration defaults = getConfig().getDefaults();
-        if (defaults == null) {
-            return;
-        }
-        String versionKey = settings.versionKey();
-        int expectedVersion = defaults.getInt(versionKey, -1);
-        int currentVersion = getConfig().getInt(versionKey, -1);
+    public abstract void update();
 
-        if (expectedVersion == -1) {
-            return;
-        }
-        if (currentVersion == -1) {
-            logging.warn("Unknown config version. Skipping updates.");
-            return;
-        }
-
-        // Current version is above expected. We can't downgrade, so do nothing.
-        if (currentVersion > expectedVersion) {
-            logging.warn("Downgrading configs is not supported, so updates will not be performed. Some configs may be broken.");
-            return;
-        }
-
-        // Current version is not equal to expected. Perform our updates.
-        if (currentVersion != expectedVersion) {
-            int v = currentVersion;
-            while (v < expectedVersion) {
-                v++;
-                settings.updateConfig(getConfig(), v);
-            }
-            getConfig().set(versionKey, expectedVersion);
-            save();
-        }
-    }
+    /**
+     * Should missing default values be copied into this config?
+     */
+    public abstract boolean copyDefaults();
 
     public ComponentMessage<?, ?> getComponentMessage(@NonNull String path, @NonNull Object def) {
         ComponentMessage<?, ?> message = ComponentMessage.componentMessage(reader, path);
@@ -188,9 +151,5 @@ public abstract class ConfigBase {
         }
         return new InputStreamReader(resource);
     }
-
-    public abstract @Nullable UpdateSettings getUpdateSettings();
-
-    public abstract boolean copyDefaults();
 
 }

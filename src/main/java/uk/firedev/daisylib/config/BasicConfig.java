@@ -1,10 +1,7 @@
 package uk.firedev.daisylib.config;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.config.settings.UpdateSettings;
 
 import java.io.File;
 
@@ -13,7 +10,7 @@ import java.io.File;
  * <p>
  * Config updates are not supported with this type.
  */
-public class BasicConfig extends ConfigBase {
+public abstract class BasicConfig extends ConfigBase {
 
     public BasicConfig(@NonNull File file, @NonNull Plugin plugin) {
         super(file, null, plugin);
@@ -28,13 +25,6 @@ public class BasicConfig extends ConfigBase {
     }
 
     @Override
-    public @Nullable UpdateSettings getUpdateSettings() {
-        return null;
-    }
-
-    @Override
-    public boolean copyDefaults() {
-        return true;
-    }
+    public final void update() {}
 
 }
