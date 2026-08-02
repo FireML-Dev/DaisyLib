@@ -54,6 +54,7 @@ public class DaisyLib {
 
         VaultWrapper.get().load();
         registerListeners(plugin);
+        loadDefaultAddons();
         this.logging.info("DaisyLib initialized successfully.");
     }
 
@@ -75,7 +76,7 @@ public class DaisyLib {
         pm.registerEvents(new CustomEventListener(), plugin);
     }
 
-    public void loadDefaultAddons() {
+    private void loadDefaultAddons() {
         // Item
         // Requirement
         new ExpRequirementAddon().register();
