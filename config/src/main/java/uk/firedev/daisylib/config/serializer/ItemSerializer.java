@@ -1,13 +1,13 @@
 package uk.firedev.daisylib.config.serializer;
 
-import com.oheers.fish.api.Logging;
-import com.oheers.fish.api.registry.EMFRegistry;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.common.DaisyLib;
 import uk.firedev.daisylib.common.addons.item.ItemAddon;
 import uk.firedev.daisylib.common.addons.item.ItemAddonRegistry;
+import uk.firedev.daisylib.common.logging.Logging;
 
 import java.util.Locale;
 
@@ -87,7 +87,7 @@ public class ItemSerializer implements ConfigSerializer<ItemStack> {
             Material material = Material.valueOf(element.toUpperCase(Locale.ROOT));
             return new ItemStack(material);
         } catch (IllegalArgumentException exception) {
-            Logging.debug(element + " is not a valid material.");
+            DaisyLib.get().getLogging().debug(element + " is not a valid material.");
             return null;
         }
     }
@@ -96,15 +96,7 @@ public class ItemSerializer implements ConfigSerializer<ItemStack> {
         if (element == null) {
             return null;
         }
-        try {
-            final String[] split = element.split(":", 2);
-            final String prefix = split[0];
-            final String id = split[1];
-            Logging.debug("GET ITEM for Addon(%s) Id(%s)".formatted(prefix, id));
-            return EMFRegistry.ITEM_ADDON.getItem(prefix, id);
-        } catch (ArrayIndexOutOfBoundsException exception) {
-            return null;
-        }
+        return ItemAddonRegistry.get().processString(element);
     }
 
 }
