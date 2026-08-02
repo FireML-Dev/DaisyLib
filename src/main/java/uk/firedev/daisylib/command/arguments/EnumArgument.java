@@ -42,14 +42,7 @@ public class EnumArgument<E extends Enum<E>> implements CustomArgumentType.Conve
             .map(o -> o.toString().toLowerCase())
             .toList();
     }
-
-    /**
-     * Provides a list of suggestions to show to the client.
-     *
-     * @param context command context
-     * @param builder suggestion builder
-     * @return suggestions
-     */
+    
     @NonNull
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(@NonNull CommandContext<S> context, @NonNull SuggestionsBuilder builder) {
@@ -60,14 +53,6 @@ public class EnumArgument<E extends Enum<E>> implements CustomArgumentType.Conve
         return builder.buildFuture();
     }
 
-    /**
-     * Converts the value from the native type to the custom argument type.
-     *
-     * @param nativeType native argument provided value
-     * @return converted value
-     * @throws CommandSyntaxException if an exception occurs while parsing
-     * @see #convert(Object, Object)
-     */
     @Override
     public @NonNull E convert(@NonNull String nativeType) throws CommandSyntaxException {
         try {
@@ -77,12 +62,6 @@ public class EnumArgument<E extends Enum<E>> implements CustomArgumentType.Conve
         }
     }
 
-    /**
-     * Gets the native type that this argument uses,
-     * the type that is sent to the client.
-     *
-     * @return native argument type
-     */
     @NonNull
     @Override
     public ArgumentType<String> getNativeType() {

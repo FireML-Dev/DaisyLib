@@ -29,6 +29,8 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
+    withSourcesJar()
+    withJavadocJar()
 }
 
 publishing {
@@ -53,7 +55,16 @@ publishing {
             artifactId = rootProject.name
             version = project.version.toString()
 
-            artifact(tasks.named("jar"))
+            from(components["java"])
         }
+    }
+}
+
+tasks.javadoc {
+    // Don't fail when missing Javadoc comments
+    isFailOnError = false
+    // Disable warnings about missing Javadoc comments
+    (options as CoreJavadocOptions).apply {
+        addBooleanOption("Xdoclint:none", true)
     }
 }

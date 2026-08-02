@@ -264,7 +264,7 @@ public class CommonUtils {
     }
 
     /**
-     * @apiNote This method can be used asynchronously.
+     * This method can be used asynchronously.
      */
     public static boolean randomChance(double chance) {
         if (chance < 0) {
