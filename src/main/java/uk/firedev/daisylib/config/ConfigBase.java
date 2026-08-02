@@ -29,7 +29,6 @@ public abstract class ConfigBase {
     protected File file = null;
 
     public ConfigBase(@NonNull File file, @Nullable String resourceName, @NonNull Plugin plugin) {
-        this.config.options().copyDefaults(copyDefaults());
         this.preventIO = false;
         this.resourceName = resourceName;
         this.plugin = plugin;
@@ -130,11 +129,6 @@ public abstract class ConfigBase {
      * Custom update logic.
      */
     public abstract void update();
-
-    /**
-     * Should missing default values be copied into this config?
-     */
-    public abstract boolean copyDefaults();
 
     public ComponentMessage<?, ?> getComponentMessage(@NonNull String path, @NonNull Object def) {
         ComponentMessage<?, ?> message = ComponentMessage.componentMessage(reader, path);

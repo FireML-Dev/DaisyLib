@@ -10,7 +10,7 @@ import java.io.File;
  * <p>
  * Config updates are not supported with this type.
  */
-public abstract class BasicConfig extends ConfigBase {
+public class BasicConfig extends ConfigBase {
 
     public BasicConfig(@NonNull File file, @NonNull Plugin plugin) {
         super(file, null, plugin);
