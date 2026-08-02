@@ -7,6 +7,7 @@ import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.DaisyLib;
+import uk.firedev.daisylib.config.settings.UpdateSettings;
 import uk.firedev.daisylib.logging.Logging;
 import uk.firedev.daisylib.messages.config.PaperConfigReader;
 import uk.firedev.daisylib.messages.message.ComponentMessage;
@@ -131,15 +132,20 @@ public abstract class ConfigBase {
      * Attempts to update this config using the default values and any custom logic.
      */
     public final void update() {
-        if (preventIO || !allowUpdate() || this.file == null) {
+        if (preventIO || this.file == null) {
+            return;
+        }
+        UpdateSettings settings = getUpdateSettings();
+        if (settings == null || !settings.allowUpdate()) {
             return;
         }
         Configuration defaults = getConfig().getDefaults();
         if (defaults == null) {
             return;
         }
-        int expectedVersion = defaults.getInt("version", -1);
-        int currentVersion = getConfig().getInt("version", -1);
+        String versionKey = settings.versionKey();
+        int expectedVersion = defaults.getInt(versionKey, -1);
+        int currentVersion = getConfig().getInt(versionKey, -1);
 
         if (expectedVersion == -1) {
             return;
@@ -160,9 +166,9 @@ public abstract class ConfigBase {
             int v = currentVersion;
             while (v < expectedVersion) {
                 v++;
-                updateConfig(getConfig(), v);
+                settings.updateConfig(getConfig(), v);
             }
-            getConfig().set("version", expectedVersion);
+            getConfig().set(versionKey, expectedVersion);
             save();
         }
     }
@@ -183,10 +189,8 @@ public abstract class ConfigBase {
         return new InputStreamReader(resource);
     }
 
+    public abstract @Nullable UpdateSettings getUpdateSettings();
+
     public abstract boolean copyDefaults();
-
-    public abstract boolean allowUpdate();
-
-    public abstract void updateConfig(@NonNull YamlConfiguration config, int targetVersion);
 
 }

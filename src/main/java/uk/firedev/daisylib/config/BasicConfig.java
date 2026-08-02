@@ -3,6 +3,8 @@ package uk.firedev.daisylib.config;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.config.settings.UpdateSettings;
 
 import java.io.File;
 
@@ -26,16 +28,13 @@ public class BasicConfig extends ConfigBase {
     }
 
     @Override
+    public @Nullable UpdateSettings getUpdateSettings() {
+        return null;
+    }
+
+    @Override
     public boolean copyDefaults() {
         return true;
     }
-
-    @Override
-    public boolean allowUpdate() {
-        return false;
-    }
-
-    @Override
-    public void updateConfig(@NonNull YamlConfiguration config, int targetVersion) { /* Intentionally does nothing. */ }
 
 }

@@ -25,9 +25,4 @@ public abstract class UpdatableConfig extends ConfigBase {
         return true;
     }
 
-    @Override
-    public final boolean allowUpdate() {
-        return true;
-    }
-
 }
