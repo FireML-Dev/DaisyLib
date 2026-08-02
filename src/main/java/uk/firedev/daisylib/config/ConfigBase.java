@@ -8,6 +8,8 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.logging.Logging;
+import uk.firedev.daisylib.messages.config.PaperConfigReader;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +18,8 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 
 public abstract class ConfigBase {
+
+    private final PaperConfigReader reader;
 
     private final Logging logging;
     private final boolean preventIO;
@@ -31,6 +35,7 @@ public abstract class ConfigBase {
         this.resourceName = resourceName;
         this.plugin = plugin;
         this.logging = Logging.logging(plugin);
+        this.reader = new PaperConfigReader(getConfig());
         reload(file);
         update();
     }
@@ -53,6 +58,7 @@ public abstract class ConfigBase {
         this.resourceName = null;
         this.plugin = DaisyLib.get().getPlugin();
         this.logging = Logging.logging(plugin);
+        this.reader = new PaperConfigReader(getConfig());
     }
 
     /**
@@ -159,6 +165,11 @@ public abstract class ConfigBase {
             getConfig().set("version", expectedVersion);
             save();
         }
+    }
+
+    public ComponentMessage<?, ?> getComponentMessage(@NonNull String path, @NonNull Object def) {
+        ComponentMessage<?, ?> message = ComponentMessage.componentMessage(reader, path);
+        return message == null ? ComponentMessage.componentMessage(def) : message;
     }
 
     private @Nullable InputStreamReader fetchResource() {
