@@ -16,6 +16,26 @@ import java.util.List;
 
 public class FileUtils {
 
+    public static boolean loadFile(@NonNull File configFile, @Nullable String resourceName, @NonNull Plugin plugin) {
+        if (configFile.exists()) {
+            return true;
+        }
+        if (resourceName == null) {
+            return createFile(configFile);
+        }
+        try (InputStream stream = plugin.getResource(resourceName)) {
+            if (stream == null) {
+                DaisyLib.get().getLogging().error("Could not retrieve " + resourceName);
+                return false;
+            }
+            Files.copy(stream, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return true;
+        } catch (IOException exception) {
+            DaisyLib.get().getLogging().warn("Failed to create " + configFile.getName(), exception);
+            return false;
+        }
+    }
+
     public static @Nullable File loadFile(@NonNull File directory, @NonNull String fileName, @NonNull String resourceName, @NonNull Plugin plugin) {
         File configFile = new File(directory, fileName);
         if (configFile.exists()) {

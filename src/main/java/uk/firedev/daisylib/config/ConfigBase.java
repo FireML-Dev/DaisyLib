@@ -9,6 +9,7 @@ import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.logging.Logging;
 import uk.firedev.daisylib.messages.config.PaperConfigReader;
 import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,33 +60,11 @@ public abstract class ConfigBase {
         this.reader = new PaperConfigReader(getConfig());
     }
 
-    /**
-     * Attempts to create the chosen file. If an exception is thrown, it will be logged and ignored.
-     */
-    private void createFile(@NonNull File configFile) {
-        if (preventIO || configFile.exists()) {
-            return;
-        }
-        try (InputStream resource = resourceName == null ? null : plugin.getResource(resourceName)) {
-            File parent = configFile.getParentFile();
-            if (parent != null) {
-                parent.mkdirs();
-            }
-            if (resource != null) {
-                Files.copy(resource, configFile.toPath());
-            } else {
-                configFile.createNewFile();
-            }
-        } catch (IOException exception) {
-            logging.warn("Failed to create " + configFile.getName(), exception);
-        }
-    }
-
     public final void reload(@NonNull File configFile) {
         if (preventIO) {
             return;
         }
-        createFile(configFile);
+        FileUtils.loadFile(configFile, resourceName, plugin);
         try (InputStreamReader resource = fetchResource()) {
             this.config.load(configFile);
             this.file = configFile;
