@@ -151,7 +151,11 @@ public abstract class ConfigBase {
 
         // Current version is not equal to expected. Perform our updates.
         if (currentVersion != expectedVersion) {
-            updateConfig(getConfig(), expectedVersion);
+            int v = currentVersion;
+            while (v < expectedVersion) {
+                v++;
+                updateConfig(getConfig(), v);
+            }
             getConfig().set("version", expectedVersion);
             save();
         }
