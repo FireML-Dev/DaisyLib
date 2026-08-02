@@ -15,6 +15,11 @@ public abstract class UpdatableConfig extends ConfigBase {
     }
 
     @Override
+    public boolean copyDefaults() {
+        return true;
+    }
+
+    @Override
     public final boolean allowUpdate() {
         return true;
     }

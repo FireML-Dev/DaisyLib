@@ -26,7 +26,7 @@ public abstract class ConfigBase {
     private File file = null;
 
     public ConfigBase(@NonNull File file, @Nullable String resourceName, @NonNull Plugin plugin) {
-        this.config.options().copyDefaults(allowUpdate());
+        this.config.options().copyDefaults(copyDefaults());
         this.preventIO = false;
         this.resourceName = resourceName;
         this.plugin = plugin;
@@ -132,8 +132,8 @@ public abstract class ConfigBase {
         if (defaults == null) {
             return;
         }
-        int expectedVersion = defaults.getInt("version", -1); // Example 1
-        int currentVersion = getConfig().getInt("version", -1); // Example 5
+        int expectedVersion = defaults.getInt("version", -1);
+        int currentVersion = getConfig().getInt("version", -1);
 
         if (expectedVersion == -1) {
             return;
@@ -143,13 +143,13 @@ public abstract class ConfigBase {
             return;
         }
 
-        // Current version is above expected, do nothing as we can't downgrade.
+        // Current version is above expected. We can't downgrade, so do nothing.
         if (currentVersion > expectedVersion) {
             logging.warn("Downgrading configs is not supported, so updates will not be performed. Some configs may be broken.");
             return;
         }
 
-        // Current version is not equal to expected, perform updates.
+        // Current version is not equal to expected. Perform our updates.
         if (currentVersion != expectedVersion) {
             updateConfig(getConfig(), expectedVersion);
             getConfig().set("version", expectedVersion);
@@ -167,6 +167,8 @@ public abstract class ConfigBase {
         }
         return new InputStreamReader(resource);
     }
+
+    public abstract boolean copyDefaults();
 
     public abstract boolean allowUpdate();
 

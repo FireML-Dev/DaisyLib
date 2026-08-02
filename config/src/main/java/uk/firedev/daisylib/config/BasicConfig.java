@@ -26,6 +26,11 @@ public final class BasicConfig extends ConfigBase {
     }
 
     @Override
+    public boolean copyDefaults() {
+        return true;
+    }
+
+    @Override
     public boolean allowUpdate() {
         return false;
     }
