@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.common.logging;
 
+import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,10 @@ public interface Logging {
     static SLF4JLogging logging(@NonNull Class<?> clazz) {
         Logger logger = LoggerFactory.getLogger(clazz);
         return new SLF4JLogging(logger);
+    }
+
+    static ComponentLogging logging(@NonNull Plugin plugin) {
+        return new ComponentLogging(plugin.getComponentLogger());
     }
 
     void info(@NonNull String message);

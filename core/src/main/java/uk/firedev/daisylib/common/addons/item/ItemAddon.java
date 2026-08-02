@@ -11,6 +11,10 @@ public abstract class ItemAddon extends Addon {
 
     public abstract @Nullable ItemStack getItem(@NonNull String id);
 
+    public abstract boolean isItem(@NonNull ItemStack item);
+
+    public abstract @Nullable String convertToString(@NonNull ItemStack item);
+
     public boolean register(boolean force) {
         return ItemAddonRegistry.get().register(this, force);
     }

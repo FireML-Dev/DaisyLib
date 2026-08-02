@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 include("core")
 include("messages")
 include("database")
+include("config")
