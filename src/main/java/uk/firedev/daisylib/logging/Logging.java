@@ -82,6 +82,10 @@ public interface Logging {
         }
     }
 
+    default void exception(@NonNull Throwable throwable) {
+        error(throwable.getMessage(), throwable);
+    }
+
     default @NonNull String formatDebug(@NonNull String message) {
         return "[DEBUG] " + message;
     }
