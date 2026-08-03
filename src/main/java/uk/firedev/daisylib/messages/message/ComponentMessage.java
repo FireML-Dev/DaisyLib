@@ -9,10 +9,10 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.OfflinePlayer;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.utils.MessageUtils;
 import uk.firedev.daisylib.messages.ObjectProcessor;
 import uk.firedev.daisylib.messages.config.ConfigReader;
 import uk.firedev.daisylib.messages.replacer.Replacer;
+import uk.firedev.daisylib.utils.MessageUtils;
 
 import java.util.List;
 import java.util.Map;

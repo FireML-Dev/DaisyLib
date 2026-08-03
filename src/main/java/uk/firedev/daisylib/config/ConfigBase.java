@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
 
 public abstract class ConfigBase {
 
@@ -25,8 +24,8 @@ public abstract class ConfigBase {
     protected final boolean preventIO;
     protected final String resourceName;
     protected final Plugin plugin;
-    protected final YamlConfiguration config = new YamlConfiguration();
 
+    protected YamlConfiguration config = new YamlConfiguration();
     protected File file = null;
 
     public ConfigBase(@NonNull File file, @Nullable String resourceName, @NonNull Plugin plugin) {
@@ -123,6 +122,35 @@ public abstract class ConfigBase {
             return null;
         }
         return new InputStreamReader(resource);
+    }
+
+    /**
+     * Copies the default values to the file.
+     * <p>
+     * Works by inserting all file keys into the default config and saving to disk.
+     */
+    protected void copyDefaults() {
+        if (resourceName == null) {
+            return;
+        }
+        try (InputStreamReader resource = fetchResource()) {
+            if (resource == null) {
+                return;
+            }
+            YamlConfiguration newConfig = YamlConfiguration.loadConfiguration(resource);
+            for (String key : newConfig.getKeys(true)) {
+                if (!this.config.isSet(key)) {
+                    logging.debug("Key " + key + " is not set in file. Skipping.");
+                    continue;
+                }
+                logging.debug("Key " + key + " existed in file. Copying.");
+                newConfig.set(key, this.config.get(key));
+            }
+            this.config = newConfig;
+            newConfig.save(this.file);
+        } catch (IOException exception) {
+            logging.error("Failed to copy default values to " + file.getName());
+        }
     }
 
 }

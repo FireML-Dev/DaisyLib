@@ -42,6 +42,8 @@ public abstract class UpdatableConfig extends ConfigBase {
         if (defaults == null) {
             return;
         }
+        copyDefaults();
+
         int expectedVersion = defaults.getInt(versionKey(), -1);
         int currentVersion = getConfig().getInt(versionKey(), -1);
 

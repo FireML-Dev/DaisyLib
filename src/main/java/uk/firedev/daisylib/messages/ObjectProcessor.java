@@ -3,9 +3,9 @@ package uk.firedev.daisylib.messages;
 import net.kyori.adventure.text.Component;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.utils.MessageUtils;
 import uk.firedev.daisylib.messages.message.ComponentListMessage;
 import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
+import uk.firedev.daisylib.utils.MessageUtils;
 
 import java.util.ArrayList;
 import java.util.List;

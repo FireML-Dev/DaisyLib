@@ -25,6 +25,8 @@ public class BasicConfig extends ConfigBase {
     }
 
     @Override
-    public final void update() {}
+    public final void update() {
+        copyDefaults();
+    }
 
 }

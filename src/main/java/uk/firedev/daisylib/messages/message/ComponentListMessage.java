@@ -12,10 +12,10 @@ import org.bukkit.OfflinePlayer;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.DaisyLib;
-import uk.firedev.daisylib.utils.MessageUtils;
 import uk.firedev.daisylib.messages.MessageSettings;
 import uk.firedev.daisylib.messages.ObjectProcessor;
 import uk.firedev.daisylib.messages.replacer.Replacer;
+import uk.firedev.daisylib.utils.MessageUtils;
 
 import java.util.ArrayList;
 import java.util.List;

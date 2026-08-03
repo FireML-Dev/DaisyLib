@@ -7,7 +7,6 @@ import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.addons.item.ItemAddon;
 import uk.firedev.daisylib.addons.item.ItemAddonRegistry;
-import uk.firedev.daisylib.logging.Logging;
 
 import java.util.Locale;
 
