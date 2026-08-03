@@ -38,7 +38,7 @@ public abstract class ConfigBase {
         update();
     }
 
-    public ConfigBase(@NonNull String fileName, @NonNull String resourceName, @NonNull Plugin plugin) {
+    public ConfigBase(@NonNull String fileName, @Nullable String resourceName, @NonNull Plugin plugin) {
         this(
             new File(plugin.getDataFolder(), fileName),
             resourceName,
