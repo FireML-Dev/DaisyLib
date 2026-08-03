@@ -20,10 +20,6 @@ public class BasicConfig extends ConfigBase {
         super(fileName, resourceName, plugin);
     }
 
-    public BasicConfig() {
-        super();
-    }
-
     @Override
     public final void update() {
         copyDefaults();
