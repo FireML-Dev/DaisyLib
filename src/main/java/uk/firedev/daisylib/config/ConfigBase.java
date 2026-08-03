@@ -46,17 +46,24 @@ public abstract class ConfigBase {
         );
     }
 
-    /**
-     * Creates an instance of ConfigBase with a blank file. This disables all I/O methods.
-     * <p>
-     * Uses the plugin that initialized DaisyLib.
-     */
-    public ConfigBase() {
+    private ConfigBase() {
         this.preventIO = true;
         this.resourceName = null;
         this.plugin = DaisyLib.get().getPlugin();
         this.logging = Logging.logging(plugin);
         this.reader = new PaperConfigReader(getConfig());
+    }
+
+    /**
+     * Creates an instance of ConfigBase with no file. This disables all I/O methods.
+     * <p>
+     * Uses the plugin that initialized DaisyLib.
+     */
+    public static @NonNull ConfigBase empty() {
+        return new ConfigBase() {
+            @Override
+            public void update() {}
+        };
     }
 
     public final void reload(@NonNull File configFile) {
