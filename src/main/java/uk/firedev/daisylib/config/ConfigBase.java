@@ -64,12 +64,9 @@ public abstract class ConfigBase {
             return;
         }
         FileUtils.loadFile(configFile, resourceName, plugin);
-        try (InputStreamReader resource = fetchResource()) {
+        try {
             this.config.load(configFile);
             this.file = configFile;
-            if (resource != null) {
-                this.config.setDefaults(YamlConfiguration.loadConfiguration(resource));
-            }
         } catch (IOException | InvalidConfigurationException exception) {
             logging.warn("Failed to load resource " + resourceName);
         }
