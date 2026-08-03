@@ -2,54 +2,38 @@ package uk.firedev.daisylib.addons.requirement;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-public class RequirementData {
+public record RequirementData(@Nullable Player player, @Nullable World world, @Nullable Location location, @Nullable ConfigurationSection config) {
 
-    private Player player;
-    private World world;
-    private Location location;
-
-    public RequirementData() {}
-
-    public RequirementData withPlayer(@Nullable Player player) {
-        this.player = player;
-        return this;
+    public RequirementData(@NonNull Player player) {
+        this(
+            player,
+            player.getWorld(),
+            player.getLocation(),
+            null
+        );
     }
 
-    public @Nullable Player getPlayer() {
-        return this.player;
+    public RequirementData(@NonNull ConfigurationSection config) {
+        this(
+            null,
+            null,
+            null,
+            config
+        );
     }
 
-    public RequirementData withWorld(@Nullable World world) {
-        this.world = world;
-        return this;
-    }
-
-    public @Nullable World getWorld() {
-        if (this.world != null) {
-            return this.world;
-        } else if (this.player != null) {
-            return this.player.getWorld();
-        } else {
-            return null;
-        }
-    }
-
-    public RequirementData withLocation(@Nullable Location location) {
-        this.location = location;
-        return this;
-    }
-
-    public @Nullable Location getLocation() {
-        if (this.location != null) {
-            return this.location;
-        } else if (this.player != null) {
-            return this.player.getLocation();
-        } else {
-            return null;
-        }
+    public RequirementData(@NonNull Player player, @NonNull ConfigurationSection config) {
+        this(
+            player,
+            player.getWorld(),
+            player.getLocation(),
+            config
+        );
     }
 
 }

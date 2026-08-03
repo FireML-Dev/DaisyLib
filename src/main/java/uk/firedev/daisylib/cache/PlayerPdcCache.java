@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.util.PlayerHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +54,8 @@ public class PlayerPdcCache {
         CachedValue<?> cachedValue = cache.get(key);
         if (cachedValue == null) {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player);
-            if (!PlayerHelper.hasPlayerBeenOnServer(offlinePlayer)) {
+            // Never logged in.
+            if (offlinePlayer.getFirstPlayed() == 0) {
                 return null;
             }
             T dataVal = offlinePlayer.getPersistentDataContainer().get(key, type);

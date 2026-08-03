@@ -10,7 +10,8 @@ public interface Registry<T extends RegistryItem> {
     /**
      * @return An immutable copy of the current registry.
      */
-    @NonNull Map<String, T> getRegistry();
+    @NonNull
+    Map<String, T> getRegistry();
 
     /**
      * Get a value from the registry.

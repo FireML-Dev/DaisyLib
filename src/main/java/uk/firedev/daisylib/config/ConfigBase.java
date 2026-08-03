@@ -1,84 +1,153 @@
 package uk.firedev.daisylib.config;
 
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.sound.Sound;
-import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.configlib.ConfigFile;
-import uk.firedev.daisylib.util.Utils;
-import uk.firedev.messagelib.config.PaperConfigLoader;
-import uk.firedev.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.DaisyLib;
+import uk.firedev.daisylib.logging.Logging;
+import uk.firedev.daisylib.messages.config.PaperConfigReader;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.utils.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
-public class ConfigBase extends ConfigFile {
+public abstract class ConfigBase {
 
-    private final PaperConfigLoader loader;
+    protected final PaperConfigReader reader;
 
-    public ConfigBase(@NonNull String filePath, @NonNull String resourcePath, @NonNull Plugin plugin) {
-        super(filePath, resourcePath, plugin);
-        this.loader = new PaperConfigLoader(config);
+    protected final Logging logging;
+    protected final boolean preventIO;
+    protected final String resourceName;
+    protected final Plugin plugin;
+
+    protected YamlConfiguration config = new YamlConfiguration();
+    protected File file = null;
+
+    public ConfigBase(@NonNull File file, @Nullable String resourceName, @NonNull Plugin plugin) {
+        this.preventIO = false;
+        this.resourceName = resourceName;
+        this.plugin = plugin;
+        this.logging = Logging.logging(plugin);
+        this.reader = new PaperConfigReader(getConfig());
+        reload(file);
+        update();
     }
 
-    public ConfigBase(@NonNull String filePath, @NonNull Plugin plugin) {
-        super(filePath, plugin);
-        this.loader = new PaperConfigLoader(config);
+    public ConfigBase(@NonNull String fileName, @NonNull String resourceName, @NonNull Plugin plugin) {
+        this(
+            new File(plugin.getDataFolder(), fileName),
+            resourceName,
+            plugin
+        );
     }
 
-    public ConfigBase(@NonNull File file) {
-        super(file);
-        this.loader = new PaperConfigLoader(config);
+    /**
+     * Creates an instance of ConfigBase with a blank file. This disables all I/O methods.
+     * <p>
+     * Uses the plugin that initialized DaisyLib.
+     */
+    public ConfigBase() {
+        this.preventIO = true;
+        this.resourceName = null;
+        this.plugin = DaisyLib.get().getPlugin();
+        this.logging = Logging.logging(plugin);
+        this.reader = new PaperConfigReader(getConfig());
     }
 
-    public ConfigBase(@NonNull File file, @Nullable InputStream resource) {
-        super(file, resource);
-        this.loader = new PaperConfigLoader(config);
+    public final void reload(@NonNull File configFile) {
+        if (preventIO) {
+            return;
+        }
+        FileUtils.loadFile(configFile, resourceName, plugin);
+        try {
+            this.config.load(configFile);
+            this.file = configFile;
+        } catch (IOException | InvalidConfigurationException exception) {
+            logging.warn("Failed to load resource " + resourceName);
+        }
     }
 
-    public ConfigBase(@NonNull File file, @NonNull String resourcePath, @NonNull Plugin plugin) {
-        super(file, resourcePath, plugin);
-        this.loader = new PaperConfigLoader(config);
+    public final void reload() {
+        if (preventIO || file == null) {
+            return;
+        }
+        reload(this.file);
     }
 
-    public @NonNull PaperConfigLoader getMessageLoader() {
-        return this.loader;
+    public final @NonNull YamlConfiguration getConfig() {
+        return this.config;
     }
 
-    public @Nullable Float getFloat(@NonNull String path) {
-        return getConfig().getObject(path, Float.class);
+    public final @Nullable File getFile() { return this.file; }
+
+    public final @NonNull Plugin getPlugin() { return this.plugin; }
+
+    public final @Nullable String getResourceName() { return this.resourceName; }
+
+    public final void save() {
+        if (preventIO || this.file == null) {
+            return;
+        }
+        try {
+            getConfig().save(this.file);
+        } catch (IOException exception) {
+            logging.warn("Failed to save " + this.file.getName(), exception);
+        }
     }
 
-    public float getFloat(@NonNull String path, float def) {
-        Float value = getFloat(path);
-        return value == null ? def : value;
-    }
+    /**
+     * Custom update logic.
+     */
+    public abstract void update();
 
-    public ComponentMessage getComponentMessage(@NonNull String path, @NonNull Object def) {
-        ComponentMessage message = ComponentMessage.componentMessage(getMessageLoader(), path);
+    public ComponentMessage<?, ?> getComponentMessage(@NonNull String path, @NonNull Object def) {
+        ComponentMessage<?, ?> message = ComponentMessage.componentMessage(reader, path);
         return message == null ? ComponentMessage.componentMessage(def) : message;
     }
 
-    public @Nullable Sound getSound(@NonNull String path) {
-        ConfigurationSection section = getConfig().getConfigurationSection(path);
-        if (section == null) {
+    private @Nullable InputStreamReader fetchResource() {
+        if (resourceName == null) {
             return null;
         }
-        String keyStr = section.getString("sound");
-        if (keyStr == null) {
+        InputStream resource = plugin.getResource(resourceName);
+        if (resource == null) {
             return null;
         }
-        Key key = NamespacedKey.fromString(keyStr);
-        if (key == null) {
-            return null;
+        return new InputStreamReader(resource);
+    }
+
+    /**
+     * Copies the default values to the file.
+     * <p>
+     * Works by inserting all file keys into the default config and saving to disk.
+     */
+    protected void copyDefaults() {
+        if (resourceName == null) {
+            return;
         }
-        Sound.Source source = Utils.getEnumValue(Sound.Source.class, section.getString("source"), Sound.Source.PLAYER);
-        float volume = getFloat("volume", 1.0F);
-        float pitch = getFloat("pitch", 1.0F);
-        return Sound.sound(key, source, volume, pitch);
+        try (InputStreamReader resource = fetchResource()) {
+            if (resource == null) {
+                return;
+            }
+            YamlConfiguration newConfig = YamlConfiguration.loadConfiguration(resource);
+            for (String key : newConfig.getKeys(true)) {
+                if (!this.config.isSet(key)) {
+                    logging.debug("Key " + key + " is not set in file. Skipping.");
+                    continue;
+                }
+                logging.debug("Key " + key + " existed in file. Copying.");
+                newConfig.set(key, this.config.get(key));
+            }
+            this.config = newConfig;
+            newConfig.save(this.file);
+        } catch (IOException exception) {
+            logging.error("Failed to copy default values to " + file.getName());
+        }
     }
 
 }

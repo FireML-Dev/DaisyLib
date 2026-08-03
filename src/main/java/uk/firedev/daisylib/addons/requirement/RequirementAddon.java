@@ -15,7 +15,7 @@ public abstract class RequirementAddon extends Addon {
      * @param data The data to check against
      * @param value The value to check
      */
-    public abstract boolean checkRequirement(@NonNull RequirementData data, @NonNull List<String> value);
+    public abstract boolean check(@NonNull RequirementData data, @NonNull List<String> value);
 
     /**
      * The identifier for this Requirement
@@ -30,7 +30,7 @@ public abstract class RequirementAddon extends Addon {
     public boolean register() {
         return register(false);
     }
-    
+
     public boolean register(boolean force) {
         return RequirementAddonRegistry.get().register(this, force);
     }

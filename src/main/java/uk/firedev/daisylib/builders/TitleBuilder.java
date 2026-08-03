@@ -4,22 +4,18 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
-import uk.firedev.messagelib.message.ComponentMessage;
-import uk.firedev.messagelib.message.ComponentSingleMessage;
-import uk.firedev.messagelib.replacer.Replacer;
 
 import java.time.Duration;
+import java.util.Collection;
 
 public class TitleBuilder {
 
     private int in = 20;
     private int stay = 60;
     private int out = 20;
-    private ComponentSingleMessage title = ComponentSingleMessage.componentMessage(Component.empty());
-    private ComponentSingleMessage subtitle = ComponentSingleMessage.componentMessage(Component.empty());
+    private Component title = Component.empty();
+    private Component subtitle = Component.empty();
 
     private TitleBuilder() {}
 
@@ -77,25 +73,31 @@ public class TitleBuilder {
         return this;
     }
 
-    public TitleBuilder withTitle(@NonNull Object title, @Nullable Replacer replacer) {
-        this.title = ComponentMessage.componentMessage(title).replace(replacer);
+    public TitleBuilder withTitle(@NonNull Component title) {
+        this.title = title;
         return this;
     }
 
-    public TitleBuilder withSubtitle(@NonNull Object subtitle, @Nullable Replacer replacer) {
-        this.subtitle = ComponentMessage.componentMessage(subtitle).replace(replacer);
+    public TitleBuilder withSubtitle(@NonNull Component subtitle) {
+        this.subtitle = subtitle;
         return this;
     }
 
     public Title build() {
         Title.Times times = Title.Times.times(Duration.ofSeconds(in / 20), Duration.ofSeconds(stay / 20), Duration.ofSeconds(out / 20));
-        return Title.title(title.get(), subtitle.get(), times);
+        return Title.title(title, subtitle, times);
     }
 
-    public void sendAll() { Audience.audience(Bukkit.getOnlinePlayers()).showTitle(build()); }
+    public void sendAll() {
+        send(Bukkit.getOnlinePlayers());
+    }
 
-    public void send(Player player) {
-        player.showTitle(build());
+    public void send(@NonNull Audience audience) {
+        audience.showTitle(build());
+    }
+
+    public void send(@NonNull Collection<? extends Audience> audiences) {
+        Audience.audience(audiences).showTitle(build());
     }
 
 }

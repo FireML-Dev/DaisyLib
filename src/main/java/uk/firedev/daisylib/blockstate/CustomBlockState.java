@@ -22,7 +22,8 @@ public interface CustomBlockState<T extends BlockState> {
      * Gets the block this blockstate is for.
      * @return The block.
      */
-    @NonNull Block getBlock();
+    @NonNull
+    Block getBlock();
 
     /**
      * Saves the block state to the block.

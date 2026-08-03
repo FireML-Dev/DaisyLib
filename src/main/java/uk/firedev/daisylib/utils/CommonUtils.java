@@ -1,0 +1,484 @@
+package uk.firedev.daisylib.utils;
+
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
+import org.bukkit.Keyed;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockType;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.addons.item.ItemAddonRegistry;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
+@SuppressWarnings("UnstableApiUsage")
+public class CommonUtils {
+
+    public static boolean classExists(@NonNull String className) {
+        try {
+            Class.forName(className);
+            return true;
+        } catch (ClassNotFoundException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if a String is a valid Integer.
+     * @param str The String to check.
+     * @return Is the String an Integer?
+     */
+    public static boolean isInt(@NonNull String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * Gets an Integer from a String
+     * @param str The string to use.
+     * @return The Integer, or null if it isn't an Integer.
+     */
+    public static @Nullable Integer getInt(@NonNull String str) {
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * Gets an int from a String or returns the default
+     * @param str The string to use.
+     * @return The int, or the default value if it isn't an int.
+     */
+    public static int getIntOrDefault(@Nullable String str, int defaultInt) {
+        if (str == null) {
+            return defaultInt;
+        }
+        Integer value = getInt(str);
+        if (value == null) {
+            return defaultInt;
+        }
+        return value;
+    }
+
+    /**
+     * Checks if a String is a valid Long.
+     * @param str The String to check.
+     * @return Is the String a Long?
+     */
+    public static boolean isLong(@NonNull String str) {
+        try {
+            Long.parseLong(str);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * Gets a Long from a String
+     * @param str The string to use.
+     * @return The Long, or null if it isn't a Long.
+     */
+    public static @Nullable Long getLong(@NonNull String str) {
+        try {
+            return Long.parseLong(str);
+        } catch (NumberFormatException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * Gets a long from a String or returns the default
+     * @param str The string to use.
+     * @return The long, or the default value if it isn't a long.
+     */
+    public static long getLongOrDefault(@Nullable String str, long defaultLong) {
+        if (str == null) {
+            return defaultLong;
+        }
+        Long value = getLong(str);
+        if (value == null) {
+            return defaultLong;
+        }
+        return value;
+    }
+
+    /**
+     * Checks if a String is a valid Double.
+     * @param str The String to check.
+     * @return Is the String a Double?
+     */
+    public static boolean isDouble(@NonNull String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * Gets a Double from a String
+     * @param str The string to use.
+     * @return The Double, or null if it isn't a Double.
+     */
+    public static @Nullable Double getDouble(@NonNull String str) {
+        try {
+            return Double.parseDouble(str);
+        } catch (NumberFormatException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * Gets a double from a String or returns the default
+     * @param str The string to use.
+     * @return The double, or the default value if it isn't a double.
+     */
+    public static double getDoubleOrDefault(@Nullable String str, double defaultDouble) {
+        if (str == null) {
+            return defaultDouble;
+        }
+        Double value = getDouble(str);
+        if (value == null) {
+            return defaultDouble;
+        }
+        return value;
+    }
+
+    /**
+     * Checks if a String is a valid Float.
+     * @param str The String to check.
+     * @return Is the String a Float?
+     */
+    public static boolean isFloat(@NonNull String str) {
+        try {
+            Float.parseFloat(str);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * Gets a Float from a String
+     * @param str The string to use.
+     * @return The Float, or null if it isn't a Float.
+     */
+    public static @Nullable Float getFloat(@NonNull String str) {
+        try {
+            return Float.parseFloat(str);
+        } catch (NumberFormatException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * Gets a float from a String or returns the default
+     * @param str The string to use.
+     * @return The float, or the default value if it isn't a float.
+     */
+    public static float getFloatOrDefault(@Nullable String str, float defaultFloat) {
+        if (str == null) {
+            return defaultFloat;
+        }
+        Float value = getFloat(str);
+        if (value == null) {
+            return defaultFloat;
+        }
+        return value;
+    }
+
+    /**
+     * Gets the provided index from an array, or returns the default value.
+     * @param array The array to use.
+     * @param index The index to return.
+     * @param def The default value.
+     * @return The provided index, or the default value.
+     */
+    public static <T> T getOrDefault(@NonNull T[] array, int index, T def) {
+        try {
+            return array[index];
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            return def;
+        }
+    }
+
+    /**
+     * Gets the provided index from a list, or returns the default value.
+     * @param list The list to use.
+     * @param index The index to return.
+     * @param def The default value.
+     * @return The provided index, or the default value.
+     */
+    public static <T> T getOrDefault(@NonNull List<T> list, int index, T def) {
+        try {
+            return list.get(index);
+        } catch (IndexOutOfBoundsException ex) {
+            return def;
+        }
+    }
+
+    public static @NonNull <E extends Enum<E>> E getEnumValue(@NonNull Class<E> enumClass, @Nullable String value, @NonNull E def) {
+        E enumValue = getEnumValue(enumClass, value);
+        if (enumValue == null) {
+            return def;
+        }
+        return enumValue;
+    }
+
+    public static @Nullable <E extends Enum<E>> E getEnumValue(@NonNull Class<E> enumClass, @Nullable String value) {
+        if (value == null) {
+            return null;
+        }
+        try {
+            return Enum.valueOf(enumClass, value.toUpperCase());
+        } catch (IllegalArgumentException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * This method can be used asynchronously.
+     */
+    public static boolean randomChance(double chance) {
+        if (chance < 0) {
+            return false;
+        }
+        if (chance >= 100) {
+            return true;
+        }
+        return chance > ThreadLocalRandom.current().nextDouble(100);
+    }
+
+    /**
+     * Gets the first Character from a given String
+     *
+     * @param string      The String to use.
+     * @param defaultChar The default character to use if an exception is thrown.
+     * @return The first Character from the String
+     */
+    public static char getCharFromString(@NonNull String string, char defaultChar) {
+        try {
+            return string.toCharArray()[0];
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            return defaultChar;
+        }
+    }
+
+    public static @Nullable ItemStack getItem(@Nullable String itemName) {
+        Material material = getMaterial(itemName);
+        if (material != null) {
+            return ItemStack.of(material);
+        }
+        return ItemAddonRegistry.get().processString(itemName);
+    }
+
+    public static @NonNull ItemStack getItem(@Nullable String itemName, @NonNull ItemStack defaultItem) {
+        ItemStack item = getItem(itemName);
+        return item == null ? defaultItem : item;
+    }
+
+    public static @Nullable Material getMaterial(@Nullable String itemName) {
+        if (itemName == null) {
+            return null;
+        }
+        try {
+            return Material.valueOf(itemName.toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    public static @NonNull Material getMaterial(@Nullable String itemName, @NonNull Material defaultMaterial) {
+        Material material = getMaterial(itemName);
+        return material == null ? defaultMaterial : material;
+    }
+
+    public static @Nullable ItemType getItemType(@Nullable String itemName) {
+        Material material = getMaterial(itemName);
+        return material == null ? null : material.asItemType();
+    }
+
+    public static @NonNull ItemType getItemType(@Nullable String itemName, @NonNull ItemType defaultType) {
+        ItemType type = getItemType(itemName);
+        return type == null ? defaultType : type;
+    }
+
+    public static @Nullable Enchantment getEnchantment(@Nullable String enchantmentName) {
+        return getFromRegistry(
+            enchantmentName,
+            RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT)
+        );
+    }
+
+    public static <T extends Keyed> @Nullable T getFromRegistry(@Nullable String name, @NonNull Registry<T> registry) {
+        if (name == null || name.isEmpty()) {
+            return null;
+        }
+        NamespacedKey key = NamespacedKey.fromString(name.toLowerCase());
+        if (key == null) {
+            return null;
+        }
+        return registry.get(key);
+    }
+
+    public static <E extends Entity> void modifyEntity(@NonNull Entity entity, @NonNull Class<E> classCheck, @NonNull Consumer<? super E> consumer) {
+        if (classCheck.isInstance(entity)) {
+            E checked = classCheck.cast(entity);
+            consumer.accept(checked);
+        }
+    }
+
+    public static @Nullable BlockType getBlockType(@Nullable String blockName) {
+        return getFromRegistry(
+            blockName,
+            RegistryAccess.registryAccess().getRegistry(RegistryKey.BLOCK)
+        );
+    }
+
+    public static @NonNull BlockType getBlockType(@Nullable String blockName, @NonNull BlockType defaultType) {
+        BlockType type = getBlockType(blockName);
+        return type == null ? defaultType : type;
+    }
+
+    /**
+     * Checks if a location is spawnable
+     * @param location The location to check
+     * @return Whether the location is spawnable
+     */
+    public static boolean isSpawnable(@NonNull Location location) {
+        return location.getBlock().isPassable() && getAbove(location).isPassable() && getBelow(location).getType().isSolid();
+    }
+
+    /**
+     * Gets the block below the provided block.
+     * @param block The block to use.
+     * @return The block below the provided block.
+     */
+    public static Block getBelow(@NonNull Block block) {
+        return block.getRelative(0, -1, 0);
+    }
+
+    /**
+     * Gets the block below the provided location.
+     * @param location The location to use.
+     * @return The block below the provided location.
+     */
+    public static Block getBelow(@NonNull Location location) {
+        return getBelow(location.getBlock());
+    }
+
+    /**
+     * Gets the block above the provided block.
+     * @param block The block to use.
+     * @return The block above the provided block.
+     */
+    public static Block getAbove(@NonNull Block block) {
+        return block.getRelative(0, 1, 0);
+    }
+
+    /**
+     * Gets the block above the provided location.
+     * @param location The location to use.
+     * @return The block above the provided location.
+     */
+    public static Block getAbove(@NonNull Location location) {
+        return getAbove(location.getBlock());
+    }
+
+    /**
+     * Adds a location to a config file.
+     * It is recommended to save the provided YamlDocument after calling this method.
+     * @param config The config file to use.
+     * @param path The path to set the location at.
+     * @param location The location to add.
+     */
+    public static void addLocationToConfig(@NonNull YamlConfiguration config, @NonNull String path, @NonNull Location location) {
+        config.set(path, location);
+    }
+
+    /**
+     * Gets a location from a config file.
+     * @param config The config file to use.
+     * @param path The path to get the values from.
+     * @return The location, or null if it is invalid.
+     */
+    public static @Nullable Location getLocationFromConfig(@NonNull YamlConfiguration config, @NonNull String path) {
+        return config.getLocation(path);
+    }
+
+    /**
+     * Removes ItemStacks matching the predicate from an inventory, without removing anything if it fails.
+     * @return Whether the item was removed.
+     */
+    public static boolean removeFromInventory(@NonNull Inventory inventory, @NonNull Predicate<ItemStack> predicate) {
+        List<Integer> removalSlots = new ArrayList<>();
+        for (int slot = 0; slot < inventory.getSize(); slot++) {
+            ItemStack item = inventory.getItem(slot);
+            if (item == null || item.isEmpty()) {
+                continue;
+            }
+            if (predicate.test(item)) {
+                removalSlots.add(slot);
+            }
+        }
+
+        if (removalSlots.isEmpty()) {
+            return false;
+        }
+        removalSlots.forEach(slot -> inventory.setItem(slot, null));
+        return true;
+    }
+
+    public static void giveItems(@NonNull List<@Nullable ItemStack> items, @NonNull Player player) {
+        if (items.isEmpty()) {
+            return;
+        }
+        List<ItemStack> filteredItems = items.stream()
+            .filter(Objects::nonNull)
+            .toList();
+        if (filteredItems.isEmpty()) {
+            return;
+        }
+
+        player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_ITEM_PICKUP, 0.5f, 1.5f);
+        Map<Integer, ItemStack> leftoverItems = player.getInventory().addItem(filteredItems.toArray(ItemStack[]::new));
+        leftoverItems.values().forEach(item -> player.getWorld().dropItem(player.getLocation(), item));
+    }
+
+
+    public static void giveItems(@Nullable ItemStack @NonNull [] items, @NonNull Player player) {
+        giveItems(Arrays.asList(items), player);
+    }
+
+    public static void giveItem(@NonNull ItemStack item, @NonNull Player player) {
+        giveItems(List.of(item), player);
+    }
+
+}

@@ -3,9 +3,9 @@ package uk.firedev.daisylib.addons.item;
 import org.bukkit.inventory.ItemStack;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.addons.InvalidAddonException;
 import uk.firedev.daisylib.registry.Registry;
-import uk.firedev.daisylib.util.Loggers;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -66,12 +66,18 @@ public class ItemAddonRegistry implements Registry<ItemAddon> {
             name = split[0];
             itemId = String.join(":", Arrays.copyOfRange(split, 1, split.length));
         } catch (ArrayIndexOutOfBoundsException exception) {
-            Loggers.warn(ItemAddon.class, "Failed to process an ItemAddon String! \"" + string + "\" is not formatted correctly.", new InvalidItemException());
+            DaisyLib.get().getLogging().warn(
+                "Failed to process an ItemAddon String! \"" + string + "\" is not formatted correctly.",
+                new InvalidItemException()
+            );
             return null;
         }
         ItemAddon addon = get(name);
         if (addon == null) {
-            Loggers.warn(ItemAddon.class, "Failed to process an ItemAddon String! \"" + name + "\" is not a valid ItemAddon.", new InvalidAddonException());
+            DaisyLib.get().getLogging().warn(
+                "Failed to process an ItemAddon String! \"" + name + "\" is not a valid ItemAddon.",
+                new InvalidAddonException()
+            );
             return null;
         }
         return addon.getItem(itemId);

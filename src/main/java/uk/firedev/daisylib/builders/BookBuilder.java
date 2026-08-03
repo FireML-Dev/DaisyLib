@@ -2,60 +2,59 @@ package uk.firedev.daisylib.builders;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.inventory.Book;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
-import uk.firedev.messagelib.message.ComponentListMessage;
-import uk.firedev.messagelib.message.ComponentMessage;
-import uk.firedev.messagelib.message.ComponentSingleMessage;
-import uk.firedev.messagelib.replacer.Replacer;
 
+import java.util.Collection;
 import java.util.List;
 
 public class BookBuilder {
 
-    private ComponentSingleMessage title = null;
-    private ComponentSingleMessage author = null;
-    private ComponentListMessage pages = null;
+    private final Book.Builder book;
 
-    private BookBuilder() {}
-
-    public static BookBuilder create() {
-        return new BookBuilder();
+    private BookBuilder(Book.Builder builder) {
+        this.book = builder;
     }
 
-    public BookBuilder withTitle(@NonNull Object title, @Nullable Replacer replacer) {
-        this.title = ComponentMessage.componentMessage(title).replace(replacer);
+    public static @NonNull BookBuilder bookBuilder() {
+        return new BookBuilder(Book.builder());
+    }
+
+    public BookBuilder withTitle(@NonNull Component title) {
+        this.book.title(title);
         return this;
     }
 
-    public BookBuilder withAuthor(@NonNull Object author) {
-        this.author = ComponentMessage.componentMessage(author);
+    public BookBuilder withAuthor(@NonNull Component author) {
+        this.book.author(author);
         return this;
     }
 
-    public BookBuilder withPages(@NonNull List<?> pages, @Nullable Replacer replacer) {
-        this.pages = ComponentMessage.componentMessage(pages).replace(replacer);
+    public BookBuilder addPage(@NonNull Component page) {
+        this.book.addPage(page);
         return this;
     }
 
-    public BookBuilder addPage(@NonNull Object page, @Nullable Replacer replacer) {
-        this.pages.append(ComponentMessage.componentMessage(page).replace(replacer));
+    public BookBuilder addPages(@NonNull List<Component> pages) {
+        pages.forEach(this.book::addPage);
         return this;
     }
 
-    public BookBuilder addPages(@NonNull List<?> pages, @Nullable Replacer replacer) {
-        this.pages.append(ComponentMessage.componentMessage(pages).replace(replacer));
-        return this;
+    public @NonNull Book build() {
+        return this.book.build();
     }
 
-    public Book build() { return Book.book(this.title.get(), this.author.get(), this.pages.get()); }
+    public void showAll() {
+        show(Bukkit.getOnlinePlayers());
+    }
 
-    public void showAll() { Audience.audience(Bukkit.getOnlinePlayers()).openBook(build()); }
+    public void show(@NonNull Audience audience) {
+        audience.openBook(build());
+    }
 
-    public void show(Player player) { player.openBook(build()); }
-
-    public void show(List<Player> players) { Audience.audience(players).openBook(build()); }
+    public void show(@NonNull Collection<? extends Audience> audiences) {
+        Audience.audience(audiences).openBook(build());
+    }
 
 }

@@ -5,8 +5,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.jspecify.annotations.NonNull;
+import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.database.exceptions.DatabaseLoadException;
-import uk.firedev.daisylib.util.Loggers;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Shared values for all database implementations
@@ -75,7 +76,7 @@ public abstract class Database {
         try {
             this.connection.close();
         } catch (SQLException ex) {
-            Loggers.error(plugin.getComponentLogger(), "Failed to close database connection.");
+            DaisyLib.get().getLogging().error("Failed to close database connection.");
         }
         this.connection = null;
     }
@@ -112,7 +113,12 @@ public abstract class Database {
         if (autoSave != null && !autoSave.isCancelled()) {
             return;
         }
-        long tickInterval = getAutoSaveSeconds() * 20L;
+        Optional<Long> autosave = getAutoSaveSeconds();
+        // No autosave.
+        if (autosave.isEmpty()) {
+            return;
+        }
+        long tickInterval = autosave.get() * 20L;
         autoSave = Bukkit.getScheduler().runTaskTimerAsynchronously(
             plugin,
             this::saveAll,
@@ -140,7 +146,7 @@ public abstract class Database {
 
     public abstract @NonNull Map<String, String> getColumns();
 
-    public abstract long getAutoSaveSeconds();
+    public abstract Optional<Long> getAutoSaveSeconds();
 
     public abstract void initConnection() throws DatabaseLoadException;
 

@@ -1,13 +1,9 @@
 package uk.firedev.daisylib.addons.reward;
 
-import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.addons.InvalidAddonException;
 import uk.firedev.daisylib.registry.Registry;
-import uk.firedev.daisylib.util.Loggers;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -23,29 +19,65 @@ public class RewardAddonRegistry implements Registry<RewardAddon> {
         return instance;
     }
 
-    @NonNull
     @Override
-    public Map<String, RewardAddon> getRegistry() {
+    public boolean isEmpty() {
+        return registry.isEmpty();
+    }
+
+    @Override
+    public void clear() {
+        registry.clear();
+    }
+
+    /**
+     * @return An immutable copy of the current registry.
+     */
+    @Override
+    public @NonNull Map<String, RewardAddon> getRegistry() {
         return Map.copyOf(registry);
     }
 
-    @Nullable
+    /**
+     * Get a value from the registry.
+     *
+     * @param key The key to look for.
+     * @return The value, or null if not found.
+     */
     @Override
-    public RewardAddon get(@NonNull String key) {
+    public @Nullable RewardAddon get(@NonNull String key) {
         return registry.get(key);
     }
 
-    @NonNull
+    /**
+     * Get a value from the registry, or a default value if not found.
+     *
+     * @param key          The key to look for.
+     * @param defaultValue The default value to return if not found.
+     * @return The value, or the default value if not found.
+     */
     @Override
-    public RewardAddon getOrDefault(@NonNull String key, @NonNull RewardAddon defaultValue) {
+    public @NonNull RewardAddon getOrDefault(@NonNull String key, @NonNull RewardAddon defaultValue) {
         return registry.getOrDefault(key, defaultValue);
     }
 
+    /**
+     * Unregister a key from the registry.
+     *
+     * @param key The key to unregister.
+     * @return True if the key was unregistered, false if not found.
+     */
     @Override
     public boolean unregister(@NonNull String key) {
         return registry.remove(key) != null;
     }
 
+    /**
+     * Register a value in the registry.
+     *
+     * @param value The value to register.
+     * @param force Whether to force the registration, overwriting any existing value.
+     * @return True if the value was registered, false if a value with the same key already exists and force is false.
+     */
     @Override
     public boolean register(@NonNull RewardAddon value, boolean force) {
         if (!force && registry.containsKey(value.getKey())) {
@@ -55,44 +87,4 @@ public class RewardAddonRegistry implements Registry<RewardAddon> {
         return true;
     }
 
-    public void processString(@Nullable String string, @Nullable Player player) {
-        if (string == null || player == null) {
-            return;
-        }
-        String[] split = string.split(":");
-        String name;
-        String rewardInput;
-        try {
-            name = split[0];
-            rewardInput = String.join(":", Arrays.copyOfRange(split, 1, split.length));
-        } catch (ArrayIndexOutOfBoundsException exception) {
-            Loggers.warn(RewardAddon.class, "Failed to process a RewardAddon String! \"" + string + "\" is not formatted correctly.", new InvalidRewardException());
-            return;
-        }
-        RewardAddon addon = get(name);
-        if (addon == null) {
-            Loggers.warn(RewardAddon.class, "Failed to process a RewardAddon String! \"" + name + "\" is not a valid RewardAddon.", new InvalidAddonException());
-            return;
-        }
-        addon.doReward(player, rewardInput);
-    }
-
-    /**
-     * Checks if this registry is empty.
-     *
-     * @return Whether this registry is empty.
-     */
-    @Override
-    public boolean isEmpty() {
-        return registry.isEmpty();
-    }
-
-    /**
-     * Removes all items from this registry.
-     */
-    @Override
-    public void clear() {
-        registry.clear();
-    }
-    
 }

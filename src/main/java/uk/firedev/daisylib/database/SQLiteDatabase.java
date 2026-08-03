@@ -2,9 +2,8 @@ package uk.firedev.daisylib.database;
 
 import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
+import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.database.exceptions.DatabaseLoadException;
-import uk.firedev.daisylib.util.FileUtil;
-import uk.firedev.daisylib.util.Loggers;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -65,10 +64,9 @@ public abstract class SQLiteDatabase extends Database {
 
     @Override
     public void initConnection() throws DatabaseLoadException {
-
         // Make sure the data folder exists
-        if (!FileUtil.createDirectory(getPlugin().getDataFolder())) {
-            Loggers.error(getPlugin().getComponentLogger(), "Failed to create the plugin's data folder!");
+        if (!getPlugin().getDataFolder().mkdirs()) {
+            DaisyLib.get().getLogging().error("Failed to create the plugin's data folder!");
             return;
         }
 
@@ -82,7 +80,7 @@ public abstract class SQLiteDatabase extends Database {
             throw new DatabaseLoadException(exception) ;
         }
 
-        Loggers.info(getPlugin().getComponentLogger(), "Successfully connected to the database.");
+        DaisyLib.get().getLogging().info("Successfully connected to the database.");
 
     }
 
