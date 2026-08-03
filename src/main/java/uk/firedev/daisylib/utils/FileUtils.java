@@ -28,6 +28,8 @@ public class FileUtils {
                 DaisyLib.get().getLogging().error("Could not retrieve " + resourceName);
                 return false;
             }
+            configFile.getParentFile().mkdirs();
+            configFile.createNewFile();
             Files.copy(stream, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             return true;
         } catch (IOException exception) {
@@ -41,15 +43,9 @@ public class FileUtils {
         if (configFile.exists()) {
             return configFile;
         }
-        try (InputStream stream = plugin.getResource(resourceName)) {
-            if (stream == null) {
-                DaisyLib.get().getLogging().error("Could not retrieve " + resourceName);
-                return null;
-            }
-            Files.copy(stream, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        if (loadFile(configFile, resourceName, plugin)) {
             return configFile;
-        } catch (IOException e) {
-            DaisyLib.get().getLogging().exception(e);
+        } else {
             return null;
         }
     }
