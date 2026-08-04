@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.DaisyLib;
 
 import java.util.Collection;
@@ -27,9 +28,12 @@ public abstract class DiscordBot {
 
     public DiscordBot() {}
 
-    public void load(@NonNull String token) {
+    public void load(@Nullable String token) {
         if (bot != null) {
             return;
+        }
+        if (token == null) {
+            throw new RuntimeException("Failed to load discord bot: No token provided.");
         }
         DaisyLib.get().getLogging().info("Loading discord bot.");
         try {
