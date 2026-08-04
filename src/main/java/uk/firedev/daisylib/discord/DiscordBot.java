@@ -56,7 +56,7 @@ public abstract class DiscordBot {
         }
     }
 
-    public @NonNull JDA get() {
+    public @NonNull JDA getBot() {
         if (bot == null) {
             throw new IllegalStateException("DiscordBot is not loaded.");
         }
@@ -64,7 +64,7 @@ public abstract class DiscordBot {
     }
 
     public void sendMessage(long channelId, @NonNull String message) {
-        MessageChannel channel = get().getChannelById(MessageChannel.class, channelId);
+        MessageChannel channel = getBot().getChannelById(MessageChannel.class, channelId);
         if (channel == null) {
             DaisyLib.get().getLogging().warn(channelId + " is not a valid MessageChannel.");
             return;
@@ -73,7 +73,7 @@ public abstract class DiscordBot {
     }
 
     public @NonNull IncomingWebhookClient getWebhook(@NonNull String url) {
-        return webhookCache.computeIfAbsent(url, k -> WebhookClient.createClient(get(), k));
+        return webhookCache.computeIfAbsent(url, k -> WebhookClient.createClient(getBot(), k));
     }
 
     /**
