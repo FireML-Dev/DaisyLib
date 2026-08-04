@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.IncomingWebhookClient;
 import net.dv8tion.jda.api.entities.WebhookClient;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
+import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -43,6 +44,7 @@ public abstract class DiscordBot {
             this.bot = builder.build();
             awaitReady();
             bot.updateCommands().addCommands(getCommands()).queue();
+            bot.addEventListener(getListeners().toArray());
             DaisyLib.get().getLogging().info("Loaded discord bot: " + bot.getSelfUser().getName());
         } catch (InvalidTokenException exception) {
             throw new RuntimeException("Failed to load discord bot.", exception);
@@ -94,5 +96,7 @@ public abstract class DiscordBot {
     public abstract @NonNull MemberCachePolicy getMemberCachePolicy();
 
     public abstract @NonNull List<@NonNull CommandData> getCommands();
+
+    public abstract @NonNull Collection<? extends EventListener> getListeners();
 
 }
