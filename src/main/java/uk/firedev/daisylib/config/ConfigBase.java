@@ -66,7 +66,7 @@ public abstract class ConfigBase {
         };
     }
 
-    public final void reload(@NonNull File configFile) {
+    public void reload(@NonNull File configFile) {
         if (preventIO) {
             return;
         }
