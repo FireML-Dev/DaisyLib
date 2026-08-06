@@ -21,4 +21,9 @@ public abstract class PlaceholderReceiver extends PlaceholderExpansion {
         return null;
     }
 
+    @Override
+    public boolean persist() {
+        return true;
+    }
+
 }
