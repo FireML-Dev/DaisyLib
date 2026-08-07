@@ -16,7 +16,7 @@ import org.jspecify.annotations.NonNull;
  * <p>
  * Also provides {@link #register(Plugin, ServicePriority)} for easy registration.
  */
-public abstract class SimpleEconomy extends AbstractEconomy {
+public abstract class SimpleEconomy implements Economy {
 
     /**
      * Registers this economy provider with the {@link org.bukkit.plugin.ServicesManager}.
