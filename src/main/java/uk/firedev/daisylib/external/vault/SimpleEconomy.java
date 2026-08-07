@@ -126,4 +126,34 @@ public abstract class SimpleEconomy implements Economy {
         return createPlayerAccount(fetchPlayer(playerName), worldName);
     }
 
+    @Override
+    public boolean hasAccount(OfflinePlayer player, String worldName) {
+        return hasAccount(player);
+    }
+
+    @Override
+    public double getBalance(OfflinePlayer player, String world) {
+        return getBalance(player);
+    }
+
+    @Override
+    public boolean has(OfflinePlayer player, String worldName, double amount) {
+        return has(player, amount);
+    }
+
+    @Override
+    public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
+        return withdrawPlayer(player, amount);
+    }
+
+    @Override
+    public EconomyResponse depositPlayer(OfflinePlayer player, String worldName, double amount) {
+        return depositPlayer(player, amount);
+    }
+
+    @Override
+    public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
+        return createPlayerAccount(player);
+    }
+
 }
