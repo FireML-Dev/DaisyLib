@@ -13,27 +13,15 @@ public abstract class AbstractConfigRecipe<R extends CraftingRecipe> {
 
     protected AbstractConfigRecipe() {}
 
-    public boolean isRegistered() {
-        if (this.recipe == null) {
-            return false;
-        }
-        return Bukkit.getRecipe(this.recipe.getKey()) != null;
-    }
-
     public void register() {
-        if (isRegistered()) {
-            throw new RuntimeException("Attempted to register a recipe that is already registered.");
-        }
         if (recipe == null) {
             this.recipe = prepareRecipe();
         }
+        Bukkit.removeRecipe(recipe.getKey(), false);
         Bukkit.addRecipe(recipe);
     }
 
     public void unregister() {
-        if (!isRegistered()) {
-            throw new RuntimeException("Attempted to unregister a recipe that is not registered.");
-        }
         Bukkit.removeRecipe(recipe.getKey());
     }
 

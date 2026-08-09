@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.recipe;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
@@ -18,11 +19,17 @@ public class RecipeUtil {
     public static @NonNull Function<@NonNull String, @Nullable RecipeChoice> RECIPE_CHOICE_FETCHER = s -> {
         Material material = CommonUtils.getMaterial(s);
         if (material != null) {
+            if (material.isAir()) {
+                return RecipeChoice.empty();
+            }
             return new RecipeChoice.MaterialChoice(material);
         }
         ItemStack item = ItemAddonRegistry.get().processString(s);
-        if (item == null || item.isEmpty()) {
+        if (item == null) {
             return null;
+        }
+        if (item.isEmpty()) {
+            return RecipeChoice.empty();
         }
         return new RecipeChoice.ExactChoice(item);
     };
@@ -47,6 +54,10 @@ public class RecipeUtil {
                 section
             );
         };
+    }
+
+    public static boolean recipeExists(@NonNull NamespacedKey key) {
+        return Bukkit.getRecipe(key) != null;
     }
 
     enum RecipeType {
