@@ -28,12 +28,12 @@ public class RecipeUtil {
     };
 
     public static @Nullable AbstractConfigRecipe<?> getRecipe(@NonNull ConfigurationSection section, @NonNull NamespacedKey key, @NonNull ItemStack result) {
-        String type = section.getString("type");
+        RecipeType type = CommonUtils.getEnumValue(RecipeType.class, section.getString("type"));
         if (type == null) {
             return null;
         }
-        return switch (type.toLowerCase()) {
-            case "shapeless" -> {
+        return switch (type) {
+            case SHAPELESS -> {
                 List<String> ingredients = section.getStringList("ingredients");
                 yield new ConfigShapelessRecipe(
                     key,
@@ -41,13 +41,17 @@ public class RecipeUtil {
                     ingredients
                 );
             }
-            case "shaped" -> new ConfigShapedRecipe(
+            case SHAPED -> new ConfigShapedRecipe(
                 key,
                 result,
                 section
             );
-            default -> null; // Not a valid recipe type
         };
+    }
+
+    enum RecipeType {
+        SHAPED,
+        SHAPELESS;
     }
 
 }
