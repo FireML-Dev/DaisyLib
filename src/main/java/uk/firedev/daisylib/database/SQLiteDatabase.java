@@ -65,10 +65,7 @@ public abstract class SQLiteDatabase extends Database {
     @Override
     public void initConnection() throws DatabaseLoadException {
         // Make sure the data folder exists
-        if (!getPlugin().getDataFolder().mkdirs()) {
-            DaisyLib.get().getLogging().error("Failed to create the plugin's data folder!");
-            return;
-        }
+        getPlugin().getDataFolder().mkdirs();
 
         // Try to connect to the SQLite database
         String url = "jdbc:sqlite:" + getPlugin().getDataFolder() + "/" + this.fileName;
