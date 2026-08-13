@@ -45,7 +45,7 @@ public class PlayerPdcCache {
         return checkCache(key, type);
     }
 
-    public <T> @Nullable T getOrDefault(@NonNull NamespacedKey key, @NonNull PersistentDataType<?, T> type, @NonNull T def) {
+    public <T> @NonNull T getOrDefault(@NonNull NamespacedKey key, @NonNull PersistentDataType<?, T> type, @NonNull T def) {
         T val = get(key, type);
         return val == null ? def : val;
     }
