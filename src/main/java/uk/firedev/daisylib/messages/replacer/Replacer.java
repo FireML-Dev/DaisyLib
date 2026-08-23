@@ -2,8 +2,12 @@ package uk.firedev.daisylib.messages.replacer;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.Tag;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.messages.ObjectProcessor;
 import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
@@ -12,8 +16,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Replacer {
+
+    private static final Pattern PATTERN = Pattern.compile("\\{([^{}]*)}");
 
     private final Map<String, Object> replacements = new HashMap<>();
 
@@ -78,13 +86,10 @@ public class Replacer {
      * @return The modified component.
      */
     public Component apply(@NonNull Component component) {
-        for (Map.Entry<String, Object> entry : replacements.entrySet()) {
-            Component replacement = Component.join(JoinConfiguration.newlines(), ObjectProcessor.process(entry.getValue()));
-            component = component.replaceText(
-                builder -> builder.matchLiteral(entry.getKey()).replacement(replacement)
-            );
+        if (replacements.isEmpty()) {
+            return component;
         }
-        return component;
+        return apply(component, getResolver());
     }
 
     /**
@@ -93,7 +98,19 @@ public class Replacer {
      * @return The modified list of components.
      */
     public List<Component> apply(@NonNull List<Component> components) {
-        return components.stream().map(this::apply).toList();
+        if (replacements.isEmpty()) {
+            return components;
+        }
+        TagResolver resolver = getResolver();
+        return components.stream()
+            .map(component -> apply(component, resolver))
+            .toList();
+    }
+
+    private Component apply(Component component, TagResolver resolver) {
+        MiniMessage mm = MiniMessage.miniMessage();
+        String string = mm.serialize(component);
+        return mm.deserialize(processVariables(string), resolver);
     }
 
     /**
@@ -121,6 +138,40 @@ public class Replacer {
             }
         }
         return newList;
+    }
+
+    private TagResolver getResolver() {
+        TagResolver.Builder builder = TagResolver.builder();
+        replacements.forEach((variable, replacement) -> {
+            Component parsed = Component.join(JoinConfiguration.commas(true), ObjectProcessor.process(replacement));
+            builder.resolver(TagResolver.resolver(
+                // Safe to ignore "unsubstituted expression" here,
+                getVariableName(variable),
+                Tag.selfClosingInserting(parsed)
+            ));
+        });
+        return builder.build();
+    }
+
+    private String processVariables(String string) {
+        Matcher matcher = PATTERN.matcher(string);
+        StringBuilder result = new StringBuilder();
+        while (matcher.find()) {
+            String exactMatch = matcher.group();
+            if (replacements.containsKey(exactMatch)) {
+                String name = exactMatch.substring(1, exactMatch.length() - 1);
+                String replacement = "<" + name + ">";
+                matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
+            } else {
+                matcher.appendReplacement(result, Matcher.quoteReplacement(exactMatch));
+            }
+        }
+        matcher.appendTail(result);
+        return result.toString();
+    }
+
+    private String getVariableName(String string) {
+        return PATTERN.matcher(string).replaceAll("$1");
     }
 
 }
