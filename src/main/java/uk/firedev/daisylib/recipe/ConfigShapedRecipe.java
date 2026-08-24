@@ -10,9 +10,6 @@ import uk.firedev.daisylib.utils.CommonUtils;
 
 import java.util.List;
 
-/**
- * {@inheritDoc}
- */
 public class ConfigShapedRecipe extends AbstractConfigRecipe<ShapedRecipe> {
 
     private final List<String> rawShape;

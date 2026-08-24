@@ -8,9 +8,6 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
-/**
- * {@inheritDoc}
- */
 public class ConfigShapelessRecipe extends AbstractConfigRecipe<ShapelessRecipe> {
 
     private final List<String> ingredients;

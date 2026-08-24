@@ -31,6 +31,11 @@ public class MessageUtils {
 
     private MessageUtils() {}
 
+    /**
+     * Checks if the given String contains legacy colors.
+     * <p>
+     * Always false unless {@link uk.firedev.daisylib.DaisyLib.Settings#ALLOW_LEGACY_MESSAGES} is true.
+     */
     public static boolean containsLegacy(@NonNull String message) {
         if (message.isEmpty()) {
             return false;

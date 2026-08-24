@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.addons.item.ItemAddonRegistry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -289,19 +288,6 @@ public class CommonUtils {
         } catch (ArrayIndexOutOfBoundsException ex) {
             return defaultChar;
         }
-    }
-
-    public static @Nullable ItemStack getItem(@Nullable String itemName) {
-        Material material = getMaterial(itemName);
-        if (material != null) {
-            return ItemStack.of(material);
-        }
-        return ItemAddonRegistry.get().processString(itemName);
-    }
-
-    public static @NonNull ItemStack getItem(@Nullable String itemName, @NonNull ItemStack defaultItem) {
-        ItemStack item = getItem(itemName);
-        return item == null ? defaultItem : item;
     }
 
     public static @Nullable Material getMaterial(@Nullable String itemName) {

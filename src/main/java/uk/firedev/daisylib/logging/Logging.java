@@ -64,18 +64,33 @@ public interface Logging {
         }
     }
 
+    /**
+     * Sends a debug message to console.
+     * <p>
+     * Does nothing unless {@link uk.firedev.daisylib.DaisyLib.Settings#ENABLE_DEBUG} is true.
+     */
     default void debug(@NonNull String message) {
         if (DaisyLib.Settings.ENABLE_DEBUG.get()) {
             info(formatDebug(message));
         }
     }
 
+    /**
+     * Sends a debug message to console with an exception.
+     * <p>
+     * Does nothing unless {@link uk.firedev.daisylib.DaisyLib.Settings#ENABLE_DEBUG} is true.
+     */
     default void debug(@NonNull String message, @NonNull Throwable throwable) {
         if (DaisyLib.Settings.ENABLE_DEBUG.get()) {
             info(formatDebug(message), throwable);
         }
     }
 
+    /**
+     * Sends debug messages to console.
+     * <p>
+     * Does nothing unless {@link uk.firedev.daisylib.DaisyLib.Settings#ENABLE_DEBUG} is true.
+     */
     default void debug(@NonNull String @NonNull ... message) {
         for (String line : message) {
             debug(line);
