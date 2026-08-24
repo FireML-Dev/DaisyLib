@@ -1,23 +1,16 @@
 package uk.firedev.daisylib;
 
 import org.bukkit.Bukkit;
+import org.bukkit.event.world.ChunkEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.daisylib.addons.requirement.defaults.ExpRequirementAddon;
-import uk.firedev.daisylib.addons.requirement.defaults.HealthRequirementAddon;
-import uk.firedev.daisylib.addons.requirement.defaults.HoldingRequirementAddon;
-import uk.firedev.daisylib.addons.requirement.defaults.MoneyRequirementAddon;
-import uk.firedev.daisylib.addons.requirement.defaults.PermissionRequirementAddon;
-import uk.firedev.daisylib.addons.requirement.defaults.WorldRequirementAddon;
-import uk.firedev.daisylib.addons.reward.defaults.CommandRewardAddon;
-import uk.firedev.daisylib.addons.reward.defaults.HealthRewardAddon;
-import uk.firedev.daisylib.addons.reward.defaults.ItemRewardAddon;
-import uk.firedev.daisylib.addons.reward.defaults.MoneyRewardAddon;
-import uk.firedev.daisylib.events.CustomEventListener;
+import uk.firedev.daisylib.events.brush.BrushEventListener;
+import uk.firedev.daisylib.events.move.MoveEventListener;
 import uk.firedev.daisylib.external.vault.VaultWrapper;
 import uk.firedev.daisylib.logging.Logging;
 import uk.firedev.daisylib.utils.CommonUtils;
+import uk.firedev.daisylib.utils.MessageUtils;
 import uk.firedev.daisylib.utils.VersionChecker;
 
 import java.util.function.Supplier;
@@ -54,7 +47,6 @@ public class DaisyLib {
 
         VaultWrapper.get().load();
         registerListeners(plugin);
-        loadDefaultAddons();
         this.logging.info("DaisyLib initialized successfully.");
     }
 
@@ -73,34 +65,40 @@ public class DaisyLib {
     private void registerListeners(@NonNull Plugin plugin) {
         PluginManager pm = plugin.getServer().getPluginManager();
 
-        pm.registerEvents(new CustomEventListener(), plugin);
-    }
-
-    private void loadDefaultAddons() {
-        // Item
-        // Requirement
-        new ExpRequirementAddon().register();
-        new HealthRequirementAddon().register();
-        new HoldingRequirementAddon().register();
-        new MoneyRequirementAddon().register();
-        new PermissionRequirementAddon().register();
-        new WorldRequirementAddon().register();
-        // Reward
-        new CommandRewardAddon().register();
-        new ExpRequirementAddon().register();
-        new HealthRewardAddon().register();
-        new ItemRewardAddon().register();
-        new MoneyRewardAddon().register();
-        new PermissionRequirementAddon().register();
+        if (Settings.ENABLE_MOVE_EVENTS.get()) {
+            pm.registerEvents(new MoveEventListener(), plugin);
+        }
+        if (Settings.ENABLE_BRUSH_EVENT.get()) {
+            pm.registerEvents(new BrushEventListener(), plugin);
+        }
     }
 
     public static class Settings {
 
-        // Should debug messages be shown? Defaults to false.
+        /**
+         * Should debug messages be shown? Default: false.
+         * @see Logging#debug(String)
+         */
         public static @NonNull Supplier<@NonNull Boolean> ENABLE_DEBUG = () -> false;
 
-        // Should Minecraft messages support legacy characters? Defaults to false.
+        /**
+         * Should messages support legacy characters? Default: false.
+         * @see MessageUtils#containsLegacy(String)
+        */
         public static @NonNull Supplier<@NonNull Boolean> ALLOW_LEGACY_MESSAGES = () -> false;
+
+        /**
+         * Should custom move events be fired? Default: false.
+         * @see uk.firedev.daisylib.events.move.PlayerMoveBlockEvent
+         * @see uk.firedev.daisylib.events.move.PlayerMoveChunkEvent
+        */
+        public static @NonNull Supplier<@NonNull Boolean> ENABLE_MOVE_EVENTS = () -> false;
+
+        /**
+         * Should the custom brush event be fired? Default: false.
+         * @see uk.firedev.daisylib.events.brush.BlockBrushEvent
+         */
+        public static @NonNull Supplier<@NonNull Boolean> ENABLE_BRUSH_EVENT = () -> false;
 
     }
 

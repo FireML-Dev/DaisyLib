@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.events;
+package uk.firedev.daisylib.events.brush;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BrushableBlock;
