@@ -1,6 +1,5 @@
 package uk.firedev.daisylib.external.vault;
 
-import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
