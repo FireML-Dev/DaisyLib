@@ -1,4 +1,4 @@
-package uk.firedev.daisylib.utils;
+package uk.firedev.daisylib.version;
 
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.jspecify.annotations.NonNull;

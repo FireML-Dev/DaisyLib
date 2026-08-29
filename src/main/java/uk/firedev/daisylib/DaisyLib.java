@@ -1,7 +1,6 @@
 package uk.firedev.daisylib;
 
 import org.bukkit.Bukkit;
-import org.bukkit.event.world.ChunkEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.jspecify.annotations.NonNull;
@@ -11,7 +10,7 @@ import uk.firedev.daisylib.external.vault.VaultWrapper;
 import uk.firedev.daisylib.logging.Logging;
 import uk.firedev.daisylib.utils.CommonUtils;
 import uk.firedev.daisylib.utils.MessageUtils;
-import uk.firedev.daisylib.utils.VersionChecker;
+import uk.firedev.daisylib.version.VersionChecker;
 
 import java.util.function.Supplier;
 
