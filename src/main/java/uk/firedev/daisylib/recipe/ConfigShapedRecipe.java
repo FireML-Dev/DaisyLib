@@ -41,7 +41,8 @@ public class ConfigShapedRecipe extends AbstractConfigRecipe<ShapedRecipe> {
             if (materialStr == null) {
                 return;
             }
-            RecipeChoice choice = RecipeUtil.RECIPE_CHOICE_FETCHER.apply(materialStr);
+
+            RecipeChoice choice = RecipeUtil.getRecipeChoice(materialStr);
             if (choice == null) {
                 return;
             }

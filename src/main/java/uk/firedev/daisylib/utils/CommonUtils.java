@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemType;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -465,6 +466,22 @@ public class CommonUtils {
 
     public static void giveItem(@NonNull ItemStack item, @NonNull Player player) {
         giveItems(List.of(item), player);
+    }
+
+    public static @Nullable Class<?> getClassOrNull(@NonNull String name) {
+        try {
+            return Class.forName(name);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+
+    public static @Nullable Method getMethodOrNull(@NonNull Class<?> clazz, @NonNull String method, @NonNull Class<?> @NonNull ... parameterTypes) {
+        try {
+            return clazz.getDeclaredMethod(method, parameterTypes);
+        } catch (NoSuchMethodException e) {
+            return null;
+        }
     }
 
 }

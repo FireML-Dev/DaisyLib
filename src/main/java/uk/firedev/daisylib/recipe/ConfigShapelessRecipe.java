@@ -29,7 +29,7 @@ public class ConfigShapelessRecipe extends AbstractConfigRecipe<ShapelessRecipe>
     protected @NonNull ShapelessRecipe prepareRecipe() {
         ShapelessRecipe recipe = new ShapelessRecipe(key, result);
         this.ingredients.forEach(ingredient -> {
-            RecipeChoice choice = RecipeUtil.RECIPE_CHOICE_FETCHER.apply(ingredient);
+            RecipeChoice choice = RecipeUtil.getRecipeChoice(ingredient);
             if (choice != null) {
                 recipe.addIngredient(choice);
             }
