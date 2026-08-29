@@ -16,9 +16,9 @@ import java.util.function.Predicate;
  * <p>
  * Make sure you call {@link uk.firedev.daisylib.recipe.RecipeUtil#registerRecipeChoice(RecipeChoiceWrapper)} if using this.
  */
-public abstract class PredicateChoiceWrapper implements RecipeChoiceWrapper {
+public interface PredicateChoiceWrapper extends RecipeChoiceWrapper {
 
-    private static final @Nullable Method PREDICATE_FACTORY = CommonUtils.getMethodOrNull(
+    @Nullable Method PREDICATE_FACTORY = CommonUtils.getMethodOrNull(
         RecipeChoice.class,
         "predicateChoice",
         Predicate.class, ItemStack.class
@@ -27,11 +27,12 @@ public abstract class PredicateChoiceWrapper implements RecipeChoiceWrapper {
     /**
      * @return The item to represent this predicate choice in the recipe book. Cannot be empty or air.
      */
-    public abstract @NonNull ItemStack getExampleItem();
+    @NonNull ItemStack getExampleItem();
 
-    public abstract @Nullable Predicate<@NonNull ItemStack> createPredicate(@NonNull String string);
+    @Nullable Predicate<@NonNull ItemStack> createPredicate(@NonNull String string);
 
-    public @Nullable RecipeChoice parse(@NonNull String string) {
+    @Override
+    default @Nullable RecipeChoice parse(@NonNull String string) {
         if (PREDICATE_FACTORY == null) {
             return null;
         }
