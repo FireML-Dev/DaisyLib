@@ -10,7 +10,10 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.utils.CommonUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Function;
 
 public class RecipeUtil {
@@ -22,36 +25,24 @@ public class RecipeUtil {
         }
         return new RecipeChoice.MaterialChoice(material);
     };
+    private static final Map<String, Function<RecipeData, AbstractConfigRecipe<?>>> types = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+
+    static {
+        types.put("shapeless", ConfigShapelessRecipe::new);
+        types.put("shaped", ConfigShapedRecipe::new);
+    }
 
     public static @Nullable AbstractConfigRecipe<?> getRecipe(@NonNull ConfigurationSection section, @NonNull NamespacedKey key, @NonNull ItemStack result) {
-        RecipeType type = CommonUtils.getEnumValue(RecipeType.class, section.getString("type"));
-        if (type == null) {
+        Function<RecipeData, AbstractConfigRecipe<?>> func = types.get(section.getString("type"));
+        if (func == null) {
             return null;
         }
-        return switch (type) {
-            case SHAPELESS -> {
-                List<String> ingredients = section.getStringList("ingredients");
-                yield new ConfigShapelessRecipe(
-                    key,
-                    result,
-                    ingredients
-                );
-            }
-            case SHAPED -> new ConfigShapedRecipe(
-                key,
-                result,
-                section
-            );
-        };
+        RecipeData data = new RecipeData(key, result, section);
+        return func.apply(data);
     }
 
     public static boolean recipeExists(@NonNull NamespacedKey key) {
         return Bukkit.getRecipe(key) != null;
-    }
-
-    enum RecipeType {
-        SHAPED,
-        SHAPELESS;
     }
 
 }

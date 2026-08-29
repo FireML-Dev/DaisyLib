@@ -14,13 +14,15 @@ public class ConfigShapelessRecipe extends AbstractConfigRecipe<ShapelessRecipe>
     private final NamespacedKey key;
     private final ItemStack result;
 
-    public ConfigShapelessRecipe(@NonNull NamespacedKey key, @NonNull ItemStack result, @NonNull List<String> ingredients) {
+    public ConfigShapelessRecipe(@NonNull RecipeData data) {
+        super(data);
+        List<String> ingredients = data.section().getStringList("ingredients");
         if (ingredients.isEmpty()) {
             throw new RuntimeException("Shapeless recipe is missing ingredients.");
         }
         this.ingredients = ingredients;
-        this.key = key;
-        this.result = result;
+        this.key = data.key();
+        this.result = data.result();
     }
 
     @Override

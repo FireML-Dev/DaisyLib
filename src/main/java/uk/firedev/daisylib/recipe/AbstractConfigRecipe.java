@@ -11,7 +11,7 @@ public abstract class AbstractConfigRecipe<R extends CraftingRecipe> {
 
     protected R recipe;
 
-    protected AbstractConfigRecipe() {}
+    protected AbstractConfigRecipe(@NonNull RecipeData data) {}
 
     public void register() {
         if (recipe == null) {

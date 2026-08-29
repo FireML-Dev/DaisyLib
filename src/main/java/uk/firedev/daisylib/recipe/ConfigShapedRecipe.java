@@ -17,14 +17,15 @@ public class ConfigShapedRecipe extends AbstractConfigRecipe<ShapedRecipe> {
     private final NamespacedKey key;
     private final ItemStack result;
 
-    public ConfigShapedRecipe(@NonNull NamespacedKey key, @NonNull ItemStack result, @NonNull ConfigurationSection section) {
-        this.rawShape = section.getStringList("shape");
-        this.ingredientsSection = section.getConfigurationSection("ingredients");
+    public ConfigShapedRecipe(@NonNull RecipeData data) {
+        super(data);
+        this.rawShape = data.section().getStringList("shape");
+        this.ingredientsSection = data.section().getConfigurationSection("ingredients");
         if (this.rawShape.isEmpty() || this.ingredientsSection == null) {
             throw new RuntimeException("Shaped recipe is missing shape or ingredients.");
         }
-        this.key = key;
-        this.result = result;
+        this.key = data.key();
+        this.result = data.result();
     }
 
     @Override
