@@ -16,9 +16,9 @@ import java.util.function.Predicate;
  * <p>
  * Make sure you call {@link uk.firedev.daisylib.recipe.RecipeUtil#registerRecipeChoice(RecipeChoiceWrapper)} if using this.
  */
-public interface PredicateChoiceWrapper extends RecipeChoiceWrapper {
+public abstract class PredicateChoiceWrapper implements RecipeChoiceWrapper {
 
-    @Nullable Method PREDICATE_FACTORY = CommonUtils.getMethodOrNull(
+    private static final @Nullable Method PREDICATE_FACTORY = CommonUtils.getMethodOrNull(
         RecipeChoice.class,
         "predicateChoice",
         Predicate.class, ItemStack.class
@@ -27,12 +27,12 @@ public interface PredicateChoiceWrapper extends RecipeChoiceWrapper {
     /**
      * @return The item to represent this predicate choice in the recipe book. Cannot be empty or air.
      */
-    @NonNull ItemStack getExampleItem();
+    public abstract @NonNull ItemStack getExampleItem(@NonNull String string);
 
-    @Nullable Predicate<@NonNull ItemStack> createPredicate(@NonNull String string);
+    public abstract @Nullable Predicate<@NonNull ItemStack> createPredicate(@NonNull String string);
 
     @Override
-    default @Nullable RecipeChoice parse(@NonNull String string) {
+    public @Nullable RecipeChoice parse(@NonNull String string) {
         if (PREDICATE_FACTORY == null) {
             return null;
         }
@@ -41,7 +41,7 @@ public interface PredicateChoiceWrapper extends RecipeChoiceWrapper {
             return null;
         }
         try {
-            return (RecipeChoice) PREDICATE_FACTORY.invoke(null, predicate, getExampleItem());
+            return (RecipeChoice) PREDICATE_FACTORY.invoke(null, predicate, getExampleItem(string));
         } catch (InvocationTargetException | IllegalAccessException | ClassCastException e) {
             DaisyLib.get().getLogging().exception(e);
             return null;
