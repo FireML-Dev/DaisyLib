@@ -1,6 +1,5 @@
 package uk.firedev.daisylib.item.config;
 
-import dev.dejvokep.boostedyaml.block.implementation.Section;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;

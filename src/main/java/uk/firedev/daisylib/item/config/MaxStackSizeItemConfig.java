@@ -5,6 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.utils.CommonUtils;
 
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -21,7 +22,11 @@ public class MaxStackSizeItemConfig extends ItemConfig<Integer> {
 
     @Override
     public @Nullable Integer getConfiguredValue() {
-        return section.getInt("max-stack-size", null);
+        String str = section.getString("max-stack-size");
+        if (str == null) {
+            return null;
+        }
+        return CommonUtils.getInt(str);
     }
 
     @Override

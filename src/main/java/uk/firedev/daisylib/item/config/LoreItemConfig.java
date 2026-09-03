@@ -1,8 +1,5 @@
 package uk.firedev.daisylib.item.config;
 
-import com.oheers.fish.FishUtils;
-import com.oheers.fish.messages.EMFListMessage;
-import dev.dejvokep.boostedyaml.block.implementation.Section;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
@@ -11,9 +8,6 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.daisylib.messages.replacer.Replacer;
-import uk.firedev.messagelib.message.ComponentListMessage;
-import uk.firedev.messagelib.message.ComponentMessage;
-import uk.firedev.messagelib.replacer.Replacer;
 
 import java.util.List;
 import java.util.Map;
