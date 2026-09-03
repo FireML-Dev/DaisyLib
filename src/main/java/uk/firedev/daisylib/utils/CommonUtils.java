@@ -253,7 +253,7 @@ public class CommonUtils {
     }
 
     public static @Nullable <E extends Enum<E>> E getEnumValue(@NonNull Class<E> enumClass, @Nullable String value) {
-        if (value == null) {
+        if (value == null || !enumClass.isEnum()) {
             return null;
         }
         try {
@@ -480,6 +480,15 @@ public class CommonUtils {
         try {
             return clazz.getDeclaredMethod(method, parameterTypes);
         } catch (NoSuchMethodException e) {
+            return null;
+        }
+    }
+
+    public static @Nullable Method getMethodOrNull(@NonNull String clazzName, @NonNull String method, @NonNull Class<?> @NonNull ... parameterTypes) {
+        try {
+            Class<?> clazz = Class.forName(clazzName);
+            return clazz.getDeclaredMethod(method, parameterTypes);
+        } catch (NoSuchMethodException | ClassNotFoundException e) {
             return null;
         }
     }
