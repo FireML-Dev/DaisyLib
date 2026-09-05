@@ -1,9 +1,8 @@
 package uk.firedev.daisylib.logging;
 
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.firedev.daisylib.DaisyLib;
 
 public interface Logging {
@@ -16,18 +15,18 @@ public interface Logging {
         return new SLF4JLogging(logger);
     }
 
-    static SLF4JLogging logging(@NonNull String name) {
-        Logger logger = LoggerFactory.getLogger(name);
-        return new SLF4JLogging(logger);
-    }
-
     static ComponentLogging logging(net.kyori.adventure.text.logger.slf4j.@NonNull ComponentLogger logger) {
         return new ComponentLogging(logger);
     }
+
+    static ComponentLogging logging(@NonNull String name) {
+        ComponentLogger logger = ComponentLogger.logger(name);
+        return new ComponentLogging(logger);
+    }
     
-    static SLF4JLogging logging(@NonNull Class<?> clazz) {
-        Logger logger = LoggerFactory.getLogger(clazz);
-        return new SLF4JLogging(logger);
+    static ComponentLogging logging(@NonNull Class<?> clazz) {
+        ComponentLogger logger = ComponentLogger.logger(clazz);
+        return new ComponentLogging(logger);
     }
 
     static ComponentLogging logging(@NonNull Plugin plugin) {
