@@ -6,14 +6,16 @@ import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * A simple config wrapper. Saves the default resource if provided and allows the file to be read.
+ * A wrapper for a YAML config file. Saves the default resource if provided and allows the file to be read.
  * <p>
- * Allows custom update/migration logic to be applied. If the config has no version, updates are skipped.
+ * Applies custom update/migration logic (skipped if no version exists), then fills in missing keys from defaults.
  */
 public abstract class UpdatableConfig extends ConfigBase {
 
@@ -21,6 +23,10 @@ public abstract class UpdatableConfig extends ConfigBase {
 
     public UpdatableConfig(@NonNull File file, @NonNull String resourceName, @NonNull Plugin plugin) {
         super(file, resourceName, plugin);
+    }
+
+    public UpdatableConfig(@NonNull String fileName, @NonNull Plugin plugin) {
+        super(fileName, null, plugin);
     }
 
     public UpdatableConfig(@NonNull String fileName, @NonNull String resourceName, @NonNull Plugin plugin) {
@@ -38,6 +44,7 @@ public abstract class UpdatableConfig extends ConfigBase {
         if (preventIO || this.file == null) {
             return;
         }
+
         Configuration defaults = getConfig().getDefaults();
         if (defaults == null) {
             return;
@@ -73,6 +80,29 @@ public abstract class UpdatableConfig extends ConfigBase {
             }
             getConfig().set(versionKey(), expectedVersion);
             save();
+        }
+    }
+
+    private void copyDefaults() {
+        if (resourceName == null) {
+            return;
+        }
+        try (InputStreamReader resource = fetchResource()) {
+            if (resource == null) {
+                return;
+            }
+            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(resource);
+            for (String key : defaultConfig.getKeys(true)) {
+                if (this.config.isSet(key)) {
+                    logging.debug("Key " + key + " is already set in file. Skipping.");
+                    continue;
+                }
+                logging.debug("Key " + key + " did not exist in file. Copying.");
+                this.config.set(key, defaultConfig.get(key));
+            }
+            this.config.save(this.file);
+        } catch (IOException exception) {
+            logging.error("Failed to copy default values to " + file.getName());
         }
     }
 

@@ -1,6 +1,5 @@
 package uk.firedev.daisylib;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.jspecify.annotations.NonNull;
@@ -10,7 +9,7 @@ import uk.firedev.daisylib.external.vault.VaultWrapper;
 import uk.firedev.daisylib.logging.Logging;
 import uk.firedev.daisylib.utils.CommonUtils;
 import uk.firedev.daisylib.utils.MessageUtils;
-import uk.firedev.daisylib.version.VersionChecker;
+import uk.firedev.daisylib.version.MinecraftVersion;
 
 import java.util.function.Supplier;
 
@@ -23,7 +22,7 @@ public class DaisyLib {
     private Logging logging = Logging.logging("DaisyLib");
 
     private DaisyLib() {
-        if (VersionChecker.isOlderThan(Bukkit.getMinecraftVersion(), "1.21.1")) {
+        if (MinecraftVersion.getCurrentVersion().isOlderThan(MinecraftVersion.V1_21_1)) {
             throw new UnsupportedOperationException("Unsupported Minecraft version. Only 1.21.1 and above are supported.");
         }
     }

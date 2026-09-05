@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jspecify.annotations.NonNull;
 
-public class ComponentLogging extends SLF4JLogging implements Logging {
+public class ComponentLogging extends SLF4JLogging {
 
     private final ComponentLogger logger;
 
