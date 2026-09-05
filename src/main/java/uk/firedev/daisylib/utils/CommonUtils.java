@@ -468,29 +468,4 @@ public class CommonUtils {
         giveItems(List.of(item), player);
     }
 
-    public static @Nullable Class<?> getClassOrNull(@NonNull String name) {
-        try {
-            return Class.forName(name);
-        } catch (ClassNotFoundException e) {
-            return null;
-        }
-    }
-
-    public static @Nullable Method getMethodOrNull(@NonNull Class<?> clazz, @NonNull String method, @NonNull Class<?> @NonNull ... parameterTypes) {
-        try {
-            return clazz.getDeclaredMethod(method, parameterTypes);
-        } catch (NoSuchMethodException e) {
-            return null;
-        }
-    }
-
-    public static @Nullable Method getMethodOrNull(@NonNull String clazzName, @NonNull String method, @NonNull Class<?> @NonNull ... parameterTypes) {
-        try {
-            Class<?> clazz = Class.forName(clazzName);
-            return clazz.getDeclaredMethod(method, parameterTypes);
-        } catch (NoSuchMethodException | ClassNotFoundException e) {
-            return null;
-        }
-    }
-
 }

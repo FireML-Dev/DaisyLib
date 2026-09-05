@@ -9,6 +9,7 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.utils.CommonUtils;
+import uk.firedev.daisylib.utils.ReflectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,7 +18,7 @@ import java.util.function.BiConsumer;
 
 public class TooltipStyleItemConfig extends ItemConfig<NamespacedKey> {
 
-    private static final Method SETTER = CommonUtils.getMethodOrNull(ItemMeta.class, "setTooltipStyle", NamespacedKey.class);
+    private static final Method SETTER = ReflectionUtils.getMethodOrNull(ItemMeta.class, "setTooltipStyle", NamespacedKey.class);
 
     public TooltipStyleItemConfig(@NonNull ConfigurationSection section) {
         super(section);

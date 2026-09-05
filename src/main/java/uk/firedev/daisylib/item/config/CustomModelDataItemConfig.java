@@ -9,6 +9,7 @@ import org.jspecify.annotations.Nullable;
 import org.yaml.snakeyaml.tokens.StreamEndToken;
 import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.utils.CommonUtils;
+import uk.firedev.daisylib.utils.ReflectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -23,14 +24,14 @@ public class CustomModelDataItemConfig extends ItemConfig<Number> {
     private static final Method MODERN_SETTER_METHOD;
 
     static {
-        Class<?> clazz = CommonUtils.getClassOrNull("org.bukkit.inventory.meta.components.CustomModelDataComponent");
+        Class<?> clazz = ReflectionUtils.getClassOrNull("org.bukkit.inventory.meta.components.CustomModelDataComponent");
         Method getter = null;
         Method setFloats = null;
         Method setter = null;
         if (clazz != null) {
-            getter = CommonUtils.getMethodOrNull(ItemMeta.class, "getCustomModelDataComponent");
-            setFloats = CommonUtils.getMethodOrNull(clazz, "setFloats", List.class);
-            setter = CommonUtils.getMethodOrNull(ItemMeta.class, "setCustomModelDataComponent", clazz);
+            getter = ReflectionUtils.getMethodOrNull(ItemMeta.class, "getCustomModelDataComponent");
+            setFloats = ReflectionUtils.getMethodOrNull(clazz, "setFloats", List.class);
+            setter = ReflectionUtils.getMethodOrNull(ItemMeta.class, "setCustomModelDataComponent", clazz);
         }
         MODERN_GETTER_METHOD = getter;
         SET_FLOATS = setFloats;
