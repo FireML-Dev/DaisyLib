@@ -41,7 +41,7 @@ public class ItemBuilder {
     @SuppressWarnings("rawtypes") // Safe to ignore.
     private final Map<Class<? extends ItemConfig>, ItemConfig<?>> configMap = new HashMap<>();
 
-    private ItemBuilder(@NonNull ConfigurationSection section, @NonNull ItemStack baseItem) {
+    protected ItemBuilder(@NonNull ConfigurationSection section, @NonNull ItemStack baseItem) {
         this.section = section;
         this.baseItem = baseItem;
         loadConfigMap();
