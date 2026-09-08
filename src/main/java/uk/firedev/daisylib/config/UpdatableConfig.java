@@ -8,7 +8,9 @@ import org.jspecify.annotations.NonNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -18,8 +20,6 @@ import java.util.function.Consumer;
  * Applies custom update/migration logic (skipped if no version exists), then fills in missing keys from defaults.
  */
 public abstract class UpdatableConfig extends ConfigBase {
-
-    private final Map<@NonNull Integer, @NonNull Consumer<YamlConfiguration>> customUpdates = new HashMap<>();
 
     public UpdatableConfig(@NonNull File file, @NonNull String resourceName, @NonNull Plugin plugin) {
         super(file, resourceName, plugin);
@@ -33,9 +33,7 @@ public abstract class UpdatableConfig extends ConfigBase {
         super(fileName, resourceName, plugin);
     }
 
-    public void addCustomUpdateLogic(int version, @NonNull Consumer<@NonNull YamlConfiguration> logic) {
-        customUpdates.put(version, logic);
-    }
+    public abstract @NonNull Settings getUpdateSettings();
 
     public abstract @NonNull String versionKey();
 
@@ -49,7 +47,13 @@ public abstract class UpdatableConfig extends ConfigBase {
         if (defaults == null) {
             return;
         }
+        // Copy missing keys from the default config.
         copyDefaults();
+
+        Settings settings = getUpdateSettings();
+
+        // Apply any updates that do not depend on file version.
+        settings.updates.forEach(update -> update.accept(getConfig()));
 
         int expectedVersion = defaults.getInt(versionKey(), -1);
         int currentVersion = getConfig().getInt(versionKey(), -1);
@@ -68,14 +72,14 @@ public abstract class UpdatableConfig extends ConfigBase {
             return;
         }
 
-        // Current version is not equal to expected. Perform our updates.
+        // Apply updates that require a file version.
         if (currentVersion != expectedVersion) {
             int v = currentVersion;
             while (v < expectedVersion) {
                 v++;
-                Consumer<YamlConfiguration> update = customUpdates.get(v);
-                if (update != null) {
-                    update.accept(getConfig());
+                List<Consumer<YamlConfiguration>> updates = settings.versionedUpdates.get(v);
+                if (updates != null) {
+                    updates.forEach(update -> update.accept(getConfig()));
                 }
             }
             getConfig().set(versionKey(), expectedVersion);
@@ -87,11 +91,7 @@ public abstract class UpdatableConfig extends ConfigBase {
         if (resourceName == null) {
             return;
         }
-        try (InputStreamReader resource = fetchResource()) {
-            if (resource == null) {
-                return;
-            }
-            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(resource);
+        try {
             for (String key : defaultConfig.getKeys(true)) {
                 if (this.config.isSet(key)) {
                     logging.debug("Key " + key + " is already set in file. Skipping.");
@@ -104,6 +104,41 @@ public abstract class UpdatableConfig extends ConfigBase {
         } catch (IOException exception) {
             logging.error("Failed to copy default values to " + file.getName());
         }
+    }
+
+    public static class Settings {
+
+        protected Map<Integer, List<Consumer<YamlConfiguration>>> versionedUpdates = new HashMap<>();
+        protected List<Consumer<YamlConfiguration>> updates = new ArrayList<>();
+
+        public void addCustomLogic(int version, @NonNull Consumer<YamlConfiguration> logic) {
+            versionedUpdates.computeIfAbsent(version, ArrayList::new).add(logic);
+        }
+
+        public void addRelocation(int version, @NonNull String from, @NonNull String to) {
+            addCustomLogic(version, config -> ConfigUtils.move(config, from, to));
+        }
+
+        public void addRelocations(int version, @NonNull Map<@NonNull String, @NonNull String> relocations) {
+            addCustomLogic(version, config ->
+                relocations.forEach((from, to) ->
+                    ConfigUtils.move(config, from, to)
+                )
+            );
+        }
+
+        public void addRemoval(int version, @NonNull String path) {
+            addCustomLogic(version, config -> config.set(path, null));
+        }
+
+        public void addRemovals(int version, @NonNull List<String> removals) {
+            addCustomLogic(version, config ->
+                removals.forEach(path ->
+                    config.set(path, null)
+                )
+            );
+        }
+
     }
 
 }

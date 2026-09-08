@@ -9,23 +9,27 @@ import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.logging.Logging;
 import uk.firedev.daisylib.messages.config.PaperConfigReader;
 import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.utils.CommonUtils;
 import uk.firedev.daisylib.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Optional;
 
 public abstract class ConfigBase {
 
     protected final PaperConfigReader reader;
+    protected final PaperConfigReader defaultsReader;
 
     protected final Logging logging;
     protected final boolean preventIO;
     protected final String resourceName;
     protected final Plugin plugin;
 
-    protected YamlConfiguration config = new YamlConfiguration();
+    protected final YamlConfiguration config = new YamlConfiguration();
+    protected final YamlConfiguration defaultConfig = new YamlConfiguration();
     protected File file = null;
 
     public ConfigBase(@NonNull File file, @Nullable String resourceName, @NonNull Plugin plugin) {
@@ -33,7 +37,8 @@ public abstract class ConfigBase {
         this.resourceName = resourceName;
         this.plugin = plugin;
         this.logging = Logging.logging(plugin);
-        this.reader = new PaperConfigReader(getConfig());
+        this.reader = new PaperConfigReader(config);
+        this.defaultsReader = new PaperConfigReader(defaultConfig);
         reload(file);
         update();
     }
@@ -46,12 +51,13 @@ public abstract class ConfigBase {
         );
     }
 
-    private ConfigBase() {
+    protected ConfigBase() {
         this.preventIO = true;
         this.resourceName = null;
         this.plugin = DaisyLib.get().getPlugin();
         this.logging = Logging.logging(plugin);
-        this.reader = new PaperConfigReader(getConfig());
+        this.reader = new PaperConfigReader(config);
+        this.defaultsReader = new PaperConfigReader(defaultConfig);
     }
 
     /**
@@ -76,6 +82,19 @@ public abstract class ConfigBase {
             this.file = configFile;
         } catch (IOException | InvalidConfigurationException exception) {
             logging.warn("Failed to load resource " + resourceName);
+        }
+        if (resourceName == null) {
+            return;
+        }
+
+        // Load default config
+        try (InputStreamReader reader = fetchResource()) {
+            if (reader == null) {
+                throw new IllegalStateException("Could not find resource: " + resourceName);
+            }
+            this.defaultConfig.load(reader);
+        } catch (IOException | InvalidConfigurationException exception) {
+            throw new RuntimeException("Failed to load resource: " + resourceName);
         }
     }
 
@@ -117,7 +136,29 @@ public abstract class ConfigBase {
         return message == null ? ComponentMessage.componentMessage(def) : message;
     }
 
-    protected @Nullable InputStreamReader fetchResource() {
+    public @Nullable String getFileName() {
+        return Optional.ofNullable(file).map(File::getName).orElse(null);
+    }
+
+    public @NonNull String getFileName(@NonNull String def) {
+        return Optional.ofNullable(file).map(File::getName).orElse(def);
+    }
+
+    // Config Methods
+
+    public void remove(@NonNull String path) {
+        getConfig().set(path, null);
+    }
+
+    public @Nullable Integer getInteger(@NonNull String path, @Nullable Integer def) {
+        Object value = getConfig().get(path);
+        Integer parsed = CommonUtils.getInt(String.valueOf(value));
+        return parsed == null ? def: parsed;
+    }
+
+    // Private Methods
+
+    private @Nullable InputStreamReader fetchResource() {
         if (resourceName == null) {
             return null;
         }
