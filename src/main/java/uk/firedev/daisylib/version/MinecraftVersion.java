@@ -18,7 +18,9 @@ public enum MinecraftVersion {
     V26_1("26.1", 261, 0),
     V26_1_1("26.1.1", 261, 1),
     V26_1_2("26.1.2", 261, 2),
-    V26_2("26.2", 262, 2);
+    V26_2("26.2", 262, 2),
+    V26_3_PRE_3("26.3 Pre-Release 3", 263, 0),
+    V26_3("26.3", 263, 0);
 
     private static final MinecraftVersion CURRENT = getVersionOrThrow(Bukkit.getMinecraftVersion());
 
