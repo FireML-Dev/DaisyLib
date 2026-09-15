@@ -24,13 +24,13 @@ import java.util.function.Predicate;
 @SuppressWarnings("UnstableApiUsage")
 public class CommandUtils {
 
-    private static final SimpleCommandExceptionType PLAYER_REQUIRED = new SimpleCommandExceptionType(
+    public static final SimpleCommandExceptionType PLAYER_REQUIRED = new SimpleCommandExceptionType(
         new LiteralMessage("Only players can use this command.")
     );
-    private static final SimpleCommandExceptionType ONLY_ONE_TARGET = new SimpleCommandExceptionType(
+    public static final SimpleCommandExceptionType ONLY_ONE_TARGET = new SimpleCommandExceptionType(
         new LiteralMessage("Multiple targets selected when only one is required.")
     );
-    private static final SimpleCommandExceptionType INVALID_TARGET = new SimpleCommandExceptionType(
+    public static final SimpleCommandExceptionType INVALID_TARGET = new SimpleCommandExceptionType(
         new LiteralMessage("Invalid target.")
     );
 
@@ -61,7 +61,10 @@ public class CommandUtils {
         };
     }
 
-    public static List<OfflinePlayer> parsePlayerProfilesArgument(@NonNull CommandSourceStack stack, @NonNull PlayerProfileListResolver resolver) throws CommandSyntaxException {
+    public static @NonNull List<OfflinePlayer> parsePlayerProfilesArgument(@NonNull CommandSourceStack stack, @Nullable PlayerProfileListResolver resolver) throws CommandSyntaxException {
+        if (resolver == null) {
+            return List.of();
+        }
         return resolver.resolve(stack).stream()
             .map(PlayerProfile::getId)
             .filter(Objects::nonNull)
@@ -70,7 +73,10 @@ public class CommandUtils {
             .toList();
     }
 
-    public static OfflinePlayer parsePlayerProfileArgument(@NonNull CommandSourceStack stack, @NonNull PlayerProfileListResolver resolver) throws CommandSyntaxException {
+    public static @Nullable OfflinePlayer parsePlayerProfileArgument(@NonNull CommandSourceStack stack, @Nullable PlayerProfileListResolver resolver) throws CommandSyntaxException {
+        if (resolver == null) {
+            return null;
+        }
         List<PlayerProfile> profiles = List.copyOf(resolver.resolve(stack));
         if (profiles.size() != 1) {
             throw ONLY_ONE_TARGET.create();
@@ -86,12 +92,34 @@ public class CommandUtils {
         return player;
     }
 
-    public static List<Player> parsePlayersArgument(@NonNull CommandSourceStack stack, @NonNull PlayerSelectorArgumentResolver resolver) throws CommandSyntaxException {
+    public static List<Player> parsePlayersArgument(@NonNull CommandSourceStack stack, @Nullable PlayerSelectorArgumentResolver resolver) throws CommandSyntaxException {
+        if (resolver == null) {
+            return List.of();
+        }
         return resolver.resolve(stack);
     }
 
-    public static Player parsePlayerArgument(@NonNull CommandSourceStack stack, @NonNull PlayerSelectorArgumentResolver resolver) throws CommandSyntaxException {
+    public static Player parsePlayerArgument(@NonNull CommandSourceStack stack, @Nullable PlayerSelectorArgumentResolver resolver) throws CommandSyntaxException {
+        if (resolver == null) {
+            return null;
+        }
         return resolver.resolve(stack).getFirst();
+    }
+
+    public static <T> @NonNull T getArgumentOrDefault(@NonNull CommandContext<CommandSourceStack> ctx, @NonNull String name, @NonNull Class<T> clazz, @NonNull T def) {
+        try {
+            return ctx.getArgument(name, clazz);
+        } catch (Exception exception) {
+            return def;
+        }
+    }
+
+    public static <T> @Nullable T getArgumentOrNull(@NonNull CommandContext<CommandSourceStack> ctx, @NonNull String name, @NonNull Class<T> clazz) {
+        try {
+            return ctx.getArgument(name, clazz);
+        } catch (Exception exception) {
+            return null;
+        }
     }
 
 }
