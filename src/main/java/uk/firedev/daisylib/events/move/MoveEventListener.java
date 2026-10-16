@@ -15,11 +15,16 @@ public class MoveEventListener implements Listener {
         Location from = event.getFrom();
         // Block check
         if (!to.getBlock().equals(from.getBlock())) {
-            new PlayerMoveBlockEvent(event.getPlayer(), to, from).callEvent();
+            if (!new PlayerMoveBlockEvent(event.getPlayer(), to, from).callEvent()) {
+                event.setCancelled(true);
+                return;
+            }
         }
         // Chunk check
         if (!to.getChunk().equals(from.getChunk())) {
-            new PlayerMoveChunkEvent(event.getPlayer(), to, from).callEvent();
+            if (!new PlayerMoveChunkEvent(event.getPlayer(), to, from).callEvent()) {
+                event.setCancelled(true);
+            }
         }
     }
 
