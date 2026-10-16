@@ -7,7 +7,6 @@ import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NonNull;
 
-@ApiStatus.Internal
 public abstract class AbstractMoveEvent extends PlayerEvent implements Cancellable {
 
     private final Location to;
@@ -15,6 +14,7 @@ public abstract class AbstractMoveEvent extends PlayerEvent implements Cancellab
 
     protected boolean cancelled = false;
 
+    @ApiStatus.Internal
     public AbstractMoveEvent(@NonNull Player player, @NonNull Location to, @NonNull Location from) {
         super(player);
         this.to = to;
