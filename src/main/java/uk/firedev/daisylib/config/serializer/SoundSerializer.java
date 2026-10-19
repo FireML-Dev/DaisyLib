@@ -6,10 +6,28 @@ import org.bukkit.NamespacedKey;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.DaisyLib;
+import uk.firedev.daisylib.utils.ReflectionUtils;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Locale;
 
 public class SoundSerializer implements ConfigSerializer<Sound> {
 
     private static final SoundSerializer INSTANCE = new SoundSerializer();
+    private static final Method VALUE_OF_METHOD;
+
+    static {
+        Class<?> soundClass = ReflectionUtils.getClassOrNull("org.bukkit.Sound");
+        if (soundClass == null) {
+            throw new IllegalStateException("Bukkit Sound class is not available?");
+        }
+        Method valueOf = ReflectionUtils.getMethodOrNull(soundClass, "valueOf", String.class);
+        if (valueOf == null) {
+            throw new IllegalStateException("Bukkit Sound#valueOf method is not available?");
+        }
+        VALUE_OF_METHOD = valueOf;
+    }
 
     private SoundSerializer() {}
 
@@ -58,11 +76,17 @@ public class SoundSerializer implements ConfigSerializer<Sound> {
         Key soundKey = type.contains(":") ? NamespacedKey.fromString(type) : null;
         if (soundKey != null) {
             return Sound.sound().type(soundKey);
+        } else {
+            return resolveBukkitSound(type);
         }
+    }
+
+    private static Sound.Builder resolveBukkitSound(String type) {
         try {
-            org.bukkit.Sound soundEnum = org.bukkit.Sound.valueOf(type);
-            return Sound.sound().type(soundEnum);
-        } catch (IllegalArgumentException exception) {
+            Sound.Type soundType = (Sound.Type) VALUE_OF_METHOD.invoke(null, type.toLowerCase(Locale.ROOT));
+            return Sound.sound().type(soundType);
+        } catch (IllegalArgumentException | InvocationTargetException | IllegalAccessException exception) {
+            DaisyLib.get().getLogging().debug("Failed to fetch Bukkit Sound", exception);
             return null;
         }
     }
