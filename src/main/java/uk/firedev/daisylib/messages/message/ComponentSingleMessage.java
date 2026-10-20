@@ -141,12 +141,24 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
         return new ComponentSingleMessage(replacer.apply(message), messageType);
     }
 
+    @Override
+    public ComponentMessage<?, ?> replacePlainText(@NonNull String placeholder, @Nullable Object replacement) {
+        Replacer replacer = Replacer.plainText().addReplacement(placeholder, replacement);
+        return new ComponentSingleMessage(replacer.apply(message), messageType);
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public ComponentSingleMessage replace(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.component().addReplacements(replacements);
+        return new ComponentSingleMessage(replacer.apply(message), messageType);
+    }
+
+    @Override
+    public ComponentMessage<?, ?> replacePlainText(@NonNull Map<String, ?> replacements) {
+        Replacer replacer = Replacer.plainText().addReplacements(replacements);
         return new ComponentSingleMessage(replacer.apply(message), messageType);
     }
 

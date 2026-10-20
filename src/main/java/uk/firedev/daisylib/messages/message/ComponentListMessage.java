@@ -196,6 +196,12 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
         return new ComponentListMessage(replacer.apply(message), messageType);
     }
 
+    @Override
+    public ComponentMessage<?, ?> replacePlainText(@NonNull String placeholder, @Nullable Object replacement) {
+        Replacer replacer = Replacer.plainText().addReplacement(placeholder, replacement);
+        return new ComponentListMessage(replacer.apply(message), messageType);
+    }
+
     /**
      * Replaces all instances of the specified placeholder with the specified replacement
      * <p>
@@ -218,6 +224,12 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
         return new ComponentListMessage(replacer.apply(message), messageType);
     }
 
+    @Override
+    public ComponentMessage<?, ?> replacePlainText(@NonNull Map<String, ?> replacements) {
+        Replacer replacer = Replacer.plainText().addReplacements(replacements);
+        return new ComponentListMessage(replacer.apply(message), messageType);
+    }
+
     /**
      * Replaces all instances of the specified placeholders with the specified replacements.
      * <p>
@@ -227,6 +239,11 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      */
     public ComponentListMessage replaceWithListInsertion(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.component().addReplacements(replacements);
+        return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType);
+    }
+
+    public ComponentListMessage replaceWithListInsertionPlainText(@NonNull Map<String, ?> replacements) {
+        Replacer replacer = Replacer.plainText().addReplacements(replacements);
         return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType);
     }
 

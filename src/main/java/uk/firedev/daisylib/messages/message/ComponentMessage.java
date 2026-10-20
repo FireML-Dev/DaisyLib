@@ -193,12 +193,16 @@ public abstract class ComponentMessage<C, S> {
      */
     public abstract ComponentMessage<?, ?> replace(@NonNull String placeholder, @Nullable Object replacement);
 
+    public abstract ComponentMessage<?, ?> replacePlainText(@NonNull String placeholder, @Nullable Object replacement);
+
     /**
      * Replaces all instances of the specified placeholders with the specified replacements.
      * @param replacements A map of placeholders to replacements. Explicitly supports {@link Component} and {@link ComponentSingleMessage} as values. Anything else will be converted to a String and processed.
      * @return A new ComponentMessage with the replacements made.
      */
     public abstract ComponentMessage<?, ?> replace(@NonNull Map<String, ?> replacements);
+
+    public abstract ComponentMessage<?, ?> replacePlainText(@NonNull Map<String, ?> replacements);
 
     /**
      * Applies the specified Replacer to the message.
