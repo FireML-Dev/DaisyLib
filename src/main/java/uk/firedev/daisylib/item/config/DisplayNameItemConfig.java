@@ -40,7 +40,7 @@ public class DisplayNameItemConfig extends ItemConfig<Component> {
             String name = Optional.ofNullable(player)
                 .map(OfflinePlayer::getName)
                 .orElse("N/A");
-            Replacer replacer = Replacer.replacer().addReplacement("{player}", name);
+            Replacer replacer = Replacer.component().addReplacement("{player}", name);
             if (replacements != null) {
                 replacer.addReplacements(replacements);
             }

@@ -137,7 +137,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      */
     @Override
     public ComponentSingleMessage replace(@NonNull String placeholder, @Nullable Object replacement) {
-        Replacer replacer = Replacer.replacer().addReplacement(placeholder, replacement);
+        Replacer replacer = Replacer.component().addReplacement(placeholder, replacement);
         return new ComponentSingleMessage(replacer.apply(message), messageType);
     }
 
@@ -146,7 +146,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      */
     @Override
     public ComponentSingleMessage replace(@NonNull Map<String, ?> replacements) {
-        Replacer replacer = Replacer.replacer().addReplacements(replacements);
+        Replacer replacer = Replacer.component().addReplacements(replacements);
         return new ComponentSingleMessage(replacer.apply(message), messageType);
     }
 

@@ -15,6 +15,7 @@ import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.messages.MessageSettings;
 import uk.firedev.daisylib.messages.ObjectProcessor;
 import uk.firedev.daisylib.messages.replacer.Replacer;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 import uk.firedev.daisylib.utils.MessageUtils;
 
 import java.util.ArrayList;
@@ -191,7 +192,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      */
     @Override
     public ComponentListMessage replace(@NonNull String placeholder, @Nullable Object replacement) {
-        Replacer replacer = Replacer.replacer().addReplacement(placeholder, replacement);
+        Replacer replacer = Replacer.component().addReplacement(placeholder, replacement);
         return new ComponentListMessage(replacer.apply(message), messageType);
     }
 
@@ -204,7 +205,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * @return A new ComponentMessage with the replacements made.
      */
     public ComponentListMessage replaceWithListInsertion(@NonNull String placeholder, @Nullable Object replacement) {
-        Replacer replacer = Replacer.replacer().addReplacement(placeholder, replacement);
+        Replacer replacer = Replacer.component().addReplacement(placeholder, replacement);
         return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType);
     }
 
@@ -213,7 +214,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      */
     @Override
     public ComponentListMessage replace(@NonNull Map<String, ?> replacements) {
-        Replacer replacer = Replacer.replacer().addReplacements(replacements);
+        Replacer replacer = Replacer.component().addReplacements(replacements);
         return new ComponentListMessage(replacer.apply(message), messageType);
     }
 
@@ -225,7 +226,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * @return A new ComponentMessage with the replacements made.
      */
     public ComponentListMessage replaceWithListInsertion(@NonNull Map<String, ?> replacements) {
-        Replacer replacer = Replacer.replacer().addReplacements(replacements);
+        Replacer replacer = Replacer.component().addReplacements(replacements);
         return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType);
     }
 
