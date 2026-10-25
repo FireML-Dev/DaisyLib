@@ -81,7 +81,7 @@ public abstract class ConfigBase {
             this.config.load(configFile);
             this.file = configFile;
         } catch (IOException | InvalidConfigurationException exception) {
-            logging.warn("Failed to load resource " + resourceName);
+            logging.warn("Failed to load file " + configFile, exception);
         }
         if (resourceName == null) {
             return;
@@ -94,7 +94,7 @@ public abstract class ConfigBase {
             }
             this.defaultConfig.load(reader);
         } catch (IOException | InvalidConfigurationException exception) {
-            throw new RuntimeException("Failed to load resource: " + resourceName);
+            throw new RuntimeException("Failed to load resource: " + resourceName, exception);
         }
     }
 
