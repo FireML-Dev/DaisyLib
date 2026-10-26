@@ -7,6 +7,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.jspecify.annotations.NonNull;
@@ -349,7 +350,14 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      */
     @Override
     public void send(@Nullable Audience audience) {
-        if (isEmpty()) {
+        if (isEmpty() || audience == null) {
+            return;
+        }
+        if (message.size() >= 2 && messageType == MessageType.TITLE) {
+            Component main = message.get(0);
+            Component sub = message.get(1);
+            Title title = Title.title(main, sub);
+            audience.showTitle(title);
             return;
         }
         message.forEach(component -> messageType.send(audience, component));
