@@ -19,6 +19,7 @@ import uk.firedev.daisylib.item.config.ItemModelItemConfig;
 import uk.firedev.daisylib.item.config.ItemRarityItemConfig;
 import uk.firedev.daisylib.item.config.LoreItemConfig;
 import uk.firedev.daisylib.item.config.MaxStackSizeItemConfig;
+import uk.firedev.daisylib.item.config.PotionColorItemConfig;
 import uk.firedev.daisylib.item.config.PotionEffectItemConfig;
 import uk.firedev.daisylib.item.config.QuantityItemConfig;
 import uk.firedev.daisylib.item.config.TooltipStyleItemConfig;
@@ -108,6 +109,7 @@ public class ItemBuilder {
         loadConfig(new ItemRarityItemConfig(section));
         loadConfig(new LoreItemConfig(section));
         loadConfig(new MaxStackSizeItemConfig(section));
+        loadConfig(new PotionColorItemConfig(section));
         loadConfig(new PotionEffectItemConfig(section));
         loadConfig(new QuantityItemConfig(section));
         loadConfig(new TooltipStyleItemConfig(section));
