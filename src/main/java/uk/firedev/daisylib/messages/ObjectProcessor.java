@@ -33,6 +33,56 @@ public class ObjectProcessor {
             ComponentListMessage.class,
             ComponentListMessage::get
         );
+        // Primitives
+        registerProcessor(
+            int.class,
+            n -> List.of(Component.text(n))
+        );
+        registerProcessor(
+            long.class,
+            n -> List.of(Component.text(n))
+        );
+        registerProcessor(
+            double.class,
+            n -> List.of(Component.text(n))
+        );
+        registerProcessor(
+            float.class,
+            n -> List.of(Component.text(n))
+        );
+        registerProcessor(
+            char.class,
+            c -> List.of(Component.text(c))
+        );
+        registerProcessor(
+            boolean.class,
+            b -> List.of(Component.text(b))
+        );
+        // Boxed Primitives
+        registerProcessor(
+            Integer.class,
+            n -> List.of(Component.text(n))
+        );
+        registerProcessor(
+            Long.class,
+            n -> List.of(Component.text(n))
+        );
+        registerProcessor(
+            Double.class,
+            n -> List.of(Component.text(n))
+        );
+        registerProcessor(
+            Float.class,
+            n -> List.of(Component.text(n))
+        );
+        registerProcessor(
+            Character.class,
+            c -> List.of(Component.text(c))
+        );
+        registerProcessor(
+            Boolean.class,
+            b -> List.of(Component.text(b))
+        );
     }
 
     /**
