@@ -61,7 +61,10 @@ public class CommonUtils {
      * @param str The string to use.
      * @return The Integer, or null if it isn't an Integer.
      */
-    public static @Nullable Integer getInt(@NonNull String str) {
+    public static @Nullable Integer getInt(@Nullable String str) {
+        if (str == null) {
+            return null;
+        }
         try {
             return Integer.parseInt(str);
         } catch (NumberFormatException exception) {
@@ -104,7 +107,10 @@ public class CommonUtils {
      * @param str The string to use.
      * @return The Long, or null if it isn't a Long.
      */
-    public static @Nullable Long getLong(@NonNull String str) {
+    public static @Nullable Long getLong(@Nullable String str) {
+        if (str == null) {
+            return null;
+        }
         try {
             return Long.parseLong(str);
         } catch (NumberFormatException exception) {
@@ -147,7 +153,10 @@ public class CommonUtils {
      * @param str The string to use.
      * @return The Double, or null if it isn't a Double.
      */
-    public static @Nullable Double getDouble(@NonNull String str) {
+    public static @Nullable Double getDouble(@Nullable String str) {
+        if (str == null) {
+            return null;
+        }
         try {
             return Double.parseDouble(str);
         } catch (NumberFormatException exception) {
@@ -190,7 +199,10 @@ public class CommonUtils {
      * @param str The string to use.
      * @return The Float, or null if it isn't a Float.
      */
-    public static @Nullable Float getFloat(@NonNull String str) {
+    public static @Nullable Float getFloat(@Nullable String str) {
+        if (str == null) {
+            return null;
+        }
         try {
             return Float.parseFloat(str);
         } catch (NumberFormatException exception) {
