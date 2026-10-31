@@ -1,5 +1,6 @@
 package uk.firedev.daisylib.cache;
 
+import io.papermc.paper.persistence.PersistentDataContainerView;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
@@ -13,65 +14,23 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * A cache for player PDC values.
+ * A cache for player {@link org.bukkit.persistence.PersistentDataContainer}s.
  * <p>
- * As checking an {@link OfflinePlayer}'s PDC is expensive, this caches the value so it's only done once per key.
+ * As checking an {@link OfflinePlayer}'s PDC is expensive, this caches it so the check is only done once.
  */
-public class PlayerPdcCache {
+public final class PlayerPdcCache {
 
-    private final UUID player;
+    private static final Map<UUID, PersistentDataContainerView> CACHE = new HashMap<>();
 
-    private final Map<NamespacedKey, CachedValue<?>> cache = new HashMap<>();
+    private PlayerPdcCache() {}
 
-    private PlayerPdcCache(@NonNull UUID player) {
-        this.player = player;
-    }
-
-    public static @NonNull PlayerPdcCache playerPdcCache(@NonNull UUID player) {
-        return new PlayerPdcCache(player);
-    }
-
-    public static @NonNull PlayerPdcCache playerPdcCache(@NonNull OfflinePlayer player) {
-        return new PlayerPdcCache(player.getUniqueId());
-    }
-
-    public <T> @Nullable T get(@NonNull NamespacedKey key, @NonNull PersistentDataType<?, T> type) {
-        Player online = Bukkit.getPlayer(player);
+    public static @NonNull PersistentDataContainerView get(OfflinePlayer player) {
+        Player online = player.getPlayer();
         if (online != null) {
-            // Remove cached data as the player is online.
-            cache.remove(key);
-            return online.getPersistentDataContainer().get(key, type);
+            CACHE.remove(player.getUniqueId());
+            return online.getPersistentDataContainer();
         }
-        return checkCache(key, type);
+        return CACHE.computeIfAbsent(player.getUniqueId(), ignored -> player.getPersistentDataContainer());
     }
-
-    public <T> @NonNull T getOrDefault(@NonNull NamespacedKey key, @NonNull PersistentDataType<?, T> type, @NonNull T def) {
-        T val = get(key, type);
-        return val == null ? def : val;
-    }
-
-    private <T> @Nullable T checkCache(@NonNull NamespacedKey key, @NonNull PersistentDataType<?, T> type) {
-        CachedValue<?> cachedValue = cache.get(key);
-        if (cachedValue == null) {
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player);
-            // Never logged in.
-            if (offlinePlayer.getFirstPlayed() == 0) {
-                return null;
-            }
-            T dataVal = offlinePlayer.getPersistentDataContainer().get(key, type);
-            cache.put(key, new CachedValue<>(type, dataVal));
-            return dataVal;
-        }
-        // If the type matches, we can safely cast
-        if (cachedValue.type().equals(type)) {
-            return type.getComplexType().cast(cachedValue.value());
-        } else {
-            // If the type does not match, the key is now invalid.
-            cache.remove(key);
-            return null;
-        }
-    }
-
-    private record CachedValue<T>(PersistentDataType<?, T> type, T value) {}
 
 }
