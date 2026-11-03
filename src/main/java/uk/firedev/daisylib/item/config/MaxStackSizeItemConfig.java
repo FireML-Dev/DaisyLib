@@ -5,9 +5,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 import uk.firedev.daisylib.utils.CommonUtils;
 
-import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class MaxStackSizeItemConfig extends ItemConfig<Integer> {
@@ -30,7 +30,7 @@ public class MaxStackSizeItemConfig extends ItemConfig<Integer> {
     }
 
     @Override
-    protected BiConsumer<ItemStack, Integer> applyToItem(@Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements) {
+    protected BiConsumer<ItemStack, Integer> applyToItem(@Nullable OfflinePlayer player, @Nullable Replacer replacer) {
         return (item, value) -> {
             if (value == null) {
                 return;

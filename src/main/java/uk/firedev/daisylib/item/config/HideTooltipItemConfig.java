@@ -5,8 +5,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 
-import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class HideTooltipItemConfig extends ItemConfig<Boolean> {
@@ -25,7 +25,7 @@ public class HideTooltipItemConfig extends ItemConfig<Boolean> {
     }
 
     @Override
-    protected BiConsumer<ItemStack, Boolean> applyToItem(@Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements) {
+    protected BiConsumer<ItemStack, Boolean> applyToItem(@Nullable OfflinePlayer player, @Nullable Replacer replacer) {
         return (item, value) ->
             item.editMeta(meta -> meta.setHideTooltip(value));
     }

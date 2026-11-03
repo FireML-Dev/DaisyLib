@@ -24,6 +24,7 @@ import uk.firedev.daisylib.item.config.PotionEffectItemConfig;
 import uk.firedev.daisylib.item.config.QuantityItemConfig;
 import uk.firedev.daisylib.item.config.TooltipStyleItemConfig;
 import uk.firedev.daisylib.item.config.UnbreakableItemConfig;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 import uk.firedev.daisylib.utils.CommonUtils;
 
 import java.util.HashMap;
@@ -74,24 +75,32 @@ public class ItemBuilder {
     }
 
     public @NonNull ItemStack build() {
-        return build(null, null);
+        return build(null, (Replacer) null);
     }
 
     public @NonNull ItemStack build(@Nullable OfflinePlayer player) {
-        return build(player, null);
+        return build(player, (Replacer) null);
     }
 
     public @NonNull ItemStack build(@Nullable Map<String, ?> replacements) {
         return build(null, replacements);
     }
 
+    public @NonNull ItemStack build(@NonNull Replacer replacer) {
+        return build(null, replacer);
+    }
+
     public @NonNull ItemStack build(@Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements) {
+        return build(player, Replacer.component().addReplacements(replacements));
+    }
+
+    public @NonNull ItemStack build(@Nullable OfflinePlayer player, @Nullable Replacer replacer) {
         ItemStack item = baseItem.clone();
         if (ignoreConfigs) {
             return item;
         }
         for (ItemConfig<?> config : configMap.values()) {
-            config.apply(item, player, replacements);
+            config.apply(item, player, replacer);
         }
         return item;
     }

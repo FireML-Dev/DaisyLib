@@ -8,12 +8,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.DaisyLib;
-import uk.firedev.daisylib.utils.CommonUtils;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 import uk.firedev.daisylib.utils.ReflectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class TooltipStyleItemConfig extends ItemConfig<NamespacedKey> {
@@ -38,7 +37,7 @@ public class TooltipStyleItemConfig extends ItemConfig<NamespacedKey> {
     }
 
     @Override
-    protected BiConsumer<ItemStack, NamespacedKey> applyToItem(@Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements) {
+    protected BiConsumer<ItemStack, NamespacedKey> applyToItem(@Nullable OfflinePlayer player, @Nullable Replacer replacer) {
         return (item, value) -> {
             if (SETTER == null) {
                 return;

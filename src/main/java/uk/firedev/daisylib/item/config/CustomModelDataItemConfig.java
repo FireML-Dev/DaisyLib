@@ -6,15 +6,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import org.yaml.snakeyaml.tokens.StreamEndToken;
 import uk.firedev.daisylib.DaisyLib;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 import uk.firedev.daisylib.utils.CommonUtils;
 import uk.firedev.daisylib.utils.ReflectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class CustomModelDataItemConfig extends ItemConfig<Number> {
@@ -57,7 +56,7 @@ public class CustomModelDataItemConfig extends ItemConfig<Number> {
     }
 
     @Override
-    protected BiConsumer<ItemStack, Number> applyToItem(@Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements) {
+    protected BiConsumer<ItemStack, Number> applyToItem(@Nullable OfflinePlayer player, @Nullable Replacer replacer) {
         return (item, value) -> item.editMeta(meta -> {
             // 1.21.4+ :)
             if (MODERN_GETTER_METHOD != null) {

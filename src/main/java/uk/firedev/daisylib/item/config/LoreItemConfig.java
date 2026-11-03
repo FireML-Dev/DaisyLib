@@ -10,7 +10,6 @@ import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.daisylib.messages.replacer.Replacer;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
@@ -31,7 +30,7 @@ public class LoreItemConfig extends ItemConfig<List<Component>> {
     }
 
     @Override
-    protected BiConsumer<ItemStack, List<Component>> applyToItem(@Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements) {
+    protected BiConsumer<ItemStack, List<Component>> applyToItem(@Nullable OfflinePlayer player, @Nullable Replacer replacer) {
         return (item, value) -> {
             if (value.isEmpty()) {
                 return;
@@ -39,13 +38,13 @@ public class LoreItemConfig extends ItemConfig<List<Component>> {
             String name = Optional.ofNullable(player)
                 .map(OfflinePlayer::getName)
                 .orElse("N/A");
-            Replacer replacer = Replacer.component().addReplacement("{player}", name);
-            if (replacements != null) {
-                replacer.addReplacements(replacements);
+            Replacer finalReplacer = Replacer.component().addReplacement("{player}", name);
+            if (replacer != null) {
+                finalReplacer.merge(replacer);
             }
             item.editMeta(meta -> {
                 List<Component> lore = ComponentMessage.componentMessage(value)
-                    .replace(replacer)
+                    .replace(finalReplacer)
                     .parsePlaceholderAPI(player)
                     .get();
                 meta.lore(lore);

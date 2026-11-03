@@ -6,8 +6,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 
-import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -41,21 +41,23 @@ public abstract class ItemConfig<T> {
 
     /**
      * Applies the actual value to the item if this config is enabled.
-     * @param item The item to apply the config to.
+     *
+     * @param item     The item to apply the config to.
+     * @param replacer
      */
-    public void apply(@NonNull ItemStack item, @Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements) {
+    public void apply(@NonNull ItemStack item, @Nullable OfflinePlayer player, @Nullable Replacer replacer) {
         if (!enabled) {
             return;
         }
         T value = transformer == null ? getActualValue() : transformer.apply(getActualValue());
         if (value != null) {
-            applyToItem(player, replacements).accept(item, value);
+            applyToItem(player, replacer).accept(item, value);
         }
     }
 
     public abstract @Nullable T getConfiguredValue();
 
-    protected abstract BiConsumer<ItemStack, T> applyToItem(@Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements);
+    protected abstract BiConsumer<ItemStack, T> applyToItem(@Nullable OfflinePlayer player, @Nullable Replacer replacer);
 
     public void setDefault(@Nullable T def) {
         this.def = def;

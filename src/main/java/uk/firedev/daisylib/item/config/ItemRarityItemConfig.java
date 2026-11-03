@@ -6,9 +6,9 @@ import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 import uk.firedev.daisylib.utils.CommonUtils;
 
-import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class ItemRarityItemConfig extends ItemConfig<String> {
@@ -27,7 +27,7 @@ public class ItemRarityItemConfig extends ItemConfig<String> {
     }
 
     @Override
-    protected BiConsumer<ItemStack, String> applyToItem(@Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements) {
+    protected BiConsumer<ItemStack, String> applyToItem(@Nullable OfflinePlayer player, @Nullable Replacer replacer) {
         return (item, value) -> {
             ItemRarity rarity = CommonUtils.getEnumValue(ItemRarity.class, value);
             if (rarity != null) {

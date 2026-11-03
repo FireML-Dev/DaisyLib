@@ -10,7 +10,6 @@ import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.daisylib.messages.replacer.Replacer;
 import uk.firedev.daisylib.utils.MessageUtils;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
@@ -31,7 +30,7 @@ public class DisplayNameItemConfig extends ItemConfig<Component> {
     }
 
     @Override
-    protected BiConsumer<ItemStack, Component> applyToItem(@Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements) {
+    protected BiConsumer<ItemStack, Component> applyToItem(@Nullable OfflinePlayer player, @Nullable Replacer replacer) {
         return (item, value) -> {
             if (value == null || MessageUtils.isEmpty(value)) {
                 item.editMeta(meta -> meta.displayName(Component.empty()));
@@ -40,13 +39,13 @@ public class DisplayNameItemConfig extends ItemConfig<Component> {
             String name = Optional.ofNullable(player)
                 .map(OfflinePlayer::getName)
                 .orElse("N/A");
-            Replacer replacer = Replacer.component().addReplacement("{player}", name);
-            if (replacements != null) {
-                replacer.addReplacements(replacements);
+            Replacer finalReplacer = Replacer.component().addReplacement("{player}", name);
+            if (replacer != null) {
+                finalReplacer.merge(replacer);
             }
             item.editMeta(meta -> {
                 Component display = ComponentMessage.componentMessage(value)
-                    .replace(replacer)
+                    .replace(finalReplacer)
                     .parsePlaceholderAPI(player)
                     .get();
                 meta.displayName(display);

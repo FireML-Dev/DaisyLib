@@ -8,8 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 
-import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class DyeColorItemConfig extends ItemConfig<Color> {
@@ -37,7 +37,7 @@ public class DyeColorItemConfig extends ItemConfig<Color> {
     }
 
     @Override
-    protected BiConsumer<ItemStack, Color> applyToItem(@Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements) {
+    protected BiConsumer<ItemStack, Color> applyToItem(@Nullable OfflinePlayer player, @Nullable Replacer replacer) {
         return (item, value) -> {
             if (value == null) {
                 return;

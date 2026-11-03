@@ -6,8 +6,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 
-import java.util.Map;
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -31,7 +31,7 @@ public class DurabilityItemConfig extends ItemConfig<Integer> {
     }
 
     @Override
-    protected BiConsumer<ItemStack, Integer> applyToItem(@Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements) {
+    protected BiConsumer<ItemStack, Integer> applyToItem(@Nullable OfflinePlayer player, @Nullable Replacer replacer) {
         return (item, value) -> {
             int maxDurability = item.getType().getMaxDurability();
             item.editMeta(Damageable.class, meta -> {

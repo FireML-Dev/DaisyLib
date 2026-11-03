@@ -40,8 +40,10 @@ public abstract class Replacer {
         return this;
     }
 
-    public Replacer addReplacements(@NonNull Map<String, ?> replacements) {
-        this.replacements.putAll(replacements);
+    public Replacer addReplacements(@Nullable Map<String, ?> replacements) {
+        if (replacements != null) {
+            this.replacements.putAll(replacements);
+        }
         return this;
     }
 

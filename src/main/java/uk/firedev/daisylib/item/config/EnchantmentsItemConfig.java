@@ -6,6 +6,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 import uk.firedev.daisylib.pairs.ReadOnlyPair;
 import uk.firedev.daisylib.utils.CommonUtils;
 
@@ -51,7 +52,7 @@ public class EnchantmentsItemConfig extends ItemConfig<Map<Enchantment, Integer>
     }
 
     @Override
-    protected BiConsumer<ItemStack, Map<Enchantment, Integer>> applyToItem(@Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements) {
+    protected BiConsumer<ItemStack, Map<Enchantment, Integer>> applyToItem(@Nullable OfflinePlayer player, @Nullable Replacer replacer) {
         return ItemStack::addUnsafeEnchantments;
     }
 

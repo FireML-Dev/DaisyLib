@@ -9,8 +9,8 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.config.serializer.PotionEffectSerializer;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 
-import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class PotionEffectItemConfig extends ItemConfig<PotionEffect> {
@@ -33,7 +33,7 @@ public class PotionEffectItemConfig extends ItemConfig<PotionEffect> {
     }
 
     @Override
-    public BiConsumer<ItemStack, PotionEffect> applyToItem(@Nullable OfflinePlayer player, @Nullable Map<String, ?> replacements) {
+    public BiConsumer<ItemStack, PotionEffect> applyToItem(@Nullable OfflinePlayer player, @Nullable Replacer replacer) {
         return (item, value) -> {
             if (value == null) {
                 DaisyLib.get().getLogging().warn(section.getName() + " has an invalid potion effect.");
