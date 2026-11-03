@@ -26,7 +26,7 @@ public class DisplayNameItemConfig extends ItemConfig<Component> {
 
     @Override
     public Component getConfiguredValue() {
-        String string = section.getString("displayname");
+        String string = section.getString("displayname", section.getString("display"));
         return string == null ? null : ComponentMessage.componentMessage(string).get();
     }
 
