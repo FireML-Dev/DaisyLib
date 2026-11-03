@@ -8,6 +8,7 @@ import org.jspecify.annotations.NullMarked;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A cache for player {@link org.bukkit.persistence.PersistentDataContainer}s.
@@ -17,7 +18,7 @@ import java.util.UUID;
 @NullMarked
 public final class PlayerPdcCache {
 
-    private static final Map<UUID, PersistentDataContainerView> CACHE = new HashMap<>();
+    private static final Map<UUID, PersistentDataContainerView> CACHE = new ConcurrentHashMap<>();
 
     private PlayerPdcCache() {}
 
