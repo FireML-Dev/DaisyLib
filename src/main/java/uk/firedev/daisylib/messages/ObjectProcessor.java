@@ -10,6 +10,7 @@ import uk.firedev.daisylib.utils.MessageUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * A class for processing different classes into Components.
@@ -92,27 +93,29 @@ public class ObjectProcessor {
      * @return The processed object.
      */
     public static @NonNull List<Component> process(@Nullable Object object) {
-        if (object == null) {
-            return List.of();
-        }
-        // Process every object in a list individually, otherwise the list will become a single String.
-        if (object instanceof List<?> list) {
-            List<Component> processed = new ArrayList<>();
-            for (Object obj : list) {
-                processed.addAll(process(obj));
+        return switch (object) {
+            case List<?> list -> { // Process every object in a list individually.
+                List<Component> processed = new ArrayList<>();
+                for (Object obj : list) {
+                    processed.addAll(process(obj));
+                }
+                yield processed;
             }
-            return processed;
-        }
-        for (Processor<?> processor : PROCESSORS) {
-            // We cannot pass the MiniMessage instance here.
-            List<Component> components = processor.process(object);
-            if (components != null) {
-                return components;
-            }
-        }
+            case Supplier<?> supplier -> process(supplier.get()); // Process the value of a supplier instead of the supplier itself.
+            case null -> List.of(); // Return an empty list if null.
+            default -> {
+                for (Processor<?> processor : PROCESSORS) {
+                    // We cannot pass the MiniMessage instance here.
+                    List<Component> components = processor.process(object);
+                    if (components != null) {
+                        yield components;
+                    }
+                }
 
-        // If no processor matches, #toString the object.
-        return List.of(MessageUtils.parseString(object.toString()));
+                // If no processor matches, #toString the object.
+                yield List.of(MessageUtils.parseString(object.toString()));
+            }
+        };
     }
 
     /**
