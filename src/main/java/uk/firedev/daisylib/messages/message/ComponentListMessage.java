@@ -33,10 +33,6 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
     private final MessageType messageType;
     private final @Nullable Sound sound;
 
-    protected ComponentListMessage(@NonNull List<Component> message, @NonNull MessageType messageType) {
-        this(message, messageType, null);
-    }
-
     protected ComponentListMessage(@NonNull List<Component> message, @NonNull MessageType messageType, @Nullable Sound sound) {
         message.forEach(component -> this.message.add(ROOT.append(component).compact()));
         this.messageType = messageType;
@@ -103,7 +99,8 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
     public ComponentListMessage createCopy() {
         return new ComponentListMessage(
             List.copyOf(this.message),
-            messageType
+            messageType,
+            sound
         );
     }
 
@@ -120,7 +117,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      */
     @Override
     public ComponentListMessage messageType(@NonNull MessageType messageType) {
-        return new ComponentListMessage(message, messageType);
+        return new ComponentListMessage(message, messageType, sound);
     }
 
     /**
@@ -154,7 +151,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
                 .map(ROOT::append)
                 .toList()
         );
-        return new ComponentListMessage(newMessage, messageType);
+        return new ComponentListMessage(newMessage, messageType, sound);
     }
 
     /**
@@ -170,9 +167,9 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
         }
         Component resolved = Component.join(JoinConfiguration.newlines(), ObjectProcessor.process(append));
         List<Component> newMessage = this.message.stream()
-            .map(line -> new ComponentSingleMessage(line, messageType).append(resolved).get())
+            .map(line -> new ComponentSingleMessage(line, messageType, sound).append(resolved).get())
             .toList();
-        return new ComponentListMessage(newMessage, messageType);
+        return new ComponentListMessage(newMessage, messageType, sound);
     }
 
     /**
@@ -190,7 +187,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
                 .toList()
         );
         newMessage.addAll(message);
-        return new ComponentListMessage(newMessage, messageType);
+        return new ComponentListMessage(newMessage, messageType, sound);
     }
 
     /**
@@ -206,9 +203,9 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
         }
         Component resolved = Component.join(JoinConfiguration.newlines(), ObjectProcessor.process(prepend));
         List<Component> newMessage = this.message.stream()
-            .map(line -> new ComponentSingleMessage(line, messageType).prepend(resolved).get())
+            .map(line -> new ComponentSingleMessage(line, messageType, sound).prepend(resolved).get())
             .toList();
-        return new ComponentListMessage(newMessage, messageType);
+        return new ComponentListMessage(newMessage, messageType, sound);
     }
 
     /**
@@ -217,13 +214,13 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
     @Override
     public ComponentListMessage replace(@NonNull String placeholder, @Nullable Object replacement) {
         Replacer replacer = Replacer.component().addReplacement(placeholder, replacement);
-        return new ComponentListMessage(replacer.apply(message), messageType);
+        return new ComponentListMessage(replacer.apply(message), messageType, sound);
     }
 
     @Override
     public ComponentMessage<?, ?> replacePlainText(@NonNull String placeholder, @Nullable Object replacement) {
         Replacer replacer = Replacer.plainText().addReplacement(placeholder, replacement);
-        return new ComponentListMessage(replacer.apply(message), messageType);
+        return new ComponentListMessage(replacer.apply(message), messageType, sound);
     }
 
     /**
@@ -236,7 +233,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      */
     public ComponentListMessage replaceWithListInsertion(@NonNull String placeholder, @Nullable Object replacement) {
         Replacer replacer = Replacer.component().addReplacement(placeholder, replacement);
-        return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType);
+        return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType, sound);
     }
 
     /**
@@ -245,13 +242,13 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
     @Override
     public ComponentListMessage replace(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.component().addReplacements(replacements);
-        return new ComponentListMessage(replacer.apply(message), messageType);
+        return new ComponentListMessage(replacer.apply(message), messageType, sound);
     }
 
     @Override
     public ComponentMessage<?, ?> replacePlainText(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.plainText().addReplacements(replacements);
-        return new ComponentListMessage(replacer.apply(message), messageType);
+        return new ComponentListMessage(replacer.apply(message), messageType, sound);
     }
 
     /**
@@ -263,12 +260,12 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      */
     public ComponentListMessage replaceWithListInsertion(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.component().addReplacements(replacements);
-        return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType);
+        return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType, sound);
     }
 
     public ComponentListMessage replaceWithListInsertionPlainText(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.plainText().addReplacements(replacements);
-        return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType);
+        return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType, sound);
     }
 
     /**
@@ -279,7 +276,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
         if (replacer == null) {
             return this;
         }
-        return new ComponentListMessage(replacer.apply(message), messageType);
+        return new ComponentListMessage(replacer.apply(message), messageType, sound);
     }
 
     /**
@@ -293,7 +290,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
         if (replacer == null) {
             return this;
         }
-        return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType);
+        return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType, sound);
     }
 
     /**
@@ -309,7 +306,8 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
             message.stream()
                 .map(component -> MessageUtils.parsePlaceholderAPI(component, player))
                 .toList(),
-            messageType
+            messageType,
+            sound
         );
     }
 
@@ -336,7 +334,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      */
     public List<ComponentSingleMessage> toSingleMessages() {
         return message.stream()
-            .map(line -> new ComponentSingleMessage(line, this.messageType))
+            .map(line -> new ComponentSingleMessage(line, this.messageType, sound))
             .toList();
     }
 
@@ -348,7 +346,7 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      */
     public ComponentListMessage edit(@NonNull Function<List<Component>, List<Component>> editor) {
         List<Component> newMessage = editor.apply(new ArrayList<>(this.message));
-        return new ComponentListMessage(newMessage, this.messageType);
+        return new ComponentListMessage(newMessage, this.messageType, sound);
     }
 
     /**
@@ -359,11 +357,11 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      */
     public ComponentListMessage editAllLines(@NonNull Function<ComponentSingleMessage, ComponentSingleMessage> editor) {
         List<Component> newMessage = message.stream()
-            .map(line -> editor.apply(new ComponentSingleMessage(line, this.messageType)))
+            .map(line -> editor.apply(new ComponentSingleMessage(line, this.messageType, sound)))
             .filter(Objects::nonNull)
             .map(ComponentSingleMessage::get)
             .toList();
-        return new ComponentListMessage(newMessage, this.messageType);
+        return new ComponentListMessage(newMessage, this.messageType, sound);
     }
 
     // Sending
@@ -381,12 +379,11 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
             Component sub = message.get(1);
             Title title = Title.title(main, sub);
             audience.showTitle(title);
+            playSound(audience);
             return;
         }
         message.forEach(component -> messageType.send(audience, component));
-        if (sound != null) {
-            audience.playSound(sound, Sound.Emitter.self());
-        }
+        playSound(audience);
     }
 
     /**
@@ -422,6 +419,9 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
             return;
         }
         message.forEach(Bukkit::broadcast);
+        if (sound != null) {
+            Bukkit.getOnlinePlayers().forEach(this::playSound);
+        }
     }
 
 }

@@ -28,7 +28,6 @@ public abstract class ComponentMessage<C, S> {
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
                 .build()
         );
-    protected Sound sound = null;
 
     protected ComponentMessage() {}
 
@@ -38,7 +37,7 @@ public abstract class ComponentMessage<C, S> {
         if (object instanceof String string) {
             return componentMessage(MessageUtils.parseString(string), messageType);
         } else if (object instanceof Component component) {
-            return new ComponentSingleMessage(component, messageType);
+            return new ComponentSingleMessage(component, messageType, null);
         }
         return componentMessage(
             Component.join(JoinConfiguration.newlines(), ObjectProcessor.process(object)),
@@ -57,7 +56,8 @@ public abstract class ComponentMessage<C, S> {
             message.stream()
                 .flatMap(object -> ObjectProcessor.process(object).stream())
                 .toList(),
-            messageType
+            messageType,
+            null
         );
     }
 
@@ -92,7 +92,8 @@ public abstract class ComponentMessage<C, S> {
         } else if (this instanceof ComponentListMessage listMessage) {
             return new ComponentSingleMessage(
                 Component.join(JoinConfiguration.newlines(), listMessage.get()),
-                listMessage.messageType()
+                listMessage.messageType(),
+                sound()
             );
         } else {
             throw new IllegalArgumentException("Invalid ComponentMessage instance provided.");
@@ -106,7 +107,8 @@ public abstract class ComponentMessage<C, S> {
         if (this instanceof ComponentSingleMessage singleMessage) {
             return new ComponentListMessage(
                 List.of(singleMessage.get()),
-                singleMessage.messageType()
+                singleMessage.messageType(),
+                sound()
             );
         } else if (this instanceof ComponentListMessage listMessage) {
             return listMessage;
@@ -281,24 +283,31 @@ public abstract class ComponentMessage<C, S> {
     private static @Nullable ComponentMessage<?, ?> getFromConfig(@NonNull ConfigReader<?> loader, @NonNull String path) {
         ConfigReader<?> section = loader.getSection(path);
         if (section == null) {
-            return fromObject(loader.getObject(path), null);
+            return fromObject(loader.getObject(path));
         }
         String messageType = section.getString("type");
         MessageType type = MessageType.getFromString(messageType);
         Sound sound = SoundSerializer.get().deserialize(section.getString("sound"));
 
-        ComponentMessage<?, ?> finalMessage = fromObject(section.getObject("message"), sound);
-        return finalMessage != null ? finalMessage.messageType(type) : null;
+        ComponentMessage<?, ?> finalMessage = fromObject(section.getObject("message"));
+        return finalMessage != null ? finalMessage.messageType(type).sound(sound) : null;
     }
 
-    private static @Nullable ComponentMessage<?, ?> fromObject(@Nullable Object object, @Nullable Sound sound) {
+    private static @Nullable ComponentMessage<?, ?> fromObject(@Nullable Object object) {
         if (object == null) {
             return null;
         }
         if (object instanceof List<?> list) {
-            return ComponentMessage.componentMessage(list).sound(sound);
+            return ComponentMessage.componentMessage(list);
         }
-        return ComponentMessage.componentMessage(object.toString()).sound(sound);
+        return ComponentMessage.componentMessage(object.toString());
+    }
+
+    protected void playSound(@Nullable Audience audience) {
+        Sound sound = sound();
+        if (audience != null && sound != null) {
+            audience.playSound(sound, Sound.Emitter.self());
+        }
     }
 
 }

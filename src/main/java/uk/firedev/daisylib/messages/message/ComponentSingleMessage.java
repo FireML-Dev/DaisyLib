@@ -29,10 +29,6 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
     private final MessageType messageType;
     private final @Nullable Sound sound;
 
-    protected ComponentSingleMessage(@NonNull Component message, @NonNull MessageType messageType) {
-        this(message, messageType, null);
-    }
-
     protected ComponentSingleMessage(@NonNull Component message, @NonNull MessageType messageType, @Nullable Sound sound) {
         this.message = ComponentMessage.ROOT.append(message).compact();
         this.messageType = messageType;
@@ -88,7 +84,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      */
     @Override
     public ComponentSingleMessage createCopy() {
-        return new ComponentSingleMessage(this.message, messageType);
+        return new ComponentSingleMessage(this.message, messageType, sound);
     }
 
     /**
@@ -104,7 +100,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      */
     @Override
     public ComponentSingleMessage messageType(@NonNull MessageType messageType) {
-        return new ComponentSingleMessage(message, messageType);
+        return new ComponentSingleMessage(message, messageType, sound);
     }
 
     /**
@@ -134,7 +130,8 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
         }
         return new ComponentSingleMessage(
             message.append(Component.join(JoinConfiguration.newlines(), ObjectProcessor.process(append))),
-            messageType
+            messageType,
+            sound
         );
     }
 
@@ -151,7 +148,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
         if (MessageUtils.isEmpty(processed)) {
             return this;
         }
-        return new ComponentSingleMessage(processed, messageType)
+        return new ComponentSingleMessage(processed, messageType, sound)
             .append(message);
     }
 
@@ -161,13 +158,13 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
     @Override
     public ComponentSingleMessage replace(@NonNull String placeholder, @Nullable Object replacement) {
         Replacer replacer = Replacer.component().addReplacement(placeholder, replacement);
-        return new ComponentSingleMessage(replacer.apply(message), messageType);
+        return new ComponentSingleMessage(replacer.apply(message), messageType, sound);
     }
 
     @Override
     public ComponentMessage<?, ?> replacePlainText(@NonNull String placeholder, @Nullable Object replacement) {
         Replacer replacer = Replacer.plainText().addReplacement(placeholder, replacement);
-        return new ComponentSingleMessage(replacer.apply(message), messageType);
+        return new ComponentSingleMessage(replacer.apply(message), messageType, sound);
     }
 
     /**
@@ -176,13 +173,13 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
     @Override
     public ComponentSingleMessage replace(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.component().addReplacements(replacements);
-        return new ComponentSingleMessage(replacer.apply(message), messageType);
+        return new ComponentSingleMessage(replacer.apply(message), messageType, sound);
     }
 
     @Override
     public ComponentMessage<?, ?> replacePlainText(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.plainText().addReplacements(replacements);
-        return new ComponentSingleMessage(replacer.apply(message), messageType);
+        return new ComponentSingleMessage(replacer.apply(message), messageType, sound);
     }
 
     /**
@@ -193,7 +190,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
         if (replacer == null) {
             return this;
         }
-        return new ComponentSingleMessage(replacer.apply(message), messageType);
+        return new ComponentSingleMessage(replacer.apply(message), messageType, sound);
     }
 
     /**
@@ -206,7 +203,8 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
         }
         return new ComponentSingleMessage(
             MessageUtils.parsePlaceholderAPI(message, player),
-            messageType
+            messageType,
+            sound
         );
     }
 
@@ -253,7 +251,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * @return A new ComponentSingleMessage with the edited component.
      */
     public ComponentSingleMessage edit(@NonNull Function<Component, Component> editor) {
-        return new ComponentSingleMessage(editor.apply(this.message), this.messageType);
+        return new ComponentSingleMessage(editor.apply(this.message), this.messageType, this.sound);
     }
 
     // Sending
@@ -267,9 +265,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
             return;
         }
         messageType.send(audience, message);
-        if (sound != null) {
-            audience.playSound(sound, Sound.Emitter.self());
-        }
+        playSound(audience);
     }
 
     /**
@@ -305,6 +301,9 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
             return;
         }
         Bukkit.broadcast(message);
+        if (sound != null) {
+            Bukkit.getOnlinePlayers().forEach(this::playSound);
+        }
     }
 
 }

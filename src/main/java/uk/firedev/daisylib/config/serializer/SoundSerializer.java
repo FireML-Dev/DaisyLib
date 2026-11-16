@@ -73,7 +73,7 @@ public class SoundSerializer implements ConfigSerializer<Sound> {
         if (type == null) {
             return null;
         }
-        Key soundKey = type.contains(":") ? NamespacedKey.fromString(type) : null;
+        Key soundKey = type.contains(":") || type.contains(".") ? NamespacedKey.fromString(type) : null;
         if (soundKey != null) {
             return Sound.sound().type(soundKey);
         } else {
