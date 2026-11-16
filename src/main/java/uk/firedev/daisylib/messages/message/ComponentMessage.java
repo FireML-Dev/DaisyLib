@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.messages.message;
 
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -9,6 +10,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.OfflinePlayer;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.config.serializer.SoundSerializer;
 import uk.firedev.daisylib.messages.ObjectProcessor;
 import uk.firedev.daisylib.messages.config.ConfigReader;
 import uk.firedev.daisylib.messages.replacer.Replacer;
@@ -26,6 +28,7 @@ public abstract class ComponentMessage<C, S> {
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
                 .build()
         );
+    protected Sound sound = null;
 
     protected ComponentMessage() {}
 
@@ -170,6 +173,21 @@ public abstract class ComponentMessage<C, S> {
     public abstract ComponentMessage<?, ?> messageType(@NonNull MessageType messageType);
 
     /**
+     * Gets the sound to be played when the message is sent.
+     *
+     * @return The sound linked to this message.
+     */
+    public abstract @Nullable Sound sound();
+
+    /**
+     * Sets the sound to be played when the message is sent.
+     *
+     * @param sound The Sound to set.
+     * @return A new ComponentMessage with the new Sound.
+     */
+    public abstract ComponentMessage<?, ?> sound(@Nullable Sound sound);
+
+    /**
      * Appends to the current message.
      *
      * @param append The object to append. Explicitly supports {@link Component} and {@link ComponentMessage}. Anything else will be converted to a String and processed.
@@ -263,23 +281,24 @@ public abstract class ComponentMessage<C, S> {
     private static @Nullable ComponentMessage<?, ?> getFromConfig(@NonNull ConfigReader<?> loader, @NonNull String path) {
         ConfigReader<?> section = loader.getSection(path);
         if (section == null) {
-            return fromObject(loader.getObject(path));
+            return fromObject(loader.getObject(path), null);
         }
         String messageType = section.getString("type");
         MessageType type = MessageType.getFromString(messageType);
+        Sound sound = SoundSerializer.get().deserialize(section.getString("sound"));
 
-        ComponentMessage<?, ?> finalMessage = fromObject(section.getObject("message"));
+        ComponentMessage<?, ?> finalMessage = fromObject(section.getObject("message"), sound);
         return finalMessage != null ? finalMessage.messageType(type) : null;
     }
 
-    private static @Nullable ComponentMessage<?, ?> fromObject(@Nullable Object object) {
+    private static @Nullable ComponentMessage<?, ?> fromObject(@Nullable Object object, @Nullable Sound sound) {
         if (object == null) {
             return null;
         }
         if (object instanceof List<?> list) {
-            return ComponentMessage.componentMessage(list);
+            return ComponentMessage.componentMessage(list).sound(sound);
         }
-        return ComponentMessage.componentMessage(object.toString());
+        return ComponentMessage.componentMessage(object.toString()).sound(sound);
     }
 
 }

@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.messages.message;
 
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -26,10 +27,16 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
 
     private final Component message;
     private final MessageType messageType;
+    private final @Nullable Sound sound;
 
     protected ComponentSingleMessage(@NonNull Component message, @NonNull MessageType messageType) {
+        this(message, messageType, null);
+    }
+
+    protected ComponentSingleMessage(@NonNull Component message, @NonNull MessageType messageType, @Nullable Sound sound) {
         this.message = ComponentMessage.ROOT.append(message).compact();
         this.messageType = messageType;
+        this.sound = sound;
     }
 
     // Message Getters
@@ -98,6 +105,22 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
     @Override
     public ComponentSingleMessage messageType(@NonNull MessageType messageType) {
         return new ComponentSingleMessage(message, messageType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public @Nullable Sound sound() {
+        return sound;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ComponentSingleMessage sound(Sound sound) {
+        return new ComponentSingleMessage(message, messageType, sound);
     }
 
     /**
@@ -240,10 +263,13 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      */
     @Override
     public void send(@Nullable Audience audience) {
-        if (isEmpty()) {
+        if (isEmpty() || audience == null) {
             return;
         }
         messageType.send(audience, message);
+        if (sound != null) {
+            audience.playSound(sound, Sound.Emitter.self());
+        }
     }
 
     /**

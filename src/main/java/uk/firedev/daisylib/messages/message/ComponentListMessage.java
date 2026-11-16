@@ -1,6 +1,7 @@
 package uk.firedev.daisylib.messages.message;
 
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -30,10 +31,16 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
 
     private final List<Component> message = new ArrayList<>();
     private final MessageType messageType;
+    private final @Nullable Sound sound;
 
     protected ComponentListMessage(@NonNull List<Component> message, @NonNull MessageType messageType) {
+        this(message, messageType, null);
+    }
+
+    protected ComponentListMessage(@NonNull List<Component> message, @NonNull MessageType messageType, @Nullable Sound sound) {
         message.forEach(component -> this.message.add(ROOT.append(component).compact()));
         this.messageType = messageType;
+        this.sound = sound;
     }
 
     // Message Getters
@@ -114,6 +121,22 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
     @Override
     public ComponentListMessage messageType(@NonNull MessageType messageType) {
         return new ComponentListMessage(message, messageType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public @Nullable Sound sound() {
+        return this.sound;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ComponentListMessage sound(@Nullable Sound sound) {
+        return new ComponentListMessage(message, messageType, sound);
     }
 
     /**
@@ -361,6 +384,9 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
             return;
         }
         message.forEach(component -> messageType.send(audience, component));
+        if (sound != null) {
+            audience.playSound(sound, Sound.Emitter.self());
+        }
     }
 
     /**
