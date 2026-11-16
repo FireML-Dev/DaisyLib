@@ -14,6 +14,7 @@ import uk.firedev.daisylib.config.serializer.SoundSerializer;
 import uk.firedev.daisylib.messages.ObjectProcessor;
 import uk.firedev.daisylib.messages.config.ConfigReader;
 import uk.firedev.daisylib.messages.replacer.Replacer;
+import uk.firedev.daisylib.utils.CommonUtils;
 import uk.firedev.daisylib.utils.MessageUtils;
 
 import java.util.List;
@@ -285,8 +286,7 @@ public abstract class ComponentMessage<C, S> {
         if (section == null) {
             return fromObject(loader.getObject(path));
         }
-        String messageType = section.getString("type");
-        MessageType type = MessageType.getFromString(messageType);
+        MessageType type = CommonUtils.getEnumValue(MessageType.class, section.getString("type"), MessageType.CHAT);
         Sound sound = SoundSerializer.get().deserialize(section.getString("sound"));
 
         ComponentMessage<?, ?> finalMessage = fromObject(section.getObject("message"));

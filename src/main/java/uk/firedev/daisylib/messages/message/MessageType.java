@@ -33,20 +33,4 @@ public enum MessageType {
         consumer.accept(audience, message);
     }
 
-    /**
-     * Get a MessageType from a string, defaults to CHAT if the string is null or invalid.
-     * @param type The string to convert to a MessageType.
-     * @return The MessageType, or CHAT if the string is null or invalid.
-     */
-    public static @NonNull MessageType getFromString(@Nullable String type) {
-        if (type == null) {
-            return CHAT;
-        }
-        try {
-            return MessageType.valueOf(type.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return CHAT;
-        }
-    }
-
 }
