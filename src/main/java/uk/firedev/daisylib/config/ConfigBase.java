@@ -133,7 +133,7 @@ public abstract class ConfigBase {
     public abstract void update();
 
     public ComponentMessage<?, ?> getComponentMessage(String path) {
-        return ComponentMessage.componentMessage(reader, path, "<red>Unknown Message: <yellow>" + path);
+        return getComponentMessage(path, "<red>Unknown Message: <yellow>" + path);
     }
 
     public ComponentMessage<?, ?> getComponentMessage(String path, Object def) {
