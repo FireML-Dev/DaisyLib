@@ -3,7 +3,7 @@ package uk.firedev.daisylib.config;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.logging.Logging;
@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Optional;
 
+@NullMarked
 public abstract class ConfigBase {
 
     protected final PaperConfigReader reader;
@@ -25,14 +26,14 @@ public abstract class ConfigBase {
 
     protected final Logging logging;
     protected final boolean preventIO;
-    protected final String resourceName;
+    protected final @Nullable String resourceName;
     protected final Plugin plugin;
 
     protected final YamlConfiguration config = new YamlConfiguration();
     protected final YamlConfiguration defaultConfig = new YamlConfiguration();
-    protected File file = null;
+    protected @Nullable File file = null;
 
-    public ConfigBase(@NonNull File file, @Nullable String resourceName, @NonNull Plugin plugin) {
+    public ConfigBase(File file, @Nullable String resourceName, Plugin plugin) {
         this.preventIO = false;
         this.resourceName = resourceName;
         this.plugin = plugin;
@@ -43,7 +44,7 @@ public abstract class ConfigBase {
         update();
     }
 
-    public ConfigBase(@NonNull String fileName, @Nullable String resourceName, @NonNull Plugin plugin) {
+    public ConfigBase(String fileName, @Nullable String resourceName, Plugin plugin) {
         this(
             new File(plugin.getDataFolder(), fileName),
             resourceName,
@@ -65,14 +66,14 @@ public abstract class ConfigBase {
      * <p>
      * Uses the plugin that initialized DaisyLib.
      */
-    public static @NonNull ConfigBase empty() {
+    public static ConfigBase empty() {
         return new ConfigBase() {
             @Override
             public void update() {}
         };
     }
 
-    public void reload(@NonNull File configFile) {
+    public void reload(File configFile) {
         if (preventIO) {
             return;
         }
@@ -105,13 +106,13 @@ public abstract class ConfigBase {
         reload(this.file);
     }
 
-    public final @NonNull YamlConfiguration getConfig() {
+    public final YamlConfiguration getConfig() {
         return this.config;
     }
 
     public final @Nullable File getFile() { return this.file; }
 
-    public final @NonNull Plugin getPlugin() { return this.plugin; }
+    public final Plugin getPlugin() { return this.plugin; }
 
     public final @Nullable String getResourceName() { return this.resourceName; }
 
@@ -131,7 +132,11 @@ public abstract class ConfigBase {
      */
     public abstract void update();
 
-    public ComponentMessage<?, ?> getComponentMessage(@NonNull String path, @NonNull Object def) {
+    public ComponentMessage<?, ?> getComponentMessage(String path) {
+        return ComponentMessage.componentMessage(reader, path, "<red>Unknown Message: <yellow>" + path);
+    }
+
+    public ComponentMessage<?, ?> getComponentMessage(String path, Object def) {
         ComponentMessage<?, ?> message = ComponentMessage.componentMessage(reader, path);
         return message == null ? ComponentMessage.componentMessage(def) : message;
     }
@@ -140,17 +145,17 @@ public abstract class ConfigBase {
         return Optional.ofNullable(file).map(File::getName).orElse(null);
     }
 
-    public @NonNull String getFileName(@NonNull String def) {
+    public String getFileName(String def) {
         return Optional.ofNullable(file).map(File::getName).orElse(def);
     }
 
     // Config Methods
 
-    public void remove(@NonNull String path) {
+    public void remove(String path) {
         getConfig().set(path, null);
     }
 
-    public @Nullable Integer getInteger(@NonNull String path, @Nullable Integer def) {
+    public @Nullable Integer getInteger(String path, @Nullable Integer def) {
         Object value = getConfig().get(path);
         Integer parsed = CommonUtils.getInt(String.valueOf(value));
         return parsed == null ? def: parsed;
