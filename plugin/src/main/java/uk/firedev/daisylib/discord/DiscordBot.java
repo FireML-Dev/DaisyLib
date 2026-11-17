@@ -24,18 +24,9 @@ import java.util.Map;
 
 public abstract class DiscordBot {
 
-    // Checks if JDA is available.
-    private static boolean JDA_PRESENT = CommonUtils.classExists("net.dv8tion.jda.api.JDA");
-
     private final Map<String, IncomingWebhookClient> webhookCache = new HashMap<>();
 
     private JDA bot;
-
-    public DiscordBot() {
-        if (!JDA_PRESENT) {
-            throw new UnsupportedOperationException("JDA is not available on the classpath.");
-        }
-    }
 
     public void load(@Nullable String token) {
         if (bot != null) {

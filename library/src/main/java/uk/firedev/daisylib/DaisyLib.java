@@ -41,7 +41,9 @@ public class DaisyLib {
             return;
         }
         this.plugin = plugin;
-        this.logging = Logging.logging("DaisyLib via " + plugin.getName());
+        if (!plugin.getName().equals("DaisyLibPlugin")) {
+            this.logging = Logging.logging("DaisyLib via " + plugin.getName());
+        }
 
         VaultWrapper.get().load();
         registerListeners(plugin);
