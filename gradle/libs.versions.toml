@@ -1,0 +1,11 @@
+[libraries]
+paper-api = "io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT"
+vault-api = "com.github.MilkBowl:VaultAPI:1.7.1"
+placeholderapi = "me.clip:placeholderapi:2.11.6"
+
+inventorygui = "uk.firedev:InventoryGui-Modern:1.6.7-SNAPSHOT"
+jda = "net.dv8tion:JDA:6.5.0"
+
+[plugins]
+shadow = "com.gradleup.shadow:9.6.1"
+plugin-yml = "de.eldoria.plugin-yml.paper:0.9.0"
