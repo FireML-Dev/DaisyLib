@@ -21,7 +21,7 @@ dependencies {
     paperLibrary(libs.jda)
     compileOnlyApi(libs.jda)
 
-    api(project(":library"))
+    compileOnly(project(":library"))
 }
 
 group = "uk.firedev"
@@ -78,11 +78,18 @@ publishing {
     }
 }
 
+val libraryMain = project(":library")
+    .extensions
+    .getByType<SourceSetContainer>()["main"]
+
 tasks {
     jar {
         archiveBaseName.set("DaisyLibPlugin")
         archiveVersion.set(project.version.toString())
         archiveClassifier.set("")
+
+        dependsOn(":library:classes")
+        from(libraryMain.output)
     }
     withType<JavaCompile> {
         options.encoding = "UTF-8"
