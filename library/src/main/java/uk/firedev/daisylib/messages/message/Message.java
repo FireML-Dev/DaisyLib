@@ -193,7 +193,7 @@ public abstract class Message<C, S> {
     /**
      * Appends to the current message.
      *
-     * @param append The object to append. Explicitly supports {@link Component} and {@link Message}. Anything else will be converted to a String and processed.
+     * @param append The object to append.
      * @return A new Message with the appended content.
      */
     public abstract Message<?, ?> append(@NonNull Object append);
@@ -201,16 +201,16 @@ public abstract class Message<C, S> {
     /**
      * Prepends to the current message.
      *
-     * @param prepend The object to prepend. Explicitly supports {@link Component} and {@link Message}. Anything else will be converted to a String and processed.
-     * @return A new ComponentMessage with the prepended content.
+     * @param prepend The object to prepend.
+     * @return A new Message with the prepended content.
      */
     public abstract Message<?, ?> prepend(@NonNull Object prepend);
 
     /**
      * Replaces all instances of the specified placeholder with the specified replacement.
      * @param placeholder The placeholder to replace.
-     * @param replacement The replacement object. Explicitly supports {@link Component} and {@link Message}. Anything else will be converted to a String and processed.
-     * @return A new ComponentMessage with the replacements made.
+     * @param replacement The replacement object.
+     * @return A new Message with the replacements made.
      */
     public abstract Message<?, ?> replace(@NonNull String placeholder, @Nullable Object replacement);
 
@@ -218,8 +218,8 @@ public abstract class Message<C, S> {
 
     /**
      * Replaces all instances of the specified placeholders with the specified replacements.
-     * @param replacements A map of placeholders to replacements. Explicitly supports {@link Component} and {@link SingleMessage} as values. Anything else will be converted to a String and processed.
-     * @return A new ComponentMessage with the replacements made.
+     * @param replacements A map of placeholders to replacements.
+     * @return A new Message with the replacements made.
      */
     public abstract Message<?, ?> replace(@NonNull Map<String, ?> replacements);
 
@@ -228,7 +228,7 @@ public abstract class Message<C, S> {
     /**
      * Applies the specified Replacer to the message.
      * @param replacer The Replacer to apply.
-     * @return A new ComponentMessage with the replacements made.
+     * @return A new Message with the replacements made.
      */
     public abstract Message<?, ?> replace(@Nullable Replacer replacer);
 
@@ -237,7 +237,7 @@ public abstract class Message<C, S> {
      * If PlaceholderAPI is not installed, the message is returned unchanged.
      *
      * @param player The player to parse placeholders for. Can be null for non-player specific placeholders.
-     * @return A new ComponentMessage with the parsed placeholders.
+     * @return A new Message with the parsed placeholders.
      */
     public abstract Message<?, ?> parsePlaceholderAPI(@Nullable OfflinePlayer player);
 
