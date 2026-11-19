@@ -6,7 +6,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.Message;
 import uk.firedev.daisylib.messages.replacer.Replacer;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class LoreItemConfig extends ItemConfig<List<Component>> {
     @Override
     public List<Component> getConfiguredValue() {
         List<String> lore = section.getStringList("lore");
-        return lore.isEmpty() ? null : ComponentMessage.componentMessage(lore).get();
+        return lore.isEmpty() ? null : Message.message(lore).get();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class LoreItemConfig extends ItemConfig<List<Component>> {
                 finalReplacer.merge(replacer);
             }
             item.editMeta(meta -> {
-                List<Component> lore = ComponentMessage.componentMessage(value)
+                List<Component> lore = Message.message(value)
                     .replace(finalReplacer)
                     .parsePlaceholderAPI(player)
                     .get();

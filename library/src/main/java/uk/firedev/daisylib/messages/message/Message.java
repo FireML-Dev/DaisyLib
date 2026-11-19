@@ -20,7 +20,7 @@ import uk.firedev.daisylib.utils.MessageUtils;
 import java.util.List;
 import java.util.Map;
 
-public abstract class ComponentMessage<C, S> {
+public abstract class Message<C, S> {
 
     public static final Component ROOT = Component.empty()
         .applyFallbackStyle(
@@ -30,30 +30,30 @@ public abstract class ComponentMessage<C, S> {
                 .build()
         );
 
-    protected ComponentMessage() {}
+    protected Message() {}
 
     // Single Messages
 
-    public static @NonNull ComponentSingleMessage componentMessage(@NonNull Object object, @NonNull MessageType messageType) {
+    public static @NonNull SingleMessage message(@NonNull Object object, @NonNull MessageType messageType) {
         if (object instanceof String string) {
-            return componentMessage(MessageUtils.parseString(string), messageType);
+            return message(MessageUtils.parseString(string), messageType);
         } else if (object instanceof Component component) {
-            return new ComponentSingleMessage(component, messageType, null);
+            return new SingleMessage(component, messageType, null);
         }
-        return componentMessage(
+        return message(
             Component.join(JoinConfiguration.newlines(), ObjectProcessor.process(object)),
             messageType
         );
     }
 
-    public static @NonNull ComponentSingleMessage componentMessage(@NonNull Object object) {
-        return componentMessage(object, MessageType.CHAT);
+    public static @NonNull SingleMessage message(@NonNull Object object) {
+        return message(object, MessageType.CHAT);
     }
 
     // List Messages
 
-    public static @NonNull ComponentListMessage componentMessage(@NonNull List<?> message, @NonNull MessageType messageType) {
-        return new ComponentListMessage(
+    public static @NonNull ListMessage message(@NonNull List<?> message, @NonNull MessageType messageType) {
+        return new ListMessage(
             message.stream()
                 .flatMap(object -> ObjectProcessor.process(object).stream())
                 .toList(),
@@ -62,59 +62,59 @@ public abstract class ComponentMessage<C, S> {
         );
     }
 
-    public static @NonNull ComponentListMessage componentMessage(@NonNull List<?> message) {
-        return componentMessage(message, MessageType.CHAT);
+    public static @NonNull ListMessage message(@NonNull List<?> message) {
+        return message(message, MessageType.CHAT);
     }
 
     // Ambiguous Messages - Could be single or list.
 
-    public static @Nullable ComponentMessage<?, ?> componentMessage(@NonNull ConfigReader<?> loader, @NonNull String path) {
+    public static @Nullable Message<?, ?> message(@NonNull ConfigReader<?> loader, @NonNull String path) {
         return getFromConfig(loader, path);
     }
 
-    public static @NonNull ComponentMessage<?, ?> componentMessage(@NonNull ConfigReader<?> loader, @NonNull String path, @NonNull String def) {
-        ComponentMessage<?, ?> message = getFromConfig(loader, path);
-        return message == null ? componentMessage(def) : message;
+    public static @NonNull Message<?, ?> message(@NonNull ConfigReader<?> loader, @NonNull String path, @NonNull String def) {
+        Message<?, ?> message = getFromConfig(loader, path);
+        return message == null ? message(def) : message;
     }
 
-    public static @NonNull ComponentMessage<?, ?> componentMessage(@NonNull ConfigReader<?> loader, @NonNull String path, @NonNull Component def) {
-        ComponentMessage<?, ?> message = getFromConfig(loader, path);
-        return message == null ? componentMessage(def) : message;
+    public static @NonNull Message<?, ?> message(@NonNull ConfigReader<?> loader, @NonNull String path, @NonNull Component def) {
+        Message<?, ?> message = getFromConfig(loader, path);
+        return message == null ? message(def) : message;
     }
 
     // Abstract Things
 
     /**
-     * Turns this ComponentMessage into a ComponentSingleMessage.
+     * Turns this Message into a ComponentSingleMessage.
      */
-    public ComponentSingleMessage toSingleMessage() {
-        if (this instanceof ComponentSingleMessage singleMessage) {
+    public SingleMessage toSingleMessage() {
+        if (this instanceof SingleMessage singleMessage) {
             return singleMessage;
-        } else if (this instanceof ComponentListMessage listMessage) {
-            return new ComponentSingleMessage(
+        } else if (this instanceof ListMessage listMessage) {
+            return new SingleMessage(
                 Component.join(JoinConfiguration.newlines(), listMessage.get()),
                 listMessage.messageType(),
                 sound()
             );
         } else {
-            throw new IllegalArgumentException("Invalid ComponentMessage instance provided.");
+            throw new IllegalArgumentException("Invalid Message instance provided.");
         }
     }
 
     /**
-     * Turns this ComponentMessage into a ComponentListMessage.
+     * Turns this Message into a ComponentListMessage.
      */
-    public ComponentListMessage toListMessage() {
-        if (this instanceof ComponentSingleMessage singleMessage) {
-            return new ComponentListMessage(
+    public ListMessage toListMessage() {
+        if (this instanceof SingleMessage singleMessage) {
+            return new ListMessage(
                 List.of(singleMessage.get()),
                 singleMessage.messageType(),
                 sound()
             );
-        } else if (this instanceof ComponentListMessage listMessage) {
+        } else if (this instanceof ListMessage listMessage) {
             return listMessage;
         } else {
-            throw new IllegalArgumentException("Invalid ComponentMessage instance provided.");
+            throw new IllegalArgumentException("Invalid Message instance provided.");
         }
     }
 
@@ -154,11 +154,11 @@ public abstract class ComponentMessage<C, S> {
     public abstract @NonNull S getMiniMessage();
 
     /**
-     * Creates a copy of this ComponentMessage.
+     * Creates a copy of this Message.
      *
-     * @return A new ComponentMessage that is a copy of this one.
+     * @return A new Message that is a copy of this one.
      */
-    public abstract ComponentMessage<?, ?> createCopy();
+    public abstract Message<?, ?> createCopy();
 
     /**
      * Gets the MessageType of this message.
@@ -171,9 +171,9 @@ public abstract class ComponentMessage<C, S> {
      * Sets the MessageType of this message.
      *
      * @param messageType The MessageType to set.
-     * @return A new ComponentMessage with the updated MessageType.
+     * @return A new Message with the updated MessageType.
      */
-    public abstract ComponentMessage<?, ?> messageType(@NonNull MessageType messageType);
+    public abstract Message<?, ?> messageType(@NonNull MessageType messageType);
 
     /**
      * Gets the sound to be played when the message is sent.
@@ -186,51 +186,51 @@ public abstract class ComponentMessage<C, S> {
      * Sets the sound to be played when the message is sent.
      *
      * @param sound The Sound to set.
-     * @return A new ComponentMessage with the new Sound.
+     * @return A new Message with the new Sound.
      */
-    public abstract ComponentMessage<?, ?> sound(@Nullable Sound sound);
+    public abstract Message<?, ?> sound(@Nullable Sound sound);
 
     /**
      * Appends to the current message.
      *
-     * @param append The object to append. Explicitly supports {@link Component} and {@link ComponentMessage}. Anything else will be converted to a String and processed.
-     * @return A new ComponentMessage with the appended content.
+     * @param append The object to append. Explicitly supports {@link Component} and {@link Message}. Anything else will be converted to a String and processed.
+     * @return A new Message with the appended content.
      */
-    public abstract ComponentMessage<?, ?> append(@NonNull Object append);
+    public abstract Message<?, ?> append(@NonNull Object append);
 
     /**
      * Prepends to the current message.
      *
-     * @param prepend The object to prepend. Explicitly supports {@link Component} and {@link ComponentMessage}. Anything else will be converted to a String and processed.
+     * @param prepend The object to prepend. Explicitly supports {@link Component} and {@link Message}. Anything else will be converted to a String and processed.
      * @return A new ComponentMessage with the prepended content.
      */
-    public abstract ComponentMessage<?, ?> prepend(@NonNull Object prepend);
+    public abstract Message<?, ?> prepend(@NonNull Object prepend);
 
     /**
      * Replaces all instances of the specified placeholder with the specified replacement.
      * @param placeholder The placeholder to replace.
-     * @param replacement The replacement object. Explicitly supports {@link Component} and {@link ComponentMessage}. Anything else will be converted to a String and processed.
+     * @param replacement The replacement object. Explicitly supports {@link Component} and {@link Message}. Anything else will be converted to a String and processed.
      * @return A new ComponentMessage with the replacements made.
      */
-    public abstract ComponentMessage<?, ?> replace(@NonNull String placeholder, @Nullable Object replacement);
+    public abstract Message<?, ?> replace(@NonNull String placeholder, @Nullable Object replacement);
 
-    public abstract ComponentMessage<?, ?> replacePlainText(@NonNull String placeholder, @Nullable Object replacement);
+    public abstract Message<?, ?> replacePlainText(@NonNull String placeholder, @Nullable Object replacement);
 
     /**
      * Replaces all instances of the specified placeholders with the specified replacements.
-     * @param replacements A map of placeholders to replacements. Explicitly supports {@link Component} and {@link ComponentSingleMessage} as values. Anything else will be converted to a String and processed.
+     * @param replacements A map of placeholders to replacements. Explicitly supports {@link Component} and {@link SingleMessage} as values. Anything else will be converted to a String and processed.
      * @return A new ComponentMessage with the replacements made.
      */
-    public abstract ComponentMessage<?, ?> replace(@NonNull Map<String, ?> replacements);
+    public abstract Message<?, ?> replace(@NonNull Map<String, ?> replacements);
 
-    public abstract ComponentMessage<?, ?> replacePlainText(@NonNull Map<String, ?> replacements);
+    public abstract Message<?, ?> replacePlainText(@NonNull Map<String, ?> replacements);
 
     /**
      * Applies the specified Replacer to the message.
      * @param replacer The Replacer to apply.
      * @return A new ComponentMessage with the replacements made.
      */
-    public abstract ComponentMessage<?, ?> replace(@Nullable Replacer replacer);
+    public abstract Message<?, ?> replace(@Nullable Replacer replacer);
 
     /**
      * Parses PlaceholderAPI placeholders in the message for the specified player.
@@ -239,7 +239,7 @@ public abstract class ComponentMessage<C, S> {
      * @param player The player to parse placeholders for. Can be null for non-player specific placeholders.
      * @return A new ComponentMessage with the parsed placeholders.
      */
-    public abstract ComponentMessage<?, ?> parsePlaceholderAPI(@Nullable OfflinePlayer player);
+    public abstract Message<?, ?> parsePlaceholderAPI(@Nullable OfflinePlayer player);
 
     /**
      * Checks if the underlying plain text is empty.
@@ -281,7 +281,7 @@ public abstract class ComponentMessage<C, S> {
 
     // Constructor Utils
 
-    private static @Nullable ComponentMessage<?, ?> getFromConfig(@NonNull ConfigReader<?> loader, @NonNull String path) {
+    private static @Nullable Message<?, ?> getFromConfig(@NonNull ConfigReader<?> loader, @NonNull String path) {
         ConfigReader<?> section = loader.getSection(path);
         if (section == null) {
             return fromObject(loader.getObject(path));
@@ -289,18 +289,18 @@ public abstract class ComponentMessage<C, S> {
         MessageType type = CommonUtils.getEnumValue(MessageType.class, section.getString("type"), MessageType.CHAT);
         Sound sound = SoundSerializer.get().deserialize(section.getString("sound"));
 
-        ComponentMessage<?, ?> finalMessage = fromObject(section.getObject("message"));
+        Message<?, ?> finalMessage = fromObject(section.getObject("message"));
         return finalMessage != null ? finalMessage.messageType(type).sound(sound) : null;
     }
 
-    private static @Nullable ComponentMessage<?, ?> fromObject(@Nullable Object object) {
+    private static @Nullable Message<?, ?> fromObject(@Nullable Object object) {
         if (object == null) {
             return null;
         }
         if (object instanceof List<?> list) {
-            return ComponentMessage.componentMessage(list);
+            return Message.message(list);
         }
-        return ComponentMessage.componentMessage(object.toString());
+        return Message.message(object.toString());
     }
 
     protected void playSound(@Nullable Audience audience) {

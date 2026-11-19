@@ -23,14 +23,14 @@ import java.util.Map;
 import java.util.function.Function;
 
 // NEEDS TO BE IMMUTABLE - any change makes a new instance.
-public class ComponentSingleMessage extends ComponentMessage<Component, String> {
+public class SingleMessage extends Message<Component, String> {
 
     private final Component message;
     private final MessageType messageType;
     private final @Nullable Sound sound;
 
-    protected ComponentSingleMessage(@NonNull Component message, @NonNull MessageType messageType, @Nullable Sound sound) {
-        this.message = ComponentMessage.ROOT.append(message).compact();
+    protected SingleMessage(@NonNull Component message, @NonNull MessageType messageType, @Nullable Sound sound) {
+        this.message = Message.ROOT.append(message).compact();
         this.messageType = messageType;
         this.sound = sound;
     }
@@ -83,8 +83,8 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage createCopy() {
-        return new ComponentSingleMessage(this.message, messageType, sound);
+    public SingleMessage createCopy() {
+        return new SingleMessage(this.message, messageType, sound);
     }
 
     /**
@@ -99,8 +99,8 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage messageType(@NonNull MessageType messageType) {
-        return new ComponentSingleMessage(message, messageType, sound);
+    public SingleMessage messageType(@NonNull MessageType messageType) {
+        return new SingleMessage(message, messageType, sound);
     }
 
     /**
@@ -115,20 +115,20 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage sound(Sound sound) {
-        return new ComponentSingleMessage(message, messageType, sound);
+    public SingleMessage sound(Sound sound) {
+        return new SingleMessage(message, messageType, sound);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage append(@NonNull Object append) {
+    public SingleMessage append(@NonNull Object append) {
         if (!MessageSettings.isAllowEmptyAppend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot append to empty ComponentSingleMessage");
             return this;
         }
-        return new ComponentSingleMessage(
+        return new SingleMessage(
             message.append(Component.join(JoinConfiguration.newlines(), ObjectProcessor.process(append))),
             messageType,
             sound
@@ -139,7 +139,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage prepend(@NonNull Object prepend) {
+    public SingleMessage prepend(@NonNull Object prepend) {
         if (!MessageSettings.isAllowEmptyPrepend() && isEmpty()) {
             DaisyLib.get().getLogging().debug("Cannot prepend to empty ComponentSingleMessage");
             return this;
@@ -148,7 +148,7 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
         if (MessageUtils.isEmpty(processed)) {
             return this;
         }
-        return new ComponentSingleMessage(processed, messageType, sound)
+        return new SingleMessage(processed, messageType, sound)
             .append(message);
     }
 
@@ -156,52 +156,52 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage replace(@NonNull String placeholder, @Nullable Object replacement) {
+    public SingleMessage replace(@NonNull String placeholder, @Nullable Object replacement) {
         Replacer replacer = Replacer.component().addReplacement(placeholder, replacement);
-        return new ComponentSingleMessage(replacer.apply(message), messageType, sound);
+        return new SingleMessage(replacer.apply(message), messageType, sound);
     }
 
     @Override
-    public ComponentMessage<?, ?> replacePlainText(@NonNull String placeholder, @Nullable Object replacement) {
+    public SingleMessage replacePlainText(@NonNull String placeholder, @Nullable Object replacement) {
         Replacer replacer = Replacer.plainText().addReplacement(placeholder, replacement);
-        return new ComponentSingleMessage(replacer.apply(message), messageType, sound);
+        return new SingleMessage(replacer.apply(message), messageType, sound);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage replace(@NonNull Map<String, ?> replacements) {
+    public SingleMessage replace(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.component().addReplacements(replacements);
-        return new ComponentSingleMessage(replacer.apply(message), messageType, sound);
+        return new SingleMessage(replacer.apply(message), messageType, sound);
     }
 
     @Override
-    public ComponentMessage<?, ?> replacePlainText(@NonNull Map<String, ?> replacements) {
+    public SingleMessage replacePlainText(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.plainText().addReplacements(replacements);
-        return new ComponentSingleMessage(replacer.apply(message), messageType, sound);
+        return new SingleMessage(replacer.apply(message), messageType, sound);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage replace(@Nullable Replacer replacer) {
+    public SingleMessage replace(@Nullable Replacer replacer) {
         if (replacer == null) {
             return this;
         }
-        return new ComponentSingleMessage(replacer.apply(message), messageType, sound);
+        return new SingleMessage(replacer.apply(message), messageType, sound);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ComponentSingleMessage parsePlaceholderAPI(@Nullable OfflinePlayer player) {
+    public SingleMessage parsePlaceholderAPI(@Nullable OfflinePlayer player) {
         if (!MessageUtils.PAPI_AVAILABLE) {
             return this;
         }
-        return new ComponentSingleMessage(
+        return new SingleMessage(
             MessageUtils.parsePlaceholderAPI(message, player),
             messageType,
             sound
@@ -250,8 +250,8 @@ public class ComponentSingleMessage extends ComponentMessage<Component, String> 
      * @param editor A function that modifies the current component.
      * @return A new ComponentSingleMessage with the edited component.
      */
-    public ComponentSingleMessage edit(@NonNull Function<Component, Component> editor) {
-        return new ComponentSingleMessage(editor.apply(this.message), this.messageType, this.sound);
+    public SingleMessage edit(@NonNull Function<Component, Component> editor) {
+        return new SingleMessage(editor.apply(this.message), this.messageType, this.sound);
     }
 
     // Sending

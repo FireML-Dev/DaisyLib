@@ -8,7 +8,7 @@ import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.logging.Logging;
 import uk.firedev.daisylib.messages.config.PaperConfigReader;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.Message;
 import uk.firedev.daisylib.utils.CommonUtils;
 import uk.firedev.daisylib.utils.FileUtils;
 
@@ -132,13 +132,13 @@ public abstract class ConfigBase {
      */
     public abstract void update();
 
-    public ComponentMessage<?, ?> getComponentMessage(String path) {
-        return getComponentMessage(path, "<red>Unknown Message: <yellow>" + path);
+    public Message<?, ?> getMessage(String path) {
+        return getMessage(path, "<red>Unknown Message: <yellow>" + path);
     }
 
-    public ComponentMessage<?, ?> getComponentMessage(String path, Object def) {
-        ComponentMessage<?, ?> message = ComponentMessage.componentMessage(reader, path);
-        return message == null ? ComponentMessage.componentMessage(def) : message;
+    public Message<?, ?> getMessage(String path, Object def) {
+        Message<?, ?> message = Message.message(reader, path);
+        return message == null ? Message.message(def) : message;
     }
 
     public @Nullable String getFileName() {

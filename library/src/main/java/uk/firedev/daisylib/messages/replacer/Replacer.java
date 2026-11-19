@@ -2,24 +2,17 @@ package uk.firedev.daisylib.messages.replacer;
 
 import net.kyori.adventure.text.Component;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@NullMarked
 public abstract class Replacer {
 
-    protected final Map<String, Object> replacements = new HashMap<>();
-
-    /**
-     * @deprecated Use {@link #component()} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public static Replacer replacer() {
-        return new ComponentReplacer();
-    }
+    protected final Map<String, @Nullable Object> replacements = new HashMap<>();
 
     /**
      * Creates a new {@link ComponentReplacer} instance.
@@ -35,7 +28,7 @@ public abstract class Replacer {
         return new PlainTextReplacer();
     }
 
-    public Replacer addReplacement(@NonNull String string, @Nullable Object replacement) {
+    public Replacer addReplacement(String string, @Nullable Object replacement) {
         this.replacements.put(string, replacement);
         return this;
     }
@@ -47,7 +40,7 @@ public abstract class Replacer {
         return this;
     }
 
-    public Replacer merge(@NonNull Replacer... others) {
+    public Replacer merge(Replacer... others) {
         for (Replacer other : others) {
             if (other == this) {
                 continue;
@@ -71,14 +64,14 @@ public abstract class Replacer {
      * @param component The component to apply the replacements to.
      * @return The modified component.
      */
-    public abstract Component apply(@NonNull Component component);
+    public abstract Component apply(Component component);
 
     /**
      * Applies the replacements to a list of Components.
      * @param components The list of components to apply the replacements to.
      * @return The modified list of components.
      */
-    public abstract List<Component> apply(@NonNull List<Component> components);
+    public abstract List<Component> apply(List<Component> components);
 
     /**
      * Applies the replacements to a list of Components.
@@ -87,6 +80,6 @@ public abstract class Replacer {
      * @param components The list of components to apply the replacements to.
      * @return The modified list of components.
      */
-    public abstract List<Component> applyWithListInsertion(@NonNull List<Component> components);
+    public abstract List<Component> applyWithListInsertion(List<Component> components);
 
 }

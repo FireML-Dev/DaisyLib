@@ -6,7 +6,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.Message;
 import uk.firedev.daisylib.messages.replacer.Replacer;
 import uk.firedev.daisylib.utils.MessageUtils;
 
@@ -26,7 +26,7 @@ public class DisplayNameItemConfig extends ItemConfig<Component> {
     @Override
     public Component getConfiguredValue() {
         String string = section.getString("displayname", section.getString("display"));
-        return string == null ? null : ComponentMessage.componentMessage(string).get();
+        return string == null ? null : Message.message(string).get();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class DisplayNameItemConfig extends ItemConfig<Component> {
                 finalReplacer.merge(replacer);
             }
             item.editMeta(meta -> {
-                Component display = ComponentMessage.componentMessage(value)
+                Component display = Message.message(value)
                     .replace(finalReplacer)
                     .parsePlaceholderAPI(player)
                     .get();

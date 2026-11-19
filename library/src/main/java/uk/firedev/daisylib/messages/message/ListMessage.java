@@ -17,7 +17,6 @@ import uk.firedev.daisylib.DaisyLib;
 import uk.firedev.daisylib.messages.MessageSettings;
 import uk.firedev.daisylib.messages.ObjectProcessor;
 import uk.firedev.daisylib.messages.replacer.Replacer;
-import uk.firedev.daisylib.messages.replacer.Replacer;
 import uk.firedev.daisylib.utils.MessageUtils;
 
 import java.util.ArrayList;
@@ -27,13 +26,13 @@ import java.util.Objects;
 import java.util.function.Function;
 
 // NEEDS TO BE IMMUTABLE - any change makes a new instance.
-public class ComponentListMessage extends ComponentMessage<List<Component>, List<String>> {
+public class ListMessage extends Message<List<Component>, List<String>> {
 
     private final List<Component> message = new ArrayList<>();
     private final MessageType messageType;
     private final @Nullable Sound sound;
 
-    protected ComponentListMessage(@NonNull List<Component> message, @NonNull MessageType messageType, @Nullable Sound sound) {
+    protected ListMessage(@NonNull List<Component> message, @NonNull MessageType messageType, @Nullable Sound sound) {
         message.forEach(component -> this.message.add(ROOT.append(component).compact()));
         this.messageType = messageType;
         this.sound = sound;
@@ -96,8 +95,8 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage createCopy() {
-        return new ComponentListMessage(
+    public ListMessage createCopy() {
+        return new ListMessage(
             List.copyOf(this.message),
             messageType,
             sound
@@ -116,8 +115,8 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage messageType(@NonNull MessageType messageType) {
-        return new ComponentListMessage(message, messageType, sound);
+    public ListMessage messageType(@NonNull MessageType messageType) {
+        return new ListMessage(message, messageType, sound);
     }
 
     /**
@@ -132,17 +131,17 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage sound(@Nullable Sound sound) {
-        return new ComponentListMessage(message, messageType, sound);
+    public ListMessage sound(@Nullable Sound sound) {
+        return new ListMessage(message, messageType, sound);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage append(@NonNull Object append) {
+    public ListMessage append(@NonNull Object append) {
         if (!MessageSettings.isAllowEmptyAppend() && isEmpty()) {
-            DaisyLib.get().getLogging().debug("Cannot append to empty ComponentListMessage");
+            DaisyLib.get().getLogging().debug("Cannot append to empty ListMessage");
             return this;
         }
         List<Component> newMessage = new ArrayList<>(message);
@@ -151,34 +150,34 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
                 .map(ROOT::append)
                 .toList()
         );
-        return new ComponentListMessage(newMessage, messageType, sound);
+        return new ListMessage(newMessage, messageType, sound);
     }
 
     /**
      * Appends to each line of the current message.
      *
-     * @param append The object to append. Explicitly supports {@link Component} and {@link ComponentMessage}. Anything else will be converted to a String and processed.
-     * @return A new ComponentMessage with the content appended to each line.
+     * @param append The object to append. Explicitly supports {@link Component} and {@link Message}. Anything else will be converted to a String and processed.
+     * @return A new Message with the content appended to each line.
      */
-    public ComponentListMessage appendEachLine(@NonNull Object append) {
+    public ListMessage appendEachLine(@NonNull Object append) {
         if (!MessageSettings.isAllowEmptyAppend() && isEmpty()) {
-            DaisyLib.get().getLogging().debug("Cannot append to empty ComponentListMessage");
+            DaisyLib.get().getLogging().debug("Cannot append to empty ListMessage");
             return this;
         }
         Component resolved = Component.join(JoinConfiguration.newlines(), ObjectProcessor.process(append));
         List<Component> newMessage = this.message.stream()
-            .map(line -> new ComponentSingleMessage(line, messageType, sound).append(resolved).get())
+            .map(line -> new SingleMessage(line, messageType, sound).append(resolved).get())
             .toList();
-        return new ComponentListMessage(newMessage, messageType, sound);
+        return new ListMessage(newMessage, messageType, sound);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage prepend(@NonNull Object prepend) {
+    public ListMessage prepend(@NonNull Object prepend) {
         if (!MessageSettings.isAllowEmptyPrepend() && isEmpty()) {
-            DaisyLib.get().getLogging().debug("Cannot prepend to empty ComponentListMessage");
+            DaisyLib.get().getLogging().debug("Cannot prepend to empty ListMessage");
             return this;
         }
         List<Component> newMessage = new ArrayList<>(
@@ -187,40 +186,40 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
                 .toList()
         );
         newMessage.addAll(message);
-        return new ComponentListMessage(newMessage, messageType, sound);
+        return new ListMessage(newMessage, messageType, sound);
     }
 
     /**
      * Prepends to each line of the current message.
      *
-     * @param prepend The object to prepend. Explicitly supports {@link Component} and {@link ComponentMessage}. Anything else will be converted to a String and processed.
-     * @return A new ComponentMessage with the content prepended to each line.
+     * @param prepend The object to prepend. Explicitly supports {@link Component} and {@link Message}. Anything else will be converted to a String and processed.
+     * @return A new Message with the content prepended to each line.
      */
-    public ComponentListMessage prependEachLine(@NonNull Object prepend) {
+    public ListMessage prependEachLine(@NonNull Object prepend) {
         if (!MessageSettings.isAllowEmptyPrepend() && isEmpty()) {
-            DaisyLib.get().getLogging().debug("Cannot prepend to empty ComponentListMessage");
+            DaisyLib.get().getLogging().debug("Cannot prepend to empty ListMessage");
             return this;
         }
         Component resolved = Component.join(JoinConfiguration.newlines(), ObjectProcessor.process(prepend));
         List<Component> newMessage = this.message.stream()
-            .map(line -> new ComponentSingleMessage(line, messageType, sound).prepend(resolved).get())
+            .map(line -> new SingleMessage(line, messageType, sound).prepend(resolved).get())
             .toList();
-        return new ComponentListMessage(newMessage, messageType, sound);
+        return new ListMessage(newMessage, messageType, sound);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage replace(@NonNull String placeholder, @Nullable Object replacement) {
+    public ListMessage replace(@NonNull String placeholder, @Nullable Object replacement) {
         Replacer replacer = Replacer.component().addReplacement(placeholder, replacement);
-        return new ComponentListMessage(replacer.apply(message), messageType, sound);
+        return new ListMessage(replacer.apply(message), messageType, sound);
     }
 
     @Override
-    public ComponentMessage<?, ?> replacePlainText(@NonNull String placeholder, @Nullable Object replacement) {
+    public ListMessage replacePlainText(@NonNull String placeholder, @Nullable Object replacement) {
         Replacer replacer = Replacer.plainText().addReplacement(placeholder, replacement);
-        return new ComponentListMessage(replacer.apply(message), messageType, sound);
+        return new ListMessage(replacer.apply(message), messageType, sound);
     }
 
     /**
@@ -228,55 +227,55 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * <p>
      * If a placeholder is found on any line, the replacement list will be inserted in its place.
      * @param placeholder The placeholder to replace.
-     * @param replacement The replacement object. Explicitly supports {@link Component} and {@link ComponentMessage}. Anything else will be converted to a String and processed.
-     * @return A new ComponentMessage with the replacements made.
+     * @param replacement The replacement object. Explicitly supports {@link Component} and {@link Message}. Anything else will be converted to a String and processed.
+     * @return A new Message with the replacements made.
      */
-    public ComponentListMessage replaceWithListInsertion(@NonNull String placeholder, @Nullable Object replacement) {
+    public ListMessage replaceWithListInsertion(@NonNull String placeholder, @Nullable Object replacement) {
         Replacer replacer = Replacer.component().addReplacement(placeholder, replacement);
-        return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType, sound);
+        return new ListMessage(replacer.applyWithListInsertion(message), messageType, sound);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage replace(@NonNull Map<String, ?> replacements) {
+    public ListMessage replace(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.component().addReplacements(replacements);
-        return new ComponentListMessage(replacer.apply(message), messageType, sound);
+        return new ListMessage(replacer.apply(message), messageType, sound);
     }
 
     @Override
-    public ComponentMessage<?, ?> replacePlainText(@NonNull Map<String, ?> replacements) {
+    public ListMessage replacePlainText(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.plainText().addReplacements(replacements);
-        return new ComponentListMessage(replacer.apply(message), messageType, sound);
+        return new ListMessage(replacer.apply(message), messageType, sound);
     }
 
     /**
      * Replaces all instances of the specified placeholders with the specified replacements.
      * <p>
      * If a placeholder is found on any line, the replacement list will be inserted in its place.
-     * @param replacements A map of placeholders to replacements. Explicitly supports {@link Component} and {@link ComponentSingleMessage} as values. Anything else will be converted to a String and processed.
-     * @return A new ComponentMessage with the replacements made.
+     * @param replacements A map of placeholders to replacements. Explicitly supports {@link Component} and {@link SingleMessage} as values. Anything else will be converted to a String and processed.
+     * @return A new Message with the replacements made.
      */
-    public ComponentListMessage replaceWithListInsertion(@NonNull Map<String, ?> replacements) {
+    public ListMessage replaceWithListInsertion(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.component().addReplacements(replacements);
-        return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType, sound);
+        return new ListMessage(replacer.applyWithListInsertion(message), messageType, sound);
     }
 
-    public ComponentListMessage replaceWithListInsertionPlainText(@NonNull Map<String, ?> replacements) {
+    public ListMessage replaceWithListInsertionPlainText(@NonNull Map<String, ?> replacements) {
         Replacer replacer = Replacer.plainText().addReplacements(replacements);
-        return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType, sound);
+        return new ListMessage(replacer.applyWithListInsertion(message), messageType, sound);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage replace(@Nullable Replacer replacer) {
+    public ListMessage replace(@Nullable Replacer replacer) {
         if (replacer == null) {
             return this;
         }
-        return new ComponentListMessage(replacer.apply(message), messageType, sound);
+        return new ListMessage(replacer.apply(message), messageType, sound);
     }
 
     /**
@@ -284,25 +283,25 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * <p>
      * If a placeholder is found on any line, the replacement list will be inserted in its place.
      * @param replacer The Replacer to apply.
-     * @return A new ComponentMessage with the replacements made.
+     * @return A new Message with the replacements made.
      */
-    public ComponentListMessage replaceWithListInsertion(@Nullable Replacer replacer) {
+    public ListMessage replaceWithListInsertion(@Nullable Replacer replacer) {
         if (replacer == null) {
             return this;
         }
-        return new ComponentListMessage(replacer.applyWithListInsertion(message), messageType, sound);
+        return new ListMessage(replacer.applyWithListInsertion(message), messageType, sound);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ComponentListMessage parsePlaceholderAPI(@Nullable OfflinePlayer player) {
+    public ListMessage parsePlaceholderAPI(@Nullable OfflinePlayer player) {
         if (!MessageUtils.PAPI_AVAILABLE) {
             return this;
         }
 
-        return new ComponentListMessage(
+        return new ListMessage(
             message.stream()
                 .map(component -> MessageUtils.parsePlaceholderAPI(component, player))
                 .toList(),
@@ -328,13 +327,13 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
     }
 
     /**
-     * Converts this ComponentListMessage into a list of ComponentSingleMessages.
+     * Converts this ListMessage into a list of SingleMessages.
      *
      * @return A list of ComponentSingleMessages representing each line of the original message.
      */
-    public List<ComponentSingleMessage> toSingleMessages() {
+    public List<SingleMessage> toSingleMessages() {
         return message.stream()
-            .map(line -> new ComponentSingleMessage(line, this.messageType, sound))
+            .map(line -> new SingleMessage(line, this.messageType, sound))
             .toList();
     }
 
@@ -342,26 +341,26 @@ public class ComponentListMessage extends ComponentMessage<List<Component>, List
      * Edits the current message using the provided editor function.
      *
      * @param editor A function that takes a List of Components and returns a modified List of Components.
-     * @return A new ComponentListMessage with the edited message.
+     * @return A new ListMessage with the edited message.
      */
-    public ComponentListMessage edit(@NonNull Function<List<Component>, List<Component>> editor) {
+    public ListMessage edit(@NonNull Function<List<Component>, List<Component>> editor) {
         List<Component> newMessage = editor.apply(new ArrayList<>(this.message));
-        return new ComponentListMessage(newMessage, this.messageType, sound);
+        return new ListMessage(newMessage, this.messageType, sound);
     }
 
     /**
      * Edits each line of the current message using the provided editor function.
      *
      * @param editor A function that takes a ComponentSingleMessage and returns a modified ComponentSingleMessage.
-     * @return A new ComponentListMessage with each line edited.
+     * @return A new ListMessage with each line edited.
      */
-    public ComponentListMessage editAllLines(@NonNull Function<ComponentSingleMessage, ComponentSingleMessage> editor) {
+    public ListMessage editAllLines(@NonNull Function<SingleMessage, SingleMessage> editor) {
         List<Component> newMessage = message.stream()
-            .map(line -> editor.apply(new ComponentSingleMessage(line, this.messageType, sound)))
+            .map(line -> editor.apply(new SingleMessage(line, this.messageType, sound)))
             .filter(Objects::nonNull)
-            .map(ComponentSingleMessage::get)
+            .map(SingleMessage::get)
             .toList();
-        return new ComponentListMessage(newMessage, this.messageType, sound);
+        return new ListMessage(newMessage, this.messageType, sound);
     }
 
     // Sending

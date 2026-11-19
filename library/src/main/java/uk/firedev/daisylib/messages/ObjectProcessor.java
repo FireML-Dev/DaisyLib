@@ -3,8 +3,8 @@ package uk.firedev.daisylib.messages;
 import net.kyori.adventure.text.Component;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.messages.message.ComponentListMessage;
-import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
+import uk.firedev.daisylib.messages.message.ListMessage;
+import uk.firedev.daisylib.messages.message.SingleMessage;
 import uk.firedev.daisylib.utils.MessageUtils;
 
 import java.util.ArrayList;
@@ -27,12 +27,12 @@ public class ObjectProcessor {
             List::of
         );
         registerProcessor(
-            ComponentSingleMessage.class,
+            SingleMessage.class,
             singleMessage -> List.of(singleMessage.get())
         );
         registerProcessor(
-            ComponentListMessage.class,
-            ComponentListMessage::get
+            ListMessage.class,
+            ListMessage::get
         );
         // Primitives
         registerProcessor(

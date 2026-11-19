@@ -6,14 +6,12 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.messages.MessageSettings;
 import uk.firedev.daisylib.messages.ObjectProcessor;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
-import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
+import uk.firedev.daisylib.messages.message.Message;
+import uk.firedev.daisylib.messages.message.SingleMessage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -67,7 +65,7 @@ public class ComponentReplacer extends Replacer {
         for (Component component : components) {
             boolean replaced = false;
             for (Map.Entry<String, Object> entry : replacements.entrySet()) {
-                ComponentSingleMessage single = ComponentMessage.componentMessage(component);
+                SingleMessage single = Message.message(component);
                 if (single.contains(entry.getKey())) {
                     newList.addAll(ObjectProcessor.process(entry.getValue()));
                     replaced = true;
