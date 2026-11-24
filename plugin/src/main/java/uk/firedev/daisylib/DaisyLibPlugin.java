@@ -1,9 +1,7 @@
 package uk.firedev.daisylib;
 
-import me.clip.placeholderapi.libs.kyori.adventure.title.Title;
-import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.registry.Registry;
 import uk.firedev.daisylib.requirement.types.BiomeRequirementType;
 import uk.firedev.daisylib.requirement.types.DisabledRequirementType;
@@ -38,7 +36,7 @@ public class DaisyLibPlugin extends JavaPlugin {
         INSTANCE = this;
     }
 
-    public static @NotNull DaisyLibPlugin get() {
+    public static @NonNull DaisyLibPlugin get() {
         if (INSTANCE == null) {
             throw new IllegalStateException(DaisyLibPlugin.class.getSimpleName() + " has not been assigned!");
         }
