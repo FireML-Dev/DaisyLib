@@ -9,7 +9,7 @@ import uk.firedev.daisylib.registry.RegistryItem;
 
 /// A way to reward a player for certain actions.
 @NullMarked
-public abstract class RewardType implements RegistryItem {
+public abstract class RewardType extends RegistryItem {
 
     public RewardType() {}
 

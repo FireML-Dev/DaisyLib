@@ -37,9 +37,8 @@ public class PlaceholderRequirementType extends RequirementType {
         return true;
     }
 
-    @NonNull
     @Override
-    public String getIdentifier() {
+    public @NonNull String getKey() {
         return "Placeholder";
     }
 

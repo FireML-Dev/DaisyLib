@@ -1,9 +1,13 @@
 package uk.firedev.daisylib.registry;
 
+import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.DaisyLib;
+import uk.firedev.daisylib.item.CustomItem;
 import uk.firedev.daisylib.requirement.RequirementType;
 import uk.firedev.daisylib.reward.RewardType;
 
@@ -19,6 +23,7 @@ public class Registry<T extends RegistryItem> implements Iterable<T> {
 
     public static Registry<RewardType> REWARD_TYPE = new Registry<>();
     public static Registry<RequirementType> REQUIREMENT_TYPE = new Registry<>();
+    public static Registry<CustomItem> CUSTOM_ITEM = new Registry<>();
 
     private final Map<String, T> items = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
@@ -52,12 +57,19 @@ public class Registry<T extends RegistryItem> implements Iterable<T> {
             return false;
         }
         items.put(item.getKey(), item);
+        if (item instanceof Listener listener) {
+            Bukkit.getPluginManager().registerEvents(listener, item.getPlugin());
+        }
         DaisyLib.get().getLogging().info("Registered " + item.getClass().getSimpleName() + " to registry.");
         return true;
     }
 
     public boolean unregister(String key) {
-        return items.remove(key) != null;
+        T item = items.remove(key);
+        if (item instanceof Listener listener) {
+            HandlerList.unregisterAll(listener);
+        }
+        return item != null;
     }
 
     // Getters

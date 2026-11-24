@@ -2,6 +2,9 @@ package uk.firedev.daisylib;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
+import uk.firedev.daisylib.item.types.DenizenCustomItem;
+import uk.firedev.daisylib.recipe.RecipeUtil;
+import uk.firedev.daisylib.recipe.choice.CustomItemChoiceWrapper;
 import uk.firedev.daisylib.registry.Registry;
 import uk.firedev.daisylib.requirement.types.BiomeRequirementType;
 import uk.firedev.daisylib.requirement.types.DisabledRequirementType;
@@ -50,10 +53,15 @@ public class DaisyLibPlugin extends JavaPlugin {
     public void onEnable() {
         DaisyLib.get().init(this);
         loadRegistries();
+        loadRecipeChoices();
     }
 
     @Override
     public void onDisable() {}
+
+    private void loadRecipeChoices() {
+        RecipeUtil.registerRecipeChoice(new CustomItemChoiceWrapper());
+    }
 
     private void loadRegistries() {
         Registry.REQUIREMENT_TYPE.register(
@@ -80,6 +88,9 @@ public class DaisyLibPlugin extends JavaPlugin {
             new MoneyRewardType(),
             new PermissionRewardType(),
             new SoundRewardType()
+        );
+        Registry.CUSTOM_ITEM.register(
+            new DenizenCustomItem()
         );
     }
 

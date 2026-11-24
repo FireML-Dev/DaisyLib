@@ -8,6 +8,7 @@ allprojects {
         maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
         maven("https://repo.minebench.de/")
         maven("https://repo.codemc.io/repository/maven-snapshots/")
+        maven("https://maven.citizensnpcs.co/repo/")
 
         // This should always be last because it likes to act up.
         maven("https://jitpack.io")

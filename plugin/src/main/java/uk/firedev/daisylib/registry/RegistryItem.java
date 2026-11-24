@@ -1,11 +1,34 @@
 package uk.firedev.daisylib.registry;
 
-import org.jspecify.annotations.NonNull;
+import org.bukkit.plugin.Plugin;
+import org.jspecify.annotations.NullMarked;
 
-public interface RegistryItem {
+@NullMarked
+public abstract class RegistryItem {
 
-    @NonNull String getKey();
+    /// @return The identifier of this registry item. Case-insensitive.
+    public abstract String getKey();
 
-    boolean checkDependencies();
+    /// @return The plugin that added this registry item.
+    public abstract Plugin getPlugin();
+
+    /// @return Whether all dependencies for this item are present.
+    public abstract boolean checkDependencies();
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof RegistryItem item)) {
+            return false;
+        }
+        return getKey().equals(item.getKey());
+    }
+
+    @Override
+    public int hashCode() {
+        return getKey().hashCode();
+    }
 
 }

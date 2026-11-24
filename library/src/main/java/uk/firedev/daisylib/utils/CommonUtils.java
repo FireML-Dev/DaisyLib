@@ -2,6 +2,7 @@ package uk.firedev.daisylib.utils;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
+import net.kyori.adventure.key.Key;
 import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -320,8 +321,7 @@ public class CommonUtils {
     }
 
     public static @Nullable ItemType getItemType(@Nullable String itemName) {
-        Material material = getMaterial(itemName);
-        return material == null ? null : material.asItemType();
+        return getFromRegistry(itemName, RegistryKey.ITEM);
     }
 
     public static @NonNull ItemType getItemType(@Nullable String itemName, @NonNull ItemType defaultType) {
@@ -453,31 +453,6 @@ public class CommonUtils {
         }
         removalSlots.forEach(slot -> inventory.setItem(slot, null));
         return true;
-    }
-
-    public static void giveItems(@NonNull List<@Nullable ItemStack> items, @NonNull Player player) {
-        if (items.isEmpty()) {
-            return;
-        }
-        List<ItemStack> filteredItems = items.stream()
-            .filter(Objects::nonNull)
-            .toList();
-        if (filteredItems.isEmpty()) {
-            return;
-        }
-
-        player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_ITEM_PICKUP, 0.5f, 1.5f);
-        Map<Integer, ItemStack> leftoverItems = player.getInventory().addItem(filteredItems.toArray(ItemStack[]::new));
-        leftoverItems.values().forEach(item -> player.getWorld().dropItem(player.getLocation(), item));
-    }
-
-
-    public static void giveItems(@Nullable ItemStack @NonNull [] items, @NonNull Player player) {
-        giveItems(Arrays.asList(items), player);
-    }
-
-    public static void giveItem(@NonNull ItemStack item, @NonNull Player player) {
-        giveItems(List.of(item), player);
     }
 
 }

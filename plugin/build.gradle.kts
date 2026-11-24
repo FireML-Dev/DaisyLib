@@ -15,6 +15,9 @@ dependencies {
     compileOnly(libs.placeholderapi)
     compileOnly(libs.vault.api)
     compileOnly(libs.luckperms)
+    compileOnly(libs.denizen) {
+        exclude("*", "*")
+    }
 
     paperLibrary(libs.inventorygui)
     compileOnlyApi(libs.inventorygui)
@@ -54,6 +57,10 @@ paper {
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
         register("PlaceholderAPI") {
+            required = false
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
+        register("Denizen") {
             required = false
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }

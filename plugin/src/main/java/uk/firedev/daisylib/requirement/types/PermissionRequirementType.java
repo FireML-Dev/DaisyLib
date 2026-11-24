@@ -23,7 +23,7 @@ public class PermissionRequirementType extends RequirementType {
     }
 
     @Override
-    public @NonNull String getIdentifier() {
+    public @NonNull String getKey() {
         return "Permission";
     }
 

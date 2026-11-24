@@ -36,7 +36,7 @@ public class RewardTypeRequirementType extends RequirementType {
      * @return The identifier for this Requirement
      */
     @Override
-    public @NonNull String getIdentifier() {
+    public @NonNull String getKey() {
         return "RewardType";
     }
 

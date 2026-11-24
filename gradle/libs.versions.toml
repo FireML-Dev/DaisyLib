@@ -3,6 +3,7 @@ paper-api = "io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT"
 vault-api = "com.github.MilkBowl:VaultAPI:1.7.1"
 placeholderapi = "me.clip:placeholderapi:2.11.6"
 luckperms = "net.luckperms:api:5.5"
+denizen = "com.denizenscript:denizen:1.3.4-SNAPSHOT"
 
 inventorygui = "uk.firedev:InventoryGui-Modern:1.6.8-SNAPSHOT"
 jda = "net.dv8tion:JDA:6.5.0"
