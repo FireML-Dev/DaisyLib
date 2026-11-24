@@ -9,6 +9,7 @@ allprojects {
         maven("https://repo.minebench.de/")
         maven("https://repo.codemc.io/repository/maven-snapshots/")
         maven("https://maven.citizensnpcs.co/repo/")
+        maven("https://repo.nexomc.com/releases/")
 
         // This should always be last because it likes to act up.
         maven("https://jitpack.io")

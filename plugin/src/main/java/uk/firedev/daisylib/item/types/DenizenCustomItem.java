@@ -41,7 +41,11 @@ public class DenizenCustomItem extends CustomItem {
 
     @Override
     public boolean isMatching(ItemStack item, String id) {
-        return ItemScriptHelper.getItemScriptContainer(item).getName().equalsIgnoreCase(id);
+        ItemScriptContainer container = ItemScriptHelper.getItemScriptContainer(item);
+        if (container == null) {
+            return false;
+        }
+        return id.equalsIgnoreCase(container.getName());
     }
 
     @Override

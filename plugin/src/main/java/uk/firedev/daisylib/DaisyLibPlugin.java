@@ -3,6 +3,7 @@ package uk.firedev.daisylib;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.item.types.DenizenCustomItem;
+import uk.firedev.daisylib.item.types.NexoCustomItem;
 import uk.firedev.daisylib.recipe.RecipeUtil;
 import uk.firedev.daisylib.recipe.choice.CustomItemChoiceWrapper;
 import uk.firedev.daisylib.registry.Registry;
@@ -90,7 +91,8 @@ public class DaisyLibPlugin extends JavaPlugin {
             new SoundRewardType()
         );
         Registry.CUSTOM_ITEM.register(
-            new DenizenCustomItem()
+            new DenizenCustomItem(),
+            new NexoCustomItem()
         );
     }
 

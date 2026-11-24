@@ -18,6 +18,7 @@ dependencies {
     compileOnly(libs.denizen) {
         exclude("*", "*")
     }
+    compileOnly(libs.nexo)
 
     paperLibrary(libs.inventorygui)
     compileOnlyApi(libs.inventorygui)
@@ -61,6 +62,10 @@ paper {
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
         register("Denizen") {
+            required = false
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
+        register("Nexo") {
             required = false
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
