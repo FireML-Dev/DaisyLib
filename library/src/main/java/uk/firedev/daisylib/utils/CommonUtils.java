@@ -332,11 +332,11 @@ public class CommonUtils {
     public static @Nullable Enchantment getEnchantment(@Nullable String enchantmentName) {
         return getFromRegistry(
             enchantmentName,
-            RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT)
+            RegistryKey.ENCHANTMENT
         );
     }
 
-    public static <T extends Keyed> @Nullable T getFromRegistry(@Nullable String name, @NonNull Registry<T> registry) {
+    public static <T extends Keyed> @Nullable T getFromRegistry(@Nullable String name, @NonNull RegistryKey<T> registry) {
         if (name == null || name.isEmpty()) {
             return null;
         }
@@ -344,7 +344,7 @@ public class CommonUtils {
         if (key == null) {
             return null;
         }
-        return registry.get(key);
+        return RegistryAccess.registryAccess().getRegistry(registry).get(key);
     }
 
     public static <E extends Entity> void modifyEntity(@NonNull Entity entity, @NonNull Class<E> classCheck, @NonNull Consumer<? super E> consumer) {
@@ -357,7 +357,7 @@ public class CommonUtils {
     public static @Nullable BlockType getBlockType(@Nullable String blockName) {
         return getFromRegistry(
             blockName,
-            RegistryAccess.registryAccess().getRegistry(RegistryKey.BLOCK)
+            RegistryKey.BLOCK
         );
     }
 

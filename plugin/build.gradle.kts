@@ -14,6 +14,7 @@ dependencies {
     }
     compileOnly(libs.placeholderapi)
     compileOnly(libs.vault.api)
+    compileOnly(libs.luckperms)
 
     paperLibrary(libs.inventorygui)
     compileOnlyApi(libs.inventorygui)
@@ -45,6 +46,14 @@ paper {
 
     serverDependencies {
         register("Vault") {
+            required = false
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
+        register("LuckPerms") {
+            required = false
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
+        register("PlaceholderAPI") {
             required = false
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }

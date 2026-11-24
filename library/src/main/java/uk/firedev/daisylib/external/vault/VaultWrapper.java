@@ -16,8 +16,9 @@ import uk.firedev.daisylib.utils.CommonUtils;
 
 public class VaultWrapper implements Listener {
 
+    public static final boolean VAULT_AVAILABLE = CommonUtils.classExists("net.milkbowl.vault.economy.Economy");
+
     private static final VaultWrapper INSTANCE = new VaultWrapper();
-    private static final boolean VAULT_AVAILABLE = CommonUtils.classExists("net.milkbowl.vault.economy.Economy");
     private static boolean LISTENER_REGISTERED = false;
 
     private Economy economy;

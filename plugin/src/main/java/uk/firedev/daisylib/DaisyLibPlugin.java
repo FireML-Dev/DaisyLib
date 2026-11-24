@@ -1,7 +1,31 @@
 package uk.firedev.daisylib;
 
+import me.clip.placeholderapi.libs.kyori.adventure.title.Title;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.registry.Registry;
+import uk.firedev.daisylib.requirement.types.BiomeRequirementType;
+import uk.firedev.daisylib.requirement.types.DisabledRequirementType;
+import uk.firedev.daisylib.requirement.types.GroupRequirementType;
+import uk.firedev.daisylib.requirement.types.PermissionRequirementType;
+import uk.firedev.daisylib.requirement.types.PlaceholderRequirementType;
+import uk.firedev.daisylib.requirement.types.RewardTypeRequirementType;
+import uk.firedev.daisylib.requirement.types.WeatherRequirementType;
+import uk.firedev.daisylib.requirement.types.WorldRequirementType;
+import uk.firedev.daisylib.reward.types.CommandRewardType;
+import uk.firedev.daisylib.reward.types.EXPRewardType;
+import uk.firedev.daisylib.reward.types.EffectRewardType;
+import uk.firedev.daisylib.reward.types.HealthRewardType;
+import uk.firedev.daisylib.reward.types.HungerRewardType;
+import uk.firedev.daisylib.reward.types.ItemRewardType;
+import uk.firedev.daisylib.reward.types.MoneyRewardType;
+import uk.firedev.daisylib.reward.types.PermissionRewardType;
+import uk.firedev.daisylib.reward.types.SoundRewardType;
+import uk.firedev.daisylib.reward.types.message.ActionBarRewardType;
+import uk.firedev.daisylib.reward.types.message.MessageRewardType;
+import uk.firedev.daisylib.reward.types.message.SubtitleRewardType;
+import uk.firedev.daisylib.reward.types.message.TitleRewardType;
 
 public class DaisyLibPlugin extends JavaPlugin {
 
@@ -14,7 +38,7 @@ public class DaisyLibPlugin extends JavaPlugin {
         INSTANCE = this;
     }
 
-    public static @NotNull DaisyLibPlugin getInstance() {
+    public static @NotNull DaisyLibPlugin get() {
         if (INSTANCE == null) {
             throw new IllegalStateException(DaisyLibPlugin.class.getSimpleName() + " has not been assigned!");
         }
@@ -27,9 +51,38 @@ public class DaisyLibPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         DaisyLib.get().init(this);
+        loadRegistries();
     }
 
     @Override
     public void onDisable() {}
+
+    private void loadRegistries() {
+        Registry.REQUIREMENT_TYPE.register(
+            new BiomeRequirementType(),
+            new DisabledRequirementType(),
+            new GroupRequirementType(),
+            new PermissionRequirementType(),
+            new PlaceholderRequirementType(),
+            new RewardTypeRequirementType(),
+            new WeatherRequirementType(),
+            new WorldRequirementType()
+        );
+        Registry.REWARD_TYPE.register(
+            new ActionBarRewardType(),
+            new MessageRewardType(),
+            new SubtitleRewardType(),
+            new TitleRewardType(),
+            new CommandRewardType(),
+            new EffectRewardType(),
+            new EXPRewardType(),
+            new HealthRewardType(),
+            new HungerRewardType(),
+            new ItemRewardType(),
+            new MoneyRewardType(),
+            new PermissionRewardType(),
+            new SoundRewardType()
+        );
+    }
 
 }

@@ -85,7 +85,7 @@ public class Scheduling {
     /**
      * @see io.papermc.paper.threadedregions.scheduler.EntityScheduler#run(Plugin, Consumer, Runnable)
      */
-    public @Nullable ScheduledTask runTask(@NonNull Entity entity, @NonNull Runnable runnable) {
+    public static @Nullable ScheduledTask runTask(@NonNull Entity entity, @NonNull Runnable runnable) {
         return entity.getScheduler().run(
             DaisyLib.get().getPlugin(),
             task -> runnable.run(),
@@ -96,7 +96,7 @@ public class Scheduling {
     /**
      * @see io.papermc.paper.threadedregions.scheduler.EntityScheduler#runDelayed(Plugin, Consumer, Runnable, long)
      */
-    public @Nullable ScheduledTask runTaskLater(@NonNull Entity entity, @NonNull Runnable runnable, long delayTicks) {
+    public static @Nullable ScheduledTask runTaskLater(@NonNull Entity entity, @NonNull Runnable runnable, long delayTicks) {
         return entity.getScheduler().runDelayed(
             DaisyLib.get().getPlugin(),
             task -> runnable.run(),
@@ -108,7 +108,7 @@ public class Scheduling {
     /**
      * @see io.papermc.paper.threadedregions.scheduler.EntityScheduler#runAtFixedRate(Plugin, Consumer, Runnable, long, long)
      */
-    public @Nullable ScheduledTask runTaskTimer(@NonNull Entity entity, @NonNull Runnable runnable, long delayTicks, long periodTicks) {
+    public static @Nullable ScheduledTask runTaskTimer(@NonNull Entity entity, @NonNull Runnable runnable, long delayTicks, long periodTicks) {
         return entity.getScheduler().runAtFixedRate(
             DaisyLib.get().getPlugin(),
             task -> runnable.run(),
